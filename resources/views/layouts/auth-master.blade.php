@@ -9,10 +9,13 @@
     <title>AJI DMS - PT Astra Juoku Indonesia</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{!! url('assets/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
-    <link href="{!! url('assets/css/signin.css') !!}" rel="stylesheet">
-    
-    <style>
+    {{-- <link href="{!! url('assets/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
+    <link href="{!! url('assets/css/signin.css') !!}" rel="stylesheet"> --}}
+    <link href="{{asset('css/animate.css')}}" rel="stylesheet">
+    <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('font-awesome/css/font-awesome.css')}}" rel="stylesheet">
+    {{-- <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -26,13 +29,13 @@
           font-size: 3.5rem;
         }
       }
-    </style>
+    </style> --}}
 
     
     <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
+    {{-- <link href="signin.css" rel="stylesheet"> --}}
 </head>
-<body class="text-center">
+<body class="text-center gray-bg">
     
     <main class="form-signin">
 
@@ -43,3 +46,6 @@
 
 </body>
 </html>
+<script src="{{asset('js/jquery-3.1.1.min.js')}}"></script>
+<script src="{{asset('js/popper.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.js')}}"></script>

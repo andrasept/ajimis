@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +46,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
    * Home Routes
   */
   // Route::get('/', 'HomeController@index')->name('home.index');
-  Route::get('/', 'HomeController@index')->name('home.index');
+  Route::get('/', 'HomeController@index')->middleware('auth')->name('home.index');
 
   Route::group(['middleware' => ['guest']], function() {
       /**
@@ -61,11 +62,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
       Route::post('/login', 'LoginController@login')->name('login.perform');
   });
 
+  Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
   Route::group(['middleware' => ['auth', 'permission']], function() { // harus login terlebih dahulu untuk akses route2 di dalam ini
     /**
      * Logout Routes
      */
-    Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
 
         /**
          * User Routes
