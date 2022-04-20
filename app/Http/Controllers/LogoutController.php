@@ -13,12 +13,19 @@ class LogoutController extends Controller
      *
      * @return \Illuminate\Routing\Redirector
      */
-    public function perform()
+    public function perform(Request $request)
     {
-        Session::flush();
+        // Session::flush();
         
-        Auth::logout();
+        // Auth::logout();
 
-        return redirect('login');
+        // return redirect('login');
+        Auth::logout();
+    
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect('/login');
     }
 }
