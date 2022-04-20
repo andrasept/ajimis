@@ -13,7 +13,10 @@ use App\Models\Log;
 class LoginController extends Controller
 {
     use RememberMeExpiration;
-
+    public function __construct()
+    {
+        $this->middleware('throttle:3,1')->only('authenticate');
+    }
     /**
      * Display login page.
      * 
@@ -21,8 +24,10 @@ class LoginController extends Controller
      */
     public function show()
     {
-        return view('auth.login');
+        return view('auth.login_agil');
     }
+
+    
 
     /**
      * Handle account login request
@@ -31,24 +36,53 @@ class LoginController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function login(LoginRequest $request)
+    // public function login(LoginRequest $request)
+    // {
+    //     $credentials = $request->getCredentials();
+
+    //     if(!Auth::validate($credentials)):
+    //         return redirect()->to('login')
+    //             ->withErrors(trans('auth.failed'));
+    //     endif;
+
+    //     $user = Auth::getProvider()->retrieveByCredentials($credentials);
+
+    //     Auth::login($user, $request->get('remember'));
+
+    //     if($request->get('remember')):
+    //         $this->setRememberMeExpiration($user);
+    //     endif;
+
+    //     return $this->authenticated($request, $user);
+    // }
+
+    public function authenticate(Request $request)
     {
-        $credentials = $request->getCredentials();
-
-        if(!Auth::validate($credentials)):
-            return redirect()->to('login')
-                ->withErrors(trans('auth.failed'));
-        endif;
-
-        $user = Auth::getProvider()->retrieveByCredentials($credentials);
-
-        Auth::login($user, $request->get('remember'));
-
-        if($request->get('remember')):
-            $this->setRememberMeExpiration($user);
-        endif;
-
-        return $this->authenticated($request, $user);
+        $credentials = $request->validate([
+            // 'email' => [
+            //             'required',
+            //             'email',
+            //             // 'email:dns'
+            //             ],
+            'username' => ['required','min:5'],
+            'password' => ['required','min:5'],
+        ]);
+ 
+        if (Auth::attempt($credentials)) {
+            
+            $request->session()->regenerate();
+ 
+            if(Auth::user() )
+            {
+                $user = Auth::getProvider()->retrieveByCredentials($credentials);
+                $this->authenticated($request, $user);
+                return redirect()->route('home.dashboard');
+            }
+        }
+ 
+        return back()->withErrors([
+            'main_alert' => 'The provided credentials do not match our records.',
+        ]);
     }
 
     /**

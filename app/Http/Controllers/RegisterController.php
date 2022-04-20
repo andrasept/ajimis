@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use auth;
 use App\Models\User;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 
@@ -15,7 +17,8 @@ class RegisterController extends Controller
      */
     public function show()
     {
-        return view('auth.register');
+        $depts =  Department::all();
+        return view('auth.register_agil', compact(['depts']));
     }
 
     /**
@@ -25,12 +28,34 @@ class RegisterController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function register(RegisterRequest $request) 
+    // public function register(RegisterRequest $request) 
+    // {
+    //     $user = User::create($request->validated());
+
+    //     auth()->login($user);
+
+    //     return redirect('/')->with('success', "Account successfully registered.");
+    // }
+
+    public function register(Request $request)
     {
-        $user = User::create($request->validated());
+        $data = $request->validate([
+            'email' => [
+                        'required',
+                        'email',
+                        'unique:users,email',
+                        // 'email:dns'
+                        ],
+            'password' => ['required','confirmed','min:5',],
+            'name' => ['required','min:5'],
+            'username' => ['required','min:5'],
+            'dept_id' => ['required','filled'],
+        ]);
 
-        auth()->login($user);
+        $data['password'] = bcrypt($data['password']);
 
-        return redirect('/')->with('success', "Account successfully registered.");
+        $user = User::create($data);
+    
+        return redirect()->intended('/login')->with('success', 'Registration succesfull! Please login');
     }
 }

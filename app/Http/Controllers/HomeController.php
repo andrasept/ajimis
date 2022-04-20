@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Department;
 use App\Models\User;
+use App\Models\Department;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index() 
+    {   
+        return view('home.index');
+    }
+
+    public function dashboard()
     {
-        $departments = Department::all();
-        $users = User::all();
-        $user_id = auth()->user()->id;
-        $dept_id = auth()->user()->dept_id;
-        return view('home.index', compact('departments', 'users', 'user_id', 'dept_id'));
+        return view('home.dashboard');
     }
 }
