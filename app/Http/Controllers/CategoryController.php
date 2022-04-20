@@ -139,6 +139,8 @@ class CategoryController extends Controller
         // update kolom deleted_by dengan auth->id
 
         $cat->delete();
+        // NEW TASK
+        // Jika categoryu di-delete, maka file yg berkategorikan cat yg di-delete tersebut ikut ter-delete jg
 
 
         return redirect()->route('categories.index')
