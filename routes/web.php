@@ -14,52 +14,40 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 |
 */
 
+ 
 Route::group(['namespace' => 'App\Http\Controllers'], function()
 {
-
-  // login agil
-  // login 
-  // Route::get('/', function () {
-  //     return view('auth.login');
-  // })->name('login')->middleware('guest');
-  // Route::post('/', [LoginController::class, 'authenticate']);
-
-  // register
-  Route::post('/register', [LoginController::class, 'register'])->name('register');
-  Route::get('/register', function () {
-      return view('auth.register');
-  })->name('halaman_register')->middleware('guest');
-
-  // logout
-  // Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
-
   // forgot password
   Route::group(['middleware' => ['guest']], function () {
-      Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-      Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
-      Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
-      Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+    // register
+    // Route::post('/register', [LoginController::class, 'register'])->name('registerhalaman.show');
+    Route::get('/register', 'RegisterController@show')->name('register.show');
+    Route::post('/signup', 'RegisterController@register')->name('register.perform');
+
+    Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+    Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+    Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+    Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
   });
   // login agil end
-
+  
   /**
    * Home Routes
-  */
-  // Route::get('/', 'HomeController@index')->name('home.index');
-  Route::get('/', 'HomeController@index')->middleware('auth')->name('home.index');
-
+   */
+  Route::get('/', 'HomeController@index')->name('home.index');
+  Route::get('/dashboard', 'HomeController@dashboard')->name('home.dashboard')->middleware('auth');
+  
   Route::group(['middleware' => ['guest']], function() {
-      /**
-       * Register Routes
-       */
-      // Route::get('/register', 'RegisterController@show')->name('register.show');
-      // Route::post('/register', 'RegisterController@register')->name('register.perform');
-
+    /**
+     * Register Routes
+     */
+    
+    
       /**
        * Login Routes
        */
       Route::get('/login', 'LoginController@show')->name('login.show');
-      Route::post('/login', 'LoginController@login')->name('login.perform');
+      Route::post('/login', 'LoginController@authenticate')->name('login.perform');
   });
 
   Route::get('/logout', 'LogoutController@perform')->name('logout.perform');
@@ -116,8 +104,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('roles', RolesController::class);
         Route::resource('permissions', PermissionsController::class);
 
-        Route::get('/register', 'RegisterController@show')->name('register.show');
-        Route::post('/register', 'RegisterController@register')->name('register.perform');
+        // Route::get('/register', 'RegisterController@show')->name('register.show');
+        // Route::post('/register', 'RegisterController@register')->name('register.perform');
 
         // Department
         Route::resource('departments', DepartmentController::class);
@@ -182,5 +170,4 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         });
         
       });
-});
-// 
+    });

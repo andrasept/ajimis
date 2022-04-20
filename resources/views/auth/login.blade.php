@@ -80,7 +80,7 @@
                 {{-- <a class="btn btn-sm btn-white btn-block" href="">Create an account</a> --}}
                 @include('auth.partials.copy')
             </form>
-            <p class="m-t"> <small>AJI Portal &copy;copyright 2022</small> </p>
+            <p class="m-t"> <small>AJI MIS &copy;copyright 2022</small> </p>
         </div>
     </div>
 @endsection

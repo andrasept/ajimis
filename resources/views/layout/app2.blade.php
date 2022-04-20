@@ -32,14 +32,16 @@
                                     @endif
                                 </span>
                                 <span class="text-muted text-xs block">
-                                    {{
+                                    {{-- {{
                                         Auth::user()->getRoleNames()->implode(' | ')
-                                    }}
+                                    }} --}}
                                 </span>
                             </a>
                         </div>
                         <div class="logo-element">
+                            @if (Auth::check())
                             {{ substr(Auth::user()->name,0, 2)}}
+                            @endif
                         </div>
                     </li>
                     <li>
@@ -71,21 +73,21 @@
                     <li>
                         <a href="#"><i class="fa fa-group"></i> <span class="nav-label">Henkaten</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse" aria-expanded="false">
-                            <li><a href="{{route('henkaten_skill_matrix')}}">Skill Matrix</a></li>
+                            {{-- <li><a href="{{route('henkaten_skill_matrix')}}">Skill Matrix</a></li>
                             <li><a href="{{route('henkaten_layout_area')}}">Layout Area</a></li>
                             <li><a href="{{route('henkaten_planning_refreshment')}}">Planning Refreshment </a></li>
-                            <li><a href="{{route('list_henkaten')}}">Henkaten </a></li>
+                            <li><a href="{{route('list_henkaten')}}">Henkaten </a></li> --}}
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-table"></i> <span class="nav-label">Master Data</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse" aria-expanded="false">
-                            <li><a href="{{route('master_part')}}">Part</a></li>
+                            {{-- <li><a href="{{route('master_part')}}">Part</a></li>
                             <li><a href="{{route('master_packaging')}}">Packaging</a></li>
                             <li><a href="{{route('master_line')}}">Line</a></li>
                             <li><a href="{{route('master_customer')}}">Customer </a></li>
                             <li><a href="{{route('master_user')}}">Users </a></li>
-                            <li><a href="{{route('master_man_power')}}">Man Power </a></li>
+                            <li><a href="{{route('master_man_power')}}">Man Power </a></li> --}}
                         </ul>
                     </li>
                 </ul>

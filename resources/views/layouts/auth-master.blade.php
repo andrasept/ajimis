@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.87.0">
-    <title>AJI DMS - PT Astra Juoku Indonesia</title>
+    <title>AJI MIS - PT Astra Juoku Indonesia</title>
 
     <!-- Bootstrap core CSS -->
     {{-- <link href="{!! url('assets/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
@@ -37,11 +37,11 @@
 </head>
 <body class="text-center gray-bg">
     
-    <main class="form-signin">
+  
 
         @yield('content')
         
-    </main>
+   
     
 
 </body>

@@ -40,7 +40,6 @@ class ForgotPasswordController extends Controller
               'token' => $token, 
               'created_at' => Carbon::now()
             ]);
-  
           try {
             Mail::send('emails.forgetPassword', ['token' => $token], function($message) use($request){
                 $message->to($request->email);
@@ -90,6 +89,6 @@ class ForgotPasswordController extends Controller
  
           DB::table('password_resets')->where(['email'=> $request->email])->delete();
   
-          return redirect('/')->with('success', 'Your password has been changed!');
+          return redirect('/login')->with('success', 'Your password has been changed!');
       }
 }
