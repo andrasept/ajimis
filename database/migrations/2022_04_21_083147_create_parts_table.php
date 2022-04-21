@@ -15,6 +15,18 @@ class CreatePartsTable extends Migration
     {
         Schema::create('parts', function (Blueprint $table) {
             $table->id();
+            $table->string('sku')->unique();
+            $table->string('part_no_customer');
+            $table->string('part_no_aji');
+            $table->string('part_name');
+            $table->string('model');
+            $table->string('category')->nullable();
+            $table->string('cycle_time')->nullable();
+            $table->string('addresing')->nullable();
+            $table->string('customer_code');
+            $table->string('color_code')->nullable();
+            $table->string('line_code')->nullable();
+            $table->string('packaging_code')->nullable();
             $table->timestamps();
         });
     }

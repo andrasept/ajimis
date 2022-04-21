@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeliveryMasterPartController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 /*
@@ -41,7 +42,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
 
     // delivery
-    // Route::get('/delivery-master-part', 'MasterDataController@partShow')->name('delivery.master.master_part')->middleware('auth');
+    Route::get('/delivery-master-part', 'DeliveryMasterPartController@index')->name('delivery.master.master_part')->middleware('auth');
   /*
   |--------------------------------------------------------------------------
   | Akhir Routes Agil
