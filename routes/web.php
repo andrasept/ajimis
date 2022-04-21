@@ -35,11 +35,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
       Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
       Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
     });
-    /**
-       * Home Routes
-       */
+    // home
       Route::get('/dashboard', 'HomeController@dashboard')->name('home.dashboard')->middleware('auth');
-    /*
+
+
+
+    // delivery
+    // Route::get('/delivery-master-part', 'MasterDataController@partShow')->name('delivery.master.master_part')->middleware('auth');
+  /*
   |--------------------------------------------------------------------------
   | Akhir Routes Agil
   |--------------------------------------------------------------------------

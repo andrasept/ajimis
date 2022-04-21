@@ -50,6 +50,19 @@
           </li> 
         @endrole
 
+        @role('delivery.superadmin')
+          <li>
+            <a href="#"><i class="fa fa-table"></i> <span class="nav-label">Master Data</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse" aria-expanded="false">
+                  <li><a href="{{route('delivery.master.master_part')}}">Part</a></li>
+                  <li><a href="">Packaging</a></li>
+                  <li><a href="">Line</a></li>
+                  <li><a href="">Customer </a></li>
+                  <li><a href="">Users </a></li>
+                  <li><a href="">Man Power </a></li>
+              </ul>
+          </li>
+        @endrole
         
       @endauth 
     </ul>
