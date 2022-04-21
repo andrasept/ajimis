@@ -27,7 +27,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     // forgot password
     Route::group(['middleware' => ['guest']], function () {
       // register
-      // Route::post('/register', [LoginController::class, 'register'])->name('registerhalaman.show');
       Route::get('/register', 'RegisterController@show')->name('register.show');
       Route::post('/signup', 'RegisterController@register')->name('register.perform');
 
@@ -39,7 +38,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     /**
        * Home Routes
        */
-      Route::get('/', 'HomeController@index')->name('home.index');
       Route::get('/dashboard', 'HomeController@dashboard')->name('home.dashboard')->middleware('auth');
     /*
   |--------------------------------------------------------------------------
@@ -67,8 +65,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /**
          * Login Routes
          */
-        Route::get('/login', 'LoginController@show')->name('login.show');
-        Route::post('/login', 'LoginController@authenticate')->name('login.perform');
+        Route::get('/', 'LoginController@show')->name('login.show');
+        Route::post('/', 'LoginController@authenticate')->name('login.perform');
     });
 
 

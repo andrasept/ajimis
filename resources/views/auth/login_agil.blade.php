@@ -26,7 +26,7 @@
                 <img src="{{asset('image/ajilogo.png')}}" alt="logo" width="100">
             </div>
             <h3>AJI MIS</h3>
-        <form class="m-t" role="form" method="post" action="/login">
+        <form class="m-t" role="form" method="post" action="/">
             @csrf
                 <div class="form-group">
                     <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" placeholder="Username" required>
