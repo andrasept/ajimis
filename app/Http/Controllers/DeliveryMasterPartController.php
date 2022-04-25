@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Part;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class DeliveryMasterPartController extends Controller
 {

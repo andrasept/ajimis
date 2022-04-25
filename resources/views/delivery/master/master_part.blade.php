@@ -76,5 +76,102 @@
     <script src="{{asset('js/dataTables.dateTime.min.js')}}"></script>
     <!-- Sweet alert -->
     <script src="{{asset('js/plugins/sweetalert/sweetalert.min.js')}}"></script>
+    <script>
+
+      var minDate, maxDate, select_role;
+
+      // search by range date
+      $.fn.dataTable.ext.search.push(
+          function( settings, data, dataIndex ) {
+              var min = minDate.val();
+              var max = maxDate.val();
+              var date = new Date( data[4] );
+ 
+              if (
+                  ( min === null && max === null ) ||
+                  ( min === null && date <= max ) ||
+                  ( min <= date   && max === null ) ||
+                  ( min <= date   && date <= max )
+              ) {
+                  return true;
+              }
+              return false;
+          }
+      );
+      
+      $(document).ready(function() {
+
+          // check input
+          $('.custom-file-input').on('change', function() {
+            let fileName = $(this).val().split('\\').pop();
+            var ext = fileName.split('.')[1];
+            if (ext == "xlsx" || ext == "xls"|| ext == "csv" ) {
+              $(this).next('.custom-file-label').addClass("selected").html(fileName);
+            } else {
+              $(this).html("");
+              swal("Oops!", "Only Excel or CSV file!", "error");
+            }
+          }); 
+          // Create date inputs
+          minDate = new DateTime($('#min'), {
+              format: 'YYYY-MM-DD'
+          });
+          maxDate = new DateTime($('#max'), {
+              format: 'YYYY-MM-DD '
+          });
+
+
+          // datatable
+          var table = $('#master').DataTable( {
+              "processing": true,
+              "serverSide": true,
+              "filter":true,
+              "ajax": {
+                          "url": "{{route('master_part')}}",
+                          "data":function (d) {
+                          d.min = $('#min').val();
+                          d.max = $('#max').val();
+                        //   d.role = $('#select_role').val();
+                      },
+              },
+              "columns": [
+                  { data: null, className: 'dt-body-center'},
+                  { data: "sku", className: 'dt-body-center'},
+                  { data: "part_name", className: 'dt-body-center'},
+                  { data: "model", className: 'dt-body-center'},
+                  { data: "customer_name", className: 'dt-body-center'},
+                  { data: "id", className: 'dt-body-center',
+                      "render": function ( data, type, row ) {
+                            return "<div class='btn-group'><a href='/user/"+data+"/edit' class='btn btn-sm btn-default'><i class='fa fa-pencil'></i></a></div>";
+                        },
+                  },
+                ],
+              "columnDefs": [ {
+                  "searchable": true,
+                  "orderable": true,
+                  "targets": 0
+              } ],
+              "order": [[ 1, 'asc' ]]
+          } );
+
+          // number
+          table.on('draw.dt', function () {
+              var info = table.page.info();
+              table.column(0, { search: 'applied', order: 'applied', page: 'applied' }).nodes().each(function (cell, i) {
+                  cell.innerHTML = i + 1 + info.start;
+              });
+          });
+
+          // Refilter the table
+          $('#min, #max').on('change', function () {
+              table.draw();
+          });
+
+          // $("#select_role").change(function(){
+          //       table.ajax.reload(null,false)
+          // });
+
+      } );
+    </script>
 @endpush
 
