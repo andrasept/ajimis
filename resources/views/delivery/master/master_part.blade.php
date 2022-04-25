@@ -4,13 +4,17 @@
  
  
 @section('content')
+<link href="{{asset('css/dataTables.dateTime.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<!-- Sweet Alert -->
+<link href="{{asset('css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
 <div class="ibox" >
   <div class="ibox-title">
       <h4>Data Part</h4>
   </div>
   <div class="ibox-content" >
       <h5>Import Data</h5>
-    <form action=""  method="POST"  enctype="multipart/form-data">
+    <form action="{{route('delivery.master.master_part.import')}}"  method="POST"  enctype="multipart/form-data">
         @csrf
         <div class="custom-file">
             <input id="logo" type="file" name="file" class="custom-file-input">
@@ -23,6 +27,9 @@
     <div>
       @if(session()->has('success'))
           <div class="alert alert-primary">{{session('success')}}</div>
+      @endif
+      @if(session()->has('fail'))
+          <div class="alert alert-danger">{{session('fail')}}</div>
       @endif
     </div>
     <hr>
@@ -52,8 +59,16 @@
             <th class="text-center">No</th>
             <th class="text-center">Sku</th>
             <th class="text-center">Part Name</th>
+            <th class="text-center">Part Number Customer</th>
+            <th class="text-center">Part Number AJI</th>
             <th class="text-center">Model</th>
             <th class="text-center">Customer</th>
+            <th class="text-center">Category</th>
+            <th class="text-center">Cycle Time</th>
+            <th class="text-center">Addresing</th>
+            <th class="text-center">Color</th>
+            <th class="text-center">Line</th>
+            <th class="text-center">Packaging</th>
             <th class="text-center">Action</th>
           </tr>
         </thead>
@@ -127,7 +142,7 @@
               "serverSide": true,
               "filter":true,
               "ajax": {
-                          "url": "{{route('master_part')}}",
+                          "url": "{{route('delivery.master.master_part')}}",
                           "data":function (d) {
                           d.min = $('#min').val();
                           d.max = $('#max').val();
@@ -138,11 +153,19 @@
                   { data: null, className: 'dt-body-center'},
                   { data: "sku", className: 'dt-body-center'},
                   { data: "part_name", className: 'dt-body-center'},
+                  { data: "part_no_customer", className: 'dt-body-center'},
+                  { data: "part_no_aji", className: 'dt-body-center'},
                   { data: "model", className: 'dt-body-center'},
                   { data: "customer_name", className: 'dt-body-center'},
+                  { data: "category", className: 'dt-body-center'},
+                  { data: "cycle_time", className: 'dt-body-center'},
+                  { data: "addresing", className: 'dt-body-center'},
+                  { data: "description", className: 'dt-body-center'},
+                  { data: "line_name", className: 'dt-body-center'},
+                  { data: "qty_per_pallet", className: 'dt-body-center'},
                   { data: "id", className: 'dt-body-center',
                       "render": function ( data, type, row ) {
-                            return "<div class='btn-group'><a href='/user/"+data+"/edit' class='btn btn-sm btn-default'><i class='fa fa-pencil'></i></a></div>";
+                            return "<div class='btn-group'><a href='/delivery-master-part/"+data+"/edit' class='btn btn-sm btn-default'><i class='fa fa-pencil'></i></a><a href='/delivery-master-part/"+data+"/delete' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></a></div>";
                         },
                   },
                 ],

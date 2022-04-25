@@ -41,8 +41,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
 
 
-    // delivery
+    // delivery master
     Route::get('/delivery-master-part', 'DeliveryMasterPartController@index')->name('delivery.master.master_part')->middleware('auth');
+    Route::post('/delivery-master-part-import', 'DeliveryMasterPartController@store')->name('delivery.master.master_part.import')->middleware('auth');
   /*
   |--------------------------------------------------------------------------
   | Akhir Routes Agil
