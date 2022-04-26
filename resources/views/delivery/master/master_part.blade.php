@@ -66,9 +66,9 @@
             <th class="text-center">Category</th>
             <th class="text-center">Cycle Time</th>
             <th class="text-center">Addresing</th>
-            <th class="text-center">Color</th>
+            <th class="text-center">Part Card</th>
             <th class="text-center">Line</th>
-            <th class="text-center">Packaging</th>
+            <th class="text-center">Qty/pallet</th>
             <th class="text-center">Action</th>
           </tr>
         </thead>

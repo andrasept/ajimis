@@ -38,12 +38,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     });
     // home
       Route::get('/dashboard', 'HomeController@dashboard')->name('home.dashboard')->middleware('auth');
+    // delivery super admin
+    Route::group(['middleware' => ['role:delivery.superadmin']], function () {
+        // delivery master part
+        Route::get('/delivery-master-part', 'DeliveryMasterPartController@index')->name('delivery.master.master_part')->middleware('auth');
+        Route::get('/delivery-master-part/{id}/edit', 'DeliveryMasterPartController@edit')->name('delivery.master.master_part.edit')->middleware('auth');
+        Route::put('/delivery-master-part/update', 'DeliveryMasterPartController@update')->name('delivery.master.master_part.update')->middleware('auth');
+        Route::post('/delivery-master-part-import', 'DeliveryMasterPartController@store')->name('delivery.master.master_part.import')->middleware('auth');
+    });
 
-
-
-    // delivery master
-    Route::get('/delivery-master-part', 'DeliveryMasterPartController@index')->name('delivery.master.master_part')->middleware('auth');
-    Route::post('/delivery-master-part-import', 'DeliveryMasterPartController@store')->name('delivery.master.master_part.import')->middleware('auth');
   /*
   |--------------------------------------------------------------------------
   | Akhir Routes Agil

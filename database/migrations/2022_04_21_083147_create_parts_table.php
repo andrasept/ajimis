@@ -44,6 +44,8 @@ class CreatePartsTable extends Migration
             $table->id();
             $table->string('line_code', 32)->index();
             $table->string('line_name', 32);
+            $table->string('line_category', 32);
+            $table->string('tonase', 15);
             $table->timestamps();
         });
 
@@ -51,6 +53,8 @@ class CreatePartsTable extends Migration
             $table->id();
             $table->string('color_code')->index();
             $table->string('description');
+            $table->string('remark_1');
+            $table->string('remark_2');
             $table->timestamps();
         });
 
@@ -91,8 +95,8 @@ class CreatePartsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parts');
         Schema::dropIfExists('delivery_customers');
+        Schema::dropIfExists('parts');
         Schema::dropIfExists('delivery_lines');
         Schema::dropIfExists('delivery_packagings');
         Schema::dropIfExists('delivery_part_cards');
