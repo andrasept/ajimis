@@ -180,7 +180,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           });
 
           /**
-           * User Routes
+           * Log Routes
            */
           Route::group(['prefix' => 'logs'], function() {
             Route::get('/', 'LogController@index')->name('logs.index');
@@ -190,6 +190,38 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/{user}/edit', 'LogController@edit')->name('logs.edit');
             Route::patch('/{user}/update', 'LogController@update')->name('logs.update');
             Route::delete('/{user}/delete', 'LogController@destroy')->name('logs.destroy');
+          });
+
+          /**
+           * Quality Area Routes
+           */
+          Route::group(['prefix' => 'quality'], function() {
+            // Route::get('/dashboard', 'HomeController@dashboard')->name('quality.index')->middleware('auth');
+            Route::get('/', 'HomeController@dashboard')->name('quality.index')->middleware('auth');
+
+            Route::get('/area/', 'QualityAreaController@index')->name('quality.area.index');
+            Route::get('/area/create', 'QualityAreaController@create')->name('quality.area.create');
+            Route::post('/area/create', 'QualityAreaController@store')->name('quality.area.store');
+            Route::get('/area/{post}/show', 'QualityAreaController@show')->name('quality.area.show');
+            Route::get('/area/{post}/edit', 'QualityAreaController@edit')->name('quality.area.edit');
+            Route::patch('/area/{post}/update', 'QualityAreaController@update')->name('quality.area.update');
+            Route::delete('/area/{post}/delete', 'QualityAreaController@destroy')->name('quality.area.destroy');
+
+            Route::get('/process/', 'QualityProcessController@index')->name('quality.process.index');
+            Route::get('/process/create', 'QualityProcessController@create')->name('quality.process.create');
+            Route::post('/process/create', 'QualityProcessController@store')->name('quality.process.store');
+            Route::get('/process/{post}/show', 'QualityProcessController@show')->name('quality.process.show');
+            Route::get('/process/{post}/edit', 'QualityProcessController@edit')->name('quality.process.edit');
+            Route::patch('/process/{post}/update', 'QualityProcessController@update')->name('quality.process.update');
+            Route::delete('/process/{post}/delete', 'QualityProcessController@destroy')->name('quality.process.destroy');
+
+            Route::get('/model/', 'QualityModelController@index')->name('quality.model.index');
+            Route::get('/model/create', 'QualityModelController@create')->name('quality.model.create');
+            Route::post('/model/create', 'QualityModelController@store')->name('quality.model.store');
+            Route::get('/model/{post}/show', 'QualityModelController@show')->name('quality.model.show');
+            Route::get('/model/{post}/edit', 'QualityModelController@edit')->name('quality.model.edit');
+            Route::patch('/model/{post}/update', 'QualityModelController@update')->name('quality.model.update');
+            Route::delete('/model/{post}/delete', 'QualityModelController@destroy')->name('quality.model.destroy');
           });
           
         });

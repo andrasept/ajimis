@@ -50,6 +50,32 @@
           </li> 
         @endrole
 
+        @role('Admin Quality')
+          <li class="">
+            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality Masters</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              <li><a href="{{ route('quality.area.index') }}">Area</a></li>
+              <li><a href="{{ route('quality.process.index') }}">Process</a></li>
+              <li><a href="{{ route('quality.model.index') }}">Model</a></li>
+            </ul>
+          </li>
+          <li class="">
+            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality Checksheets</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse" aria-expanded="false" style="">
+              <li class="">
+                <a href="#" aria-expanded="false">Monitoring <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level collapse in" aria-expanded="true" style="">
+                    <li>
+                      <a href="#">Q-Time</a>
+                    </li>
+                    <li>
+                      <a href="#">Accuracy</a>
+                    </li>
+                </ul>
+              </li>
+            </ul>
+          </li>  
+        @endrole
         
       @endauth 
     </ul>
