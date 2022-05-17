@@ -13,20 +13,21 @@ class CreatePartsTable extends Migration
      */
     public function up()
     {
-        Schema::create('parts', function (Blueprint $table) {
+        Schema::create('delivery_parts', function (Blueprint $table) {
             $table->id();
-            $table->string('sku')->unique()->index();
+            $table->string('sku')->index();
             $table->string('part_no_customer');
             $table->string('part_no_aji');
             $table->string('part_name');
             $table->string('model');
-            $table->string('customer_id', 32);
+            $table->string('customer_id', 255);
             $table->string('category')->nullable();
             $table->string('cycle_time')->nullable();
             $table->string('addresing')->nullable();
-            $table->string('color_id', 32);
-            $table->string('line_id', 32);
-            $table->string('packaging_id', 32);
+            $table->string('color_id', 40)->nullable();
+            $table->string('line_id', 40)->nullable();
+            $table->string('packaging_id', 40)->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
 
             
@@ -35,17 +36,19 @@ class CreatePartsTable extends Migration
 
         Schema::create('delivery_customers', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_code', 32)->index();
-            $table->string('customer_name', 32);
+            $table->string('customer_code', 255)->index();
+            $table->string('customer_name', 189);
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
 
         Schema::create('delivery_lines', function (Blueprint $table) {
             $table->id();
-            $table->string('line_code', 32)->index();
-            $table->string('line_name', 32);
-            $table->string('line_category', 32);
-            $table->string('tonase', 15);
+            $table->string('line_code', 40)->index();
+            $table->string('line_name', 100);
+            $table->string('line_category', 40);
+            $table->string('tonase', 15)->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
 
@@ -55,6 +58,7 @@ class CreatePartsTable extends Migration
             $table->string('description');
             $table->string('remark_1');
             $table->string('remark_2');
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
 
@@ -62,6 +66,7 @@ class CreatePartsTable extends Migration
             $table->id();
             $table->string('packaging_code')->index();
             $table->string('qty_per_pallet');
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
 
@@ -72,11 +77,12 @@ class CreatePartsTable extends Migration
             $table->integer('qty_mo');
             $table->integer('qty_act_prod');
             $table->enum('status_mo', ['selesai', 'belum selesai']);
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
 
         //relasi table 
-        Schema::table('parts', function($table) {
+        Schema::table('delivery_parts', function($table) {
             $table->foreign('customer_id')->references('customer_code')->on('delivery_customers')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('color_id')->references('color_code')->on('delivery_part_cards')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('packaging_id')->references('packaging_code')->on('delivery_packagings')->onUpdate('cascade')->onDelete('cascade');
@@ -84,7 +90,7 @@ class CreatePartsTable extends Migration
         });
 
         Schema::table('delivery_mos', function ( $table) {
-            $table->foreign('sku')->references('sku')->on('parts')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('sku')->references('sku')->on('delivery_parts')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

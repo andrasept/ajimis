@@ -4,8 +4,12 @@
  
  
 @section('content')
+
+{{-- datatable library css --}}
 <link href="{{asset('css/dataTables.dateTime.min.css')}}" rel="stylesheet">
 <link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet">
+{{-- datatble template css--}}
+<link href="{{asset('css\plugins\dataTables\datatables.min.css')}}" rel="stylesheet">
 <!-- Sweet Alert -->
 <link href="{{asset('css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
 <div class="ibox" >
@@ -17,7 +21,7 @@
     <form action="{{route('delivery.master.master_part.import')}}"  method="POST"  enctype="multipart/form-data">
         @csrf
         <div class="custom-file">
-            <input id="logo" type="file" name="file" class="custom-file-input">
+            <input id="logo" type="file" name="file" class="custom-file-input" required>
             <label for="logo" class="custom-file-label">Choose file...</label>
         </div>
         <div class="form-group mt-2">
@@ -33,30 +37,72 @@
       @endif
     </div>
     <hr>
+    <div class="row mb-3">
+          {{-- <div class="col-2 form-group">
+            <label for="">From :</label>
+            <input type="text" class="form-control" id="min" name="min" placeholder="from">
+          </div>
+          <div class="col-2 form-group">
+            <label for="">To :</label>
+            <input type="text" class="form-control" id="max" name="max" placeholder="to">
+          </div> --}}
+          <div class="col-lg-2 form-group">
+            <label for="">Customer :</label>
+            <select name="select_customer" class="form-control" id="select_customer">
+                <option value="all">All</option>
+                @foreach ($customers as $customer)
+                <option value="{{$customer->customer_code}}">{{$customer->customer_name}}</option>
+                @endforeach
+            </select>
+          </div>
+          <div class="col-lg-2 form-group">
+            <label for="">Part Card :</label>
+            <select name="select_partcard" class="form-control" id="select_partcard">
+                <option value="all">All</option>
+                @foreach ($partcards as $partcard)
+                <option value="{{$partcard->color_code}}">{{$partcard->description}}</option>
+                @endforeach
+            </select>
+          </div>
+          <div class="col-lg-2 form-group">
+            <label for="">Line :</label>
+            <select name="select_line" class="form-control" id="select_line">
+                <option value="all">All</option>
+                @foreach ($lines as $line)
+                <option value="{{$line->line_code}}">{{$line->line_name}}</option>
+                @endforeach
+            </select>
+          </div>
+          <div class="col-lg-2 form-group">
+            <label for="">Packaging Code :</label>
+            <select name="select_packaging_code" class="form-control" id="select_packaging_code">
+                <option value="all">All</option>
+                @foreach ($packagings as $packaging)
+                <option value="{{$packaging->packaging_code}}">{{$packaging->packaging_code}}</option>
+                @endforeach
+            </select>
+          </div>
+          <div class="col-lg-2 form-group ">
+            <label for="">Category :</label>
+            <select name="select_category" class="form-control" id="select_category">
+                <option value="all">All</option>
+                <option value="FG">FG</option>
+                <option value="SFG">SFG</option>
+            </select>
+          </div>
+          <div class="col-lg-1 d-flex justify-content-right ">
+           {{-- <a class="btn btn-secondary  m-4 text-center" href="{{route('delivery.master.master_part.export')}}">Export</a> --}}
+          </div>
+          <div class="col-lg-1 d-flex justify-content-center ">
+           <a class="btn btn-primary  m-4 text-center" href="{{route('delivery.master.master_part.create')}}">Create</a>
+          </div>
+    </div>
     <div style="overflow-x: auto">
-      <div class="row mb-3">
-            {{-- <div class="col-2 form-group">
-              <label for="">From :</label>
-              <input type="text" class="form-control" id="min" name="min" placeholder="from">
-            </div>
-            <div class="col-2 form-group">
-              <label for="">To :</label>
-              <input type="text" class="form-control" id="max" name="max" placeholder="to">
-            </div> --}}
-            {{-- <div class="col-2 form-group">
-              <label for="">Role :</label>
-              <select name="select_role" class="form-control" id="select_role">
-                  <option value="all">all</option>
-                  <option value="user">user</option>
-                  <option value="superuser">superuser</option>
-                  <option value="admin">admin</option>
-              </select>
-            </div> --}}
-      </div>
       <table id="master" class="table table-bordered">
         <thead>
           <tr>
             <th class="text-center">No</th>
+            <th class="text-center">Action</th>
             <th class="text-center">Sku</th>
             <th class="text-center">Part Name</th>
             <th class="text-center">Part Number Customer</th>
@@ -68,8 +114,8 @@
             <th class="text-center">Addresing</th>
             <th class="text-center">Part Card</th>
             <th class="text-center">Line</th>
+            <th class="text-center">Packaging Code</th>
             <th class="text-center">Qty/pallet</th>
-            <th class="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -85,7 +131,6 @@
 @endsection
 
 @push('scripts')
-    {{-- <script src="{{asset('js/jquery-3.5.1.js')}}"></script>     --}}
     <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('js/moment.min.js')}}"></script>
     <script src="{{asset('js/dataTables.dateTime.min.js')}}"></script>
@@ -94,6 +139,12 @@
     <script>
 
       var minDate, maxDate, select_role;
+
+      // mini nav bar
+      $("body").addClass("body-small mini-navbar");
+      // huruf kecil table
+      $(".ibox").css({fontSize:10, textTransform:'Uppercase'});
+      $("select").css({fontSize:12});
 
       // search by range date
       $.fn.dataTable.ext.search.push(
@@ -144,13 +195,22 @@
               "ajax": {
                           "url": "{{route('delivery.master.master_part')}}",
                           "data":function (d) {
-                          d.min = $('#min').val();
-                          d.max = $('#max').val();
-                        //   d.role = $('#select_role').val();
+                          // d.min = $('#min').val();
+                          // d.max = $('#max').val();
+                          d.customer = $('#select_customer').val();
+                          d.partcard = $('#select_partcard').val();
+                          d.line = $('#select_line').val();
+                          d.packaging_code = $('#select_packaging_code').val();
+                          d.category = $('#select_category').val();
                       },
               },
               "columns": [
                   { data: null, className: 'dt-body-center'},
+                  { data: "id", className: 'dt-body-center',
+                      "render": function ( data, type, row ) {
+                            return "<div class='btn-group'><a href='/delivery/master-part/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='/delivery/master-part/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
+                        },
+                  },
                   { data: "sku", className: 'dt-body-center'},
                   { data: "part_name", className: 'dt-body-center'},
                   { data: "part_no_customer", className: 'dt-body-center'},
@@ -162,19 +222,15 @@
                   { data: "addresing", className: 'dt-body-center'},
                   { data: "description", className: 'dt-body-center'},
                   { data: "line_name", className: 'dt-body-center'},
+                  { data: "packaging_code", className: 'dt-body-center'},
                   { data: "qty_per_pallet", className: 'dt-body-center'},
-                  { data: "id", className: 'dt-body-center',
-                      "render": function ( data, type, row ) {
-                            return "<div class='btn-group'><a href='/delivery-master-part/"+data+"/edit' class='btn btn-sm btn-default'><i class='fa fa-pencil'></i></a><a href='/delivery-master-part/"+data+"/delete' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></a></div>";
-                        },
-                  },
                 ],
               "columnDefs": [ {
                   "searchable": true,
                   "orderable": true,
                   "targets": 0
               } ],
-              "order": [[ 1, 'asc' ]]
+              "order": [[ 2, 'asc' ]]
           } );
 
           // number
@@ -185,14 +241,27 @@
               });
           });
 
+
           // Refilter the table
           $('#min, #max').on('change', function () {
               table.draw();
           });
 
-          // $("#select_role").change(function(){
-          //       table.ajax.reload(null,false)
-          // });
+          $("#select_customer").change(function(){
+                table.ajax.reload(null,true)
+          });
+          $("#select_partcard").change(function(){
+                table.ajax.reload(null,true)
+          });
+          $("#select_line").change(function(){
+                table.ajax.reload(null,true)
+          });
+          $("#select_packaging_code").change(function(){
+                table.ajax.reload(null,true)
+          });
+          $("#select_category").change(function(){
+                table.ajax.reload(null,true)
+          });
 
       } );
     </script>

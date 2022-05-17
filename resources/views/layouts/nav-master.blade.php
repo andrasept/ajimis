@@ -56,11 +56,12 @@
               <ul class="nav nav-second-level collapse" aria-expanded="false">
                   <li><a href="{{route('delivery.master.master_part')}}">Part</a></li>
                   {{-- <li><a href="">Part</a></li> --}}
-                  <li><a href="">Packaging</a></li>
-                  <li><a href="">Line</a></li>
-                  <li><a href="">Customer </a></li>
-                  <li><a href="">Users </a></li>
-                  <li><a href="">Man Power </a></li>
+                  <li><a href="{{route('delivery.master.master_packaging')}}">Packaging</a></li>
+                  <li><a href="{{route('delivery.master.master_line')}}">Line</a></li>
+                  <li><a href="{{route('delivery.master.master_customer')}}">Customer </a></li>
+                  <li><a href="{{route('delivery.master.master_partcard')}}">Part Card </a></li>
+                  {{-- <li><a href="#">Users </a></li>
+                  <li><a href="#">Man Power </a></li> --}}
               </ul>
           </li>
         @endrole

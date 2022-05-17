@@ -12,8 +12,8 @@ class Part extends Model
 
     protected $fillable=["sku","part_no_customer","part_no_aji",
                         "part_name","model","customer_id","category","cycle_time",
-                    "addresing","color_id","line_id","packaging_id"  ];
-    protected $table = "parts";
+                        "addresing","color_id","line_id","packaging_id","updated_by" ];
+    protected $table = "delivery_parts";
 
 
 }

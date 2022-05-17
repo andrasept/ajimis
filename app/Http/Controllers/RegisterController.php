@@ -6,6 +6,7 @@ use auth;
 use App\Models\User;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 
 class RegisterController extends Controller
@@ -47,13 +48,13 @@ class RegisterController extends Controller
                         // 'email:dns'
                         ],
             'password' => ['required','confirmed','min:5',],
-            'name' => ['required','min:5'],
-            'username' => ['required','min:5'],
+            'name' => ['required','min:5','unique:users'],
+            'username' => ['required','min:5','unique:users'],
             'dept_id' => ['required','filled'],
         ]);
 
-        $data['password'] = bcrypt($data['password']);
-
+        $data['password'] =$data['password'];
+      
         $user = User::create($data);
     
         return redirect()->intended('/login')->with('success', 'Registration succesfull! Please login');

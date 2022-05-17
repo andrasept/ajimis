@@ -8,9 +8,9 @@
 
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav mr-auto">
-                <li >
+                {{-- <li >
                     <img class="m-1" src="{{url('/image/ajilogo.png')}}" alt="aji" width="40" height="40">
-                </li>
+                </li> --}}
                 <li >
                     @if (Auth::check())
                         <a aria-expanded="false" role="button" href="#" > 
@@ -53,11 +53,13 @@
                 @endrole
             </ul>
             <ul class="nav navbar-top-links navbar-right">
-                {{-- <li>
-                    <a href="/logout">
-                        <i class="fa fa-sign-out"></i> Log out
+                @guest
+                <li>
+                    <a href="/login">
+                        <i class="fa fa-sign-in"></i> Log in
                     </a>
-                </li> --}}
+                </li>
+                @endguest
             </ul>
         </div>
     </nav>

@@ -25,28 +25,72 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
   |
   |
   */
-    // forgot password
     Route::group(['middleware' => ['guest']], function () {
       // register
       Route::get('/register', 'RegisterController@show')->name('register.show');
       Route::post('/signup', 'RegisterController@register')->name('register.perform');
-
+    
+      // forgot password
       Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
       Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
       Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
       Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
     });
     // home
-      Route::get('/dashboard', 'HomeController@dashboard')->name('home.dashboard')->middleware('auth');
-    // delivery super admin
-    Route::group(['middleware' => ['role:delivery.superadmin']], function () {
-        // delivery master part
-        Route::get('/delivery-master-part', 'DeliveryMasterPartController@index')->name('delivery.master.master_part')->middleware('auth');
-        Route::get('/delivery-master-part/{id}/edit', 'DeliveryMasterPartController@edit')->name('delivery.master.master_part.edit')->middleware('auth');
-        Route::put('/delivery-master-part/update', 'DeliveryMasterPartController@update')->name('delivery.master.master_part.update')->middleware('auth');
-        Route::post('/delivery-master-part-import', 'DeliveryMasterPartController@store')->name('delivery.master.master_part.import')->middleware('auth');
-    });
+    Route::get('/', 'HomeController@index')->name('home.index');
+    Route::get('/dashboard', 'HomeController@dashboard')->name('home.dashboard')->middleware('auth');
+    
 
+     /**
+     * delivery 
+     */
+      Route::group(['prefix' => 'delivery'], function() {
+        // delivery super admin
+        Route::group(['middleware' => ['role:delivery.superadmin']], function () {
+          // delivery master part
+          Route::post('/master-part-import', 'DeliveryPartController@store')->name('delivery.master.master_part.import')->middleware('auth');
+          Route::get('/master-part', 'DeliveryPartController@index')->name('delivery.master.master_part')->middleware('auth');
+          Route::get('/master-part/{id}/edit', 'DeliveryPartController@edit')->name('delivery.master.master_part.edit')->middleware('auth');
+          Route::put('/master-part/update', 'DeliveryPartController@update')->name('delivery.master.master_part.update')->middleware('auth');
+          Route::get('/master-part/create', 'DeliveryPartController@create')->name('delivery.master.master_part.create')->middleware('auth');
+          Route::put('/master-part/insert', 'DeliveryPartController@insert')->name('delivery.master.master_part.insert')->middleware('auth');
+          Route::get('/master-part/{id}/delete', 'DeliveryPartController@destroy')->name('delivery.master.master_part.destroy')->middleware('auth');
+          Route::get('/master-part-export', 'DeliveryPartController@export')->name('delivery.master.master_part.export')->middleware('auth');
+          // delvery master packaging
+          Route::post('/master-packaging-import', 'DeliveryPackagingController@store')->name('delivery.master.master_packaging.import')->middleware('auth');
+          Route::get('/master-packaging', 'DeliveryPackagingController@index')->name('delivery.master.master_packaging')->middleware('auth');
+          Route::get('/master-packaging/{id}/edit', 'DeliveryPackagingController@edit')->name('delivery.master.master_packaging.edit')->middleware('auth');
+          Route::put('/master-packaging/update', 'DeliveryPackagingController@update')->name('delivery.master.master_packaging.update')->middleware('auth');
+          Route::get('/master-packaging/create', 'DeliveryPackagingController@create')->name('delivery.master.master_packaging.create')->middleware('auth');
+          Route::put('/master-packaging/insert', 'DeliveryPackagingController@insert')->name('delivery.master.master_packaging.insert')->middleware('auth');
+          Route::get('/master-packaging/{id}/delete', 'DeliveryPackagingController@destroy')->name('delivery.master.packaging.destroy')->middleware('auth');
+          // delvery master line
+          Route::post('/master-line-import', 'DeliveryLineController@store')->name('delivery.master.master_line.import')->middleware('auth');
+          Route::get('/master-line', 'DeliveryLineController@index')->name('delivery.master.master_line')->middleware('auth');
+          Route::get('/master-line/{id}/edit', 'DeliveryLineController@edit')->name('delivery.master.master_line.edit')->middleware('auth');
+          Route::put('/master-line/update', 'DeliveryLineController@update')->name('delivery.master.master_line.update')->middleware('auth');
+          Route::get('/master-line/create', 'DeliveryLineController@create')->name('delivery.master.master_line.create')->middleware('auth');
+          Route::put('/master-line/insert', 'DeliveryLineController@insert')->name('delivery.master.master_line.insert')->middleware('auth');
+          Route::get('/master-line/{id}/delete', 'DeliveryLineController@destroy')->name('delivery.master.line.destroy')->middleware('auth');
+          // delvery customer
+          Route::post('/master-customer-import', 'DeliveryCustomerController@store')->name('delivery.master.master_customer.import')->middleware('auth');
+          Route::get('/master-customer', 'DeliveryCustomerController@index')->name('delivery.master.master_customer')->middleware('auth');
+          Route::get('/master-customer/{id}/edit', 'DeliveryCustomerController@edit')->name('delivery.master.master_customer.edit')->middleware('auth');
+          Route::put('/master-customer/update', 'DeliveryCustomerController@update')->name('delivery.master.master_customer.update')->middleware('auth');
+          Route::get('/master-customer/create', 'DeliveryCustomerController@create')->name('delivery.master.master_customer.create')->middleware('auth');
+          Route::put('/master-customer/insert', 'DeliveryCustomerController@insert')->name('delivery.master.master_customer.insert')->middleware('auth');
+          Route::get('/master-customer/{id}/delete', 'DeliveryCustomerController@destroy')->name('delivery.master.customer.destroy')->middleware('auth');
+          // delvery part card
+          Route::post('/master-partcard-import', 'DeliveryPartcardController@store')->name('delivery.master.master_partcard.import')->middleware('auth');
+          Route::get('/master-partcard', 'DeliveryPartcardController@index')->name('delivery.master.master_partcard')->middleware('auth');
+          Route::get('/master-partcard/{id}/edit', 'DeliveryPartcardController@edit')->name('delivery.master.master_partcard.edit')->middleware('auth');
+          Route::put('/master-partcard/update', 'DeliveryPartcardController@update')->name('delivery.master.master_partcard.update')->middleware('auth');
+          Route::get('/master-partcard/create', 'DeliveryPartcardController@create')->name('delivery.master.master_partcard.create')->middleware('auth');
+          Route::put('/master-partcard/insert', 'DeliveryPartcardController@insert')->name('delivery.master.master_partcard.insert')->middleware('auth');
+          Route::get('/master-partcard/{id}/delete', 'DeliveryPartcardController@destroy')->name('delivery.master.partcard.destroy')->middleware('auth');
+
+        });
+      });
   /*
   |--------------------------------------------------------------------------
   | Akhir Routes Agil
@@ -73,8 +117,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         /**
          * Login Routes
          */
-        Route::get('/', 'LoginController@show')->name('login.show');
-        Route::post('/', 'LoginController@authenticate')->name('login.perform');
+        Route::get('/login', 'LoginController@show')->name('login.show');
+        Route::post('/login', 'LoginController@authenticate')->name('login.perform');
     });
 
 

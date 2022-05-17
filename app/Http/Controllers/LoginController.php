@@ -15,7 +15,7 @@ class LoginController extends Controller
     use RememberMeExpiration;
     public function __construct()
     {
-        $this->middleware('throttle:3,1')->only('authenticate');
+        $this->middleware('throttle:3,2')->only('authenticate');
     }
     /**
      * Display login page.

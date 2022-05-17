@@ -49,9 +49,9 @@ class PartsImport implements ToModel, WithHeadingRow, WithValidation, SkipsOnFai
             'part_name' =>  ['required'],
             'model' =>  ['required'],
             'customer_id' =>  ['required'],
-            'color_id' => ['required'],
-            'line_id' => ['required'],
-            'packaging_id' =>  ['required'],
+            // 'color_id' => ['required'],
+            // 'line_id' => ['required'],
+            // 'packaging_id' =>  ['required'],
         ];
     }
 
