@@ -46,10 +46,11 @@
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                         <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                            For reset new password you need to click the button below for reset password.
+                                            For reset new password of {{$email}}, you need to click the button below for reset password.
                                         </p>
                                         <br>
-                                        <a href="{{ route('reset.password.get', $token) }}" style="background-color: #1F7F4C; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-decoration: none; padding: 14px 20px; color: #ffffff; border-radius: 5px; display: inline-block; mso-padding-alt: 0;">
+                                        
+                                        <a href="{{ route('reset.password.get', ['token'=> $token, 'email' => $email]) }}" style="background-color: #1F7F4C; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-decoration: none; padding: 14px 20px; color: #ffffff; border-radius: 5px; display: inline-block; mso-padding-alt: 0;">
                                                 <!--[if mso]>
                                                 <i style="letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;">&nbsp;</i>
                                                 <![endif]-->

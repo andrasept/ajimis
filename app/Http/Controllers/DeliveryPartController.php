@@ -101,7 +101,8 @@ class DeliveryPartController extends Controller
             try {
                 Part::create($request->all());
                 DB::commit();
-
+                $message = "SKU ".$request->sku." Part Added!, added By: ".auth()->user()->name;
+                $this->sendTelegram('-690929411',$message );
                 return redirect('/delivery/master-part')->with('success', 'Data SKU '.$request->sku.' Part Added!');
             } catch (\Throwable $th) {
                 DB::rollback();
@@ -251,7 +252,9 @@ class DeliveryPartController extends Controller
                 // throw $th;
                 return redirect('/delivery/master-part')->with("fail","Failed Update! [105]" );
             }
-            $this->sendTelegram('-690929411', "SKU ".$request->sku." Updated!, updated By: ".$request->updated_by);
+            $json_part = json_encode($selection);
+            $message = "SKU ".$request->sku." Part Updated!, updated By: ".$request->updated_by;
+            $this->sendTelegram('-690929411',$message );
             return redirect('/delivery/master-part')->with("success","SKU ".$request->sku." Updated!" );
         }
     }
@@ -267,7 +270,8 @@ class DeliveryPartController extends Controller
         try {
             $data = Part::findOrFail($id);
             $data->delete();
-
+            $message = "SKU ".$data->sku." Part Deleted!, deleted By: ".auth()->user()->name;
+            $this->sendTelegram('-690929411',$message );
             return redirect('/delivery/master-part')->with("success","SKU ".$data->sku." Deleted!" );
         } catch (\Throwable $th) {
             // throw $th;

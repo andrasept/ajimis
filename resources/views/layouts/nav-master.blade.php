@@ -51,19 +51,25 @@
         @endrole
 
         @role('delivery.superadmin')
-          <li>
-            <a href="#"><i class="fa fa-table"></i> <span class="nav-label">Master Data</span> <span class="fa arrow"></span></a>
-              <ul class="nav nav-second-level collapse" aria-expanded="false">
-                  <li><a href="{{route('delivery.master.master_part')}}">Part</a></li>
-                  {{-- <li><a href="">Part</a></li> --}}
-                  <li><a href="{{route('delivery.master.master_packaging')}}">Packaging</a></li>
-                  <li><a href="{{route('delivery.master.master_line')}}">Line</a></li>
-                  <li><a href="{{route('delivery.master.master_customer')}}">Customer </a></li>
-                  <li><a href="{{route('delivery.master.master_partcard')}}">Part Card </a></li>
-                  {{-- <li><a href="#">Users </a></li>
-                  <li><a href="#">Man Power </a></li> --}}
-              </ul>
-          </li>
+          <li >
+            <a href="#" aria-expanded="true"><i class="fa fa-truck"></i> <span class="nav-label">Delivery </span><span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level " aria-expanded="true" style="">
+                <li class="">
+                    <a href="#" aria-expanded="true">Master Data <span class="fa arrow"></span></a>
+                    <ul class="nav nav-third-level " aria-expanded="true" style="">
+                      <li><a href="{{route('delivery.master.master_part')}}">Part</a></li>
+                      {{-- <li><a href="">Part</a></li> --}}
+                      <li><a href="{{route('delivery.master.master_packaging')}}">Packaging</a></li>
+                      <li><a href="{{route('delivery.master.master_line')}}">Line</a></li>
+                      <li><a href="{{route('delivery.master.master_customer')}}">Customer </a></li>
+                      <li><a href="{{route('delivery.master.master_partcard')}}">Part Card </a></li>
+                      {{-- <li><a href="#">Users </a></li>
+                      <li><a href="#">Man Power </a></li> --}}
+                    </ul>
+                </li>
+            </ul>
+        </li>
+          
         @endrole
         
       @endauth 
