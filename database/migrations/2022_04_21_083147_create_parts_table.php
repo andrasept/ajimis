@@ -81,6 +81,61 @@ class CreatePartsTable extends Migration
             $table->timestamps();
         });
 
+        Schema::create('delivery_man_powers', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('npk')->index();
+            $table->string('position');
+            $table->string('title');
+            $table->string('shift');
+            $table->string('photo')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('delivery_skills', function (Blueprint $table) {
+            $table->id();
+            $table->string('skill_code')->index();
+            $table->string('skill');
+            $table->string('category');
+            $table->timestamps();
+        });
+
+        Schema::create('delivery_matrix_skills', function (Blueprint $table) {
+            $table->id();
+            $table->string('skill_id');
+            $table->string('user_id');
+            $table->integer('value')->default(0);
+            $table->string('category');
+            $table->timestamps();
+        });
+
+        Schema::create('delivery_pickup_customer', function (Blueprint $table) {
+            $table->id();
+            $table->string('customer_pickup_code')->index();
+            $table->integer('cycle');
+            $table->integer('cycle_time_preparation');
+            $table->string('help_column');
+            $table->time('time_pickup');
+            $table->timestamps();
+        });
+
+        Schema::create('delivery_preparation', function (Blueprint $table) {
+            $table->id();
+            $table->string('customer_pickup_id');
+            $table->integer('cycle');
+            $table->integer('cycle_time_preparation');
+            $table->string('help_column');
+            $table->time('time_pickup');
+            $table->string('shift');
+            $table->string('pic');
+            $table->integer('time_hour');
+            $table->dateTime('date_preparation')->nullable();
+            $table->dateTime('date_delivery');
+            $table->dateTime('start_preparation')->nullable();
+            $table->dateTime('end_preparation')->nullable();
+            $table->timestamps();
+        });
+
         //relasi table 
         Schema::table('delivery_parts', function($table) {
             $table->foreign('customer_id')->references('customer_code')->on('delivery_customers')->onUpdate('cascade')->onDelete('cascade');
@@ -92,6 +147,12 @@ class CreatePartsTable extends Migration
         Schema::table('delivery_mos', function ( $table) {
             $table->foreign('sku')->references('sku')->on('delivery_parts')->onUpdate('cascade')->onDelete('cascade');
         });
+
+        Schema::table('delivery_matrix_skills', function ( $table) {
+            $table->foreign('skill_id')->references('skill_code')->on('delivery_skills')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('npk')->on('delivery_man_powers')->onUpdate('cascade')->onDelete('cascade');
+        });
+
     }
 
     /**
@@ -106,5 +167,9 @@ class CreatePartsTable extends Migration
         Schema::dropIfExists('delivery_lines');
         Schema::dropIfExists('delivery_packagings');
         Schema::dropIfExists('delivery_part_cards');
+        Schema::dropIfExists('delivery_man_power');
+        Schema::dropIfExists('delivery_matrix_skills');
+        Schema::dropIfExists('delivery_pickup_customer');
+        Schema::dropIfExists('delivery_preparation');
     }
 }
