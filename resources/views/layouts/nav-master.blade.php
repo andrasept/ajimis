@@ -57,6 +57,7 @@
               <li><a href="{{ route('quality.area.index') }}">Area</a></li>
               <li><a href="{{ route('quality.process.index') }}">Process</a></li>
               <li><a href="{{ route('quality.model.index') }}">Model</a></li>
+              <li><a href="{{ route('quality.part.index') }}">Part</a></li>
             </ul>
           </li>
           <li class="">

@@ -222,6 +222,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/model/{post}/edit', 'QualityModelController@edit')->name('quality.model.edit');
             Route::patch('/model/{post}/update', 'QualityModelController@update')->name('quality.model.update');
             Route::delete('/model/{post}/delete', 'QualityModelController@destroy')->name('quality.model.destroy');
+
+            Route::get('/part/', 'QualityPartController@index')->name('quality.part.index');
+            Route::get('/part/create', 'QualityPartController@create')->name('quality.part.create');
+            Route::post('/part/create', 'QualityPartController@store')->name('quality.part.store');
+            Route::get('/part/{post}/show', 'QualityPartController@show')->name('quality.part.show');
+            Route::get('/part/{post}/edit', 'QualityPartController@edit')->name('quality.part.edit');
+            Route::patch('/part/{post}/update', 'QualityPartController@update')->name('quality.part.update');
+            Route::delete('/part/{post}/delete', 'QualityPartController@destroy')->name('quality.part.destroy');
           });
           
         });
