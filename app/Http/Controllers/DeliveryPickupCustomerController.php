@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\DeliveryPickupCustomer;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use App\Imports\DeliveryPickupCustomerImport;
 
 class DeliveryPickupCustomerController extends Controller
 {
@@ -46,7 +48,63 @@ class DeliveryPickupCustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         // untuk import excel 
+         if ($request->hasFile('file')) {
+
+            $data = Excel::toArray(new DeliveryPickupCustomerImport, request()->file('file'));
+
+            // dd($data);
+
+            $validator = Validator::make($data[0], [
+                '*.customer_pickup_code' =>['required'],
+                '*.cycle' => ['required','regex:/^[0-9.-]/'],
+                '*.cycle_time_preparation' => ['required','regex:/^[0-9.-]/'],
+                '*.help_column' => ['required'],
+                '*.time_pickup' => ['required']
+            ]);
+            if ($validator->fails()) {
+
+                $errors = $validator->errors()->all();
+                foreach ($errors as $key => $error) {
+                    $num =(int)preg_replace('/[^0-9]/', '', $error)+2;
+                    $err_message = explode(".",$error)[1];
+                    $errors[$key] = "Line (".$num.") $err_message";
+                }
+
+                return redirect('/delivery/pickupcustomer')->with('fail', "Import Failed! Because:".implode(", ",$errors));
+                
+            }else{
+
+                DB::beginTransaction();
+
+                try {
+                    $proses = collect(head($data))->each(function ($row, $key) {
+
+                            DeliveryPickupCustomer::updateOrCreate(
+                                ['help_column' => $row['help_column']],
+                                [
+                                    'customer_pickup_code' => $row['customer_pickup_code'],
+                                    'cycle' => $row['cycle'],
+                                    'cycle_time_preparation' => $row['cycle_time_preparation'],
+                                    'help_column' => $row['help_column'],
+                                    'time_pickup' => $row['time_pickup'],
+                                ]
+                            );
+                            
+                    });
+
+                    DB::commit();
+
+                } catch (\Throwable $th) {
+
+                    DB::rollback();
+                    return redirect('/delivery/pickupcustomer')->with('fail', "Import Failed! [105]");
+                }
+                    
+                return redirect('/delivery/pickupcustomer')->with('success', 'Import Succeed!');
+
+            }
+        }
     }
 
     /**

@@ -69,7 +69,7 @@
                     <div class="col-md-6">
                         <label for="">Time Pickup</label>
                         <div class="input-group clockpicker" data-autoclose="true">
-                            <input type="text" name="time_pickup" class="form-control" value="" >
+                            <input type="text" name="time_pickup" autocomplete="off" class="form-control" value="" >
                             <span class="input-group-addon">
                                 <span class="fa fa-clock-o"></span>
                             </span>

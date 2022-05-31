@@ -90,7 +90,7 @@
                         </div>
                         <div class="form-group">
                             <label>Time Hour</label> 
-                            <input type="integer" placeholder="cycle time" id="time_hour" name="time_hour" class="form-control @error('time_hour') is-invalid @enderror" value="" readonly>
+                            <input type="number" placeholder="cycle time" id="time_hour" name="time_hour" class="form-control @error('time_hour') is-invalid @enderror" value="" readonly>
                             @error('time_hour') 
                                 <div class="text-danger">
                                     {{$message}}

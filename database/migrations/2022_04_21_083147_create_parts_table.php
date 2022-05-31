@@ -128,11 +128,15 @@ class CreatePartsTable extends Migration
             $table->time('time_pickup');
             $table->string('shift');
             $table->string('pic');
-            $table->integer('time_hour');
+            $table->float('time_hour');
             $table->dateTime('date_preparation')->nullable();
             $table->dateTime('date_delivery');
             $table->dateTime('start_preparation')->nullable();
             $table->dateTime('end_preparation')->nullable();
+            $table->integer('status')->nullable();
+            $table->string('start_by')->nullable();
+            $table->string('end_by')->nullable();
+            $table->string('time_preparation')->nullable();
             $table->timestamps();
         });
 

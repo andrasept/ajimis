@@ -30,17 +30,17 @@
           <div class="alert alert-danger">{{session('fail')}}</div>
       @endif
     </div>
-    <div class="row mb-3">
+    {{-- <div class="row mb-3">
       <div class="col-lg-12 text-right">
         <a class="btn btn-primary  m-4 text-center" href="{{route('delivery.preparation.create')}}">Create</a>
       </div>
-    </div>
+    </div> --}}
       <table id="master" class="table table-bordered">
         <thead>
           <tr>
             <th class="text-center">No</th>
             <th class="text-center">Action</th>
-            <th class="text-center">Help Column</th>
+            {{-- <th class="text-center">Help Column</th> --}}
             <th class="text-center">Date Delivery</th>
             <th class="text-center">Customer</th>
             <th class="text-center">Cycle</th>
@@ -52,6 +52,10 @@
             <th class="text-center">PIC</th>
             <th class="text-center">Shift</th>
             <th class="text-center">Time Hour</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Started by</th>
+            <th class="text-center">Finished by</th>
+            <th class="text-center">Prepare Time</th>
           </tr>
         </thead>
         <tbody>
@@ -138,7 +142,7 @@
               "ajax": {
                           "url": "{{route('delivery.preparation')}}",
                           "data":function (d) {
-                          // d.min = $('#min').val();
+                          d.member = '1';
                           // d.max = $('#max').val();
                           // d.customer = $('#select_customer').val();
                           // d.partcard = $('#select_partcard').val();
@@ -150,43 +154,103 @@
               "columns": [
                   { data: null, className: 'dt-body-center'},
                   // { data: 'id', className: 'dt-body-center'},
-                  { data: "btn_start", className: 'dt-body-center',
+                  { data: "status", className: 'dt-body-center',
                       "render": function ( data, type, row ) {
-                          var id = data.split("-")[0];
-                          var status = data.split("-")[1];
+                          // var id = data.split("-")[0];
+                          // var status = data.split("-")[1];
                           
-                          if (status == '1') {
-                            return "<a href='/delivery/preparation/"+id+"/end' class='btn btn-lg btn-danger'>End</a>";
-                          } else if(status == '0') {
-                            return "<a href='/delivery/preparation/"+id+"/start' class='btn btn-lg btn-primary'>Start</a>";
-                          }else {
-                            return"<label class='label lable-primary'>Finished</label>";
+                          
+                          if (data == '1') {
+                            return "<a href='/delivery/preparation/"+row['id']+"/end' class='btn btn-lg btn-danger'>End</a>";
+                          } else if(data === null) {
+                            return "<a href='/delivery/preparation/"+row['id']+"/start' class='btn btn-lg btn-primary'>Start</a>";
+                          }else if(data == '3') {
+                            return"<label class='label label-info'>Finished</label>";
+                          }else{
+                            return '';
                           }
                         },
                   },
+                  // { data: "help_column", className: 'dt-body-center'},
+                  { data: "date_delivery", className: 'dt-body-center',
+                      "render" :function(data,type, row)
+                      {
+                        if (data === null) {
+                          return '';
+                        } else {
+                          return moment(data).format('DD/MM/YYYY');
+                        }
+                      }
+                  },
                   { data: "help_column", className: 'dt-body-center'},
-                  { data: "date_delivery", className: 'dt-body-center'},
-                  { data: "customer_pickup_id", className: 'dt-body-center'},
                   { data: "cycle", className: 'dt-body-center'},
                   { data: "cycle_time_preparation", className: 'dt-body-center'},
                   { data: "time_pickup", className: 'dt-body-center'},
-                  { data: "date_preparation", className: 'dt-body-center'},
-                  { data: "start_preparation", className: 'dt-body-center'},
-                  { data: "end_preparation", className: 'dt-body-center'},
+                  { data: "date_preparation", className: 'dt-body-center',
+                      "render" :function(data,type, row)
+                      {
+                        if (data === null) {
+                          return '';
+                        } else {
+                          return moment(data).format('DD/MM/YYYY');
+                        }
+                      }
+                  },
+                  { data: "start_preparation", className: 'dt-body-center',
+                    "render" :function(data,type, row)
+                        {
+                          if (data === null) {
+                            return '';
+                          } else {
+                            return moment(data).format('DD/MM/YYYY HH:mm:ss');
+                          }
+                        }
+                  },
+                  { data: "end_preparation", className: 'dt-body-center',
+                     "render" :function(data,type, row)
+                        {
+                          if (data === null) {
+                            return '';
+                          } else {
+                            return moment(data).format('DD/MM/YYYY HH:mm:ss');
+                          }
+                        }
+                  },
                   { data: "pic", className: 'dt-body-center'},
                   { data: "shift", className: 'dt-body-center'},
                   { data: "time_hour", className: 'dt-body-center'},
+                  { data: "status", className: 'dt-body-center',
+                      'render' : function(data, type, row)
+                              {
+                                if (data == '1') {
+                                  return '<label class="label label-default">on Progress</label>';
+                                } else  if (data == '3') {
+                                  return '<label class="label label-info">Finished</label>';
+                                }else{
+                                  return'';
+                                }
+                              }
+                  },
+                  { data: "start_by", className: 'dt-body-center'},
+                  { data: "end_by", className: 'dt-body-center'},
+                  { data: "time_preparation", className: 'dt-body-center',
+                    'render': function(data, type, row)
+                    {
+                        return Number(data).toFixed(2).toString()+ " minutes";
+                    }
+                },
                 ],
               "columnDefs": [ {
                   "searchable": true,
                   "orderable": true,
                   "targets": 0
               } ],
-              "order": [[ 3, 'asc' ]]
+              "order": [[ 2, 'asc' ],[7, 'asc']]
           } );
 
           // number
           table.on('draw.dt', function () {
+            
               var info = table.page.info();
               table.column(0, { search: 'applied', order: 'applied', page: 'applied' }).nodes().each(function (cell, i) {
                   cell.innerHTML = i + 1 + info.start;

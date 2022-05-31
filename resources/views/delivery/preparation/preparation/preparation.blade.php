@@ -22,6 +22,26 @@
       <h4>Data Preparation</h4>
   </div>
   <div class="ibox-content" >
+    <div class="row">
+      <div class="col-lg-3 form-group">
+        <label for="">From :</label>
+        <input type="text" class="form-control" id="min" name="min" placeholder="from">
+      </div>
+      <div class="col-lg-3 form-group">
+        <label for="">To :</label>
+        <input type="text" class="form-control" id="max" name="max" placeholder="to">
+      </div>
+      <div class="col-lg-3 form-group">
+        <label for="">Status :</label>
+        <select name="select_status" class="form-control" id="select_status">
+            <option value="all">All</option>
+            <option value="0">NOT STARTED</option>
+            <option value="1">ON PROGRESS</option>
+            <option value="3">FINISHED</option>
+        </select>
+      </div>
+    </div>
+    <hr>
     <div>
       @if(session()->has('success'))
           <div class="alert alert-primary">{{session('success')}}</div>
@@ -39,10 +59,10 @@
         <thead>
           <tr>
             <th class="text-center">No</th>
-            <th class="text-center">Action</th>
-            <th class="text-center">Customer</th>
+            <th class="text-center">Status</th>
             <th class="text-center">Date Delivery</th>
-            <th class="text-center">Help Column</th>
+            <th class="text-center">Customer</th>
+            {{-- <th class="text-center">Help Column</th> --}}
             <th class="text-center">Cycle</th>
             <th class="text-center">Cycle Time</th>
             <th class="text-center">Time Pickup</th>
@@ -52,6 +72,11 @@
             <th class="text-center">PIC</th>
             <th class="text-center">Shift</th>
             <th class="text-center">Time Hour</th>
+            <th class="text-center">Action</th>
+            <th class="text-center">Started by</th>
+            <th class="text-center">Finished by</th>
+            <th class="text-center">Prepare Time</th>
+
           </tr>
         </thead>
         <tbody>
@@ -138,9 +163,9 @@
               "ajax": {
                           "url": "{{route('delivery.preparation')}}",
                           "data":function (d) {
-                          // d.min = $('#min').val();
-                          // d.max = $('#max').val();
-                          // d.customer = $('#select_customer').val();
+                          d.min = $('#min').val();
+                          d.max = $('#max').val();
+                          d.status = $('#select_status').val();
                           // d.partcard = $('#select_partcard').val();
                           // d.line = $('#select_line').val();
                           // d.packaging_code = $('#select_packaging_code').val();
@@ -149,30 +174,94 @@
               },
               "columns": [
                   { data: null, className: 'dt-body-center'},
-                  { data: "id", className: 'dt-body-center',
-                      "render": function ( data, type, row ) {
-                            return "<div class='btn-group'><a href='/delivery/pickupcustomer/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='pickupcustomer/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
-                        },
-                  },
-                  { data: "help_column", className: 'dt-body-center'},
-                  { data: "date_delivery", className: 'dt-body-center'},
-                  { data: "customer_pickup_id", className: 'dt-body-center'},
-                  { data: "cycle", className: 'dt-body-center'},
-                  { data: "cycle_time_preparation", className: 'dt-body-center'},
-                  { data: "time_pickup", className: 'dt-body-center'},
-                  { data: "date_preparation", className: 'dt-body-center'},
-                  { data: "start_preparation", className: 'dt-body-center'},
-                  { data: "end_preparation", className: 'dt-body-center'},
-                  { data: "pic", className: 'dt-body-center'},
-                  { data: "shift", className: 'dt-body-center'},
-                  { data: "time_hour", className: 'dt-body-center'},
+                  { data: "status", className: 'dt-body-center', 
+                  'render' : function(data, type, row)
+                  {
+                    if (data == '1') {
+                      return '<label class="label label-default">on Progress</label>';
+                    } else  if (data == '3') {
+                      return '<label class="label label-info">Finished</label>';
+                    }else{
+                      return'';
+                    }
+                  }
+                },
+                // { data: "help_column", className: 'dt-body-center'},
+                { data: "date_delivery", className: 'dt-body-center',
+                     "render" :function(data,type, row)
+                        {
+                          if (data === null) {
+                            return '';
+                          } else {
+                            return moment(data).format('DD/MM/YYYY');
+                          }
+                        }
+                },
+                { data: "help_column", className: 'dt-body-center'},
+                { data: "cycle", className: 'dt-body-center'},
+                { data: "cycle_time_preparation", className: 'dt-body-center'},
+                { data: "time_pickup", className: 'dt-body-center'},
+                { data: "date_preparation", className: 'dt-body-center',
+                    "render" :function(data,type, row)
+                        {
+                          if (data === null) {
+                            return '';
+                          } else {
+                            return moment(data).format('DD/MM/YYYY');
+                          }
+                        }
+                },
+                { data: "start_preparation", className: 'dt-body-center',
+                  "render" :function(data,type, row)
+                        {
+                          if (data === null) {
+                            return '';
+                          } else {
+                            return moment(data).format('DD/MM/YYYY HH:mm:ss');
+                          }
+                        }
+                },
+                { data: "end_preparation", className: 'dt-body-center',
+                   "render" :function(data,type, row)
+                        {
+                          if (data === null) {
+                            return '';
+                          } else {
+                            return moment(data).format('DD/MM/YYYY HH:mm:ss');
+                          }
+                        }
+                },
+                { data: "pic", className: 'dt-body-center'},
+                { data: "shift", className: 'dt-body-center'},
+                { data: "time_hour", className: 'dt-body-center',
+
+                    'render': function(data, type, row)
+                        {
+                            return data.toFixed(2).toString()+ " hours";
+                        }
+
+                },
+                { data: "id", className: 'dt-body-center',
+                    "render": function ( data, type, row ) {
+                          return "<div class='btn-group'><a href='/delivery/preparation/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='preparation/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
+                      },
+                },
+                { data: "start_by", className: 'dt-body-center'},
+                { data: "end_by", className: 'dt-body-center'},
+                { data: "time_preparation", className: 'dt-body-center',  
+                    'render': function(data, type, row)
+                    {
+                        return Number(data).toFixed(2).toString()+ " minutes";
+                    }
+                },
+
                 ],
               "columnDefs": [ {
                   "searchable": true,
                   "orderable": true,
                   "targets": 0
               } ],
-              "order": [[ 3, 'asc' ]]
+              "order": [[ 1, 'asc' ],[ 2, 'asc' ],[ 7, 'asc' ]]
           } );
 
           // number
@@ -189,7 +278,7 @@
               table.draw();
           });
 
-          $("#select_customer").change(function(){
+          $("#select_status").change(function(){
                 table.ajax.reload(null,true)
           });
           $("#select_partcard").change(function(){

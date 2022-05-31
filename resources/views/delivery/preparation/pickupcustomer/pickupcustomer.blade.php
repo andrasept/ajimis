@@ -18,8 +18,8 @@
       <h4>Data Customer Pickup</h4>
   </div>
   <div class="ibox-content" >
-    {{-- <h5>Import Data</h5>
-    <form action="{{route('delivery.master.master_packaging.import')}}"  method="POST"  enctype="multipart/form-data">
+    <h5>Import Data</h5>
+    <form action="{{route('delivery.pickupcustomer.import')}}"  method="POST"  enctype="multipart/form-data">
         @csrf
         <div class="custom-file">
             <input id="logo" type="file" name="file" class="custom-file-input" required>
@@ -28,7 +28,7 @@
         <div class="form-group mt-2">
           <button class="btn btn-primary">Import</button>
         </div>
-    </form>  --}}
+    </form> 
     <div>
       @if(session()->has('success'))
           <div class="alert alert-primary">{{session('success')}}</div>
@@ -37,6 +37,7 @@
           <div class="alert alert-danger">{{session('fail')}}</div>
       @endif
     </div>
+    <hr>
     <div class="row mb-3">
       <div class="col-lg-12 text-right">
         <a class="btn btn-primary  m-4 text-center" href="{{route('delivery.pickupcustomer.create')}}">Create</a>

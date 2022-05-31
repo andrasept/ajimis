@@ -68,6 +68,17 @@
                         <span class="text-danger text-left">{{ $errors->first('dept_id') }}</span>
                     @endif
                 </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Npk</label>
+                    <input value="{{ old('npk') }}"
+                        type="text" 
+                        class="form-control" 
+                        name="npk" 
+                        placeholder="npk " required>
+                    @if ($errors->has('npk'))
+                        <span class="text-danger text-left">{{ $errors->first('npk') }}</span>
+                    @endif
+                </div>
 
                 <button type="submit" class="btn btn-primary">Save User</button>
                 <a href="{{ route('users.index') }}" class="btn btn-default">Back</a>

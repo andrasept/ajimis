@@ -97,6 +97,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::put('/master-manpower/insert', 'DeliveryManpowerController@insert')->name('delivery.master.master_manpower.insert')->middleware('auth');
           Route::get('/master-manpower/{id}/delete', 'DeliveryManpowerController@destroy')->name('delivery.master.manpower.destroy')->middleware('auth');
           // delivery pickup customer
+          Route::post('/pickupcustomer', 'DeliveryPickupCustomerController@store')->name('delivery.pickupcustomer.import')->middleware('auth');
           Route::get('/pickupcustomer', 'DeliveryPickupCustomerController@index')->name('delivery.pickupcustomer')->middleware('auth');
           Route::get('/pickupcustomer/{id}/edit', 'DeliveryPickupCustomerController@edit')->name('delivery.pickupcustomer.edit')->middleware('auth');
           Route::put('/pickupcustomer/update', 'DeliveryPickupCustomerController@update')->name('delivery.pickupcustomer.update')->middleware('auth');
@@ -104,11 +105,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::put('/pickupcustomer/insert', 'DeliveryPickupCustomerController@insert')->name('delivery.pickupcustomer.insert')->middleware('auth');
           Route::get('/pickupcustomer/{id}/delete', 'DeliveryPickupCustomerController@destroy')->name('delivery.pickupcustomer.destroy')->middleware('auth');
           
-          // preaparation
+          // preaparation admin
           Route::get('/preparation/create', 'DeliveryPreparationController@create')->name('delivery.preparation.create')->middleware('auth');
-          Route::get('/preparation', 'DeliveryPreparationController@index')->name('delivery.preparation')->middleware('auth');
           Route::put('/preparation/insert', 'DeliveryPreparationController@insert')->name('delivery.preparation.insert')->middleware('auth');
+          Route::put('/preparation/update', 'DeliveryPreparationController@update')->name('delivery.preparation.update')->middleware('auth');
+          Route::get('/preparation/{id}/edit', 'DeliveryPreparationController@edit')->name('delivery.preparation.edit')->middleware('auth');
+          Route::get('/preparation/{id}/delete', 'DeliveryPreparationController@destroy')->name('delivery.preparation.destroy')->middleware('auth');
+          
         });
+        // preaparation member
+        Route::get('/preparation', 'DeliveryPreparationController@index')->name('delivery.preparation')->middleware('auth');
+        Route::get('/preparation/member', 'DeliveryPreparationController@member')->name('delivery.preparation.member')->middleware('auth');
         Route::post('/preparation/get_data_pic', 'DeliveryPreparationController@getDataPic')->name('delivery.preparation.get_data_pic')->middleware('auth');
         Route::post('/preparation/get_data_detail_pickup', 'DeliveryPreparationController@get_data_detail_pickup')->name('delivery.preparation.get_data_detail_pickup')->middleware('auth');
         Route::get('/preparation/{id}/start', 'DeliveryPreparationController@start')->name('delivery.preparation.start_preparation')->middleware('auth');

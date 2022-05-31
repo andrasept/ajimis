@@ -9,7 +9,8 @@ class PreparationDelivery extends Model
 {
     use HasFactory;
     protected $fillable=['customer_pickup_id','cycle','cycle_time_preparation','help_column','time_pickup','shift',
-                            'pic','time_hour', 'date_preparation', 'date_delivery', 'start_preparataion', 'end_preparation'
+                            'pic','time_hour', 'date_preparation', 'date_delivery', 'start_preparataion', 'end_preparation',
+                            'time_preparation'
                         ];
     protected $table = "delivery_preparation";
 
