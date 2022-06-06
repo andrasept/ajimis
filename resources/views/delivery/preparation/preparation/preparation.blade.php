@@ -24,12 +24,13 @@
   <div class="ibox-content" >
     <div class="row">
       <div class="col-lg-3 form-group">
+        <form action="{{route('delivery.preparation.export')}}" target="_blank" method="post">
         <label for="">From :</label>
         <input type="text" class="form-control" id="min" name="min" placeholder="from">
       </div>
       <div class="col-lg-3 form-group">
         <label for="">To :</label>
-        <input type="text" class="form-control" id="max" name="max" placeholder="to">
+        <input type="text" class="form-control" id="max" name="max" placeholder="to" >
       </div>
       <div class="col-lg-3 form-group">
         <label for="">Status :</label>
@@ -39,6 +40,11 @@
             <option value="1">ON PROGRESS</option>
             <option value="3">FINISHED</option>
         </select>
+      </div>
+      <div class="col-lg-3 text-right">
+        @csrf
+        <button type="submit" class="btn btn-primary  m-4 text-center">EXPORT</button>
+      </form>
       </div>
     </div>
     <hr>

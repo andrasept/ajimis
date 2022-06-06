@@ -111,6 +111,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::put('/preparation/update', 'DeliveryPreparationController@update')->name('delivery.preparation.update')->middleware('auth');
           Route::get('/preparation/{id}/edit', 'DeliveryPreparationController@edit')->name('delivery.preparation.edit')->middleware('auth');
           Route::get('/preparation/{id}/delete', 'DeliveryPreparationController@destroy')->name('delivery.preparation.destroy')->middleware('auth');
+          Route::post('/preparation-export', 'DeliveryPreparationController@export')->name('delivery.preparation.export')->middleware('auth');
           
         });
         // preaparation member

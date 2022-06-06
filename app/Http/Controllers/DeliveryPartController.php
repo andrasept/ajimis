@@ -282,7 +282,6 @@ class DeliveryPartController extends Controller
     public function export() 
     {
         $arrays =  Part::all();
-        $this->sendTelegram('1155974361', 'test export');
         return Excel::download(new PartsExport($arrays), 'delivery_parts.xlsx');
     }
 

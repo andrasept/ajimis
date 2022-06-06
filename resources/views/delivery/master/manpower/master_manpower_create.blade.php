@@ -122,7 +122,7 @@
      $(document).ready(function(){
         $('.custom-file-input').on('change', function() {
             let fileName = $(this).val().split('\\').pop();
-            var ext = fileName.split('.')[1];
+            var ext = fileName.split('.').pop();
 
             if (ext == "png" || ext == "jpg" || ext == "jpeg") {
                 $(this).next('.custom-file-label').addClass("selected").html(fileName);

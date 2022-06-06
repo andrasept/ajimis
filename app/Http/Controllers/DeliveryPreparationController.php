@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ManPowerDelivery;
+use App\Exports\PreparationExport;
 use Illuminate\Support\Facades\DB;
 use App\Models\PreparationDelivery;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\DeliveryPickupCustomer;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -227,8 +229,7 @@ class DeliveryPreparationController extends Controller
         $data = PreparationDelivery::find($id);
         $npk=  Auth::user()->npk;
         
- 
-        
+
         try {
             //code...
             $data->start_preparation = date("Y-m-d H:i:s");
@@ -282,5 +283,23 @@ class DeliveryPreparationController extends Controller
         $response = curl_exec ($ch);
         $err = curl_error($ch); 
         curl_close ($ch);
+    }
+
+    public function export(Request $request) 
+    {
+
+        $from_date=$request->min;
+        $to_date = $request->max;
+        $status = $request->select_status;
+        
+        if ($from_date != null && $to_date != null) {
+            $filename = 'Preparation_'.$from_date.'_to_'.$to_date.'.xlsx';
+        } else {
+            $date = date("Y-m-d");
+            $filename = 'preparation_per_'.$date.'.xlsx';
+        }
+        
+        
+         return Excel::download(new PreparationExport($from_date,$to_date, $status), $filename);
     }
 }

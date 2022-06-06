@@ -245,7 +245,7 @@
                   "orderable": true,
                   "targets": 0
               } ],
-              "order": [[ 2, 'asc' ],[7, 'asc']]
+              "order": [[ 1, 'desc' ],[ 2, 'asc' ],[7, 'asc']]
           } );
 
           // number
