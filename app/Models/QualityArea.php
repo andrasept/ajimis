@@ -15,4 +15,16 @@ class QualityArea extends Model
         'created_by',
         'updated_by'
     ];
+
+    // Area -> Process (One to Many)
+    public function qualityProcesses()
+    {
+        return $this->hasMany(QualityProcess::class);
+    }
+
+    // Area -> Monitor (One to Many)
+    public function qualityMonitors()
+    {
+        return $this->hasOne(QualityMonitor::class);
+    }
 }

@@ -230,6 +230,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/part/{post}/edit', 'QualityPartController@edit')->name('quality.part.edit');
             Route::patch('/part/{post}/update', 'QualityPartController@update')->name('quality.part.update');
             Route::delete('/part/{post}/delete', 'QualityPartController@destroy')->name('quality.part.destroy');
+
+            Route::get('/monitor/', 'QualityMonitorController@index')->name('quality.monitor.index');
+            Route::get('/monitor/create', 'QualityMonitorController@create')->name('quality.monitor.create');
+            Route::post('/monitor/create', 'QualityMonitorController@store')->name('quality.monitor.store');
+            Route::get('/monitor/{post}/show', 'QualityMonitorController@show')->name('quality.monitor.show');
+            Route::get('/monitor/{post}/edit', 'QualityMonitorController@edit')->name('quality.monitor.edit');
+            Route::patch('/monitor/{post}/update', 'QualityMonitorController@update')->name('quality.monitor.update');
+            Route::delete('/monitor/{post}/delete', 'QualityMonitorController@destroy')->name('quality.monitor.destroy');
+
+
           });
           
         });

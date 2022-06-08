@@ -16,4 +16,22 @@ class QualityModel extends Model
         'created_by',
         'updated_by'
     ];
+
+    // Inverse
+    public function qualityProcess()
+    {
+        return $this->belongsTo(QualityProcess::class);
+    }
+
+    // Model -> Part (One to Many)
+    public function qualityParts()
+    {
+        return $this->hasMany(QualityPart::class);
+    }
+
+    // Model -> Monitor (One to Many)
+    public function qualityMonitors()
+    {
+        return $this->hasOne(QualityMonitor::class);
+    }
 }
