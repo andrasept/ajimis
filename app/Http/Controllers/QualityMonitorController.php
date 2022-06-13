@@ -35,23 +35,23 @@ class QualityMonitorController extends Controller
      */
     public function index(Request $request)
     {
-        $qualityMonitors = QualityMonitor::with(['qualityArea', 'qualityProcess', 'qualityDistrict', 'qualityVillage']);
-
+        // dependent dropdown
+        $qualityMonitors = QualityMonitor::with(['qualityArea', 'qualityProcess', 'qualityModel', 'qualityPart']);
         // return view('quality.monitor.index', [
         //     'qualityMonitors' => $qualityMonitors->get(),
         // ]);
-
         $qualityMonitors = $qualityMonitors->get();
 
         $q_parts = QualityPart::all();
         $q_models = QualityModel::all();
         $q_processes = QualityProcess::all();
         $q_areas = QualityArea::all();
+        $q_monitors = QualityMonitor::all();
 
         // doc number
         $randomNumber = $this->generateDocNumber();
 
-        return view('quality.monitor.index', compact('q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber'));
+        return view('quality.monitor.index', compact('q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors'));
     }
 
     /**
@@ -72,7 +72,33 @@ class QualityMonitorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = auth()->user()->id;
+
+        $q_monitors = new QualityMonitor;
+        $q_monitors->user_id = $user_id;
+        $q_monitors->doc_number = $request->input('doc_number');
+        $q_monitors->judgement = 0;
+        $q_monitors->quality_area_id = $request->input('quality_area_id');
+        $q_monitors->quality_process_id = $request->input('quality_process_id');
+        $q_monitors->quality_model_id = $request->input('quality_model_id');
+        $q_monitors->quality_part_id = $request->input('quality_part_id');
+        $q_monitors->created_by = $user_id;
+        // $q_monitors->created_at = now();
+        $q_monitors->created_at = $request->input('datetime');
+
+        // checksheet category
+        $cs_cat = $request->input('quality_cs');
+        if ($cs_cat == 1) {
+            $q_monitors->quality_cs_qtime = 1;
+        } elseif ($cs_cat == 2) {
+            $q_monitors->quality_cs_accuracy = 1;
+        }
+
+        if ($q_monitors->save()) {
+            return redirect()->route('quality.monitor.index')->withSuccess(__('Monitor created successfully.'));
+        }else{
+            return redirect()->route('quality.monitor.index')->withSuccess(__('Maaf terjadi kesalahan. Silahkan coba kembali.'));
+        }
     }
 
     /**
@@ -117,6 +143,10 @@ class QualityMonitorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $QualityMonitor = QualityMonitor::find($id);
+        $QualityMonitor->delete();
+
+        return redirect()->route('quality.monitor.index')
+            ->withSuccess(__('Monitor Checksheet deleted successfully.'));
     }
 }

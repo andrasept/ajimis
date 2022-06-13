@@ -17,6 +17,7 @@ class QualityMonitor extends Model
     protected $fillable = [
         'user_id',
         'doc_number',   
+        'judgement',   
              
         'quality_area_id',        
         'quality_process_id',        

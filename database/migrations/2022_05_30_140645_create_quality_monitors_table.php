@@ -17,6 +17,7 @@ class CreateQualityMonitorsTable extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->string('doc_number', 50);
+            $table->integer('judgement', 1);
 
             $table->bigInteger('quality_area_id', 20);
             $table->bigInteger('quality_process_id', 20);
