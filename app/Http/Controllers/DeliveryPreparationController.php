@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PreparationDelivery;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\DeliveryPickupCustomer;
+use App\Models\DeliveryPrepareCustomer;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,7 +33,17 @@ class DeliveryPreparationController extends Controller
             }else {
                 if (isset($request->min) && isset($request->max)) {
                     
-                    $query->whereBetween('date_delivery', [date("Y-m-d", strtotime($request->min)), date("Y-m-d", strtotime($request->max))]);
+                    $query->whereBetween('plan_date_preparation', [date("Y-m-d", strtotime($request->min)), date("Y-m-d", strtotime($request->max))]);
+                }
+
+                if (isset($request->help_column) ) {
+                    
+                    if ($request->help_column == '-') {
+                        # code...
+                    } else {
+                        $query->where('help_column',$request->help_column);
+                    }
+                    
                 }
 
                 if(isset($request->status) && $request->status != 'all' ){
@@ -56,8 +66,43 @@ class DeliveryPreparationController extends Controller
 
             return DataTables::of($query)->toJson();
         }else{
-            return view('delivery.preparation.preparation.preparation');
+    
+            $customers = DeliveryPrepareCustomer::select('*')->orderBy('help_column', 'asc')->get(); 
+
+            return view('delivery.preparation.preparation.preparation', compact('customers'));
         }
+    }
+
+    public function dashboard()
+    {
+        $now = date("Y-m-d");
+        
+
+        $date_min_3 = date('Y-m-d', strtotime("-6 days"));
+        $date_plus_3 = date('Y-m-d', strtotime("+3 days"));
+        
+       
+                            
+        $data = [];
+        $data['lists'] = PreparationDelivery::where('plan_date_preparation', $now)->orderBy('plan_time_preparation', 'asc')->get();
+        $data['total'] = PreparationDelivery::where('plan_date_preparation', $now)->count();
+        $data['not_started'] = PreparationDelivery::where('plan_date_preparation', $now)->where('status', NULL)->count();
+        $data['on_progress'] = PreparationDelivery::where('plan_date_preparation', $now)->where('status', '1')->count();
+        $data['finished'] = PreparationDelivery::where('plan_date_preparation', $now)->where('status','!=', NULL)->where('status','!=', '1')->count();
+        $data['ontime'] = PreparationDelivery::where('plan_date_preparation', $now)->where('status','4')->count();
+        $data['delay'] = PreparationDelivery::where('plan_date_preparation', $now)->where('status','5')->count();
+        $data['advanced'] = PreparationDelivery::where('plan_date_preparation', $now)->where('status','3')->count();
+       
+        $data_chart['ontime'][] =$data['ontime'];
+        $data_chart['delay'][] =$data['delay'];
+        $data_chart['advanced'][] =$data['advanced'];
+        $data_chart['on_progress'][] =$data['on_progress'];
+        $data_chart['not_started'][] =$data['not_started'];
+        $data_chart['label'][] =  $now;
+
+        $data['chart'] =  json_encode($data_chart);
+
+        return view("delivery.preparation.preparation.dashboard", compact('data'));
     }
 
     public function member()
@@ -73,7 +118,7 @@ class DeliveryPreparationController extends Controller
     public function create()
     {
         $shifts = ManPowerDelivery::select('*')->orderBy('shift', 'asc')->get()->unique('shift');
-        $customers = DeliveryPickupCustomer::select('*')->orderBy('help_column', 'asc')->get(); 
+        $customers = DeliveryPrepareCustomer::select('*')->orderBy('help_column', 'asc')->get(); 
         return view("delivery.preparation.preparation.preparation_create", compact('shifts', 'customers'));
     }
 
@@ -108,7 +153,7 @@ class DeliveryPreparationController extends Controller
     public function edit(PreparationDelivery $preparationDelivery, $id)
     {
         $shifts = ManPowerDelivery::get()->unique('shift');
-        $customers = DeliveryPickupCustomer::get(); 
+        $customers = DeliveryPrepareCustomer::get(); 
         $data = PreparationDelivery::FindOrFail($id);
         return view('delivery.preparation.preparation.preparation_edit',compact('data','shifts','customers'));
     }
@@ -123,7 +168,7 @@ class DeliveryPreparationController extends Controller
     public function update(Request $request, PreparationDelivery $preparationDelivery)
     {
         $validator =  Validator::make($request->all(),[
-            'date_delivery' =>['required'],
+            'plan_date_preparation' =>['required'],
             'customer_pickup_id' =>['required'],
             'cycle' => ['required','regex:/^[0-9.-]/'],
             'cycle_time_preparation' => ['required','regex:/^[0-9.-]/'],
@@ -139,10 +184,14 @@ class DeliveryPreparationController extends Controller
             return redirect()->back()->with("fail","".implode(" ",$validator->errors()->all()) );
         } else {
             $selection = PreparationDelivery::find($request->id);
+            DB::beginTransaction();
             try {
                 $selection->update($request->all());
+                DB::commit();
+
             } catch (\Throwable $th) {
                 // throw $th;
+                DB::rollback();
                 return redirect('/delivery/preparation')->with("fail","Failed Update! [105]" );
             }
             
@@ -173,15 +222,16 @@ class DeliveryPreparationController extends Controller
     {
         
         $validator =  Validator::make($request->all(),[
-            'date_delivery' =>['required'],
+            // 'date_delivery' =>['required'],
             'customer_pickup_id' =>['required'],
             'cycle' => ['required','regex:/^[0-9.-]/'],
             'cycle_time_preparation' => ['required','regex:/^[0-9.-]/'],
             'help_column' => ['required'],
-            'time_pickup' => ['required'],
+            'plan_time_preparation' => ['required'],
             'time_hour' => ['required'],
             'shift' => ['required'],
             'pic' => ['required'],
+            'plan_date_preparation' => ['required'],
         ]);
 
 
@@ -189,6 +239,10 @@ class DeliveryPreparationController extends Controller
             return back()->withInput()->withErrors($validator);
         }else{
             DB::beginTransaction();
+
+            // convert time am/pm ke 24 ours
+            $plan_date_preparation = date("Y-m-d ", strtotime($request->plan_date_preparation));
+            $request->merge(['plan_date_preparation' => $plan_date_preparation]);
 
             try {
                 PreparationDelivery::create($request->all());
@@ -218,7 +272,7 @@ class DeliveryPreparationController extends Controller
     {
 
         try {
-            $data = DeliveryPickupCustomer::where('help_column', $request->help_column)->first();
+            $data = DeliveryPrepareCustomer::where('help_column', $request->help_column)->first();
             return $data ;
         } catch (\Throwable $th) {
             return '404';
@@ -237,7 +291,8 @@ class DeliveryPreparationController extends Controller
             $data->start_by = $npk;
             $data->status = 1;
             $data->save();
-            $message = 'Preparation '.$data->help_column.' untuk delivery date '.date('d-m-Y', strtotime($data->date_delivery)).' dan pickup time '.$data->time_pickup.'  Started'.' by NPK:'.$npk;
+            $message = ' <b>Preparation</b> :'.$data->help_column.''.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($data->plan_date_preparation)).''.chr(10).'<b>Plan Preparation time</b> :'.$data->plan_time_preparation.''.chr(10).'<b>Started '.' by</b>: NPK'.$npk;
+
             $this->sendTelegram('-690929411',$message );
             return redirect('/delivery/preparation/member')->with('success', 'Preparation '.$data->help_column.'Started!');
         } catch (\Throwable $th) {
@@ -253,13 +308,30 @@ class DeliveryPreparationController extends Controller
         $now =date("Y-m-d H:i:s");
         
         try {
-            //code...
+            //cek status actual vs plan
+            $status_name='';
+            if ($now < date("Y-m-d H:i:s", strtotime($data->plan_date_preparation." ".$data->plan_time_preparation . '-20 minutes'))) {
+                # advance
+                $data->status = 3;
+                $status_name='advanced';
+
+            } elseif($now >= date("Y-m-d H:i:s", strtotime($data->plan_date_preparation." ".$data->plan_time_preparation . '-20 minutes')) && $now <= date("Y-m-d H:i:s", strtotime($data->plan_date_preparation." ".$data->plan_time_preparation )) ) {
+                # ontime
+                $data->status = 4;
+                $status_name='ontime';
+                
+            }else {
+                # delay
+                $data->status = 5;
+                $status_name='delayed';
+                
+            }
+
             $data->end_preparation = $now;
             $data->end_by = $npk;
-            $data->status = 3;
             $data->time_preparation =  abs(strtotime ( $data->start_preparation ) - strtotime ( $now))/(60);
             $data->save();
-            $message = 'Preparation '.$data->help_column.' untuk delivery date '.date('d-m-Y', strtotime($data->date_delivery)).' dan pickup time '.$data->time_pickup.'  Finished'.' by NPK:'.$npk;
+            $message = '<b>Preparation</b> : '.$data->help_column.' '.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($data->plan_date_preparation)).' '.chr(10).'<b>Plan Preparation Time </b> :'.$data->plan_time_preparation.' '.chr(10).'<b>Finished By </b>:'.' NPK'.$npk.chr(10).'<b>Status</b>:'.$status_name;
             $this->sendTelegram('-690929411',$message );
             return redirect('/delivery/preparation/member')->with('success', 'Preparation '.$data->help_column.' Finished!');
         } catch (\Throwable $th) {
@@ -273,16 +345,24 @@ class DeliveryPreparationController extends Controller
     public function sendTelegram($chat_id, $text)
     {
         $token ='1488492213:AAFkw2dzki-No0W5tuu8JjAwm0mvg__98BU';
-        $url = 'https://api.telegram.org/bot'.$token.'/sendMessage?chat_id='.$chat_id.'&text='.$text;
+        // ddd($text);
+        // $text = urlencode($text);
+        $params=[
+            'parse_mode'=>'html',
+            'chat_id'=>$chat_id, 
+            'text'=>$text,
+        ];
+        // $url = 'https://api.telegram.org/bot'.$token.'/sendMessage/';
+        file_get_contents('https://api.telegram.org/bot'.$token.'/sendMessage?'.http_build_query($params));
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_POST, 0);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, ($params));
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $response = curl_exec ($ch);
-        $err = curl_error($ch); 
-        curl_close ($ch);
+        // $response = curl_exec ($ch);
+        // $err = curl_error($ch); 
+        // curl_close ($ch);
     }
 
     public function export(Request $request) 

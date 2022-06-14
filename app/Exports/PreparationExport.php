@@ -49,7 +49,7 @@ class PreparationExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ["id", "customer", "cycle","cycle time","help column","time pickup","shift","pic","time hour","date preparation","date delivery","start preparation","end preparation","status","start by","end by", "time preparation", "created at", "update at"] ;								
+        return ["id", "customer", "cycle","cycle time","help column","plan time preparation","shift","pic","time hour","date preparation","plan date preparation","date delivery","start preparation","end preparation","status","start by","end by", "time preparation", "created at", "update at"] ;								
     }
 
 }

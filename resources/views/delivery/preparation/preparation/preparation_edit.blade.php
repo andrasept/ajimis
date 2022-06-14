@@ -20,10 +20,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Delivery Date</label> 
+                            <label>Preparation Plan Date</label> 
                             <input type="hidden" name="id" value="{{$data->id}}">
-                            <input type="date" placeholder="delivery date" name="date_delivery" class="form-control @error('date_delivery') is-invalid @enderror" value="{{explode(" ",$data->date_delivery)[0]}}">
-                            @error('date_delivery') 
+                            <input type="date" placeholder="delivery plan date" name="plan_date_preparation" class="form-control @error('plan_date_preparation') is-invalid @enderror" value="{{$data->plan_date_preparation}}">
+                            @error('plan_date_preparation') 
+                                <div class="text-danger">
+                                    {{$message}}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="">preparation Plan Time</label>
+                            <div class="input-group clockpicker" data-autoclose="true">
+                                <input type="text" name="plan_time_preparation" autocomplete="off" class="form-control" value="{{$data->plan_time_preparation}}" >
+                                <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                            @error('plan_time_preparation') 
                                 <div class="text-danger">
                                     {{$message}}
                                 </div>

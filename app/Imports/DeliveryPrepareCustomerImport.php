@@ -2,11 +2,11 @@
 
 namespace App\Imports;
 
-use App\Models\DeliveryPickupCustomer;
+use App\Models\DeliveryPrepareCustomer;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class DeliveryPickupCustomerImport implements ToModel, WithHeadingRow
+class DeliveryPrepareCustomerImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
@@ -15,12 +15,13 @@ class DeliveryPickupCustomerImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        return new DeliveryPickupCustomer([
+        return new DeliveryPrepareCustomer([
             'customer_pickup_code' => $row['customer_pickup_code'],
             'cycle' => $row['cycle'],
             'cycle_time_preparation' => $row['ct'],
             'help_column' => $row['help_column'],
             'time_pickup' => $row['time_pickup'],
+            'vendor' => $row['vendor'],
         ]);
     }
 }

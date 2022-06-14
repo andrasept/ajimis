@@ -1,9 +1,13 @@
 @extends('layouts.app-master')
  
 @section('title', 'AJI PORTAL | EDIT USER')
- 
- 
+
+
+
 @section('content')
+<link href="{{asset('css/plugins/select2/select2.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/plugins/clockpicker/clockpicker.css')}}" rel="stylesheet">
+
     <div class="ibox " >
         <div class="ibox-title">
             <h4>Add Preparation</h4>
@@ -18,7 +22,7 @@
                 {{method_field("PUT")}}
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Delivery Date</label> 
                             <input type="date" placeholder="delivery date" name="date_delivery" class="form-control @error('date_delivery') is-invalid @enderror" value="">
                             @error('date_delivery') 
@@ -26,10 +30,28 @@
                                     {{$message}}
                                 </div>
                             @enderror
+                        </div> --}}
+                        <div class="form-group">
+                            <label>Preparation Plan Date</label> 
+                            <input type="date" placeholder="delivery plan date" name="plan_date_preparation" class="form-control @error('plan_date_preparation') is-invalid @enderror" value="">
+                            @error('plan_date_preparation') 
+                                <div class="text-danger">
+                                    {{$message}}
+                                </div>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <label>Help Column</label> 
-                            <select name="help_column" id="help_column" class="form-control">
+                            <label for="">preparation Plan Time</label>
+                            <div class="input-group clockpicker" data-autoclose="true">
+                                <input type="text" name="plan_time_preparation" autocomplete="off" class="form-control" value="" >
+                                <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Help Column</label> <br>
+                            <select name="help_column" id="help_column" style="width:100%" class="select2_help_column form-control">
                                 <option value="-">-</option>
                                 @foreach ($customers as $column)
                                     <option value="{{$column->help_column}}" >{{$column->help_column}}</option>
@@ -79,7 +101,7 @@
                                 </div>
                             @enderror
                         </div> --}}
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label>Time Pickup</label> 
                             <input type="time" placeholder="cycle time" id="time_pickup" name="time_pickup" class="form-control @error('time_pickup') is-invalid @enderror" value="" readonly>
                             @error('time_pickup') 
@@ -87,7 +109,7 @@
                                     {{$message}}
                                 </div>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label>Time Hour</label> 
                             <input type="number" placeholder="cycle time" id="time_hour" name="time_hour" class="form-control @error('time_hour') is-invalid @enderror" value="" readonly>
@@ -134,7 +156,13 @@
 @endsection
 
 @push('scripts')
+<script src="{{asset('js/plugins/select2/select2.full.min.js')}}"></script>
+<script src="{{asset('js/plugins/clockpicker/clockpicker.js')}}"></script>
 <script>
+
+    $(".select2_help_column").select2();
+    // clockpicker
+    $('.clockpicker').clockpicker();
     // mini nav bar
         $("body").addClass("body-small mini-navbar");
     // huruf kecil table
@@ -192,6 +220,8 @@
                 }
         }});
     });
+
+    
 </script>
 @endpush
 

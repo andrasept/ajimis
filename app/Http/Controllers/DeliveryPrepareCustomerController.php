@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\DeliveryPickupCustomer;
+use App\Models\DeliveryPrepareCustomer;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-use App\Imports\DeliveryPickupCustomerImport;
+use App\Imports\DeliveryPrepareCustomerImport;
 
-class DeliveryPickupCustomerController extends Controller
+class DeliveryPrepareCustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class DeliveryPickupCustomerController extends Controller
     {
         if ($request->ajax()) {
     
-            $query = DeliveryPickupCustomer::all();
+            $query = DeliveryPrepareCustomer::all();
             
 
             return DataTables::of($query)->toJson();
@@ -51,7 +51,7 @@ class DeliveryPickupCustomerController extends Controller
          // untuk import excel 
          if ($request->hasFile('file')) {
 
-            $data = Excel::toArray(new DeliveryPickupCustomerImport, request()->file('file'));
+            $data = Excel::toArray(new DeliveryPrepareCustomerImport, request()->file('file'));
 
             // dd($data);
 
@@ -60,7 +60,8 @@ class DeliveryPickupCustomerController extends Controller
                 '*.cycle' => ['required','regex:/^[0-9.-]/'],
                 '*.cycle_time_preparation' => ['required','regex:/^[0-9.-]/'],
                 '*.help_column' => ['required'],
-                '*.time_pickup' => ['required']
+                '*.time_pickup' => ['required'],
+                '*.vendor' => ['required']
             ]);
             if ($validator->fails()) {
 
@@ -80,7 +81,7 @@ class DeliveryPickupCustomerController extends Controller
                 try {
                     $proses = collect(head($data))->each(function ($row, $key) {
 
-                            DeliveryPickupCustomer::updateOrCreate(
+                            DeliveryPrepareCustomer::updateOrCreate(
                                 ['help_column' => $row['help_column']],
                                 [
                                     'customer_pickup_code' => $row['customer_pickup_code'],
@@ -88,6 +89,7 @@ class DeliveryPickupCustomerController extends Controller
                                     'cycle_time_preparation' => $row['cycle_time_preparation'],
                                     'help_column' => $row['help_column'],
                                     'time_pickup' => $row['time_pickup'],
+                                    'vendor' => $row['vendor'],
                                 ]
                             );
                             
@@ -110,10 +112,10 @@ class DeliveryPickupCustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\DeliveryPickupCustomer  $deliveryPickupCustomer
+     * @param  \App\Models\DeliveryPrepareCustomer  $DeliveryPrepareCustomer
      * @return \Illuminate\Http\Response
      */
-    public function show(DeliveryPickupCustomer $deliveryPickupCustomer)
+    public function show(DeliveryPrepareCustomer $DeliveryPrepareCustomer)
     {
         //
     }
@@ -121,12 +123,12 @@ class DeliveryPickupCustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\DeliveryPickupCustomer  $deliveryPickupCustomer
+     * @param  \App\Models\DeliveryPrepareCustomer  $DeliveryPrepareCustomer
      * @return \Illuminate\Http\Response
      */
-    public function edit(DeliveryPickupCustomer $deliveryPickupCustomer, $id)
+    public function edit(DeliveryPrepareCustomer $DeliveryPrepareCustomer, $id)
     {
-        $data = DeliveryPickupCustomer::findOrFail($id);
+        $data = DeliveryPrepareCustomer::findOrFail($id);
         return view("delivery.preparation.pickupcustomer.pickupcustomer_edit", compact('data'));
     }
 
@@ -134,10 +136,10 @@ class DeliveryPickupCustomerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DeliveryPickupCustomer  $deliveryPickupCustomer
+     * @param  \App\Models\DeliveryPrepareCustomer  $DeliveryPrepareCustomer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DeliveryPickupCustomer $deliveryPickupCustomer)
+    public function update(Request $request, DeliveryPrepareCustomer $DeliveryPrepareCustomer)
     {
         $validator =  Validator::make($request->all(),[
             'customer_pickup_code' =>['required'],
@@ -150,7 +152,7 @@ class DeliveryPickupCustomerController extends Controller
         if ($validator->fails()) {
             return back()->withInput()->withErrors($validator);
         }else{
-            $selection = DeliveryPickupCustomer::find($request->id);
+            $selection = DeliveryPrepareCustomer::find($request->id);
             try {
                 $selection->update($request->all());
             } catch (\Throwable $th) {
@@ -164,13 +166,13 @@ class DeliveryPickupCustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\DeliveryPickupCustomer  $deliveryPickupCustomer
+     * @param  \App\Models\DeliveryPrepareCustomer  $DeliveryPrepareCustomer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeliveryPickupCustomer $deliveryPickupCustomer, $id)
+    public function destroy(DeliveryPrepareCustomer $DeliveryPrepareCustomer, $id)
     {
         try {
-            $data = DeliveryPickupCustomer::findOrFail($id);
+            $data = DeliveryPrepareCustomer::findOrFail($id);
             $data->delete();
 
             return redirect('/delivery/pickupcustomer')->with("success","Data Customer Pickup ".$data->customer_pickup_code." Deleted!" );
@@ -187,7 +189,7 @@ class DeliveryPickupCustomerController extends Controller
             'cycle' => ['required','regex:/^[0-9.-]/'],
             'cycle_time_preparation' => ['required','regex:/^[0-9.-]/'],
             'help_column' => ['required','unique:delivery_pickup_customer'],
-            'time_pickup' => ['required']
+            'time_pickup' => ['required'],
         ]);
 
 
@@ -197,13 +199,14 @@ class DeliveryPickupCustomerController extends Controller
             DB::beginTransaction();
 
             try {
-                DeliveryPickupCustomer::create($request->all());
+                DeliveryPrepareCustomer::create($request->all());
                 DB::commit();
 
                 return redirect('/delivery/pickupcustomer')->with('success', 'Data Customer Pickup '.$request->customer_pickup_code.' Added!');
             } catch (\Throwable $th) {
-                DB::rollback();
-                return redirect('/delivery/pickupcustomer')->with('fail', "Add Data Customer Pickup Failed! [105]");
+                return $th;
+                // DB::rollback();
+                // return redirect('/delivery/pickupcustomer')->with('fail', "Add Data Customer Pickup Failed! [105]");
             }
         }
     }

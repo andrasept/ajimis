@@ -15,7 +15,7 @@
 
 <div class="ibox" >
   <div class="ibox-title">
-      <h4>Data Customer Pickup</h4>
+      <h4>Reference Data</h4>
   </div>
   <div class="ibox-content" >
     <h5>Import Data</h5>
@@ -54,6 +54,7 @@
             <th class="text-center">Cycle Time</th>
             <th class="text-center">Help Column</th>
             <th class="text-center">Time Pickup</th>
+            <th class="text-center">Vendor</th>
           </tr>
         </thead>
         <tbody>
@@ -109,7 +110,7 @@
           // check input
           $('.custom-file-input').on('change', function() {
             let fileName = $(this).val().split('\\').pop();
-            var ext = fileName.split('.')[1];
+            var ext = fileName.split('.').pop();
             if (ext == "xlsx" || ext == "xls"|| ext == "csv" ) {
               $(this).next('.custom-file-label').addClass("selected").html(fileName);
             } else {
@@ -155,6 +156,7 @@
                   { data: "cycle_time_preparation", className: 'dt-body-center'},
                   { data: "help_column", className: 'dt-body-center'},
                   { data: "time_pickup", className: 'dt-body-center'},
+                  { data: "vendor", className: 'dt-body-center'},
                 ],
               "columnDefs": [ {
                   "searchable": true,

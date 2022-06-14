@@ -115,6 +115,7 @@ class CreatePartsTable extends Migration
             $table->integer('cycle');
             $table->integer('cycle_time_preparation');
             $table->string('help_column');
+            $table->string('vendor')->nullable();
             $table->time('time_pickup');
             $table->timestamps();
         });
@@ -125,18 +126,33 @@ class CreatePartsTable extends Migration
             $table->integer('cycle');
             $table->integer('cycle_time_preparation');
             $table->string('help_column');
-            $table->time('time_pickup');
+            $table->time('plan_time_preparation');
             $table->string('shift');
             $table->string('pic');
             $table->float('time_hour');
+            $table->date('plan_date_preparation');
             $table->dateTime('date_preparation')->nullable();
-            $table->dateTime('date_delivery');
+            $table->dateTime('date_delivery')->nullable();
             $table->dateTime('start_preparation')->nullable();
             $table->dateTime('end_preparation')->nullable();
             $table->integer('status')->nullable();
             $table->string('start_by')->nullable();
             $table->string('end_by')->nullable();
             $table->string('time_preparation')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('delivery_delivery', function (Blueprint $table) {
+            $table->id();
+            $table->string('customer_pickup_id');
+            $table->integer('cycle');
+            $table->dateTime('arrival_plan');
+            $table->dateTime('arrival_actual')->nullable();
+            $table->string('arrival_status')->nullable();
+            $table->dateTime('departure_plan');
+            $table->dateTime('departure_actual')->nullable();
+            $table->string('departure_status')->nullable();
+            $table->string('vendor');
             $table->timestamps();
         });
 
@@ -175,5 +191,6 @@ class CreatePartsTable extends Migration
         Schema::dropIfExists('delivery_matrix_skills');
         Schema::dropIfExists('delivery_pickup_customer');
         Schema::dropIfExists('delivery_preparation');
+        Schema::dropIfExists('delivery_delivery');
     }
 }

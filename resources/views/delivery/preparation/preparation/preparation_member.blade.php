@@ -45,10 +45,11 @@
             <th class="text-center">Customer</th>
             <th class="text-center">Cycle</th>
             <th class="text-center">Cycle Time</th>
-            <th class="text-center">Time Pickup</th>
-            <th class="text-center">Date preparation</th>
+            <th class="text-center">plan_time_preparation</th>
+            <th class="text-center">Plan Date preparation</th>
             <th class="text-center">Start Preparation</th>
             <th class="text-center">End Preparation</th>
+            <th class="text-center">Date preparation</th>
             <th class="text-center">PIC</th>
             <th class="text-center">Shift</th>
             <th class="text-center">Time Hour</th>
@@ -185,8 +186,8 @@
                   { data: "help_column", className: 'dt-body-center'},
                   { data: "cycle", className: 'dt-body-center'},
                   { data: "cycle_time_preparation", className: 'dt-body-center'},
-                  { data: "time_pickup", className: 'dt-body-center'},
-                  { data: "date_preparation", className: 'dt-body-center',
+                  { data: "plan_time_preparation", className: 'dt-body-center'},
+                  { data: "plan_date_preparation", className: 'dt-body-center',
                       "render" :function(data,type, row)
                       {
                         if (data === null) {
@@ -216,6 +217,16 @@
                           }
                         }
                   },
+                  { data: "date_preparation", className: 'dt-body-center',
+                      "render" :function(data,type, row)
+                      {
+                        if (data === null) {
+                          return '';
+                        } else {
+                          return moment(data).format('DD/MM/YYYY');
+                        }
+                      }
+                  },
                   { data: "pic", className: 'dt-body-center'},
                   { data: "shift", className: 'dt-body-center'},
                   { data: "time_hour", className: 'dt-body-center'},
@@ -238,14 +249,14 @@
                     {
                         return Number(data).toFixed(2).toString()+ " minutes";
                     }
-                },
+                  },
                 ],
               "columnDefs": [ {
                   "searchable": true,
                   "orderable": true,
                   "targets": 0
               } ],
-              "order": [[ 1, 'desc' ],[ 2, 'asc' ],[7, 'asc']]
+              "order": [[ 1, 'desc' ],[ 2, 'asc' ],[6, 'asc']]
           } );
 
           // number
