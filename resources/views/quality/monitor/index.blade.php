@@ -12,116 +12,6 @@
 
 @include('layouts.partials.messages')
 
-<div class="row wrapper-content" style="padding-bottom: 0px; margin-bottom: -20px;">	
-	<div class="col-lg-12">
-		<div class="ibox ">
-			<div class="ibox-title">
-				<h5>Member Info and Part</small></h5>
-				<div class="ibox-tools">
-					<a class="collapse-link">
-						<i class="fa fa-chevron-up"></i>
-					</a>
-				</div>
-			</div>
-
-			<div class="ibox-content">
-				<form method="POST" action="{{ route('quality.monitor.store') }}">
-					@csrf
-
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Name</label>
-                        <div class="col-sm-10"><p class="form-control-static">{{auth()->user()->name}}</p></div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-
-                    <div class="form-group row">
-						<label class="col-sm-2 col-form-label">Date</label>
-                        <div class="col-sm-10"><input type="text" name="datetime" class="form-control" value="{{now()}}" required readonly></div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-
-                    <div class="form-group row">
-						<label class="col-sm-2 col-form-label">Document Number</label>
-						<div class="col-sm-10"><input type="text" name="doc_number" class="form-control" value="AJI/QA/{{$randomNumber}}" required readonly></div>
-                    </div>
-                    <div class="hr-line-dashed"></div>
-
-                    <div class="form-group row">
-						<label class="col-sm-2 col-form-label">Area</label>
-						<div class="col-sm-10">
-							<select class="form-control m-b select2_demo_1" name="quality_area_id" required>
-								<option value="" selected>-- Select Area --</option>
-								@foreach ($q_areas as $key => $q_area)
-								<option value="{{$q_area->id}}">{{$q_area->name}}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Process</label>
-						<div class="col-sm-10">
-							<select class="form-control m-b select2_demo_1" name="quality_process_id" required>
-								<option value="" selected>-- Select Area --</option>
-								@foreach ($q_processes as $key => $q_process)
-								<option value="{{$q_process->id}}">{{$q_process->name}}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Model</label>
-						<div class="col-sm-10">
-							<select class="form-control m-b select2_demo_1" name="quality_model_id" required>
-								<option value="" selected>-- Select Model --</option>
-								@foreach ($q_models as $key => $q_model)
-								<option value="{{$q_model->id}}">{{$q_model->name}}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Part</label>
-						<div class="col-sm-10">
-							<select class="form-control m-b select2_demo_1" name="quality_part_id" required>
-								<option value="" selected>-- Select Part --</option>
-								@foreach ($q_parts as $key => $q_part)
-								<option value="{{$q_part->id}}">{{$q_part->name}}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Checksheet</label>
-						<div class="col-sm-10">
-							<select class="form-control m-b select2_demo_1" name="quality_cs" required>
-								<option value="" selected>-- Choose Checksheet --</option>
-								<option value="1">Quality Time</option>
-								<option value="2">Accuracy</option>
-							</select>
-						</div>
-					</div>
-					<div class="hr-line-dashed"></div>
-
-					<div class="form-group row">
-						<div class="col-sm-10 col-sm-offset-2">
-							<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.part.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;
-							<button class="btn btn-primary btn-sm" type="submit">Submit</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
 		<div class="col-lg-12">
@@ -132,7 +22,11 @@
 					</div>
 				</div>
 				<div class="ibox-content">
-
+					<div class="row">
+						<div class="col-sm-10">
+							<a alt="add" href="{{ route('quality.monitor.create')}}" class="btn btn-success "><i class="fa fa-plus"> </i><span class="bold"> &nbsp; Add Monitoring</span> </a><br/><br/>
+						</div>						
+					</div>
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered table-hover dataTables-example" >
 							<thead>
@@ -266,7 +160,7 @@
 									</td>
 									<td>{{$q_monitor->created_at}}</td>
 									<td>
-										<a alt="edit" href="{{ route('quality.monitor.edit',$q_monitor->id)}}" class="btn btn-info "><i class="fa fa-paste"> Edit</i> </a>&nbsp;&nbsp;&nbsp;
+										<a alt="edit" href="{{ route('quality.monitor.edit',$q_monitor->id)}}" class="btn btn-info "><i class="fa fa-paste"></i><span class="bold"> Edit</span> </a>&nbsp;&nbsp;&nbsp;
 										{!! Form::open(['method' => 'DELETE','route' => ['quality.monitor.destroy', $q_monitor->id],'style'=>'display:inline']) !!}
 										{{Form::button('<i class="fa fa-trash"></i>', ['type' =>'submit', 'alt' => 'delete', 'class' => 'btn btn-danger ', 'onclick' => 'return confirm("Are you sure want to delete? All its relation will be deleted too")'])}}
 										{!! Form::close() !!}
@@ -286,13 +180,18 @@
 @endsection
 
 @push('scripts')
+<!-- data tables -->
 <script src="{{asset('js/plugins/dataTables/datatables.min.js')}}"></script>
 <script src="{{asset('js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
 <script>
 	$(document).ready(function(){
 		$('.dataTables-example').DataTable({
+			rowReorder: {
+	            selector: 'td:nth-child(2)'
+	        },
 			pageLength: 25,
 			responsive: true,
+			// dom: '<"top"i>rt<"bottom"flp><"clear">',
 			dom: '<"html5buttons"B>lTfgitp',
 			buttons: [
 				// {extend: 'copy'},
@@ -313,7 +212,9 @@
 		});
 	});
 </script>
-
+<!-- data tables responsive -->
+<script src="{{asset('js/dataTables.rowReorder.min.js')}}"></script>
+<script src="{{asset('js/dataTables.responsive.min.js')}}"></script>
 
 <!-- iCheck -->
 <script src="{{asset('js/plugins/iCheck/icheck.min.js')}}"></script>
@@ -353,4 +254,7 @@
 <link href="{{asset('css/plugins/steps/jquery.steps.css')}}" rel="stylesheet">
 <!-- jquery animate -->
 <link href="{{asset('css/animate.css')}}" rel="stylesheet">
+<!-- data tables responsive -->
+<link href="{{asset('css/responsive.dataTables.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/rowReorder.dataTables.min.css')}}" rel="stylesheet">
 @endpush

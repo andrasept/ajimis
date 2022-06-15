@@ -61,7 +61,23 @@ class QualityMonitorController extends Controller
      */
     public function create()
     {
-        return view('quality.monitor.create');
+        // dependent dropdown
+        $qualityMonitors = QualityMonitor::with(['qualityArea', 'qualityProcess', 'qualityModel', 'qualityPart']);
+        // return view('quality.monitor.index', [
+        //     'qualityMonitors' => $qualityMonitors->get(),
+        // ]);
+        $qualityMonitors = $qualityMonitors->get();
+
+        $q_parts = QualityPart::all();
+        $q_models = QualityModel::all();
+        $q_processes = QualityProcess::all();
+        $q_areas = QualityArea::all();
+        $q_monitors = QualityMonitor::all();
+
+        // doc number
+        $randomNumber = $this->generateDocNumber();
+
+        return view('quality.monitor.create', compact('q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors'));
     }
 
     /**
