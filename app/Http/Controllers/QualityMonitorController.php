@@ -51,6 +51,8 @@ class QualityMonitorController extends Controller
         // doc number
         $randomNumber = $this->generateDocNumber();
 
+        
+
         return view('quality.monitor.index', compact('q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors'));
     }
 

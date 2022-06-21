@@ -108,7 +108,7 @@
 
 						<div class="form-group row">
 							<div class="col-sm-10 col-sm-offset-2">
-								<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.part.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;
+								<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.monitor.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;
 								<button class="btn btn-primary btn-sm" type="submit">Submit</button>
 							</div>
 						</div>

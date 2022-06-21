@@ -14,7 +14,7 @@ class CreateQualityPartsTable extends Migration
     public function up()
     {
         Schema::create('quality_parts', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->integer('quality_model_id');
             $table->string('name', 100);
             $table->string('description', 320);

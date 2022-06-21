@@ -40,7 +40,7 @@
 									<th>Model</th>
 									<th>Part</th>
 									<th>Created at</th>
-									<th>Action</th>
+									<!-- <th>Action</th> -->
 								</tr>
 							</thead>
 							<tbody>
@@ -48,7 +48,9 @@
 								<tr class="gradeA">
 									<td>
 										<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal5"><i class="fa fa-list"></i></button>
-										<button class="btn btn-success btn-circle" type="button"><i class="fa fa-plus"></i></button>
+
+										<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
+
                                 		<div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">
 			                                <div class="modal-dialog modal-lg">
 			                                    <div class="modal-content">
@@ -159,12 +161,14 @@
 										@endforeach
 									</td>
 									<td>{{$q_monitor->created_at}}</td>
+									<!--
 									<td>
 										<a alt="edit" href="{{ route('quality.monitor.edit',$q_monitor->id)}}" class="btn btn-info "><i class="fa fa-paste"></i><span class="bold"> Edit</span> </a>&nbsp;&nbsp;&nbsp;
 										{!! Form::open(['method' => 'DELETE','route' => ['quality.monitor.destroy', $q_monitor->id],'style'=>'display:inline']) !!}
 										{{Form::button('<i class="fa fa-trash"></i>', ['type' =>'submit', 'alt' => 'delete', 'class' => 'btn btn-danger ', 'onclick' => 'return confirm("Are you sure want to delete? All its relation will be deleted too")'])}}
 										{!! Form::close() !!}
 									</td>
+									-->	
 								</tr>
 								@endforeach										
 							</tbody>

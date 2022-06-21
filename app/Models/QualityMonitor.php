@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class QualityMonitor extends Model
 {
-    use HasFactory;
-
     use HasFactory, SoftDeletes;
 
     protected $table = 'quality_monitors';

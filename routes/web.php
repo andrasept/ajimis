@@ -239,6 +239,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::patch('/monitor/{post}/update', 'QualityMonitorController@update')->name('quality.monitor.update');
             Route::delete('/monitor/{post}/delete', 'QualityMonitorController@destroy')->name('quality.monitor.destroy');
 
+            Route::get('/csqtime/', 'QualityCsQtimeController@index')->name('quality.csqtime.index');
+            Route::get('/csqtime/create/{post}', 'QualityCsQtimeController@create')->name('quality.csqtime.create');
+            Route::post('/csqtime/create', 'QualityCsQtimeController@store')->name('quality.csqtime.store');
+            Route::get('/csqtime/{post}/show', 'QualityCsQtimeController@show')->name('quality.csqtime.show');
+            Route::get('/csqtime/{post}/edit', 'QualityCsQtimeController@edit')->name('quality.csqtime.edit');
+            Route::patch('/csqtime/{post}/update', 'QualityCsQtimeController@update')->name('quality.csqtime.update');
+            Route::delete('/csqtime/{post}/delete', 'QualityCsQtimeController@destroy')->name('quality.csqtime.destroy');
+
 
           });
           
