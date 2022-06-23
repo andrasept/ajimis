@@ -140,30 +140,35 @@ class QualityCsQtimeController extends Controller
         $q_cs_qtimes->marking_garansi_function = $request->input('marking_garansi_function');
         $q_cs_qtimes->marking_identification = $request->input('marking_identification');
 
-        $q_cs_qtimes->housing = $request->input('housing');
-        $q_cs_qtimes->lens = $request->input('lens');
-        $q_cs_qtimes->extension = $request->input('extension');
-        $q_cs_qtimes->reflector_1 = $request->input('reflector_1');
-        $q_cs_qtimes->reflector_2 = $request->input('reflector_2');
-        $q_cs_qtimes->ldm = $request->input('ldm');
-        $q_cs_qtimes->wire_harness_2 = $request->input('wire_harness_2');
-        $q_cs_qtimes->wire_harness_3 = $request->input('wire_harness_3');
-        $q_cs_qtimes->wire_harness_4 = $request->input('wire_harness_4');
-        $q_cs_qtimes->wire_harness_5 = $request->input('wire_harness_5');
-        $q_cs_qtimes->pcb_assy_2 = $request->input('pcb_assy_2');
-        $q_cs_qtimes->pcb_assy_3 = $request->input('pcb_assy_3');
-        $q_cs_qtimes->gore_tag = $request->input('gore_tag');
-        $q_cs_qtimes->tapping_screw = $request->input('tapping_screw');
-        $q_cs_qtimes->tapping_screw_assy = $request->input('tapping_screw_assy');
-        $q_cs_qtimes->screw_pin = $request->input('screw_pin');
-        $q_cs_qtimes->non_woven_tape = $request->input('non_woven_tape');
-        $q_cs_qtimes->vent_cap_assy = $request->input('vent_cap_assy');
+        // Kelengkapan Komponen
+        $q_cs_qtimes->kelengkapan_komponen = $request->input('kelengkapan_komponen');
+        
+        // komponen dihilangkan
+        // $q_cs_qtimes->housing = $request->input('housing');
+        // $q_cs_qtimes->lens = $request->input('lens');
+        // $q_cs_qtimes->extension = $request->input('extension');
+        // $q_cs_qtimes->reflector_1 = $request->input('reflector_1');
+        // $q_cs_qtimes->reflector_2 = $request->input('reflector_2');
+        // $q_cs_qtimes->ldm = $request->input('ldm');
+        // $q_cs_qtimes->wire_harness_2 = $request->input('wire_harness_2');
+        // $q_cs_qtimes->wire_harness_3 = $request->input('wire_harness_3');
+        // $q_cs_qtimes->wire_harness_4 = $request->input('wire_harness_4');
+        // $q_cs_qtimes->wire_harness_5 = $request->input('wire_harness_5');
+        // $q_cs_qtimes->pcb_assy_2 = $request->input('pcb_assy_2');
+        // $q_cs_qtimes->pcb_assy_3 = $request->input('pcb_assy_3');
+        // $q_cs_qtimes->gore_tag = $request->input('gore_tag');
+        // $q_cs_qtimes->tapping_screw = $request->input('tapping_screw');
+        // $q_cs_qtimes->tapping_screw_assy = $request->input('tapping_screw_assy');
+        // $q_cs_qtimes->screw_pin = $request->input('screw_pin');
+        // $q_cs_qtimes->non_woven_tape = $request->input('non_woven_tape');
+        // $q_cs_qtimes->vent_cap_assy = $request->input('vent_cap_assy');
 
-        $q_cs_qtimes->kondisi_jig = $request->input('kondisi_jig');
-        $q_cs_qtimes->kondisi_pokayoke = $request->input('kondisi_pokayoke');
-        $q_cs_qtimes->operator_wi_qpoint = $request->input('operator_wi_qpoint');
-        $q_cs_qtimes->childpart_identitas = $request->input('childpart_identitas');
-        $q_cs_qtimes->kondisi_parameter = $request->input('kondisi_parameter');
+        // Line Process dipindahkan ke fomr checksheet Audit
+        // $q_cs_qtimes->kondisi_jig = $request->input('kondisi_jig');
+        // $q_cs_qtimes->kondisi_pokayoke = $request->input('kondisi_pokayoke');
+        // $q_cs_qtimes->operator_wi_qpoint = $request->input('operator_wi_qpoint');
+        // $q_cs_qtimes->childpart_identitas = $request->input('childpart_identitas');
+        // $q_cs_qtimes->kondisi_parameter = $request->input('kondisi_parameter');
 
         $q_cs_qtimes->created_by = $user_id;
 

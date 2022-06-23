@@ -51,7 +51,7 @@ class QualityMonitorController extends Controller
         // doc number
         $randomNumber = $this->generateDocNumber();
 
-        
+        // LANJUT DI SINI UNTUK MENAMPILKAN DETAIL SETIAP CYCLE DI SATU MONITOR NYA 
 
         return view('quality.monitor.index', compact('q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors'));
     }

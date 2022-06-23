@@ -27,6 +27,8 @@ class CreateQualityCsQtimesTable extends Migration
             $table->tinyInteger('marking_garansi_function');
             $table->tinyInteger('marking_identification');
 
+            $table->tinyInteger('kelengkapan_komponen');
+            
             $table->tinyInteger('housing');
             $table->tinyInteger('lens');
             $table->tinyInteger('extension');
