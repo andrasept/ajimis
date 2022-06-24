@@ -191,11 +191,58 @@ class QualityCsQtimeController extends Controller
         //     $q_cs_qtimes->quality_cs_accuracy = 1;
         // }
 
-        if ($q_cs_qtimes->save()) {
-            // judge di cycle 1 OK jika semua OK, jika ada NG maka NG, jika ada AC maka tunggu dulu sampai approval nya judge ??
-            // apakah harus tambah column destructive_judge_1 utk cycle 1 dan destructive_judge_2 utk cycle 2 
-            // apakah harus disimpan disini, agar bisa query update jika ada yg NG
+        // judge
+        // cek jika ada NG
+        $acng = array(
+            $q_cs_qtimes->destructive_test, 
+            $q_cs_qtimes->appearance_produk, 
+            $q_cs_qtimes->parting_line,
+            $q_cs_qtimes->marking_cek_final,
+            $q_cs_qtimes->marking_garansi_function,
+            $q_cs_qtimes->marking_identification,
+            $q_cs_qtimes->kelengkapan_komponen
+        );
+        if (in_array("3", $acng)) {
+            $q_cs_qtimes->judge = 3;
+        } elseif(in_array("2", $acng)) {
+            $q_cs_qtimes->judge = 2;
+        } elseif(in_array("1", $acng)) {
+            $q_cs_qtimes->judge = 1;
+        } else {
+            $q_cs_qtimes->judge = 0;
+        }
 
+
+        if ($q_cs_qtimes->save()) {
+            // DONE judge di cycle 1 OK jika semua OK, jika ada NG maka NG, jika ada AC maka tunggu dulu sampai approval nya judge ??
+            // DONE apakah harus tambah column destructive_judge_1 utk cycle 1 dan destructive_judge_2 utk cycle 2 
+            // DONE apakah harus disimpan disini, agar bisa query update jika ada yg NG
+
+            if (in_array("3", $acng)) {
+                $q_cs_qtimes->judge = 3;
+                // lanjut notif NG ke Telegram : ada NG di No. Checksheet QTime ABC | Part and Model ABC | Area ABC | Atas Nama Member ABC
+
+                // lanjut Approval NG ke Leader
+                // set cs_status "Waiting Approval" di tabel q_monitors
+
+                // set approval_status berjenjang di tabel q_cs_qtimes, pertama ke Leader dahulu dan atau seterusnya
+                // DB::table('users')->update(['votes' => 1]);
+
+                // setelah approval_status = 6 (selesai), maka kolom judge di tabel cs_qtimes berubah sesuai dengan approver
+                // jud
+
+            } elseif(in_array("2", $acng)) {
+                $q_cs_qtimes->judge = 2;
+                // lanjut notif approval ACceptance ke leader dst
+                // cs status = approval AC ke leader dst
+                // judgment collect dari tiap cycle, lalu update
+            } elseif(in_array("1", $acng)) {
+                $q_cs_qtimes->judge = 1;
+            } else {
+                $q_cs_qtimes->judge = 0;
+            }
+
+            // Kirim notif ke Telegram
 
             return redirect()->route('quality.monitor.index')->withSuccess(__('Monitor created successfully.'));
         }else{

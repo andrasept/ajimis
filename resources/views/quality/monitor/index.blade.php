@@ -110,6 +110,8 @@
 			                                        <div class="modal-footer">
 			                                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 			                                            <button type="button" class="btn btn-primary">Add Cycle</button>
+			                                            &nbsp;&nbsp;&nbsp;
+			                                            <button type="button" class="btn btn-primary">Finish Cycle</button>
 			                                        </div>
 			                                    </div>
 			                                </div>
