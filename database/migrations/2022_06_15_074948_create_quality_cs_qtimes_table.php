@@ -20,15 +20,22 @@ class CreateQualityCsQtimesTable extends Migration
             $table->integer('cycle');
 
             $table->tinyInteger('destructive_test');
+            $table->mediumText('destructive_test_remark');
             $table->tinyInteger('appearance_produk');
+            $table->mediumText('appearance_produk_remark');
             $table->tinyInteger('parting_line');
+            $table->mediumText('parting_line_remark');
 
             $table->tinyInteger('marking_cek_final');
+            $table->mediumText('marking_cek_final_remark');
             $table->tinyInteger('marking_garansi_function');
+            $table->mediumText('marking_garansi_function_remark');
             $table->tinyInteger('marking_identification');
+            $table->mediumText('marking_identification_remark');
 
             $table->tinyInteger('kelengkapan_komponen');
-            
+            $table->mediumText('kelengkapan_komponen_remark');
+
             $table->tinyInteger('housing');
             $table->tinyInteger('lens');
             $table->tinyInteger('extension');

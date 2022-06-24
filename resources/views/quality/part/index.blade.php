@@ -49,7 +49,7 @@
 
 					<div class="hr-line-dashed"></div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">V Position</label>
+						<label class="col-sm-2 col-form-label">Grade</label>
 	                    <div class="col-sm-10">
                             <div class="i-checks"><label> <input type="checkbox" name="low" value="1"> <i></i> Low </label></div>
                             <div class="i-checks"><label> <input type="checkbox" name="mid" value="1"> <i></i> Mid </label></div>

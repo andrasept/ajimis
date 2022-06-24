@@ -133,15 +133,22 @@ class QualityCsQtimeController extends Controller
         $q_cs_qtimes->cycle = $request->input('cycle');
 
         $q_cs_qtimes->destructive_test = $request->input('destructive_test');
+        $q_cs_qtimes->destructive_test_remark = $request->input('destructive_test_remark');
         $q_cs_qtimes->appearance_produk = $request->input('appearance_produk');
+        $q_cs_qtimes->appearance_produk_remark = $request->input('appearance_produk_remark');
         $q_cs_qtimes->parting_line = $request->input('parting_line');
+        $q_cs_qtimes->parting_line_remark = $request->input('parting_line_remark');
 
         $q_cs_qtimes->marking_cek_final = $request->input('marking_cek_final');
+        $q_cs_qtimes->marking_cek_final_remark = $request->input('marking_cek_final_remark');
         $q_cs_qtimes->marking_garansi_function = $request->input('marking_garansi_function');
+        $q_cs_qtimes->marking_garansi_function_remark = $request->input('marking_garansi_function_remark');
         $q_cs_qtimes->marking_identification = $request->input('marking_identification');
+        $q_cs_qtimes->marking_identification_remark = $request->input('marking_identification_remark');
 
         // Kelengkapan Komponen
         $q_cs_qtimes->kelengkapan_komponen = $request->input('kelengkapan_komponen');
+        $q_cs_qtimes->kelengkapan_komponen_remark = $request->input('kelengkapan_komponen_remark');
         
         // komponen dihilangkan
         // $q_cs_qtimes->housing = $request->input('housing');
