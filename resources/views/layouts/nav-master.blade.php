@@ -66,20 +66,21 @@
                         <li><a href="{{route('delivery.master.master_manpower')}}">Man Power </a></li>
                       </ul>
                     </li>
-                    <li><a href="{{route('delivery.pickupcustomer')}}"> Reference Data</a></li>
                     <li class="">
-                      <a href="#" aria-expanded="true">Preparation <span class="fa arrow"></span></a>
+                      <a href="#" aria-expanded="true">Preparation & Delivery<span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
-                        <li><a href="{{route('delivery.preparation.dashboard')}}"> Preparation Status Today</a></li>
-                        <li><a href="{{route('delivery.preparation')}}">Schedule Preparation</a></li>
+                        <li><a href="{{route('delivery.pickupcustomer')}}"> Reference Data</a></li>
+                        {{-- <li><a href="{{route('delivery.preparation.dashboard')}}"> Preparation Status Today</a></li> --}}
+                        <li><a href="{{route('delivery.preparation')}}">Schedule </a></li>
                       </ul>
                     </li>
-                    <li class="">
+                    <li><a href="{{route('delivery.claim.claim')}}">Claim Delivery </a></li>
+                    {{-- <li class="">
                       <a href="#" aria-expanded="true">Delivery <span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.delivery')}}">  Schedule Delivery</a></li>
                       </ul>
-                    </li>
+                    </li> --}}
                   </ul>
                 </li>
                 @endrole

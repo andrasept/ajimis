@@ -132,29 +132,57 @@ class CreatePartsTable extends Migration
             $table->float('time_hour');
             $table->date('plan_date_preparation');
             $table->dateTime('date_preparation')->nullable();
-            $table->dateTime('date_delivery')->nullable();
             $table->dateTime('start_preparation')->nullable();
             $table->dateTime('end_preparation')->nullable();
             $table->integer('status')->nullable();
             $table->string('start_by')->nullable();
             $table->string('end_by')->nullable();
             $table->string('time_preparation')->nullable();
-            $table->timestamps();
-        });
+            $table->string('problem')->nullable();
+            $table->mediumText('remark')->nullable();
 
-        Schema::create('delivery_delivery', function (Blueprint $table) {
-            $table->id();
-            $table->string('customer_pickup_id');
-            $table->integer('cycle');
             $table->dateTime('arrival_plan');
             $table->dateTime('arrival_actual')->nullable();
+            $table->string('arrival_gap')->nullable();
             $table->string('arrival_status')->nullable();
             $table->dateTime('departure_plan');
             $table->dateTime('departure_actual')->nullable();
+            $table->string('departure_gap')->nullable();
             $table->string('departure_status')->nullable();
             $table->string('vendor');
+
             $table->timestamps();
         });
+
+        Schema::create('delivery_claim', function (Blueprint $table) {
+            $table->id();
+            $table->string('customer_pickup_id');
+            $table->date('claim_date');
+            $table->string('problem');
+            $table->string('part_number');
+            $table->string('part_name');
+            $table->string('category');
+            $table->integer('qty');
+            $table->json('evidence');
+            $table->mediumText('corrective_action');
+            $table->timestamps();
+        });
+
+        // Schema::create('delivery_delivery', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('customer_pickup_id');
+        //     $table->integer('cycle');
+        //     $table->dateTime('arrival_plan');
+        //     $table->dateTime('arrival_actual')->nullable();
+        //     $table->string('arrival_gap')->nullable();
+        //     $table->string('arrival_status')->nullable();
+        //     $table->dateTime('departure_plan');
+        //     $table->dateTime('departure_actual')->nullable();
+        //     $table->string('departure_gap')->nullable();
+        //     $table->string('departure_status')->nullable();
+        //     $table->string('vendor');
+        //     $table->timestamps();
+        // });
 
         //relasi table 
         Schema::table('delivery_parts', function($table) {
@@ -191,6 +219,6 @@ class CreatePartsTable extends Migration
         Schema::dropIfExists('delivery_matrix_skills');
         Schema::dropIfExists('delivery_pickup_customer');
         Schema::dropIfExists('delivery_preparation');
-        Schema::dropIfExists('delivery_delivery');
+        Schema::dropIfExists('delivery_claim');
     }
 }

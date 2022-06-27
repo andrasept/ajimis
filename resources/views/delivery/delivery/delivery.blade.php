@@ -9,6 +9,7 @@
 <link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{asset('css\plugins\dataTables\datatables.min.css')}}" rel="stylesheet">
 <link href="{{asset('css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
+<link href="{{asset('css/plugins/select2/select2.min.css')}}" rel="stylesheet">
 
 <div class="ibox" >
   <div class="ibox-title">
@@ -50,6 +51,7 @@
         <label for="">Status Arrival :</label>
         <select name="select_status_arrival" class="form-control" id="select_status_arrival">
             <option value="all">All</option>
+            <option value="-">NOT STARTED</option>
             <option value="3">ADVANCED</option>
             <option value="4">ONTIME</option>
             <option value="5">DELAYED</option>
@@ -60,11 +62,28 @@
         <label for="">Status Departure :</label>
         <select name="select_status_departure" class="form-control" id="select_status_departure">
             <option value="all">All</option>
+            <option value="-">NOT STARTED</option>
             <option value="3">ADVANCED</option>
             <option value="4">ONTIME</option>
             <option value="5">DELAYED</option>
         </select>
       </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-lg-3">
+        <label>Customer :</label> <br>
+        <select name="customer_pickup_code" id="customer_pickup_code" style="width:100%" class="select2_customer_pickup_code form-control">
+            <option value="-">all</option>
+            @foreach ($customers as $column)
+                <option value="{{$column->customer_pickup_code}}" >{{$column->customer_pickup_code}}</option>
+            @endforeach
+        </select>
+        @error('customer_pickup_code') 
+            <div class="text-danger">
+                {{$message}}
+            </div>
+        @enderror
       </div>
     </div>
     <div class="row mb-3">
@@ -84,9 +103,11 @@
             <th class="text-center">Plan Arrival</th>
             <th class="text-center">Actual Arrival</th>
             <th class="text-center">Result Arrival</th>
+            <th class="text-center">Gap Arrival</th>
             <th class="text-center">Plan Departure</th>
             <th class="text-center">Actual Departure</th>
             <th class="text-center">Result Departure</th>
+            <th class="text-center">Gap Departure</th>
             <th class="text-center">Arrival / Departure</th>
           </tr>
         </thead>
@@ -107,11 +128,17 @@
     <script src="{{asset('js/moment.min.js')}}"></script>
     <script src="{{asset('js/dataTables.dateTime.min.js')}}"></script>
     <script src="{{asset('js/plugins/sweetalert/sweetalert.min.js')}}"></script>
+    <script src="{{asset('js/plugins/select2/select2.full.min.js')}}"></script>
+
 
     <script>
 
         $(".ibox").css({fontSize:10, textTransform:'Uppercase'});
         $("button").css({fontSize:9, textTransform:'Uppercase'});
+
+        // select2
+        $(".select2_customer_pickup_code").select2();
+
        // check input
        $('.custom-file-input').on('change', function() {
             let fileName = $(this).val().split('\\').pop();
@@ -144,7 +171,7 @@
                           d.max = $('#max').val();
                           d.status_departure = $('#select_status_departure').val();
                           d.status_arrival = $('#select_status_arrival').val();
-                          // d.help_column = $('#help_column').val();
+                          d.customer_pickup_code = $('#customer_pickup_code').val();
                           // d.partcard = $('#select_partcard').val();
                           // d.line = $('#select_line').val();
                           // d.packaging_code = $('#select_packaging_code').val();
@@ -166,32 +193,34 @@
                   { data: 'arrival_actual', className: 'dt-body-center'},
                   { data: 'arrival_status', className: 'dt-body-center',
                     'render' : function(data, row, type){
-                        if (data == '4') {
-                          return '<label class="label label-primary">On Time</label>';
-                        } else if(data == '3') {
-                          return '<label class="label label-info">Advanced</label>';
-                        } else if(data === null) {
-                          return '';
-                        }else{
-                          return '<label class="label label-danger">Delayed</label>';
-                        }
+                      if (data == '4') {
+                        return '<label class="label label-primary">On Time</label>';
+                      } else if(data == '3') {
+                        return '<label class="label label-info">Advanced</label>';
+                      } else if(data === null) {
+                        return '';
+                      }else{
+                        return '<label class="label label-danger">Delayed</label>';
+                      }
                     }
                   },
+                  { data: 'arrival_gap', className: 'dt-body-center'},
                   { data: 'departure_plan', className: 'dt-body-center'},
                   { data: 'departure_actual', className: 'dt-body-center'},
                   { data: 'departure_status', className: 'dt-body-center',
                     'render' : function(data, row, type){
-                        if (data == '4') {
-                            return '<label class="label label-primary">On Time</label>';
-                          } else if(data == '3') {
-                            return '<label class="label label-info">Advanced</label>';
-                          } else if(data === null) {
-                            return '';
-                          }else{
-                            return '<label class="label label-danger">Delayed</label>';
-                          }
+                      if (data == '4') {
+                        return '<label class="label label-primary">On Time</label>';
+                      } else if(data == '3') {
+                        return '<label class="label label-info">Advanced</label>';
+                      } else if(data === null) {
+                        return '';
+                      }else{
+                        return '<label class="label label-danger">Delayed</label>';
                       }
+                    }
                   },
+                  { data: 'departure_gap', className: 'dt-body-center'},
                   { data: 'departure_status', className: 'dt-body-center', 
                       'render': function(data, type, row){
                       
@@ -264,6 +293,9 @@
           });
           $("#select_status_departure").change(function(){
               table.ajax.reload(null,true)
+          });
+          $("#customer_pickup_code").change(function(){
+                table.ajax.reload(null,true)
           });
 
     </script>

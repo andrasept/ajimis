@@ -5,17 +5,16 @@
  
 @section('content')
 
-
 {{-- datatable library css --}}
 <link href="{{asset('css/dataTables.dateTime.min.css')}}" rel="stylesheet">
 <link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet">
 
 <link href="{{asset('css/css_agil/responsive.dataTables.css')}}" rel="stylesheet">
 
-{{-- datatble template css--}}
-{{-- <link href="{{asset('css\plugins\dataTables\datatables.min.css')}}" rel="stylesheet"> --}}
 <!-- Sweet Alert -->
 <link href="{{asset('css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
+@if ($data_delay->isEmpty() )
+<div id="cek_delay" class="d-none">ada</div>    
 
 <div class="ibox" >
   <div class="ibox-title">
@@ -30,18 +29,13 @@
           <div class="alert alert-danger">{{session('fail')}}</div>
       @endif
     </div>
-    {{-- <div class="row mb-3">
-      <div class="col-lg-12 text-right">
-        <a class="btn btn-primary  m-4 text-center" href="{{route('delivery.preparation.create')}}">Create</a>
-      </div>
-    </div> --}}
       <table id="master" class="table table-bordered">
         <thead>
           <tr>
             <th class="text-center">No</th>
             <th class="text-center">Action</th>
             {{-- <th class="text-center">Help Column</th> --}}
-            <th class="text-center">Date Delivery</th>
+            <th class="text-center">Plan Preparation Date</th>
             <th class="text-center">Customer</th>
             <th class="text-center">Cycle</th>
             <th class="text-center">Cycle Time</th>
@@ -68,6 +62,40 @@
     <button class="btn  btn-default " onClick="history.back()">Back</button>
   </div>
 </div>
+
+@else
+  {{-- {{dd($data_delay);}} --}}
+  @foreach ($data_delay as $item)
+  <div id="id_delay" class="d-none">{{$item->id}}</div>
+  <div id="help_column_delay" class="d-none">{{$item->help_column}}</div>
+  @endforeach 
+
+@endif
+
+{{-- modal --}}
+  <div class="modal inmodal" id="myModal2" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <h4 class="modal-title judul"></h4>
+            </div>
+            <div class="modal-body">
+              <form action="{{route('delivery.preparation.update_delay')}}" method="post">
+                @csrf
+              <input type="hidden" name="id" id="id" value="">
+              <label for="">Problem Identification</label>
+              <input type="text" name="problem" class="form-control" id="problem" required>
+              <label for="">Corrective Action</label>
+              <textarea type="text" name="remark" class="form-control" id="corrective_action" required> </textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Send</button>
+              </form>
+            </div>
+        </div>
+    </div>
+  </div>
+{{-- akhir modal --}}
 @endsection
 
 @push('scripts')
@@ -109,7 +137,20 @@
       );
       
       $(document).ready(function() {
-
+        // muncul pop up ketika ada yg delay belumada alasan
+          if ($("#cek_delay").html() == "ada") {
+          
+          } else {
+            var id_delay = $("#id_delay").html();
+            var help_column_delay = $("#help_column_delay").html();
+            $('#myModal2').modal('show');
+            $('#myModal2').modal({backdrop: 'static', keyboard: false})  
+            // isi id
+            $("#id").val(id_delay);
+            // isi title
+            $(".modal-title").html("Preparation "+help_column_delay+" Delayed");
+          }
+        
           // check input
           $('.custom-file-input').on('change', function() {
             let fileName = $(this).val().split('\\').pop();
@@ -157,23 +198,35 @@
                   // { data: 'id', className: 'dt-body-center'},
                   { data: "status", className: 'dt-body-center',
                       "render": function ( data, type, row ) {
-                          // var id = data.split("-")[0];
-                          // var status = data.split("-")[1];
-                          
-                          
-                          if (data == '1') {
-                            return "<a href='/delivery/preparation/"+row['id']+"/end' class='btn btn-lg btn-danger'>End</a>";
-                          } else if(data === null) {
-                            return "<a href='/delivery/preparation/"+row['id']+"/start' class='btn btn-lg btn-primary'>Start</a>";
-                          }else if(data == '3') {
+                          if (data != '3') {
+                            if (data == null) {
+                              var display_end = 'd-none';
+                              var display_start = 'd-start';
+                            } else {
+                              var display_start = 'd-none';
+                              var display_end = 'd-start';
+                            }
+                            return "<div class='btn-group'><button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-primary start "+display_start+"' id='start_"+row['id']+"'>Start</a><button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-danger "+display_end+" end' id='end_"+row['id']+"'>End</a></div>";
+                            // return "<a href='/delivery/preparation/"+row['id']+"/start' class='btn btn-lg btn-primary'>Start</a>";
+                          }else {
                             return"<label class='label label-info'>Finished</label>";
-                          }else{
-                            return '';
                           }
+
+                          // if (data == '1') {
+                          //   return "<button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-danger end'>End</a>";
+                          //     // return "<a href='/delivery/preparation/"+row['id']+"/end' class='btn btn-lg btn-danger'>End</a>";
+                          //   } else if(data === null) {
+                          //   return "<button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-primary start'>Start</a>";
+                          //   // return "<a href='/delivery/preparation/"+row['id']+"/start' class='btn btn-lg btn-primary'>Start</a>";
+                          // }else if(data == '3') {
+                          //   return"<label class='label label-info'>Finished</label>";
+                          // }else{
+                          //   return '';
+                          // }
                         },
                   },
                   // { data: "help_column", className: 'dt-body-center'},
-                  { data: "date_delivery", className: 'dt-body-center',
+                  { data: "plan_date_preparation", className: 'dt-body-center',
                       "render" :function(data,type, row)
                       {
                         if (data === null) {
@@ -266,6 +319,89 @@
               table.column(0, { search: 'applied', order: 'applied', page: 'applied' }).nodes().each(function (cell, i) {
                   cell.innerHTML = i + 1 + info.start;
               });
+              // start preparation
+              $(".start").click(function(){
+                var id = $(this).attr("data-id");
+                var time = $(this).attr("data-plan-time-preparation");
+                var date = $(this).attr("data-plan-date-preparation");
+                var help_column = $(this).attr("data-help-column");
+                var btn = $(this);
+                $.ajax({
+                          url: "/delivery/preparation/"+id+"/start",
+                          method: "get",
+                          data:{
+                              "_token": "{{ csrf_token() }}",
+                          },
+                          success: function(result){
+                              if (result == '404'  ) {
+                                  alert("failed");
+                              } else {
+                                btn.removeClass("btn-primary").addClass("btn-warning").html("On Progress");
+                                // rubah button
+                                $("#end_"+id).removeClass('d-none');
+                                $("#start_"+id).addClass('d-none');  
+                                 var plan = moment(date+" "+time);
+                                 var now = moment(result );
+                                //  gap ditambah 1/2 menit
+                                 var gap = (plan.diff(now , 'minutes')*60000)+60000; 
+
+                                setTimeout(() => {
+                                  
+                                  // tampil modal
+                                  $('#myModal2').modal('show');
+                                  $('#myModal2').modal({backdrop: 'static', keyboard: false})  
+                                  // isi id
+                                  $("#id").val(id);
+                                  // isi title
+                                  $(".modal-title").html("Preparation "+help_column+" Delayed");
+                                  // update status
+                                  $.ajax({
+                                    url: "/delivery/preparation/"+id+"/end",
+                                    method: "get",
+                                    data:{
+                                        "_token": "{{ csrf_token() }}",
+                                    },
+                                    success:function(){}
+
+                                    });
+                                }, gap);
+                              }
+                      }});
+              });
+              $(".end").click(function(){
+                var id = $(this).attr("data-id");
+                var time = $(this).attr("data-plan-time-preparation");
+                var date = $(this).attr("data-plan-date-preparation");
+                var help_column = $(this).attr("data-help-column");
+                // update status
+                $.ajax({
+                        url: "/delivery/preparation/"+id+"/end",
+                        method: "get",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                        },
+                        success:function(result){
+                          // alert(result);
+                          if (result == "404") {
+                            alert("failed");
+                          } else {
+                            console.log(result);
+                            if (result == "delayed") {
+                               // tampil modal
+                               $('#myModal2').modal('show');
+                                  $('#myModal2').modal({backdrop: 'static', keyboard: false})  
+                                  // isi id
+                                  $("#id").val(id);
+                                  // isi title
+                                  $(".modal-title").html("Preparation "+help_column+" Delayed");
+                            } else {
+                              location.reload(true);
+                            }
+                          }
+                        }
+
+                      });
+              });
           });
 
 
@@ -289,6 +425,7 @@
           $("#select_category").change(function(){
                 table.ajax.reload(null,true)
           });
+         
 
       } );
     </script>
