@@ -22,7 +22,9 @@ class QualityMonitor extends Model
         'quality_model_id',        
         'quality_part_id',        
         'quality_cs_qtime',        
-        'quality_cs_accuracy',        
+        'quality_cs_accuracy',    
+
+        'cs_status',        
 
         'created_by',
         'updated_by'

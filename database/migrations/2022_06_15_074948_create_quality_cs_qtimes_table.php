@@ -67,6 +67,8 @@ class CreateQualityCsQtimesTable extends Migration
 
             $table->tinyInteger('judge');
 
+            $table->tinyInteger('approval_status');
+
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();

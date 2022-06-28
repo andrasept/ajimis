@@ -218,29 +218,71 @@ class QualityCsQtimeController extends Controller
             // DONE apakah harus tambah column destructive_judge_1 utk cycle 1 dan destructive_judge_2 utk cycle 2 
             // DONE apakah harus disimpan disini, agar bisa query update jika ada yg NG
 
+            // last insert id
+            $last_cs_qtime_id = DB::getPdo()->lastInsertId();
+            $last_insert_id = $last_cs_qtime_id;
+
             if (in_array("3", $acng)) {
                 $q_cs_qtimes->judge = 3;
                 // lanjut notif NG ke Telegram : ada NG di No. Checksheet QTime ABC | Part and Model ABC | Area ABC | Atas Nama Member ABC
 
                 // lanjut Approval NG ke Leader
                 // set cs_status "Waiting Approval" di tabel q_monitors
+                $quality_monitor_id = $request->input('quality_monitor_id');
+                DB::table('quality_monitors')->where('id', $quality_monitor_id)->update([
+                    'cs_status' => 1,
+                    'updated_at' => now(),
+                    'updated_by' => $user_id
+                ]);
 
+                // DB::enableQueryLog();
                 // set approval_status berjenjang di tabel q_cs_qtimes, pertama ke Leader dahulu dan atau seterusnya
-                // DB::table('users')->update(['votes' => 1]);
+                // Request approval ke Leader
+                DB::table('quality_cs_qtimes')->where('id', $last_insert_id)->update([
+                    'approval_status' => 1,
+                    'updated_at' => now(),
+                    'updated_by' => $user_id
+                ]);
+                // $query_print = DB::table('quality_cs_qtimes')->where('id', $last_insert_id)->update(['approval_status' => 1]);
+                // dd($query_print); exit();
 
-                // setelah approval_status = 6 (selesai), maka kolom judge di tabel cs_qtimes berubah sesuai dengan approver
-                // jud
+
+                // setelah approval_status = 6 (selesai), maka kolom judge di tabel cs_qtimes berubah sesuai dengan action dari approver
+                // judgement di tabel quality_monitors pun ter update
 
             } elseif(in_array("2", $acng)) {
                 $q_cs_qtimes->judge = 2;
                 // lanjut notif approval ACceptance ke leader dst
                 // cs status = approval AC ke leader dst
                 // judgment collect dari tiap cycle, lalu update
+
+                // set cs_status "Waiting Approval" di tabel q_monitors
+                $quality_monitor_id = $request->input('quality_monitor_id');
+                DB::table('quality_monitors')->where('id', $quality_monitor_id)->update([
+                    'cs_status' => 1,
+                    'updated_at' => now(),
+                    'updated_by' => $user_id
+                ]);
+                // set approval_status berjenjang di tabel q_cs_qtimes, pertama ke Leader dahulu dan atau seterusnya
+                // Request approval ke Leader
+                DB::table('quality_cs_qtimes')->where('id', $last_insert_id)->update([
+                    'approval_status' => 1
+                    // 'updated_at' => now(),
+                    // 'updated_by' => $user_id
+                ]);
+
             } elseif(in_array("1", $acng)) {
                 $q_cs_qtimes->judge = 1;
             } else {
                 $q_cs_qtimes->judge = 0;
             }
+
+
+            // LANJUT
+            // LANJUT view detail di tabel monitors
+            // LANJUT
+
+
 
             // Kirim notif ke Telegram
 

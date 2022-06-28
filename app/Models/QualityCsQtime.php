@@ -59,7 +59,9 @@ class QualityCsQtime extends Model
         // 'operator_wi_qpoint',        
         // 'childpart_identitas',        
         // 'kondisi_parameter',        
-        'judge',        
+        'judge',  
+
+        'approval_status',        
 
         'created_by',
         'updated_by'

@@ -26,6 +26,8 @@ class CreateQualityMonitorsTable extends Migration
             $table->tinyInteger('quality_cs_qtime');
             $table->tinyInteger('quality_cs_accuracy');
 
+            $table->tinyInteger('cs_status');
+
             $table->integer('created_by');
             $table->integer('updated_by');
             $table->timestamps();
