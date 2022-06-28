@@ -126,7 +126,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::get('/delivery/{id}/edit', 'DeliveryController@edit')->name('delivery.delivery.edit')->middleware('auth');
           Route::put('/delivery/update', 'DeliveryController@update')->name('delivery.delivery.update')->middleware('auth');
           Route::get('/delivery/{id}/delete', 'DeliveryController@destroy')->name('delivery.delivery.destroy')->middleware('auth');
-
+          
           // claim admin
           Route::get('/claim', 'DeliveryClaimController@index')->name('delivery.claim.claim')->middleware('auth');
           Route::get('/claim/create', 'DeliveryClaimController@create')->name('delivery.claim.create')->middleware('auth');

@@ -77,9 +77,12 @@ class DeliveryClaimController extends Controller
      * @param  \App\Models\DeliveryClaim  $deliveryClaim
      * @return \Illuminate\Http\Response
      */
-    public function edit(DeliveryClaim $deliveryClaim)
+    public function edit(DeliveryClaim $deliveryClaim, $id)
     {
-        //
+        $data = DeliveryClaim::FindOrFail($id);
+        $part_nos = Part::select('*')->orderBy('part_no_customer', 'asc')->get()->unique('part_no_customer');
+        $shifts = ManPowerDelivery::select('*')->orderBy('shift', 'asc')->get()->unique('shift');
+        return view('delivery.claim.edit',compact('data','part_nos'));
     }
 
     /**
@@ -91,7 +94,85 @@ class DeliveryClaimController extends Controller
      */
     public function update(Request $request, DeliveryClaim $deliveryClaim)
     {
-        //
+        $validator =  Validator::make($request->all(),[
+            'customer_pickup_id' =>['required'],
+            'claim_date' => ['required'],
+            'problem' => ['required'],
+            'part_number' => ['required'],
+            'part_number_actual' => ['required'],
+            'part_name' => ['required'],
+            'part_name_actual' => ['required'],
+            'category' => ['required'],
+            'qty' => ['required'],
+            'corrective_action' => ['required'],
+            'photo.*' => ['max:2048'],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }else{
+            
+            if ($request->evidence == [] && $request->photo == []) {
+                return redirect('/delivery/claim')->with('fail', "Evidence cannot empty!");
+            } else {
+                DB::beginTransaction();
+            
+                // delete evidence existing
+                try {
+                    foreach ($request->delete as $key) {
+                        Storage::disk('public')->delete('/delivery-claim-photo/'.$key);
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+
+
+                // proses uplaod image evidence
+                $data = [];
+
+                if ($request->hasFile('photo')) {
+                
+                    // memasukan data evidence baru ke array baru
+                    foreach ($request->file('photo') as $photo) {
+                        $name= $photo->hashName();
+                        $photo->store('delivery-claim-photo');
+                        array_push($data, $name); 
+                    }
+                    
+                }
+                
+                // proses db
+                try {
+                    // masukan evidence existing ke array baru
+                    if ($request->evidence == []) {
+                       
+                    }else{
+                        foreach ($request->evidence as $key) {
+                            array_push($data, $key); 
+                        }
+                    }
+                    // overwrite request
+                    $request->request->add(['evidence' =>  $data]);
+                    $img_names = $request->evidence;
+                    $img_names =implode(",", $img_names);
+                    $request->merge(["evidence"=>$img_names]);
+
+                    $data = DeliveryClaim::findOrFail($request->id);
+                    $data->fill($request->all());
+                    $data->save();
+                    DB::commit();
+
+                    return redirect('/delivery/claim')->with('success', 'Claim Updated!');
+                } catch (\Throwable $th) {
+                    dd($th);
+                    DB::rollback();
+                    // throw $th;
+                    return redirect('/delivery/claim')->with('fail', "Update Claim Failed! [105]");
+
+                }
+            }
+           
+        }
     }
 
     /**
@@ -106,7 +187,11 @@ class DeliveryClaimController extends Controller
             $data = DeliveryClaim::findOrFail($id);
             $array_image = explode(",", $data->evidence);
             foreach ($array_image as $key ) {
-                Storage::disk('public')->delete('/delivery-claim-photo/'.$key);
+                try {
+                    Storage::disk('public')->delete('/delivery-claim-photo/'.$key);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
             }
             $data->delete();
            
@@ -130,6 +215,7 @@ class DeliveryClaimController extends Controller
             'category' => ['required'],
             'qty' => ['required'],
             'corrective_action' => ['required'],
+            'photo.*' => ['max:2048'],
         ]);
 
         if ($validator->fails()) {
@@ -160,9 +246,9 @@ class DeliveryClaimController extends Controller
                 return redirect('/delivery/claim')->with('success', 'Claim Added!');
             } catch (\Throwable $th) {
                 DB::rollback();
-                throw $th;
+                // throw $th;
 
-                // return redirect('/delivery/claim')->with('fail', "Add Claim Failed! [105]");
+                return redirect('/delivery/claim')->with('fail', "Add Claim Failed! [105]");
             }
         }
 

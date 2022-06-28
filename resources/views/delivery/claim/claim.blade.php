@@ -68,8 +68,9 @@
   <div class="modal-dialog modal-lg ">
       <div class="modal-content animated bounceInRight">
           <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title">Modal title</h4>
+              {{-- <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> --}}
+              <h4 class="modal-title">Evidence</h4>
+              <small class="judul"></small>
           </div>
           <div class="modal-body text-center">
           </div>
@@ -120,7 +121,7 @@ $(document).ready(function() {
             { data: 'qty', className: 'dt-body-center'},
             { data: 'evidence', className: 'dt-body-center',
                   'render' : function(data,type,row) {
-                        var element= "";
+                        var element= "<div class='d-flex flex-row'>";
                         var url= "";
                         var problem= row['problem'];
                         var customer= row['customer_pickup_id'];
@@ -130,16 +131,17 @@ $(document).ready(function() {
                         array_img.forEach(
                           function(value){
                             url = '/storage/delivery-claim-photo/'+value;
-                            element +="<img src='"+url+"' class='photo' id-problem='"+problem+"' id-date='"+date+"' id-customer='"+customer+"' id-photo='"+url+"' width='40' height='40'>";
+                            element +="<img src='"+url+"' class='photo m-1' id-problem='"+problem+"' id-date='"+date+"' id-customer='"+customer+"' id-photo='"+url+"' width='40' height='40'>";
                           }
                         );
+                        element +="</div>";
                         return element;
                     },
             },
             { data: 'corrective_action', className: 'dt-body-center'},
             { data: 'id', className: 'dt-body-center',
                 'render' : function(data,row,type){
-                    return "<div class='btn-group'><a onClick='return confirm("+'"are you sure  ?"'+")' href='claim/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
+                    return "<div class='btn-group'><div class='btn-group'><a href='/delivery/claim/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='claim/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
                 }
             },
         ],
@@ -166,7 +168,7 @@ $(document).ready(function() {
 
 
               $('#myModal2').modal('show');
-              $(".modal-title").html(problem+" "+customer+" "+date);
+              $(".judul").html("Problem: "+problem+" <br/> Customer: "+customer+"<br/> Claim Date: "+date);
               $(".modal-body").html(element);
             });
         });
