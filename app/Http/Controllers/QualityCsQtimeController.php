@@ -125,6 +125,7 @@ class QualityCsQtimeController extends Controller
     public function store(Request $request)
     {
         $user_id = auth()->user()->id;
+        $user_name = auth()->user()->name;
 
         // insert cs qtime untuk cs low
         $q_cs_qtimes = new QualityCsQtime;
@@ -178,6 +179,7 @@ class QualityCsQtimeController extends Controller
         // $q_cs_qtimes->kondisi_parameter = $request->input('kondisi_parameter');
 
         $q_cs_qtimes->created_by = $user_id;
+        $q_cs_qtimes->updated_by = $user_id;
 
         // judge di cycle 1 OK jika semua OK, jika ada NG maka NG, jika ada AC maka tunggu dulu sampai approval nya judge ??
         // apakah harus tambah column destructive_judge_1 utk cycle 1 dan destructive_judge_2 utk cycle 2 
@@ -250,6 +252,10 @@ class QualityCsQtimeController extends Controller
                 // setelah approval_status = 6 (selesai), maka kolom judge di tabel cs_qtimes berubah sesuai dengan action dari approver
                 // judgement di tabel quality_monitors pun ter update
 
+                // LANJUT UPDATE STATUS KOLOM JUDGEMENT
+                // kondisi OK
+                // kondisi NG
+
             } elseif(in_array("2", $acng)) {
                 $q_cs_qtimes->judge = 2;
                 // lanjut notif approval ACceptance ke leader dst
@@ -280,6 +286,8 @@ class QualityCsQtimeController extends Controller
 
             // LANJUT
             // LANJUT view detail di tabel monitors
+            // LANJUT view approval Leader
+            // LANJUT view approval Foreman
             // LANJUT
 
 

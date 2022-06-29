@@ -35,7 +35,7 @@
 							<label class="col-sm-2 col-form-label"><strong>Document Number</strong></label>
 	                        <div class="col-sm-4"><p class="form-control-static">{{$doc_number}}</p></div>
 	                        <label class="col-sm-2 col-form-label"><strong>Model Part</strong></label>
-	                        <div class="col-sm-4"><p class="form-control-static">{{$cs_model}} - {{$cs_part}} - {{$part_ver}} {{$part_hor}}</p></div>
+	                        <div class="col-sm-4"><p class="form-control-static">{{$cs_model}} - {{$cs_part}} - {{$part_hor}} - {{$part_ver}}</p></div>
 	                    </div>
 	                    <!-- Photo Info -->
 	                    <div class="ibox">
