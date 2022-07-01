@@ -22,7 +22,9 @@
 					</div>
 				</div>
 				<div class="ibox-content">
-					<form method="POST" action="{{ route('quality.csqtime.store') }}">
+					<!-- <form method="POST" action="{{ route('quality.csqtime.store') }}"> -->
+                    <form method="POST" action="{{ route('quality.csqtime.update', $cs_qtime_id) }}">
+                        @method('patch')
 						@csrf
 
                         @foreach($q_cs_qtimes as $qcs)                        
@@ -59,13 +61,13 @@
 	                    <div class="form-group row">
 	                    	<label class="col-sm-2 col-form-label"><strong>Shift</strong></label>
 	                        <div class="col-sm-4">
-	                        	<select class="form-control m-b" name="shift" required>
+	                        	<select class="form-control m-b" name="shift">
                                     <option selected>{{$qcs->shift}}</option>
                                 </select>
 	                        </div>
 	                        <label class="col-sm-2 col-form-label"><strong>Cycle</strong></label>
 	                        <div class="col-sm-4">
-	                        	<select class="form-control m-b" name="cycle" required>
+	                        	<select class="form-control m-b" name="cycle">
                                     <option value="" selected>{{$qcs->cycle}}</option>
                                 </select>
 	                        </div>
@@ -93,20 +95,28 @@
                                     	<!-- <label class="col-form-label">Destructive Test</label> -->
                                     	<!-- <br/><br/> -->
                                     	<div class="i-checks radio">
-                                            {{$qcs->destructive_test}}
                                             @if($qcs->destructive_test == 1)
-                                                
+                                                <input checked type="radio" name="destructive_test" id="destructive_test_ok" value="1" required>
+                                                <span class="badge badge-primary" for="destructive_test_ok">OK</span>
+                                                <input type="radio" name="destructive_test" id="destructive_test_ac" value="2">
+                                                <span class="badge badge-warning" for="destructive_test_ac">AC</span>
+                                                <input type="radio" name="destructive_test" id="destructive_test_ng" value="3">
+                                                <span class="badge badge-danger" for="destructive_test_ng">NG</span>
                                             @elseif($qcs->destructive_test == 2)
+                                                <input type="radio" name="destructive_test" id="destructive_test_ok" value="1" required>
+                                                <span class="badge badge-primary" for="destructive_test_ok">OK</span>
+                                                <input checked type="radio" name="destructive_test" id="destructive_test_ac" value="2">
+                                                <span class="badge badge-warning" for="destructive_test_ac">AC</span>
+                                                <input type="radio" name="destructive_test" id="destructive_test_ng" value="3">
+                                                <span class="badge badge-danger" for="destructive_test_ng">NG</span>
                                             @elseif($qcs->destructive_test == 3)
-                                            @endif
-                                            <input type="radio" name="destructive_test" id="destructive_test_ok" value="1" required>
-                                            <span class="badge badge-primary" for="destructive_test_ok">OK</span>
-                                            
-                                            <input type="radio" name="destructive_test" id="destructive_test_ac" value="2">
-                                            <span class="badge badge-warning" for="destructive_test_ac">AC</span>
-                                            
-                                            <input type="radio" name="destructive_test" id="destructive_test_ng" value="3">
-                                            <span class="badge badge-danger" for="destructive_test_ng">NG</span>
+                                                <input type="radio" name="destructive_test" id="destructive_test_ok" value="1" required>
+                                                <span class="badge badge-primary" for="destructive_test_ok">OK</span>
+                                                <input type="radio" name="destructive_test" id="destructive_test_ac" value="2">
+                                                <span class="badge badge-warning" for="destructive_test_ac">AC</span>
+                                                <input checked type="radio" name="destructive_test" id="destructive_test_ng" value="3">
+                                                <span class="badge badge-danger" for="destructive_test_ng">NG</span>
+                                            @endif                                            
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +126,7 @@
                                 <p>Tidak Bocor, Follow Limit sample</p>
                             </div>
                             <div class="col-md-4">
-                                <textarea class="form-control" id="destructive_test_remark" name="destructive_test_remark" rows="2"></textarea>
+                                <textarea class="form-control" id="destructive_test_remark" name="destructive_test_remark" rows="2">{{$qcs->destructive_test_remark}}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">	
@@ -125,14 +135,28 @@
                                 	<label class="col-lg-5 col-md-12 col-form-label">Appearance Produk</label>
                                     <div class="col-lg-7 col-md-12">
                                     	<div class="i-checks radio">
-                                            <input type="radio" name="appearance_produk" id="appearance_produk_ok" value="1"required>
-                                            <span class="badge badge-primary" for="appearance_produk_ok">OK</span>
-                                            
-                                            <input type="radio" name="appearance_produk" id="appearance_produk_ac" value="2">
-                                            <span class="badge badge-warning" for="appearance_produk_ac">AC</span>
-                                            
-                                            <input type="radio" name="appearance_produk" id="appearance_produk_ng" value="3">
-                                            <span class="badge badge-danger" for="appearance_produk_ng">NG</span>
+                                            @if($qcs->appearance_produk == 1)
+                                                <input checked type="radio" name="appearance_produk" id="appearance_produk_ok" value="1" required>
+                                                <span class="badge badge-primary" for="appearance_produk_ok">OK</span>
+                                                <input type="radio" name="appearance_produk" id="appearance_produk_ac" value="2">
+                                                <span class="badge badge-warning" for="appearance_produk_ac">AC</span>
+                                                <input type="radio" name="appearance_produk" id="appearance_produk_ng" value="3">
+                                                <span class="badge badge-danger" for="appearance_produk_ng">NG</span>
+                                            @elseif($qcs->appearance_produk == 2)
+                                                <input type="radio" name="appearance_produk" id="appearance_produk_ok" value="1" required>
+                                                <span class="badge badge-primary" for="appearance_produk_ok">OK</span>
+                                                <input checked type="radio" name="appearance_produk" id="appearance_produk_ac" value="2">
+                                                <span class="badge badge-warning" for="appearance_produk_ac">AC</span>
+                                                <input type="radio" name="appearance_produk" id="appearance_produk_ng" value="3">
+                                                <span class="badge badge-danger" for="appearance_produk_ng">NG</span>
+                                            @elseif($qcs->appearance_produk == 3)
+                                                <input type="radio" name="appearance_produk" id="appearance_produk_ok" value="1" required>
+                                                <span class="badge badge-primary" for="appearance_produk_ok">OK</span>
+                                                <input type="radio" name="appearance_produk" id="appearance_produk_ac" value="2">
+                                                <span class="badge badge-warning" for="appearance_produk_ac">AC</span>
+                                                <input checked type="radio" name="appearance_produk" id="appearance_produk_ng" value="3">
+                                                <span class="badge badge-danger" for="appearance_produk_ng">NG</span>
+                                            @endif 
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +166,7 @@
                                 <p>General Standard Apperance/Limit Sample</p>
                             </div>
                             <div class="col-md-4">
-                                <textarea class="form-control" id="appearance_produk_remark" name="appearance_produk_remark" rows="2"></textarea>
+                                <textarea class="form-control" id="appearance_produk_remark" name="appearance_produk_remark" rows="2">{{$qcs->appearance_produk_remark}}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">	
@@ -151,14 +175,28 @@
                                 	<label class="col-lg-5 col-md-12 col-form-label">Parting Line</label>
                                     <div class="col-lg-7 col-md-12">
                                     	<div class="i-checks radio">
-                                            <input type="radio" name="parting_line" id="parting_line_ok" value="1" required>
-                                            <span class="badge badge-primary" for="parting_line_ok">OK</span>
-                                            
-                                            <input type="radio" name="parting_line" id="parting_line_ac" value="2">
-                                            <span class="badge badge-warning" for="parting_line_ac">AC</span>
-                                            
-                                            <input type="radio" name="parting_line" id="parting_line_ng" value="3">
-                                            <span class="badge badge-danger" for="parting_line_ng">NG</span>
+                                            @if($qcs->parting_line == 1)
+                                                <input checked type="radio" name="parting_line" id="parting_line_ok" value="1" required>
+                                                <span class="badge badge-primary" for="parting_line_ok">OK</span>
+                                                <input type="radio" name="parting_line" id="parting_line_ac" value="2">
+                                                <span class="badge badge-warning" for="parting_line_ac">AC</span>
+                                                <input type="radio" name="parting_line" id="parting_line_ng" value="3">
+                                                <span class="badge badge-danger" for="parting_line_ng">NG</span>
+                                            @elseif($qcs->parting_line == 2)
+                                                <input type="radio" name="parting_line" id="parting_line_ok" value="1" required>
+                                                <span class="badge badge-primary" for="parting_line_ok">OK</span>
+                                                <input checked type="radio" name="parting_line" id="parting_line_ac" value="2">
+                                                <span class="badge badge-warning" for="parting_line_ac">AC</span>
+                                                <input type="radio" name="parting_line" id="parting_line_ng" value="3">
+                                                <span class="badge badge-danger" for="parting_line_ng">NG</span>
+                                            @elseif($qcs->parting_line == 3)
+                                                <input type="radio" name="parting_line" id="parting_line_ok" value="1" required>
+                                                <span class="badge badge-primary" for="parting_line_ok">OK</span>
+                                                <input type="radio" name="parting_line" id="parting_line_ac" value="2">
+                                                <span class="badge badge-warning" for="parting_line_ac">AC</span>
+                                                <input checked type="radio" name="parting_line" id="parting_line_ng" value="3">
+                                                <span class="badge badge-danger" for="parting_line_ng">NG</span>
+                                            @endif 
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +206,7 @@
                                 <p>Tidak Burry tajam</p>
                             </div>
                             <div class="col-md-4">
-                                <textarea class="form-control" id="parting_line_remark" name="parting_line_remark" rows="2"></textarea>
+                                <textarea class="form-control" id="parting_line_remark" name="parting_line_remark" rows="2">{{$qcs->parting_line_remark}}</textarea>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>	  
@@ -180,14 +218,28 @@
                                 	<label class="col-lg-5 col-md-12 col-form-label">Marking Cek Final</label>
                                     <div class="col-lg-7 col-md-12">
                                     	<div class="i-checks radio">
-                                            <input type="radio" name="marking_cek_final" id="marking_cek_final_ok" value="1" required>
-                                            <span class="badge badge-primary" for="marking_cek_final_ok">OK</span>
-                                            
-                                            <input type="radio" name="marking_cek_final" id="marking_cek_final_ac" value="2">
-                                            <span class="badge badge-warning" for="marking_cek_final_ac">AC</span>
-                                            
-                                            <input type="radio" name="marking_cek_final" id="marking_cek_final_ng" value="3">
-                                            <span class="badge badge-danger" for="marking_cek_final_ng">NG</span>
+                                            @if($qcs->marking_cek_final == 1)
+                                                <input checked type="radio" name="marking_cek_final" id="marking_cek_final_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_cek_final_ok">OK</span>
+                                                <input type="radio" name="marking_cek_final" id="marking_cek_final_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_cek_final_ac">AC</span>
+                                                <input type="radio" name="marking_cek_final" id="marking_cek_final_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_cek_final_ng">NG</span>
+                                            @elseif($qcs->marking_cek_final == 2)
+                                                <input type="radio" name="marking_cek_final" id="marking_cek_final_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_cek_final_ok">OK</span>
+                                                <input checked type="radio" name="marking_cek_final" id="marking_cek_final_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_cek_final_ac">AC</span>
+                                                <input type="radio" name="marking_cek_final" id="marking_cek_final_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_cek_final_ng">NG</span>
+                                            @elseif($qcs->marking_cek_final == 3)
+                                                <input type="radio" name="marking_cek_final" id="marking_cek_final_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_cek_final_ok">OK</span>
+                                                <input type="radio" name="marking_cek_final" id="marking_cek_final_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_cek_final_ac">AC</span>
+                                                <input checked type="radio" name="marking_cek_final" id="marking_cek_final_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_cek_final_ng">NG</span>
+                                            @endif 
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +249,7 @@
                                 <p>Terlihat Jelas</p>
                             </div>
                             <div class="col-md-4">
-                                <textarea class="form-control" id="marking_cek_final_remark" name="marking_cek_final_remark" rows="2"></textarea>
+                                <textarea class="form-control" id="marking_cek_final_remark" name="marking_cek_final_remark" rows="2">{{$qcs->marking_cek_final_remark}}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">	
@@ -206,14 +258,28 @@
                                 	<label class="col-lg-5 col-md-12 col-form-label">Marking Garansi Function</label>
                                     <div class="col-lg-7 col-md-12">
                                     	<div class="i-checks radio">
-                                            <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ok" value="1" required>
-                                            <span class="badge badge-primary" for="marking_garansi_function_ok">OK</span>
-                                            
-                                            <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ac" value="2">
-                                            <span class="badge badge-warning" for="marking_garansi_function_ac">AC</span>
-                                            
-                                            <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ng" value="3">
-                                            <span class="badge badge-danger" for="marking_garansi_function_ng">NG</span>
+                                            @if($qcs->marking_garansi_function == 1)
+                                                <input checked type="radio" name="marking_garansi_function" id="marking_garansi_function_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_garansi_function_ok">OK</span>
+                                                <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_garansi_function_ac">AC</span>
+                                                <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_garansi_function_ng">NG</span>
+                                            @elseif($qcs->marking_garansi_function == 2)
+                                                <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_garansi_function_ok">OK</span>
+                                                <input checked type="radio" name="marking_garansi_function" id="marking_garansi_function_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_garansi_function_ac">AC</span>
+                                                <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_garansi_function_ng">NG</span>
+                                            @elseif($qcs->marking_garansi_function == 3)
+                                                <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_garansi_function_ok">OK</span>
+                                                <input type="radio" name="marking_garansi_function" id="marking_garansi_function_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_garansi_function_ac">AC</span>
+                                                <input checked type="radio" name="marking_garansi_function" id="marking_garansi_function_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_garansi_function_ng">NG</span>
+                                            @endif 
                                         </div>
                                     </div>
                                 </div>
@@ -223,7 +289,7 @@
                                 <p>Sesuai Shift O/P F/I</p>
                             </div>
                             <div class="col-md-4">
-                                <textarea class="form-control" id="marking_garansi_function_remark" name="marking_garansi_function_remark" rows="2"></textarea>
+                                <textarea class="form-control" id="marking_garansi_function_remark" name="marking_garansi_function_remark" rows="2">{{$qcs->marking_garansi_function_remark}}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">	
@@ -232,14 +298,28 @@
                                 	<label class="col-lg-5 col-md-12 col-form-label">Marking Identification</label>
                                     <div class="col-lg-7 col-md-12">
                                     	<div class="i-checks radio">
-                                            <input type="radio" name="marking_identification" id="marking_identification_ok" value="1" required>
-                                            <span class="badge badge-primary" for="marking_identification_ok">OK</span>
-                                            
-                                            <input type="radio" name="marking_identification" id="marking_identification_ac" value="2">
-                                            <span class="badge badge-warning" for="marking_identification_ac">AC</span>
-                                            
-                                            <input type="radio" name="marking_identification" id="marking_identification_ng" value="3">
-                                            <span class="badge badge-danger" for="marking_identification_ng">NG</span>
+                                            @if($qcs->marking_identification == 1)
+                                                <input checked type="radio" name="marking_identification" id="marking_identification_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_identification_ok">OK</span>
+                                                <input type="radio" name="marking_identification" id="marking_identification_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_identification_ac">AC</span>
+                                                <input type="radio" name="marking_identification" id="marking_identification_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_identification_ng">NG</span>
+                                            @elseif($qcs->marking_identification == 2)
+                                                <input type="radio" name="marking_identification" id="marking_identification_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_identification_ok">OK</span>
+                                                <input checked type="radio" name="marking_identification" id="marking_identification_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_identification_ac">AC</span>
+                                                <input type="radio" name="marking_identification" id="marking_identification_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_identification_ng">NG</span>
+                                            @elseif($qcs->marking_identification == 3)
+                                                <input type="radio" name="marking_identification" id="marking_identification_ok" value="1" required>
+                                                <span class="badge badge-primary" for="marking_identification_ok">OK</span>
+                                                <input type="radio" name="marking_identification" id="marking_identification_ac" value="2">
+                                                <span class="badge badge-warning" for="marking_identification_ac">AC</span>
+                                                <input checked type="radio" name="marking_identification" id="marking_identification_ng" value="3">
+                                                <span class="badge badge-danger" for="marking_identification_ng">NG</span>
+                                            @endif 
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +329,7 @@
                                 <p>Low Gride (4R/4L)</p>
                             </div>
                             <div class="col-md-4">
-                                <textarea class="form-control" id="marking_identification_remark" name="marking_identification_remark" rows="2"></textarea>
+                                <textarea class="form-control" id="marking_identification_remark" name="marking_identification_remark" rows="2">{{$qcs->marking_identification_remark}}</textarea>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -261,14 +341,28 @@
                                 	<label class="col-lg-5 col-md-12 col-form-label">Kelengkapan Komponen</label>
                                     <div class="col-lg-7 col-md-12">
                                     	<div class="i-checks radio">
-                                            <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ok" value="1" required>
-                                            <span class="badge badge-primary" for="kelengkapan_komponen_ok">OK</span>
-                                            
-                                            <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ac" value="2">
-                                            <span class="badge badge-warning" for="kelengkapan_komponen_ac">AC</span>
-                                            
-                                            <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ng" value="3">
-                                            <span class="badge badge-danger" for="kelengkapan_komponen_ng">NG</span>
+                                            @if($qcs->kelengkapan_komponen == 1)
+                                                <input checked type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ok" value="1" required>
+                                                <span class="badge badge-primary" for="kelengkapan_komponen_ok">OK</span>
+                                                <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ac" value="2">
+                                                <span class="badge badge-warning" for="kelengkapan_komponen_ac">AC</span>
+                                                <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ng" value="3">
+                                                <span class="badge badge-danger" for="kelengkapan_komponen_ng">NG</span>
+                                            @elseif($qcs->kelengkapan_komponen == 2)
+                                                <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ok" value="1" required>
+                                                <span class="badge badge-primary" for="kelengkapan_komponen_ok">OK</span>
+                                                <input checked type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ac" value="2">
+                                                <span class="badge badge-warning" for="kelengkapan_komponen_ac">AC</span>
+                                                <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ng" value="3">
+                                                <span class="badge badge-danger" for="kelengkapan_komponen_ng">NG</span>
+                                            @elseif($qcs->kelengkapan_komponen == 3)
+                                                <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ok" value="1" required>
+                                                <span class="badge badge-primary" for="kelengkapan_komponen_ok">OK</span>
+                                                <input type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ac" value="2">
+                                                <span class="badge badge-warning" for="kelengkapan_komponen_ac">AC</span>
+                                                <input checked type="radio" name="kelengkapan_komponen" id="kelengkapan_komponen_ng" value="3">
+                                                <span class="badge badge-danger" for="kelengkapan_komponen_ng">NG</span>
+                                            @endif 
                                         </div>
                                     </div>
                                 </div>
@@ -277,7 +371,7 @@
                                 <p></p>
                             </div>
                             <div class="col-md-4">
-                                <textarea class="form-control" id="kelengkapan_komponen_remark" name="kelengkapan_komponen_remark" rows="2"></textarea>
+                                <textarea class="form-control" id="kelengkapan_komponen_remark" name="kelengkapan_komponen_remark" rows="2">{{$qcs->kelengkapan_komponen_remark}}</textarea>
                             </div>
                         </div> 
                         <div class="ibox">

@@ -414,7 +414,7 @@ class QualityCsQtimeController extends Controller
             'q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors', 
             'cs_category', 'doc_number', 'cs_area', 'cs_process', 'cs_model', 'cs_part', 'part_ver', 'part_hor',
             'q_monitor_id',
-            'q_cs_qtimes'
+            'q_cs_qtimes', 'cs_qtime_id'
         ));
     }
 
@@ -426,8 +426,40 @@ class QualityCsQtimeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
+    // public function update(Request $request, QualityCsQtime $id)
     {
-        //
+        $user_id = auth()->user()->id;
+        $cs_qtime_id = $id;
+        // echo $cs_qtime_id; exit();
+
+        $csqtime['quality_monitor_id'] = $request->quality_monitor_id;
+        $csqtime['destructive_test'] = $request->destructive_test;
+        $csqtime['destructive_test_remark'] = $request->destructive_test_remark;
+        $csqtime['appearance_produk'] = $request->appearance_produk;
+        $csqtime['appearance_produk_remark'] = $request->appearance_produk_remark;
+        $csqtime['parting_line'] = $request->parting_line;
+        $csqtime['parting_line_remark'] = $request->parting_line_remark;
+        $csqtime['marking_cek_final'] = $request->marking_cek_final;
+        $csqtime['marking_cek_final_remark'] = $request->marking_cek_final_remark;
+        $csqtime['marking_garansi_function'] = $request->marking_garansi_function;
+        $csqtime['marking_garansi_function_remark'] = $request->marking_garansi_function_remark;
+        $csqtime['marking_identification'] = $request->marking_identification;
+        $csqtime['marking_identification_remark'] = $request->marking_identification_remark;
+        $csqtime['kelengkapan_komponen'] = $request->kelengkapan_komponen;
+        $csqtime['kelengkapan_komponen_remark'] = $request->kelengkapan_komponen_remark;
+        $csqtime['updated_by'] = $user_id;
+        $csqtime['updated_at'] = now();
+        // dd($csqtime); exit();
+
+        // LANJUT STATUS HARUS TERUPDATE JUGA, AGAR DI DETAIL MODAL WINDOW TERUPDATE JUGA
+        // update cs_status di tabel q_monitors
+        // update judge dan approval_status di tabel q_cs_qtimes
+        // update judgement di tabel q_monitors
+        // kasih stamp approved by jenjang leader-director di page edit
+
+        QualityCsQtime::find($id)->update($csqtime);
+        return redirect()->route('quality.monitor.index')
+            ->withSuccess(__('Checksheet updated successfully.'));
     }
 
     /**
