@@ -83,7 +83,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Problem</label>  
+                            <label>Problem Identification</label>  
                             <input type="text" id="problem" placeholder="problem" name="problem" class="form-control" value="{{old('problem')}}" required>
                             @error('problem') 
                                 <div class="text-danger">
@@ -96,9 +96,10 @@
                         <div class="form-group">
                             <label>Category</label> <br>
                             <select name="category" id="category" style="width:100%" class="select2_category form-control" required>
-                                <option value="SHORTAGE">SHORTAGE</option>
-                                <option value="DETAIL MISS">DETAIL MISS</option>
-                                <option value="SERVICE PART">SERVICE PART</option>
+                                <option value="MISS PART">MISS PART</option>
+                                <option value="MIX PART">MIX PART</option>
+                                <option value="MISS LABEL">MISS LABEL</option>
+                                <option value="MISS QUANTITY">MISS QUANTITY</option>
                             </select>
                             @error('category') 
                                 <div class="text-danger">

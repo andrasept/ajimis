@@ -150,6 +150,9 @@ class CreatePartsTable extends Migration
             $table->string('departure_gap')->nullable();
             $table->string('departure_status')->nullable();
             $table->string('vendor');
+            $table->string('security_name_arrival')->nullable();
+            $table->string('security_name_departure')->nullable();
+            $table->string('driver_name')->nullable();
 
             $table->timestamps();
         });

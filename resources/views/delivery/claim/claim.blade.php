@@ -40,7 +40,7 @@
             <th class="text-center">No</th>
             <th class="text-center">Customer</th>
             <th class="text-center">Claim Date</th>
-            <th class="text-center">Problem</th>
+            <th class="text-center">Problem Identification</th>
             <th class="text-center">Part Number</th>
             <th class="text-center">Part Number Actual</th>
             <th class="text-center">Part Name</th>
@@ -111,7 +111,13 @@ $(document).ready(function() {
         "columns": [
             { data: null, className: 'dt-body-center'},
             { data: 'customer_pickup_id', className: 'dt-body-center'},
-            { data: 'claim_date', className: 'dt-body-center'},
+            { data: 'claim_date', className: 'dt-body-center',
+            
+              'render': function(data){
+                return moment(data).format('DD/MM/YYYY');
+              }
+
+            },
             { data: 'problem', className: 'dt-body-center'},
             { data: 'part_number', className: 'dt-body-center'},
             { data: 'part_number_actual', className: 'dt-body-center'},
@@ -131,7 +137,7 @@ $(document).ready(function() {
                         array_img.forEach(
                           function(value){
                             url = '/storage/delivery-claim-photo/'+value;
-                            element +="<img src='"+url+"' class='photo m-1' id-problem='"+problem+"' id-date='"+date+"' id-customer='"+customer+"' id-photo='"+url+"' width='40' height='40'>";
+                            element +="<img src='"+url+"' class='photo m-1' id-problem='"+problem+"' id-date='"+ moment(date).format('DD/MM/YYYY')+"' id-customer='"+customer+"' id-photo='"+url+"' width='40' height='40'>";
                           }
                         );
                         element +="</div>";
@@ -159,7 +165,7 @@ $(document).ready(function() {
             table.column(0, { search: 'applied', order: 'applied', page: 'applied' }).nodes().each(function (cell, i) {
                 cell.innerHTML = i + 1 + info.start;
             });
-            $(".photo").click(function () {
+            $("#master tbody").on('click', '.photo', function () {
               var photo = $(this).attr('id-photo');
               var problem = $(this).attr('id-problem');
               var customer = $(this).attr('id-customer');

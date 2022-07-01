@@ -8,6 +8,10 @@
 <link href="{{asset('css/plugins/select2/select2.min.css')}}" rel="stylesheet">
 <link href="{{asset('css/plugins/clockpicker/clockpicker.css')}}" rel="stylesheet">
 <link href="{{asset('css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
+{{-- <link href="{{asset('css/animate.css')}}" rel="stylesheet"> --}}
+{{-- <link href="{{asset('css/style.css')}}" rel="stylesheet">
+<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet"> --}}
+
 
     <div class="ibox " >
         {{-- {{dd($data);}} --}}
@@ -119,15 +123,18 @@
                         </div>
                         <div class="form-group ">
                             <label for="photo" class="text-left">Evidence</label>
-                            <div class="d-flex flex-row mb-2 photo">
+                            <div class="d-flex flex-row mb-5 photo">
                                 @foreach (explode(",", $data->evidence) as $item)
-                                    <div  class="remove m-1" data-photo="{{$item}}" >
+                                    <div  class="remove col-lg-1 m-2" data-photo="{{$item}}" >
                                         <input  name="evidence[]" type="hidden" class="custom-file-input" value="{{$item}}">
-                                        <img src="{{ url('storage/delivery-claim-photo/'.$item) }}"class="" id-photo="{{$item}}" alt=""  width='60' height='60'>
+                                        <div  data-toggle="tooltip" data-placement="right" title="Remove Evidence" style="position: relative;">
+                                            <img src="{{ url('storage/delivery-claim-photo/'.$item) }}" style="position: absolute;" class="" id-photo="{{$item}}" alt=""  width='60' height='60'>
+                                            <img src="{{ asset('image/close.png') }}" style="position: absolute;" class="" id-photo="{{$item}}" alt=""  width='60' height='60'>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="input-group-btn mb-2 text-right ">
+                            <div class="input-group-btn mb-2 text-right mt-3">
                                 <button type="button" class="btn btn-danger min"><i class="fa fa-minus"></i></button>
                                 <button type="button" class="btn btn-primary add"><i class="fa fa-plus"></i></button>
                             </div>
@@ -174,11 +181,14 @@
 <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('js/dataTables.dateTime.min.js')}}"></script>
 <script src="{{asset('js/plugins/select2/select2.full.min.js')}}"></script>
-
 <script src="{{asset('js/js_agil/dataTables.responsive.js')}}"></script>
 
 <script src="{{asset('js/moment.min.js')}}"></script>
 <script src="{{asset('js/plugins/sweetalert/sweetalert.min.js')}}"></script>
+<script src="{{asset('js/popper.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.js')}}"></script>
+
+
 <script>
 
     $(".select2_part_number").select2();
@@ -191,6 +201,9 @@
     $("input").css({fontSize:12});
 
     $(document).ready(function(){
+
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
         $('.custom-file-input').on('change', function() {
             let fileName = $(this).val().split('\\').pop();
             var ext = fileName.split('.').pop();
@@ -233,7 +246,7 @@
         $("body").on("click",".remove",function(){ 
             var photo= $(this).attr("data-photo");
             var element= '<input  name="delete[]" type="text" class="custom-file-input d-none" value="'+photo+'">';
-            $(this).html(element);
+            $(this).empty().html(element);
         });
         // autocomplete part
             $('#part_number').change(function(){

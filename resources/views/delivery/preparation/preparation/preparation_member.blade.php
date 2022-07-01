@@ -10,7 +10,6 @@
 <link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet">
 
 <link href="{{asset('css/css_agil/responsive.dataTables.css')}}" rel="stylesheet">
-
 <!-- Sweet Alert -->
 <link href="{{asset('css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
 @if ($data_delay->isEmpty() )
@@ -198,19 +197,29 @@
                   // { data: 'id', className: 'dt-body-center'},
                   { data: "status", className: 'dt-body-center',
                       "render": function ( data, type, row ) {
-                          if (data != '3') {
+                          if (data == '3') {
+                            // cek status delay, ontime, adavance
+                            return '<label class="label label-info">Advanced</label>';
+                            // return "<a href='/delivery/preparation/"+row['id']+"/start' class='btn btn-lg btn-primary'>Start</a>";
+                          }else  if (data == '4') {
+                            // cek status delay, ontime, adavance
+                            return '<label class="label label-primary">On time</label>';
+                          
+                          }else  if (data == '5') {
+                            // cek status delay, ontime, adavance
+                            return '<label class="label label-danger">Delayed</label>';
+                          
+                          } else {
+                            
                             if (data == null) {
                               var display_end = 'd-none';
                               var display_start = 'd-start';
-                            } else {
+                            } else if(data == '1') {
                               var display_start = 'd-none';
                               var display_end = 'd-start';
                             }
                             return "<div class='btn-group'><button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-primary start "+display_start+"' id='start_"+row['id']+"'>Start</a><button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-danger "+display_end+" end' id='end_"+row['id']+"'>End</a></div>";
-                            // return "<a href='/delivery/preparation/"+row['id']+"/start' class='btn btn-lg btn-primary'>Start</a>";
-                          }else {
-                            return"<label class='label label-info'>Finished</label>";
-                          }
+                          } 
 
                           // if (data == '1') {
                           //   return "<button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-danger end'>End</a>";
@@ -309,7 +318,7 @@
                   "orderable": true,
                   "targets": 0
               } ],
-              "order": [[ 1, 'desc' ],[ 2, 'asc' ],[6, 'asc']]
+              "order": [[ 1, 'asc' ],[ 2, 'asc' ],[6, 'asc']]
           } );
 
           // number

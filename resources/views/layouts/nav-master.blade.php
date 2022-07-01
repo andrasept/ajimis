@@ -9,6 +9,7 @@
             <span class="text-muted text-xs block">
               @if (auth()->user()->department != null)
                 {{auth()->user()->department->code}} 
+                {{-- {{auth()->user()->npk}}  --}}
               @endif
             </span>
           </a>
@@ -83,12 +84,20 @@
                     </li> --}}
                   </ul>
                 </li>
-                @endrole
-                @role('delivery.preparation.member')
+        @endrole
+        @role('delivery.preparation.member')
                 <li >
                   <a href="#" aria-expanded="true"><i class="fa fa-truck"></i> <span class="nav-label">Delivery</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level " aria-expanded="true" style="">
                   <li><a href="{{route('delivery.preparation.member')}}">Preparation</a></li>
+                </ul>
+            </li>
+        @endrole
+        @role('security')
+              <li >
+                  <a href="#" aria-expanded="true"><i class="fa fa-truck"></i> <span class="nav-label">Delivery</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level " aria-expanded="true" style="">
+                  <li><a href="{{route('delivery.preparation.security')}}">Arrival & Departure</a></li>
                 </ul>
             </li>
         @endrole
