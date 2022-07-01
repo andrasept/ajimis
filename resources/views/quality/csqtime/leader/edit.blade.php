@@ -17,13 +17,16 @@
 		<div class="col-lg-12">
 			<div class="ibox ">
 				<div class="ibox-title">
-					<h5>Add QTime Checksheet</h5>
+					<h5>Approval QTime Checksheet | Leader</h5>
 					<div class="ibox-tools">
 					</div>
 				</div>
 				<div class="ibox-content">
 					<form method="POST" action="{{ route('quality.csqtime.store') }}">
 						@csrf
+
+                        @foreach($q_cs_qtimes as $qcs)                        
+
 						<!-- Checksheet Info -->
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label"><strong>Checkshet Category</strong></label>
@@ -51,73 +54,19 @@
 	                        	-- Photo --
 	                        </div>
 	                    </div>
-	                    <!-- <div class="ibox">
-	                    	<div class="container col-md-6">
-					            <div class="mb-5">
-					                <label for="Image" class="form-label">Bootstrap 5 image Upload with Preview</label>
-					                <input class="form-control" type="file" id="formFile" onchange="preview()">
-					                <button onclick="clearImage()" class="btn btn-primary mt-3">Click me</button>
-					            </div>
-					            <img width="200px" id="frame" src="" class="img-fluid" />
-					        </div>
-
-					        <script>
-					            function preview() {
-					                frame.src = URL.createObjectURL(event.target.files[0]);
-					            }
-					            function clearImage() {
-					                document.getElementById('formFile').value = null;
-					                frame.src = "";
-					            }
-					        </script>
-	                    </div> -->
-	                    <!-- <div class="ibox">
-	                    	<div class="form-group ">
-	                            <label for="photo" class="text-left">Evidence</label>
-	                            <br/>
-	                            <input type="file" accept="image/*" capture="camera" /><br/>
-	                            <input type="file" accept="image/*;capture=camera"> yg ini bisa asalkan dibuka di browser handphone/android<br/>
-	                            <div class="input-group-btn mb-2 text-right ">
-	                                <button type="button" class="btn btn-danger min"><i class="fa fa-minus"></i></button>
-	                                <button type="button" class="btn btn-primary add"><i class="fa fa-plus"></i></button>
-	                            </div>
-	                            <div class="increment">
-	                                <div class="custom-file ">
-	                                    <input  name="photo[]" type="file" class="custom-file-input" id="custom-file-input" onchange="preview()" required>
-	                                    <label for="photo" class="custom-file-label">Choose file...</label>
-	                                </div>
-	                                <div class="clone">
-	                                    <div class="custom-file mt-2 ">
-	                                        <input  name="photo[]" type="file" class="custom-file-input" id="custom-file-input" onchange="preview()">
-	                                        <label for="photo" class="custom-file-label">Choose file...</label>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                            
-	                        </div>
-	                    </div> -->
 	                    <div class="hr-line-dashed"></div>
 	                    <!-- Select Shift and Cycle -->
 	                    <div class="form-group row">
 	                    	<label class="col-sm-2 col-form-label"><strong>Shift</strong></label>
 	                        <div class="col-sm-4">
 	                        	<select class="form-control m-b" name="shift" required>
-                                    <option value="" selected>--Select Shift--</option>
-                                    <option value="1">Shift 1</option>
-                                    <option value="2">Shift 2</option>
+                                    <option selected>{{$qcs->shift}}</option>
                                 </select>
 	                        </div>
 	                        <label class="col-sm-2 col-form-label"><strong>Cycle</strong></label>
 	                        <div class="col-sm-4">
 	                        	<select class="form-control m-b" name="cycle" required>
-                                    <option value="" selected>--Select Cycle--</option>
-                                    <option value="1">Cycle 1</option>
-                                    <option value="2">Cycle 2</option>
-                                    <option value="3">Cycle 3</option>
-                                    <option value="4">Cycle 4</option>
-                                    <option value="5">Cycle 5</option>
-                                    <option value="6">Cycle 6</option>
-                                    <option value="7">Cycle 7</option>
+                                    <option value="" selected>{{$qcs->cycle}}</option>
                                 </select>
 	                        </div>
 	                    </div>
@@ -144,6 +93,12 @@
                                     	<!-- <label class="col-form-label">Destructive Test</label> -->
                                     	<!-- <br/><br/> -->
                                     	<div class="i-checks radio">
+                                            {{$qcs->destructive_test}}
+                                            @if($qcs->destructive_test == 1)
+                                                
+                                            @elseif($qcs->destructive_test == 2)
+                                            @elseif($qcs->destructive_test == 3)
+                                            @endif
                                             <input type="radio" name="destructive_test" id="destructive_test_ok" value="1" required>
                                             <span class="badge badge-primary" for="destructive_test_ok">OK</span>
                                             
@@ -577,9 +532,11 @@
 						<div class="form-group row">
 							<div class="col-sm-10 col-sm-offset-2">
 								<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.monitor.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-primary btn-sm" type="submit">Submit Acceptance</button>
 								<button class="btn btn-primary btn-sm" type="submit">Submit</button>
 							</div>
 						</div>
+                        @endforeach
 					</form>
 				</div>
 			</div>
@@ -649,61 +606,10 @@
 <script src="{{asset('js/plugins/validate/jquery.validate.min.js')}}"></script>
 <!-- jquery steps -->
 <script>
-    $(document).ready(function(){
-        $("#wizard").steps();
-   });
-</script>
-
-<!-- <script>
-$(document).ready(function(){
-    $('.custom-file-input').on('change', function() {
-        let fileName = $(this).val().split('\\').pop();
-        var ext = fileName.split('.').pop();
-        if (ext == "png" || ext == "jpg" || ext == "jpeg") {
-            $(this).next('.custom-file-label').addClass("selected").html(fileName);
-        } else {
-            console.log(ext);
-            $(this).html("");
-            swal("Oops!", "Only JPG,JPEG, & PNG file!", "error");
-        }
-    });
-    $(".add").click(function(){ 
-        var html = '<div class="custom-file mt-2 "><input  name="photo[]" type="file" class="custom-file-input"><label for="photo" class="custom-file-label">Choose file...</label></div>';
-        $(".increment").append(html);
-        
-        // ulang untuk pick file
-        $('.custom-file-input').on('change', function() {
-            let fileName = $(this).val().split('\\').pop();
-            var ext = fileName.split('.').pop();
-            if (ext == "png" || ext == "jpg" || ext == "jpeg") {
-                $(this).next('.custom-file-label').addClass("selected").html(fileName);
-            } else {
-                console.log(ext);
-                $(this).html("");
-                swal("Oops!", "Only JPG,JPEG, & PNG file!", "error");
-            }
-        });
-        // remove ulang
-        $("body").on("click",".btn-danger",function(){ 
-            $('div.clone').children().last().remove();
-        });
-    });
-    $("body").on("click",".btn-danger",function(){ 
-        $('div.increment').children().last().remove();
-    });
-
-    function preview() {
-        frame.src = URL.createObjectURL(event.target.files[0]);
-    }
-    function clearImage() {
-        document.getElementById('custom-file-input').value = null;
-        frame.src = "";
-    }
-
-});
-
-</script> -->
-
+        $(document).ready(function(){
+            $("#wizard").steps();
+       });
+    </script>
 @endpush
 
 @push('stylesheets')

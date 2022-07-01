@@ -133,7 +133,7 @@
 	                            	@foreach ($cs_s1 as $keycs => $q_cs_qtime)
 	                            		<tr>
 	                            			<td>
-	                            				<a alt="add" href="{{url('')}}/quality/csqtime/show/{{$q_cs_qtime->id}}" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
+	                            				<a alt="add" href="{{url('')}}/quality/csqtime/{{$q_cs_qtime->id}}/edit" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
 	                            			</td>
 		                            		<td>
 																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
@@ -216,7 +216,7 @@
 	                            	@foreach ($cs_s2 as $keycs2 => $q_cs_qtime)
 	                            		<tr>
 	                            			<td>
-	                            				<a alt="add" href="{{url('')}}/quality/csqtime/show/{{$q_cs_qtime->id}}" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
+	                            				<a alt="add" href="{{url('')}}/quality/csqtime/{{$q_cs_qtime->id}}/edit" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
 	                            			</td>
 		                            		<td>
 																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
@@ -308,7 +308,7 @@
 									</td>
 									<td>
 										@if($q_monitor->cs_status == 0)
-											<span class="badge badge-info">Waiting Progress</span>
+											<span class="badge badge-info">In Progress</span>
 										@elseif($q_monitor->cs_status == 1)
 											<span class="badge badge-warning">Waiting Approval</span>
 										@elseif($q_monitor->cs_status == 2)

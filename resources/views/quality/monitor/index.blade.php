@@ -305,7 +305,7 @@
 									</td>
 									<td>
 										@if($q_monitor->cs_status == 0)
-											<span class="badge badge-info">Waiting Progress</span>
+											<span class="badge badge-info">In Progress</span>
 										@elseif($q_monitor->cs_status == 1)
 											<span class="badge badge-warning">Waiting Approval</span>
 										@elseif($q_monitor->cs_status == 2)

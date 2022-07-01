@@ -319,7 +319,103 @@ class QualityCsQtimeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cs_qtime_id = $id;
+        // get monitor_id
+        // get quality_monitor_id from $id
+        $monitor_id = DB::table('quality_cs_qtimes')->where('id', $id)->pluck('quality_monitor_id')->first();
+        // echo $monitor_id; exit();
+        $id = $monitor_id;
+        // echo $cs_qtime_id; exit();
+
+        // echo $id; exit();
+        // dependent dropdown
+        $qualityMonitors = QualityMonitor::with(['qualityArea', 'qualityProcess', 'qualityModel', 'qualityPart']);
+        // return view('quality.monitor.index', [
+        //     'qualityMonitors' => $qualityMonitors->get(),
+        // ]);
+        $qualityMonitors = $qualityMonitors->get();
+
+        $q_parts = QualityPart::all();
+        $q_models = QualityModel::all();
+        $q_processes = QualityProcess::all();
+        $q_areas = QualityArea::all();
+        $q_monitors = QualityMonitor::all();
+
+        // doc number
+        // $randomNumber = $this->generateDocNumber();
+        $randomNumber = (new QualityMonitorController)->generateDocNumber();
+
+        // cs monitors
+        // $q_monitors_id = DB::table('quality_monitors')->where('id', $id)->get();
+
+        // get cs category
+        $cs_cat_qtime = DB::table('quality_monitors')->where('id', $id)->pluck('quality_cs_qtime')->first();
+        $cs_cat_acc = DB::table('quality_monitors')->where('id', $id)->pluck('quality_cs_accuracy')->first();
+        if ($cs_cat_qtime == 1) {
+            $cs_category = "QTime";
+        } elseif ($cs_cat_acc == 1) {
+            $cs_category = "Accuracy";
+        } else {
+            $cs_category = "No Category";
+        }
+        // get cs doc number
+        $doc_number = DB::table('quality_monitors')->where('id', $id)->pluck('doc_number')->first();
+        // get area
+        $cs_area = DB::table('quality_monitors')->where('id', $id)->pluck('quality_area_id')->first();
+        $cs_area = DB::table('quality_areas')->where('id', $cs_area)->pluck('name')->first();
+        // echo $cs_area; exit();
+        // get process
+        $cs_process = DB::table('quality_monitors')->where('id', $id)->pluck('quality_process_id')->first();
+        $cs_process = DB::table('quality_processes')->where('id', $cs_process)->pluck('name')->first();
+        // get model
+        $cs_model = DB::table('quality_monitors')->where('id', $id)->pluck('quality_model_id')->first();
+        $cs_model = DB::table('quality_models')->where('id', $cs_model)->pluck('name')->first();
+        // get part
+        $cs_part_id = DB::table('quality_monitors')->where('id', $id)->pluck('quality_part_id')->first();   
+        $cs_part = DB::table('quality_monitors')->where('id', $id)->pluck('quality_part_id')->first();   
+        $cs_part = DB::table('quality_parts')->where('id', $cs_part)->pluck('name')->first();   
+        // get part vertical
+        $cs_part_ver = DB::table('quality_parts')->where('id', $cs_part_id)->get();
+        foreach($cs_part_ver as $cpv) {
+            if ($cpv->low) {
+                $part_ver = "Low";
+            } elseif ($cpv->mid) {
+                $part_ver = "Mid";
+            } elseif ($cpv->high) {
+                $part_ver = "High";
+            } else {
+                $part_ver = "";
+            }
+        }
+        // get part horizontal
+        $cs_part_hor = DB::table('quality_parts')->where('id', $cs_part_id)->get();
+        foreach($cs_part_hor as $cph) {
+            if ($cph->left) {
+                $part_hor = "Left";
+            } elseif ($cph->center) {
+                $part_hor = "Center";
+            } elseif ($cph->right) {
+                $part_hor = "Right";
+            } else {
+                $part_hor = "";
+            }
+        }
+
+        $q_monitor_id = $id;
+
+        // kondisional jika di part horizontal terdapat yg low, maka pindahkan form ke yg low, dst
+
+        // show quality_cs_qtimes
+        $q_cs_qtimes = DB::table('quality_cs_qtimes')->where('id', $cs_qtime_id)->get();
+        // dd($q_cs_qtimes);
+
+
+        return view('quality.csqtime.leader.edit', compact(
+            'q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors', 
+            'cs_category', 'doc_number', 'cs_area', 'cs_process', 'cs_model', 'cs_part', 'part_ver', 'part_hor',
+            'q_monitor_id',
+            'q_cs_qtimes'
+        ));
     }
 
     /**
