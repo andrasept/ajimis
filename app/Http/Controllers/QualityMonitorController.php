@@ -18,10 +18,12 @@ use Spatie\Permission\Models\Permission;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Controllers\QualityCsQtimeController;
+
 class QualityMonitorController extends Controller
 {
 
-    function generateDocNumber() {
+    public function generateDocNumber() {
         // $doc_number = mt_rand(1000000000, 9999999999); // better than rand()
         // // call the same function if the barcode exists already
         // if (docNumberExists($doc_number)) {
@@ -43,7 +45,10 @@ class QualityMonitorController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {       
+    {
+        // $user_role = (New QualityCsQtimeController)->getUserRole();
+        // echo $user_role; exit();
+
         // dependent dropdown
         $qualityMonitors = QualityMonitor::with(['qualityArea', 'qualityProcess', 'qualityModel', 'qualityPart']);
         // return view('quality.monitor.index', [

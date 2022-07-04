@@ -9,7 +9,15 @@ use App\Models\QualityModel;
 use App\Models\QualityPart;
 use App\Models\QualityMonitor;
 use App\Models\QualityCsQtime;
+
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Auth;
 
 class QualityCsQtimeController extends Controller
 {
@@ -18,9 +26,79 @@ class QualityCsQtimeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getUserRole() {
+        $user = auth()->user();
+        $userRoles = $user->roles()->get(); 
+        // return $user->getRoleNames();
+
+        $roles = $user->getRoleNames();
+        foreach ($roles as $key => $value) {
+            $role_name = $value;
+        }
+        return $role_name;
+    }
+
     public function index()
     {
-        //
+        // get user role example test
+        // $role = $this->getUserRole();
+        // echo $role;
+
+        // get judgement example status
+        $q_monitor_id = 11;
+        $cs_qtime_id = 40;
+
+        // $judge_status_s1 = DB::table('quality_cs_qtimes')
+        //         ->where('quality_monitor_id', $q_monitor_id)
+        //         ->where('shift', 1)->pluck('judge')->toArray();
+        //         // ->where('shift', 1)->get();
+        // // dd($judge_status_s1); exit();
+        // // cek jika ada AC/NG
+        // if (in_array("3", $judge_status_s1)) {
+        //     $judgement_1 = 2;
+        // } elseif(in_array("2", $judge_status_s1)) {
+        //     $judgement_1 = 2;
+        // } elseif(in_array("1", $judge_status_s1)) {
+        //     $judgement_1 = 1;
+        // } else {
+        //     $judgement_1 = 0;
+        // }
+
+        // // get judge AC/NG di shift 2
+        // $judge_status_s2 = DB::table('quality_cs_qtimes')
+        //     ->where('quality_monitor_id', $q_monitor_id)
+        //     ->where('shift', 2)->pluck('judge')->toArray();
+        // // cek jika ada AC/NG
+        // if (in_array("3", $judge_status_s2)) {
+        //     $judgement_2 = 2;
+        // } elseif(in_array("2", $judge_status_s2)) {
+        //     $judgement_2 = 2;
+        // } elseif(in_array("1", $judge_status_s2)) {
+        //     $judgement_2 = 1;
+        // } else {
+        //     $judgement_2 = 0;
+        // }
+
+        // // echo $judgement_1.$judgement_2; exit();
+        // // judgement jika cs_status = 3 dan tidak ada AC/NG di kedua shift = OK, else NG
+        // $judgement_arr = array($judgement_1, $judgement_2);
+        // // dd($judgement_arr); exit();
+        // if (in_array("3", $judgement_arr)) {
+        //     $judgement = 2;
+        // } elseif(in_array("2", $judgement_arr)) {
+        //     $judgement = 2;
+        // } elseif(in_array("1", $judgement_arr)) {
+        //     $judgement = 1;
+        // } else {
+        //     $judgement = 0;
+        // }
+        // echo $judgement; exit();
+
+
+        $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
+        // DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
+        echo $judgement;
+        exit();   
     }
 
     /**
@@ -430,6 +508,7 @@ class QualityCsQtimeController extends Controller
     {
         $user_id = auth()->user()->id;
         $cs_qtime_id = $id;
+        $q_monitor_id = $request->quality_monitor_id;
         // echo $cs_qtime_id; exit();
 
         $csqtime['quality_monitor_id'] = $request->quality_monitor_id;
@@ -447,19 +526,175 @@ class QualityCsQtimeController extends Controller
         $csqtime['marking_identification_remark'] = $request->marking_identification_remark;
         $csqtime['kelengkapan_komponen'] = $request->kelengkapan_komponen;
         $csqtime['kelengkapan_komponen_remark'] = $request->kelengkapan_komponen_remark;
+        // update last judge by dan last judge at
         $csqtime['updated_by'] = $user_id;
         $csqtime['updated_at'] = now();
         // dd($csqtime); exit();
 
+        // cek judgement, panggil fungsi judgement getJudgementStatus()
+        $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
+        // DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
+        echo $judgement;
+        exit();   
+
         // LANJUT STATUS HARUS TERUPDATE JUGA, AGAR DI DETAIL MODAL WINDOW TERUPDATE JUGA
-        // update cs_status di tabel q_monitors
-        // update judge dan approval_status di tabel q_cs_qtimes
-        // update judgement di tabel q_monitors
-        // kasih stamp approved by jenjang leader-director di page edit
+        // kondisional submit
+        if (isset($_POST['submit_ac'])) {
+            // jika di-ACceptance 
+            // update cs_status Waiting Approval di tabel q_monitors
+            DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['cs_status' => 1]);
+            // update judge dan approval_status di tabel q_cs_qtimes
+            // update judge
+            $acng = array(
+                $request->destructive_test, 
+                $request->appearance_produk, 
+                $request->parting_line,
+                $request->marking_cek_final,
+                $request->marking_garansi_function,
+                $request->marking_identification,
+                $request->kelengkapan_komponen
+            );
+            if (in_array("3", $acng)) {
+                $request->judge = 3;
+                $csqtime['judge'] = $request->judge;
+            } elseif(in_array("2", $acng)) {
+                $request->judge = 2;
+                $csqtime['judge'] = $request->judge;
+            } elseif(in_array("1", $acng)) {
+                $request->judge = 1;
+                $csqtime['judge'] = $request->judge;
+            } else {
+                $request->judge = 0;
+                $csqtime['judge'] = $request->judge;
+            }
+            // update approval_status
+            // DB::table('quality_cs_qtimes')->where('id', $cs_qtime_id)->update(['approval_status' => 6]);
+            // approval level
+            $user_role = $this->getUserRole();
+            if ($user_role == "User Quality") {
+                $csqtime['approval_status'] = 1;
+            } elseif ($user_role == "Leader Quality") {
+                $csqtime['approval_status'] = 2;
+            } elseif ($user_role == "Foreman Quality") {
+                $csqtime['approval_status'] = 3;
+            } elseif ($user_role == "Supervisor Quality") {
+                $csqtime['approval_status'] = 4;
+            } elseif ($user_role == "Dept Head Quality") {
+                $csqtime['approval_status'] = 5;
+            } elseif ($user_role == "Director Quality") {
+                $csqtime['approval_status'] = 6;
+            }            
+
+            // update judgement di tabel q_monitors
+
+            // kasih stamp approved by jenjang leader-director di page edit
+        } elseif (isset($_POST['submit_app'])) {
+            // jika di-approved 
+            // update cs_status approved by Leader di tabel q_monitors
+            DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['cs_status' => 2]);
+            // update judge dan approval_status di tabel q_cs_qtimes
+            // update judge
+            $acng = array(
+                $request->destructive_test, 
+                $request->appearance_produk, 
+                $request->parting_line,
+                $request->marking_cek_final,
+                $request->marking_garansi_function,
+                $request->marking_identification,
+                $request->kelengkapan_komponen
+            );
+            if (in_array("3", $acng)) {
+                $request->judge = 3;
+                $csqtime['judge'] = $request->judge;
+            } elseif(in_array("2", $acng)) {
+                $request->judge = 2;
+                $csqtime['judge'] = $request->judge;
+            } elseif(in_array("1", $acng)) {
+                $request->judge = 1;
+                $csqtime['judge'] = $request->judge;
+            } else {
+                $request->judge = 0;
+                $csqtime['judge'] = $request->judge;
+            }
+            // update approval_status
+            // DB::table('quality_cs_qtimes')->where('id', $cs_qtime_id)->update(['approval_status' => 6]);
+            $csqtime['approval_status'] = 6;
+            // update judgement di tabel q_monitors
+
+            // kasih stamp approved by jenjang leader-director di page edit
+        }
+        // cek judgement, panggil fungsi judgement getJudgementStatus(), lalu update kolom judgment
+        $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
+        // echo $judgement;
+        DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
+        // exit();     
+        // LANJUT DI SINI 20220704, TESTING UPDATE, LALU LANJUT BUAT APPROVAL PAGE UNTUK FOREMAN UP
 
         QualityCsQtime::find($id)->update($csqtime);
         return redirect()->route('quality.monitor.index')
             ->withSuccess(__('Checksheet updated successfully.'));
+    }
+
+    public function getJudgementStatus($q_monitor_id, $cs_qtime_id) {
+        // get cs status sudah finish cs_status = 3
+        $cs_statuses = DB::table('quality_monitors')->where('id', $q_monitor_id)->where('cs_status', 3)->pluck('cs_status');
+        foreach ($cs_statuses as $key => $value) {
+            $cs_status = $value;
+        }
+
+        // jika cs_status sudah finish
+        if ($cs_status == 3) {
+            // get judge AC/NG di shift 1
+            $judge_status_s1 = DB::table('quality_cs_qtimes')
+                ->where('quality_monitor_id', $q_monitor_id)
+                ->where('shift', 1)->pluck('judge')->toArray();
+                // ->where('shift', 1)->get();
+            // dd($judge_status_s1); exit();
+            // cek jika ada AC/NG
+            if (in_array("3", $judge_status_s1)) {
+                $judgement_1 = 2;
+            } elseif(in_array("2", $judge_status_s1)) {
+                $judgement_1 = 2;
+            } elseif(in_array("1", $judge_status_s1)) {
+                $judgement_1 = 1;
+            } else {
+                $judgement_1 = 0;
+            }
+
+            // get judge AC/NG di shift 2
+            $judge_status_s2 = DB::table('quality_cs_qtimes')
+                ->where('quality_monitor_id', $q_monitor_id)
+                ->where('shift', 2)->pluck('judge')->toArray();
+            // cek jika ada AC/NG
+            if (in_array("3", $judge_status_s2)) {
+                $judgement_2 = 2;
+            } elseif(in_array("2", $judge_status_s2)) {
+                $judgement_2 = 2;
+            } elseif(in_array("1", $judge_status_s2)) {
+                $judgement_2 = 1;
+            } else {
+                $judgement_2 = 0;
+            }
+
+            // judgement jika cs_status = 3 dan tidak ada AC/NG di kedua shift = OK, else NG
+            $judgement_arr = array($judgement_1, $judgement_2);
+            // dd($judgement_arr); exit();
+            if (in_array("3", $judgement_arr)) {
+                $judgement = 2;
+            } elseif(in_array("2", $judgement_arr)) {
+                $judgement = 2;
+            } elseif(in_array("1", $judgement_arr)) {
+                $judgement = 1;
+            } else {
+                $judgement = 0;
+            }
+
+            return $judgement;
+        } else {
+            $judgement = 0;
+            return $judgement;
+        }
+        
     }
 
     /**

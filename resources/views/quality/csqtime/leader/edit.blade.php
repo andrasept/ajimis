@@ -626,8 +626,8 @@
 						<div class="form-group row">
 							<div class="col-sm-10 col-sm-offset-2">
 								<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.monitor.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;
-								<button class="btn btn-primary btn-sm" type="submit">Submit Acceptance</button>
-								<button class="btn btn-primary btn-sm" type="submit">Submit</button>
+								<button class="btn btn-primary btn-sm" name="submit_ac" type="submit">Submit Acceptance</button>&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-primary btn-sm" name="submit_app" type="submit">Submit</button>
 							</div>
 						</div>
                         @endforeach
