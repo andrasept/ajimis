@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Part;
-use App\Models\Customer;
+use App\Models\Skills;
 use Illuminate\Http\Request;
-use App\Models\DeliveryClaim;
-use App\Models\ManPowerDelivery;
 use Illuminate\Support\Facades\DB;
-use App\Models\DeliveryPrepareCustomer;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
-class DeliveryClaimController extends Controller
+class DeliverySkillsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,17 +18,15 @@ class DeliveryClaimController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+           
+            $query = DB::table('delivery_skills');
 
-            $query = DB::table('delivery_claim');
-
-            $query= $query->select('delivery_claim.*')->get();
-
+            $query= $query->select('delivery_skills.*')->get();
+            
             return DataTables::of($query)->toJson();
         }else{
-    
-            $claims = DeliveryClaim::select('*')->get(); 
-
-            return view('delivery.claim.claim', compact('claims'));
+           
+            return view("delivery.skills.skills");
         }
     }
 
@@ -44,9 +37,7 @@ class DeliveryClaimController extends Controller
      */
     public function create()
     {
-        $part_nos = Part::select('*')->orderBy('part_no_customer', 'asc')->get()->unique('part_no_customer');
-        $shifts = ManPowerDelivery::select('*')->orderBy('shift', 'asc')->get()->unique('shift');
-        return view("delivery.claim.create", compact( 'shifts','part_nos'));
+        return view("delivery.skills.create");
     }
 
     /**
@@ -63,10 +54,10 @@ class DeliveryClaimController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\DeliveryClaim  $deliveryClaim
+     * @param  \App\Models\Skills  $skills
      * @return \Illuminate\Http\Response
      */
-    public function show(DeliveryClaim $deliveryClaim)
+    public function show(Skills $skills)
     {
         //
     }
@@ -74,43 +65,28 @@ class DeliveryClaimController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\DeliveryClaim  $deliveryClaim
+     * @param  \App\Models\Skills  $skills
      * @return \Illuminate\Http\Response
      */
-    public function edit(DeliveryClaim $deliveryClaim, $id)
+    public function edit(Skills $skills, $id)
     {
-        $data = DeliveryClaim::FindOrFail($id);
-        $part_nos = Part::select('*')->orderBy('part_no_customer', 'asc')->get()->unique('part_no_customer');
-        $shifts = ManPowerDelivery::select('*')->orderBy('shift', 'asc')->get()->unique('shift');
-        return view('delivery.claim.edit',compact('data','part_nos'));
-    }
-
-    public function dashboard(){
-        $claims = DeliveryClaim::all();
-        return view('delivery.claim.dashboard', compact('claims'));
+        $data = Skills::findOrFail($id);
+        return view('delivery.skills.edit',compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DeliveryClaim  $deliveryClaim
+     * @param  \App\Models\Skills  $skills
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DeliveryClaim $deliveryClaim)
+    public function update(Request $request, Skills $skills)
     {
         $validator =  Validator::make($request->all(),[
-            'customer_pickup_id' =>['required'],
-            'claim_date' => ['required'],
-            'problem' => ['required'],
-            'part_number' => ['required'],
-            'part_number_actual' => ['required'],
-            'part_name' => ['required'],
-            'part_name_actual' => ['required'],
+            'skill_code' =>['required','unique:delivery_skills'],
+            'skill' => ['required','unique:delivery_skills'],
             'category' => ['required'],
-            'qty' => ['required'],
-            'corrective_action' => ['required'],
-            'photo.*' => ['max:2048'],
         ]);
 
         if ($validator->fails()) {
@@ -183,44 +159,28 @@ class DeliveryClaimController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\DeliveryClaim  $deliveryClaim
+     * @param  \App\Models\Skills  $skills
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeliveryClaim $deliveryClaim, $id)
+    public function destroy(Skills $skills, $id)
     {
         try {
-            $data = DeliveryClaim::findOrFail($id);
-            $array_image = explode(",", $data->evidence);
-            foreach ($array_image as $key ) {
-                try {
-                    Storage::disk('public')->delete('/delivery-claim-photo/'.$key);
-                } catch (\Throwable $th) {
-                    //throw $th;
-                }
-            }
+            $data = Skills::findOrFail($id);
             $data->delete();
            
-            return redirect('/delivery/claim')->with('success', 'Claim Deleted!');
+            return redirect('/delivery/skills')->with('success', 'Skills Deleted!');
         } catch (\Throwable $th) {
-            // throw $th;
-            return redirect('/delivery/claim')->with("fail","Failed Delete! [105]");
+            throw $th;
+            // return redirect('/delivery/skills')->with("fail","Failed Delete! [105]");
         }
     }
 
     public function insert(Request $request)
     {
         $validator =  Validator::make($request->all(),[
-            'customer_pickup_id' =>['required'],
-            'claim_date' => ['required'],
-            'problem' => ['required'],
-            'part_number' => ['required'],
-            'part_number_actual' => ['required'],
-            'part_name' => ['required'],
-            'part_name_actual' => ['required'],
+            'skill_code' =>['required','unique:delivery_skills'],
+            'skill' =>['required','unique:delivery_skills'],
             'category' => ['required'],
-            'qty' => ['required'],
-            'corrective_action' => ['required'],
-            'photo.*' => ['max:2048'],
         ]);
 
         if ($validator->fails()) {
@@ -228,45 +188,17 @@ class DeliveryClaimController extends Controller
         }else{
             DB::beginTransaction();
 
-            // proses uplaod image evidence
-            if ($request->hasFile('photo')) {
-                $i = 0;
-                $data = [];
-                foreach ($request->file('photo') as $photo) {
-                    $i++;
-                    $name= $photo->hashName();
-                    $photo->store('delivery-claim-photo');
-                    array_push($data, $name); 
-                }
-    
-                // insert hash name
-                $img_names =implode(",", $data);
-                $request->merge(['evidence' => $img_names]);
-            }
-
             try {
-                DeliveryClaim::create($request->all());
+                Skills::create($request->all());
                 DB::commit();
 
-                return redirect('/delivery/claim')->with('success', 'Claim Added!');
+                return redirect('/delivery/skills')->with('success', 'Skills Added!');
             } catch (\Throwable $th) {
                 DB::rollback();
                 // throw $th;
 
-                return redirect('/delivery/claim')->with('fail', "Add Claim Failed! [105]");
+                return redirect('/delivery/skills')->with('fail', "Add Skills Failed! [105]");
             }
-        }
-
-        
-    }
-
-    public function get_data_part(Request $request)
-    {
-        try {
-            $data =  Part::where('part_no_customer', $request->part_no)->first();
-            return $data;
-        } catch (\Throwable $th) {
-            return '404';
         }
     }
 }

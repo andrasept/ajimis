@@ -8,6 +8,7 @@ use App\Exports\PreparationExport;
 use Illuminate\Support\Facades\DB;
 use App\Models\PreparationDelivery;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\DeliveryPrepareCustomer;
 use Yajra\DataTables\Facades\DataTables;
@@ -703,15 +704,27 @@ class DeliveryPreparationController extends Controller
             DB::commit();
 
             // kirim telegram
-            $message='<b>=========   DELAY    =========</b>'.chr(10).'<b>======== PREPARATION ========</b>'.chr(10).chr(10);
-            $message .= '<b>Preparation</b> : '.$selection->help_column.' '.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($selection->plan_date_preparation)).' '.chr(10).'<b>Plan Preparation Time </b>:'.$selection->plan_time_preparation.' '.chr(10).'<b>Finished By </b>:'.' NPK'.$npk.chr(10).'<b>Problem Identification : </b>'.$request->problem.chr(10).'<b>Corrective Action: </b>'.$request->remark;
+            $message='<b>==========   DELAY    =========</b>'.chr(10).'<b>======== PREPARATION ========</b>'.chr(10).chr(10);
+            $message .= '<b>Preparation</b> : '.$selection->help_column.' '.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($selection->plan_date_preparation)).' '.chr(10).'<b>Plan Preparation Time </b>:'.$selection->plan_time_preparation.' '.chr(10).'<b>Finished By </b>:'.' NPK'.$npk.chr(10).'<b>Problem Identification : </b>'.$request->problem.chr(10).'<b>Corrective Action: </b>'.chr(10).$request->remark;
             $this->sendTelegram('-690929411',$message );
+            
+            $row_1 = $selection->help_column; 
+            $row_2 =  date('d-m-Y', strtotime($selection->plan_date_preparation));
+            $row_3 = $selection->plan_time_preparation;
+            $row_4 = ' NPK'.$npk;
+            $row_5 = $request->problem;
+            $row_6 = $request->remark;
+            // kirim email
+            Mail::send('emails.preparation_delay', [  'row_1' => $row_1, 'row_2' => $row_2, 'row_3' => $row_3,'row_4' => $row_4, 'row_5' => $row_5,'row_6' => $row_6 ], function($message) use($request){
+                $message->to("miqdad.amarullah@astra-juoku.com");
+                $message->subject('Preparation Delay');
+            });
 
             return redirect('/delivery/preparation/member')->with('success', 'Schedule '.$selection->customer_pickup_id.' Updated!');
         } catch (\Throwable $th) {
-            // throw $th;
+            throw $th;
             DB::rollback();
-            return redirect('/delivery/preparation/member')->with("fail","Failed Update! [105]" );
+            // return redirect('/delivery/preparation/member')->with("fail","Failed Update! [105]" );
         }
     }
 

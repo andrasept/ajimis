@@ -145,7 +145,7 @@
             <th class="text-center">Plan Departure</th>
             <th class="text-center">Actual Departure</th>
             <th class="text-center">Gap Departure</th>
-            <th class="text-center">Arrival / Departure</th>
+            {{-- <th class="text-center">Arrival / Departure</th> --}}
             <th class="text-center">Action</th>
 
           </tr>
@@ -418,23 +418,23 @@
                 
                 },
                 { data: 'departure_gap', className: 'dt-body-center'},
-                { data: 'departure_status', className: 'dt-body-center', 
-                    'render': function(data, type, row){
+                // { data: 'departure_status', className: 'dt-body-center', 
+                //     'render': function(data, type, row){
                     
-                        var kumpul_btn="<div class='btn-group'>";
-                        var tutup_btn="</div>";
+                //         var kumpul_btn="<div class='btn-group'>";
+                //         var tutup_btn="</div>";
 
-                        if (row['arrival_status'] === null) {
-                          kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/arrival' class='btn btn-md btn-success'>Arrive</a>";
-                        }
-                        else if (data === null  && row['arrival_status'] !==null) {
+                //         if (row['arrival_status'] === null) {
+                //           kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/arrival' class='btn btn-md btn-success'>Arrive</a>";
+                //         }
+                //         else if (data === null  && row['arrival_status'] !==null) {
 
-                          kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/departure' class='btn btn-md btn-primary'>Departure</a>";
-                        }else{  
+                //           kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/departure' class='btn btn-md btn-primary'>Departure</a>";
+                //         }else{  
                           
-                        }      
-                        return kumpul_btn+tutup_btn;
-                }},
+                //         }      
+                //         return kumpul_btn+tutup_btn;
+                // }},
                 { data: "id", className: 'dt-body-center',
                   "render": function ( data, type, row ) {
                         return "<div class='btn-group'><a href='/delivery/preparation/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='preparation/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";

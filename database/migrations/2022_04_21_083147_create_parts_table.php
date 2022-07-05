@@ -165,9 +165,22 @@ class CreatePartsTable extends Migration
             $table->string('part_number');
             $table->string('part_name');
             $table->string('category');
+            $table->string('part_number_actual');
+            $table->string('part_name_actual');
             $table->integer('qty');
-            $table->json('evidence');
+            $table->string('evidence');
             $table->mediumText('corrective_action');
+            $table->timestamps();
+        });
+
+        Schema::create('delivery_notes', function (Blueprint $table) {
+            $table->id();
+            $table->string('customer');
+            $table->string('delivery_note');
+            $table->dateTime('out')->nullable();
+            $table->dateTime('in')->nullable();
+            $table->string('days');
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
 
@@ -223,5 +236,6 @@ class CreatePartsTable extends Migration
         Schema::dropIfExists('delivery_pickup_customer');
         Schema::dropIfExists('delivery_preparation');
         Schema::dropIfExists('delivery_claim');
+        Schema::dropIfExists('delivery_notes');
     }
 }

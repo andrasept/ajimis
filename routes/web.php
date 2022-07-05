@@ -118,12 +118,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::post('/preparation', 'DeliveryPreparationController@store')->name('delivery.preparation.import')->middleware('auth');
 
           // delivery admin
-          Route::post('/delivery', 'DeliveryController@store')->name('delivery.delivery.import')->middleware('auth');
-          Route::get('/delivery/create', 'DeliveryController@create')->name('delivery.delivery.create')->middleware('auth');
-          Route::put('/delivery/insert', 'DeliveryController@insert')->name('delivery.delivery.insert')->middleware('auth');
-          Route::get('/delivery/{id}/edit', 'DeliveryController@edit')->name('delivery.delivery.edit')->middleware('auth');
-          Route::put('/delivery/update', 'DeliveryController@update')->name('delivery.delivery.update')->middleware('auth');
-          Route::get('/delivery/{id}/delete', 'DeliveryController@destroy')->name('delivery.delivery.destroy')->middleware('auth');
+          // Route::post('/delivery', 'DeliveryController@store')->name('delivery.delivery.import')->middleware('auth');
+          // Route::get('/delivery/create', 'DeliveryController@create')->name('delivery.delivery.create')->middleware('auth');
+          // Route::put('/delivery/insert', 'DeliveryController@insert')->name('delivery.delivery.insert')->middleware('auth');
+          // Route::get('/delivery/{id}/edit', 'DeliveryController@edit')->name('delivery.delivery.edit')->middleware('auth');
+          // Route::put('/delivery/update', 'DeliveryController@update')->name('delivery.delivery.update')->middleware('auth');
+          // Route::get('/delivery/{id}/delete', 'DeliveryController@destroy')->name('delivery.delivery.destroy')->middleware('auth');
           
           // claim admin
           Route::get('/claim', 'DeliveryClaimController@index')->name('delivery.claim.claim')->middleware('auth');
@@ -133,6 +133,27 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::put('/claim/update', 'DeliveryClaimController@update')->name('delivery.claim.update')->middleware('auth');
           Route::get('/claim/{id}/delete', 'DeliveryClaimController@destroy')->name('delivery.claim.destroy')->middleware('auth');
           Route::post('/claim/get_data_part', 'DeliveryClaimController@get_data_part')->name('delivery.claim.get_data_part')->middleware('auth');
+          Route::get('/claim/dashboard', 'DeliveryClaimController@dashboard')->name('delivery.claim.dashboard')->middleware('auth');
+
+          // surat jalan / delivery note admin
+          Route::post('/delivery_note', 'DeliveryNoteController@store')->name('delivery.delivery_note.import')->middleware('auth');
+          Route::get('/delivery_note', 'DeliveryNoteController@index')->name('delivery.delivery_note')->middleware('auth');
+          Route::get('/delivery_note/create', 'DeliveryNoteController@crcleareate')->name('delivery.delivery_note.create')->middleware('auth');
+          Route::put('/delivery_note/insert', 'DeliveryNoteController@insert')->name('delivery.delivery_note.insert')->middleware('auth');
+          Route::post('/delivery_note/check', 'DeliveryNoteController@check')->name('delivery.delivery_note.check')->middleware('auth');
+         
+          // master skills
+          Route::get('/skills', 'DeliverySkillsController@index')->name('delivery.skills')->middleware('auth');
+          Route::get('/skills/create', 'DeliverySkillsController@create')->name('delivery.skills.create')->middleware('auth');
+          Route::put('/skills/insert', 'DeliverySkillsController@insert')->name('delivery.skills.insert')->middleware('auth');
+          Route::get('/skills/{id}/edit', 'DeliverySkillsController@edit')->name('delivery.skills.edit')->middleware('auth');
+          Route::put('/skills/update', 'DeliverySkillsController@update')->name('delivery.skills.update')->middleware('auth');
+          Route::get('/skills/{id}/delete', 'DeliverySkillsController@destroy')->name('delivery.skills.destroy')->middleware('auth');
+
+          // skill matrix
+          Route::get('/skillmatrix', 'DeliverySkillMatrixController@index')->name('delivery.SkillMatrix')->middleware('auth');
+          Route::get('/skillmatrix/create', 'DeliverySkillMatrixController@create')->name('delivery.SkillMatrix.create')->middleware('auth');
+
 
         });
         // delivery member
@@ -151,6 +172,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/preparation/security', 'DeliveryPreparationController@security')->name('delivery.preparation.security')->middleware('auth');
         Route::get('/preparation/{id}/{driver_name}/arrival', 'DeliveryPreparationController@arrival')->name('delivery.preparation.arrival')->middleware('auth');
         Route::get('/preparation/{id}/departure', 'DeliveryPreparationController@departure')->name('delivery.preparation.departure')->middleware('auth');
+        
+        
       });
   /*
   |--------------------------------------------------------------------------
