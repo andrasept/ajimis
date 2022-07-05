@@ -4,7 +4,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
-		<h2>Quality Monitoring | Leader Page</h2>
+		<h2>Quality Monitoring Checksheet | Leader Page</h2>
 	</div>
 	<div class="col-lg-2">
 	</div>
@@ -35,6 +35,7 @@
 									<th>Process</th>
 									<th>Model</th>
 									<th>Part</th>
+									<th>Created by</th>
 									<th>Created at</th>
 									<!-- <th>Action</th> -->
 								</tr>
@@ -375,6 +376,13 @@
 
 											@endif
 										@endforeach
+									</td>
+									<td>
+											@foreach($users as $u)
+												@if($u->id == $q_monitor->created_by)
+													{{$u->name}}
+												@endif
+											@endforeach
 									</td>
 									<td>{{$q_monitor->created_at}}</td>
 									<!--

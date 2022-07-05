@@ -4,7 +4,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
-		<h2>Quality Monitoring Checksheet | Member Page</h2>
+		<h2>Quality Monitoring Checksheet | Director Page</h2>
 	</div>
 	<div class="col-lg-2">
 	</div>
@@ -22,11 +22,6 @@
 					</div>
 				</div>
 				<div class="ibox-content">
-					<div class="row">
-						<div class="col-sm-10">
-							<a alt="add" href="{{ route('quality.monitor.create')}}" class="btn btn-success "><i class="fa fa-plus"> </i><span class="bold"> &nbsp; Add Checksheet</span> </a><br/><br/>
-						</div>						
-					</div>
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered table-hover dataTables-example" >
 							<thead>
@@ -51,7 +46,7 @@
 									<td>
 										<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal{{$q_monitor->id}}"><i class="fa fa-list"></i></button>
 
-										<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
+										<!-- <a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a> -->
 
                 		<div class="modal inmodal fade" id="myModal{{$q_monitor->id}}" tabindex="-1" role="dialog"  aria-hidden="true">
                       <div class="modal-dialog modal-lg">
@@ -123,6 +118,7 @@
 	                          <table class="table">
 	                            <thead>
 		                            <tr>
+	                                <th>Action</th>
 	                                <th>Cycle</th>
 	                                <th>Judge</th>
 	                                <th>Approval</th>
@@ -133,10 +129,13 @@
 	                            </thead>
 	                            <tbody>
 	                            	@php
-	                            	$cs_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_monitor->id)->get();
+	                            		$cs_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_monitor->id)->get();
 	                            	@endphp
 	                            	@foreach ($cs_s1 as $keycs => $q_cs_qtime)
 	                            		<tr>
+	                            			<td>
+	                            				<a alt="add" href="{{url('')}}/quality/csqtime/{{$q_cs_qtime->id}}/edit" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
+	                            			</td>
 		                            		<td>
 																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
 																				{{$q_cs_qtime->cycle}}
@@ -202,6 +201,7 @@
 	                          <table class="table">
 	                            <thead>
 		                            <tr>
+	                                <th>Action</th>
 	                                <th>Cycle</th>
 	                                <th>Judge</th>
 	                                <th>Approval</th>
@@ -216,6 +216,9 @@
 	                            	@endphp
 	                            	@foreach ($cs_s2 as $keycs2 => $q_cs_qtime)
 	                            		<tr>
+	                            			<td>
+	                            				<a alt="add" href="{{url('')}}/quality/csqtime/{{$q_cs_qtime->id}}/edit" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
+	                            			</td>
 		                            		<td>
 																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
 																				{{$q_cs_qtime->cycle}}
@@ -280,9 +283,8 @@
 	                        <div class="modal-footer">
 	                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 	                          <!-- <button type="button" class="btn btn-primary">Add Cycle</button> -->
-	                          <a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}"><button type="button" class="btn btn-primary">Add Cycle</button></i></a>
 	                          &nbsp;&nbsp;&nbsp;
-	                          <!-- <button type="button" class="btn btn-primary">Finish Cycle</button> -->
+	                          <button type="button" class="btn btn-primary">Finish Cycle</button>
 	                        </div>
                       	</div>
                       </div>
@@ -376,11 +378,11 @@
 										@endforeach
 									</td>
 									<td>
-										@foreach($users as $u)
-											@if($u->id == $q_monitor->created_by)
-												{{$u->name}}
-											@endif
-										@endforeach
+											@foreach($users as $u)
+												@if($u->id == $q_monitor->created_by)
+													{{$u->name}}
+												@endif
+											@endforeach
 									</td>
 									<td>{{$q_monitor->created_at}}</td>
 									<!--

@@ -95,10 +95,10 @@ class QualityCsQtimeController extends Controller
         // echo $judgement; exit();
 
 
-        $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
-        // DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
-        echo $judgement;
-        exit();   
+        // $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
+        // // DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
+        // echo $judgement;
+        // exit();   
     }
 
     /**
@@ -531,11 +531,11 @@ class QualityCsQtimeController extends Controller
         $csqtime['updated_at'] = now();
         // dd($csqtime); exit();
 
-        // cek judgement, panggil fungsi judgement getJudgementStatus()
-        $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
-        // DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
-        echo $judgement;
-        exit();   
+        // // cek judgement, panggil fungsi judgement getJudgementStatus()
+        // $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
+        // // DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
+        // echo $judgement;
+        // exit();   
 
         // LANJUT STATUS HARUS TERUPDATE JUGA, AGAR DI DETAIL MODAL WINDOW TERUPDATE JUGA
         // kondisional submit
@@ -591,7 +591,9 @@ class QualityCsQtimeController extends Controller
         } elseif (isset($_POST['submit_app'])) {
             // jika di-approved 
             // update cs_status approved by Leader di tabel q_monitors
+            // harusnya cek dahulu approval di setiap cs_qtime_id nya, jika sudah approved semua baru cs_status = 2, jika belum cs_status = 1
             DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['cs_status' => 2]);
+
             // update judge dan approval_status di tabel q_cs_qtimes
             // update judge
             $acng = array(
@@ -628,7 +630,7 @@ class QualityCsQtimeController extends Controller
         // echo $judgement;
         DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
         // exit();     
-        // LANJUT DI SINI 20220704, TESTING UPDATE, LALU LANJUT BUAT APPROVAL PAGE UNTUK FOREMAN UP
+        // LANJUT DI SINI 20220704, TESTING UPDATE, LALU LANJUT BUAT LEVELING (pakai get role di qmonitor view) APPROVAL PAGE UNTUK FOREMAN UP
 
         QualityCsQtime::find($id)->update($csqtime);
         return redirect()->route('quality.monitor.index')
@@ -637,7 +639,9 @@ class QualityCsQtimeController extends Controller
 
     public function getJudgementStatus($q_monitor_id, $cs_qtime_id) {
         // get cs status sudah finish cs_status = 3
-        $cs_statuses = DB::table('quality_monitors')->where('id', $q_monitor_id)->where('cs_status', 3)->pluck('cs_status');
+        $cs_statuses = DB::table('quality_monitors')->where('id', $q_monitor_id)
+            // ->where('cs_status', 3)
+            ->pluck('cs_status');
         foreach ($cs_statuses as $key => $value) {
             $cs_status = $value;
         }

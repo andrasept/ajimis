@@ -76,19 +76,50 @@ class QualityMonitorController extends Controller
         $user_id = auth()->user()->id;
 
         // get users by its roles 
-        $user_roles = User::whereHas("roles", function($q){ $q->where("name", "Leader Quality"); })->get();
-        foreach ($user_roles as $key => $ur) {
-            // echo $ur->id."<br/>";
-            if ($user_id == $ur->id) {
-                // echo "bener"; exit();
-                $user_role = "Leader Quality";
-            } else {
-                $user_role = "";
-            }
-        }
+        // $user_roles = User::whereHas("roles", function($q){ $q->where("name", "Leader Quality"); })->get();
+        // foreach ($user_roles as $key => $ur) {
+        //     // echo $ur->id."<br/>";
+        //     if ($user_id == $ur->id) {
+        //         // echo "bener"; exit();
+        //         $user_role = "Leader Quality";
+        //     } else {
+        //         $user_role = "";
+        //     }
+        // }
+        $user_role = (New QualityCsQtimeController)->getUserRole();
+        // echo $user_role; exit();
+
+        // LANJUT
+        // cs monitor per role
+        // q_monitors_role = select monitor_id where cs_qtime_id.approval_status=role
+        // get cs_qtime_id where approval_status=role
 
         if ($user_role == "Leader Quality") {
             return view('quality.monitor.leader.index', compact(
+                'q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors', 
+                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'users'
+            ));
+        } elseif ($user_role == "Foreman Quality") {
+            return view('quality.monitor.foreman.index', compact(
+                'q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors', 
+                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'users'
+            ));
+        } elseif ($user_role == "Supervisor Quality") {
+            return view('quality.monitor.supervisor.index', compact(
+                'q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors', 
+                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'users'
+            ));
+        } elseif ($user_role == "Dept Head Quality") {
+            return view('quality.monitor.depthead.index', compact(
+                'q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors', 
+                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'users'
+            ));
+        } elseif ($user_role == "Director Quality") {
+            return view('quality.monitor.director.index', compact(
                 'q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors', 
                 'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
                 'users'
