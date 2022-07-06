@@ -282,37 +282,32 @@
 	                        </div>
 
                         	@php
-                        		// app status di shift 1
-                        		$app_status = DB::table('quality_cs_qtimes')
+                        		$hasil = "sudah finish";
+	                        	$app_status1 = DB::table('quality_cs_qtimes')
 																		->where('quality_monitor_id',$q_monitor->id)
-																		->get();	
-														//$app_status_unfinish = ["1","2","3","4","5"];
-														$app_status_unfinish = array("1","2","3","4","5");
+																		->get();
+																		//->toArray();
+	                        	// $app_status_unfinish = array(1,2,3,4,5);
 														// cek apakah	ada selain 0 dan 6	
-														// var_dump($app_status);
-														// if(in_array($app_status_unfinish, $app_status)){
+														// dd($app_status1);
+														// if(in_array($app_status_unfinish, $app_status1)){
 														//	echo "belum finish";
-														//} else {
+														// } else {
 														//	echo "sudah finish";
-														//}	
-														$finish = "belum";
-														foreach($app_status as $as) {
+														// }
+														foreach($app_status1 as $as) {
 															if($as->approval_status == 1) {
-																// echo "belum";
-																$finish = "belum";
+																$hasil = "belum finish";
 															} elseif($as->approval_status == 2) {
-																$finish = "belum";
+																$hasil = "belum finish";
 															} elseif($as->approval_status == 3) {
-																$finish = "belum";
+																$hasil = "belum finish";
 															} elseif($as->approval_status == 4) {
-																$finish = "belum";
+																$hasil = "belum finish";
 															} elseif($as->approval_status == 5) {
-																$finish = "belum";
-															} else {
-																$finish = "sudah";
-															}
+																$hasil = "belum finish";
+															} 
 														}
-														//echo $finish;
 															
                         	@endphp
 
@@ -320,7 +315,7 @@
 	                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 	                          <!-- <button type="button" class="btn btn-primary">Add Cycle</button> -->
 	                          &nbsp;&nbsp;&nbsp;
-	                          @if($finish == "sudah")
+	                          @if($hasil == "sudah finish")
 	                          	<button type="button" class="btn btn-primary">Finish Cycle</button>
 	                          @else
 	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
@@ -359,10 +354,10 @@
 										<span class="badge badge-info">All Checked</span>
 										@endif
 
-										@if($finish == "sudah")
+										@if($hasil == "sudah finish")
 										<span class="badge badge-primary">All OK & Checked</span>
 										@endif
-										
+
 										<br/>
 										<!-- count cycle -->
 										@php

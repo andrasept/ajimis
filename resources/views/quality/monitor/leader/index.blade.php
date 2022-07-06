@@ -309,29 +309,7 @@
 															} 
 														}
 														// echo $hasil;
-
-
-                        		//$app_status = DB::table('quality_cs_qtimes')
-														//				->where('quality_monitor_id',$q_monitor->id)
-														//				->get();																
-														//$finish = "belum";
-														//foreach($app_status as $as) {
-														//	if($as->approval_status == 1) {
-														//		// echo "belum";
-														//		$finish = "belum";
-														//	} elseif($as->approval_status == 2) {
-														//		$finish = "belum";
-														//	} elseif($as->approval_status == 3) {
-														//		$finish = "belum";
-														//	} elseif($as->approval_status == 4) {
-														//		$finish = "belum";
-														//	} elseif($as->approval_status == 5) {
-														//		$finish = "belum";
-														//	} else {
-														//		$finish = "sudah";
-														//	}
-														//}
-															
+														// echo $q_monitor->id;
                         	@endphp
 
 	                        <div class="modal-footer">
@@ -339,7 +317,10 @@
 	                          <!-- <button type="button" class="btn btn-primary">Add Cycle</button> -->
 	                          &nbsp;&nbsp;&nbsp;
 	                          @if($hasil == "sudah finish")
-	                          	<button type="button" class="btn btn-primary">Finish Cycle</button>
+	                          	
+	                          	<button type="button" class="btn btn-primary" onclick="location.href='{{ route('quality.monitor.finish') }}';">Finish Cycle</button>
+
+	                          	<a alt="add" href="{{url('')}}/quality/monitor/{{$q_monitor->id}}/finish" class=""><button type="button" class="btn btn-primary">Finish Cycle</button></i></a>
 	                          @else
 	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
 	                          @endif	                          

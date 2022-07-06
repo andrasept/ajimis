@@ -215,6 +215,20 @@ class QualityMonitorController extends Controller
         }
     }
 
+    public function finish($id)
+    {
+        echo $id; exit();
+        $user_id = auth()->user()->id;
+        QualityMonitor::where('id', $id)
+          ->update([
+            'cs_status' => 3,
+            'updated_by' => $user_id,
+            'updated_at' => now()
+        ]);
+        return redirect()->route('quality.monitor.index')
+            ->withSuccess(__('Quality Checksheet finished successfully.'));
+    }
+
     /**
      * Display the specified resource.
      *
