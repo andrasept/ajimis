@@ -625,9 +625,15 @@
 
 						<div class="form-group row">
 							<div class="col-sm-10 col-sm-offset-2">
-								<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.monitor.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;
-								<button class="btn btn-primary btn-sm" name="submit_ac" type="submit">Submit Acceptance</button>&nbsp;&nbsp;&nbsp;
-								<button class="btn btn-primary btn-sm" name="submit_app" type="submit">Submit</button>
+                                @role('Director Quality')
+                                    <input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.monitor.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-primary btn-sm" name="submit_app" type="submit">Submit</button>
+                                @else
+                                    <input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.monitor.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-primary btn-sm" name="submit_ac" type="submit">Submit Acceptance</button>&nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-primary btn-sm" name="submit_app" type="submit">Submit</button>
+                                @endrole
+								
 							</div>
 						</div>
                         @endforeach

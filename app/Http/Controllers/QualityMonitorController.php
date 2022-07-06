@@ -90,9 +90,27 @@ class QualityMonitorController extends Controller
         // echo $user_role; exit();
 
         // LANJUT
-        // cs monitor per role
-        // q_monitors_role = select monitor_id where cs_qtime_id.approval_status=role
-        // get cs_qtime_id where approval_status=role
+        // set status "All Checked"
+        // $app_status = DB::table('quality_cs_qtimes')
+        //     ->where('quality_monitor_id',$q_monitor->id)
+        //     ->get();    
+        // $finish_status = "belum";
+        // foreach($app_status as $as) {
+        //     if($as->approval_status == 1) {
+        //         // echo "belum";
+        //         $finish_status = "belum";
+        //     } elseif($as->approval_status == 2) {
+        //         $finish_status = "belum";
+        //     } elseif($as->approval_status == 3) {
+        //         $finish_status = "belum";
+        //     } elseif($as->approval_status == 4) {
+        //         $finish_status = "belum";
+        //     } elseif($as->approval_status == 5) {
+        //         $finish_status = "belum";
+        //     } else {
+        //         $finish_status = "sudah";
+        //     }
+        // }
 
         if ($user_role == "Leader Quality") {
             return view('quality.monitor.leader.index', compact(

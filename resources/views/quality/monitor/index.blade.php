@@ -277,6 +277,28 @@
 	                            </tbody>
 	                        	</table>
 	                        </div>
+	                        @php
+	                        $app_status = DB::table('quality_cs_qtimes')
+																		->where('quality_monitor_id',$q_monitor->id)
+																		->get();	
+	                        $finish = "belum";
+														foreach($app_status as $as) {
+															if($as->approval_status == 1) {
+																// echo "belum";
+																$finish = "belum";
+															} elseif($as->approval_status == 2) {
+																$finish = "belum";
+															} elseif($as->approval_status == 3) {
+																$finish = "belum";
+															} elseif($as->approval_status == 4) {
+																$finish = "belum";
+															} elseif($as->approval_status == 5) {
+																$finish = "belum";
+															} else {
+																$finish = "sudah";
+															}
+														}
+	                        @endphp
 	                        <div class="modal-footer">
 	                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 	                          <!-- <button type="button" class="btn btn-primary">Add Cycle</button> -->
@@ -315,6 +337,11 @@
 										@elseif($q_monitor->cs_status == 3)
 										<span class="badge badge-info">All Checked</span>
 										@endif
+
+										@if($finish == "sudah")
+										<span class="badge badge-primary">All OK & Checked</span>
+										@endif
+
 										<br/>
 										<!-- count cycle -->
 										@php
