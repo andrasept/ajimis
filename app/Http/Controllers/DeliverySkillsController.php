@@ -84,8 +84,8 @@ class DeliverySkillsController extends Controller
     public function update(Request $request, Skills $skills)
     {
         $validator =  Validator::make($request->all(),[
-            'skill_code' =>['required','unique:delivery_skills'],
-            'skill' => ['required','unique:delivery_skills'],
+            'skill_code' =>['required'],
+            'skill' => ['required'],
             'category' => ['required'],
         ]);
 
@@ -93,65 +93,27 @@ class DeliverySkillsController extends Controller
             return back()->withInput()->withErrors($validator);
         }else{
             
-            if ($request->evidence == [] && $request->photo == []) {
-                return redirect('/delivery/claim')->with('fail', "Evidence cannot empty!");
-            } else {
-                DB::beginTransaction();
             
-                // delete evidence existing
-                try {
-                    foreach ($request->delete as $key) {
-                        Storage::disk('public')->delete('/delivery-claim-photo/'.$key);
-                    }
-                } catch (\Throwable $th) {
-                    //throw $th;
-                }
+            DB::beginTransaction();
 
+            
+            // proses db
+            try {
 
-                // proses uplaod image evidence
-                $data = [];
+                $data = Skills::findOrFail($request->id);
+                $data->fill($request->all());
+                $data->save();
+                DB::commit();
 
-                if ($request->hasFile('photo')) {
-                
-                    // memasukan data evidence baru ke array baru
-                    foreach ($request->file('photo') as $photo) {
-                        $name= $photo->hashName();
-                        $photo->store('delivery-claim-photo');
-                        array_push($data, $name); 
-                    }
-                    
-                }
-                
-                // proses db
-                try {
-                    // masukan evidence existing ke array baru
-                    if ($request->evidence == []) {
-                       
-                    }else{
-                        foreach ($request->evidence as $key) {
-                            array_push($data, $key); 
-                        }
-                    }
-                    // overwrite request
-                    $request->request->add(['evidence' =>  $data]);
-                    $img_names = $request->evidence;
-                    $img_names =implode(",", $img_names);
-                    $request->merge(["evidence"=>$img_names]);
+                return redirect('/delivery/skills')->with('success', 'Skills Updated!');
+            } catch (\Throwable $th) {
+                // dd($th);
+                DB::rollback();
+                // throw $th;
+                return redirect('/delivery/skills')->with('fail', "Update Skills Failed! [105]");
 
-                    $data = DeliveryClaim::findOrFail($request->id);
-                    $data->fill($request->all());
-                    $data->save();
-                    DB::commit();
-
-                    return redirect('/delivery/claim')->with('success', 'Claim Updated!');
-                } catch (\Throwable $th) {
-                    // dd($th);
-                    DB::rollback();
-                    // throw $th;
-                    return redirect('/delivery/claim')->with('fail', "Update Claim Failed! [105]");
-
-                }
             }
+            
            
         }
     }

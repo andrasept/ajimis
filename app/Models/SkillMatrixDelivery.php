@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SkillMatrixDelivery extends Model
 {
     use HasFactory;
+    protected $fillable=["value","skill_id","user_id"];
+    protected $table = "delivery_matrix_skills";   
 }

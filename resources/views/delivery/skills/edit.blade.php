@@ -16,7 +16,7 @@
     <div class="ibox " >
         {{-- {{dd($data);}} --}}
         <div class="ibox-title">
-            <h4>Edit Claim</h4>
+            <h4>Edit Skill</h4>
         </div>
         <div class="ibox-content" >
             @if(session()->has('fail'))
@@ -56,7 +56,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Skill</label>  
+                            <label>Skill Description</label>  
                             <input type="text" id="skill" placeholder="skill" name="skill" class="form-control" value="{{$data->skill}}" autocomplete="off">
                             @error('skill') 
                             <div class="text-danger">

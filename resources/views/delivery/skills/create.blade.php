@@ -33,7 +33,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Skill</label> 
+                            <label>Skill Description</label> 
                             <input type="text" name="skill" id="skill" class="form-control" autocomplete="off">
                             @error('skill') 
                                 <div class="text-danger">
@@ -46,7 +46,6 @@
                             <select name="category" class="form-control" id="category">
                                 <option value="PPC">PPC</option>
                                 <option value="Pulling FG OEM">Pulling FG OEM</option>
-                                <option value="Delivery Control">Delivery Control</option>
                                 <option value="Delivery Control">Delivery Control</option>
                                 <option value="Preparation Delivery OEM">Preparation Delivery OEM</option>
                                 <option value="Sparepart">Sparepart</option>

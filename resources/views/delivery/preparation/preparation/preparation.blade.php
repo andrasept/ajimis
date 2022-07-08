@@ -123,7 +123,6 @@
             <th class="text-center">Result Preparation</th>
             <th class="text-center">Result Arrival</th>
             <th class="text-center">Result Departure</th>
-            {{-- <th class="text-center">Cycle</th> --}}
             <th class="text-center">Cycle Time (minutes)</th>
             <th class="text-center">Plan Preparation Date </th>
             <th class="text-center">Plan Preparation Time </th>
@@ -142,10 +141,11 @@
             <th class="text-center" >Plan Arrival</th>
             <th class="text-center">Actual Arrival</th>
             <th class="text-center">Gap Arrival</th>
+            <th class="text-center">Arrival Trigger by</th>
             <th class="text-center">Plan Departure</th>
             <th class="text-center">Actual Departure</th>
             <th class="text-center">Gap Departure</th>
-            {{-- <th class="text-center">Arrival / Departure</th> --}}
+            <th class="text-center">Departure Trigger by</th>
             <th class="text-center">Action</th>
 
           </tr>
@@ -303,7 +303,6 @@
                     }
                   }
                 },
-                // { data: "cycle", className: 'dt-body-center'},
                 { data: "cycle_time_preparation", className: 'dt-body-center'},
                 { data: "plan_date_preparation", className: 'dt-body-center',
                     "render" :function(data,type, row)
@@ -393,6 +392,7 @@
                 
                 },
                 { data: 'arrival_gap', className: 'dt-body-center'},
+                { data: 'security_name_arrival', className: 'dt-body-center'},
                 { data: 'departure_plan', className: 'dt-body-center',
                 
                   "render" :function(data,type, row)
@@ -418,23 +418,7 @@
                 
                 },
                 { data: 'departure_gap', className: 'dt-body-center'},
-                // { data: 'departure_status', className: 'dt-body-center', 
-                //     'render': function(data, type, row){
-                    
-                //         var kumpul_btn="<div class='btn-group'>";
-                //         var tutup_btn="</div>";
-
-                //         if (row['arrival_status'] === null) {
-                //           kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/arrival' class='btn btn-md btn-success'>Arrive</a>";
-                //         }
-                //         else if (data === null  && row['arrival_status'] !==null) {
-
-                //           kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/departure' class='btn btn-md btn-primary'>Departure</a>";
-                //         }else{  
-                          
-                //         }      
-                //         return kumpul_btn+tutup_btn;
-                // }},
+                { data: 'security_name_departure', className: 'dt-body-center'},
                 { data: "id", className: 'dt-body-center',
                   "render": function ( data, type, row ) {
                         return "<div class='btn-group'><a href='/delivery/preparation/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='preparation/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";

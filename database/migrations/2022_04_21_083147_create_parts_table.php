@@ -96,7 +96,6 @@ class CreatePartsTable extends Migration
             $table->id();
             $table->string('skill_code')->index();
             $table->string('skill');
-            $table->string('category');
             $table->timestamps();
         });
 
@@ -233,9 +232,11 @@ class CreatePartsTable extends Migration
         Schema::dropIfExists('delivery_part_cards');
         Schema::dropIfExists('delivery_man_power');
         Schema::dropIfExists('delivery_matrix_skills');
+        Schema::dropIfExists('delivery_skills');
         Schema::dropIfExists('delivery_pickup_customer');
         Schema::dropIfExists('delivery_preparation');
         Schema::dropIfExists('delivery_claim');
         Schema::dropIfExists('delivery_notes');
+        Schema::dropIfExists('delivery_mos');
     }
 }

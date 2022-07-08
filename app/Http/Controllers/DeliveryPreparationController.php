@@ -37,11 +37,7 @@ class DeliveryPreparationController extends Controller
             }else {
                 if (isset($request->min) && isset($request->max)) {
                     
-                    if ($request->member == '2') {
-                        $query->where('arrival_plan', '>=' ,date("Y-m-d H:i:s", strtotime($request->min." 00:00:00")))->where('arrival_plan', '<=' ,date("Y-m-d H:i:s", strtotime($request->max." 23:59:00")));
-                    } else {
-                        $query->whereBetween('plan_date_preparation', [date("Y-m-d", strtotime($request->min)), date("Y-m-d", strtotime($request->max))]);
-                    }
+                    $query->whereBetween('plan_date_preparation', [date("Y-m-d", strtotime($request->min)), date("Y-m-d", strtotime($request->max))]);
                     
                 }
 
@@ -89,6 +85,15 @@ class DeliveryPreparationController extends Controller
                     }
                     
                 }
+                if ($request->member == '2') {
+                    $query->where('departure_status','=', NULL)->whereIn('customer_pickup_id', function($q){
+                        $q->select('customer_pickup_id')->where('customer_pickup_id','like', '%AHM%'  )
+                        ->orWhere('customer_pickup_id','like', '%TMMIN%'  )
+                        ->orWhere('customer_pickup_id','like', '%ADM%'  );
+                    });
+                }
+
+                
             }
 
             
@@ -143,7 +148,12 @@ class DeliveryPreparationController extends Controller
 
     public function security()
     {
-        $customers = DeliveryPrepareCustomer::select('customer_pickup_code')->groupBy('customer_pickup_code')->get(); 
+        $customers = DeliveryPrepareCustomer::select('customer_pickup_code')->whereIn('customer_pickup_code', function($q){
+            $q->select('customer_pickup_code')->where('customer_pickup_code','like', '%AHM%'  )
+            ->orWhere('customer_pickup_code','like', '%TMMIN%'  )
+            ->orWhere('customer_pickup_code','like', '%ADM%'  );
+        })->groupBy('customer_pickup_code')->get(); 
+
         return view('delivery.preparation.preparation.preparation_security', compact('customers'));
     }
 
@@ -583,14 +593,14 @@ class DeliveryPreparationController extends Controller
          return Excel::download(new PreparationExport($from_date,$to_date, $status_prepare, $status_arrival ,$status_departure, $customer), $filename);
     }
 
-    public function arrival($id, $driver_name)
+    public function arrival(Request $request)
     {
-        $data =PreparationDelivery::find($id);
-        
+        $driver_name = $request->driver_name;
+        $id = $request->id;
         $now =date("Y-m-d H:i:s");
         
-
         try {
+            $data =PreparationDelivery::find($id);
             //cek status actual vs plan
             $status_name='';
             // isi siapa trigger nya
@@ -714,8 +724,9 @@ class DeliveryPreparationController extends Controller
             $row_4 = ' NPK'.$npk;
             $row_5 = $request->problem;
             $row_6 = $request->remark;
+            $row_7 = $selection->arrival_plan;
             // kirim email
-            Mail::send('emails.preparation_delay', [  'row_1' => $row_1, 'row_2' => $row_2, 'row_3' => $row_3,'row_4' => $row_4, 'row_5' => $row_5,'row_6' => $row_6 ], function($message) use($request){
+            Mail::send('emails.preparation_delay', [  'row_1' => $row_1, 'row_2' => $row_2, 'row_3' => $row_3,'row_4' => $row_4, 'row_5' => $row_5,'row_6' => $row_6,'row_7' => $row_7  ], function($message) use($request){
                 $message->to("miqdad.amarullah@astra-juoku.com");
                 $message->subject('Preparation Delay');
             });

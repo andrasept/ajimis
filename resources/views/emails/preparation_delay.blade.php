@@ -4,7 +4,7 @@
 
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <title>Reset Password Email Template</title>
+    <title>Preparation Delay</title>
     <meta name="description" content="Reset Password Email Template.">
     <style type="text/css">
         a:hover {text-decoration: underline !important;}
@@ -53,6 +53,7 @@
                                             <p style="text-align: left;"><b>Finished by :</b>{{$row_4}}</p> 
                                             <p style="text-align: left;"><b>Problem Identification :</b>{{$row_5}}</p> 
                                             <p style="text-align: left;"><b>Corrective Action :</b>{{$row_6}}</p> 
+                                            <p style="text-align: left;"><b>Plan Delivery Date :</b>{{$row_7}}</p> 
                                             {{-- <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
                                                 {{$email}}
                                             </p> --}}

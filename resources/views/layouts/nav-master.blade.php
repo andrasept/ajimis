@@ -65,7 +65,7 @@
                         <li><a href="{{route('delivery.master.master_customer')}}">Customer </a></li>
                         <li><a href="{{route('delivery.master.master_partcard')}}">Part Card </a></li>
                         <li><a href="{{route('delivery.master.master_manpower')}}">Man Power </a></li>
-                        <li><a href="{{route('delivery.skills')}}">List Skill </a></li>
+                        <li><a href="{{route('delivery.skills')}}"> Skill </a></li>
                       </ul>
                     </li>
                     <li class="">
@@ -92,7 +92,7 @@
                     <li class="">
                       <a href="#" aria-expanded="true">Henkaten<span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
-                        <li><a href="#"> Matrix</a></li>
+                        <li><a href="{{route('delivery.skillmatrix')}}"> Matrix</a></li>
                       </ul>
                     </li>
                   </ul>

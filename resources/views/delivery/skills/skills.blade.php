@@ -39,6 +39,7 @@
         <tr>
           <th class="text-center">No</th>
           <th class="text-center">Skill</th>
+          <th class="text-center">Skill Description</th>
           <th class="text-center">Category</th>
           <th class="text-center">Action</th>
         </tr>
@@ -84,6 +85,7 @@
         },
         "columns": [
             { data: null, className: 'dt-body-center'},
+            { data: 'skill_code', className: 'dt-body-center'},
             { data: 'skill', className: 'dt-body-center'},
             { data: 'category', className: 'dt-body-center'},
             { data: 'id', className: 'dt-body-center',
@@ -98,7 +100,7 @@
             "orderable": true,
             "targets": 0
         } ],
-        "order": [[ 1, 'asc' ]]
+        "order": [[ 3, 'asc' ]]
         } );
 
         // number
