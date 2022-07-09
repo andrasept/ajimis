@@ -93,6 +93,7 @@
                       <a href="#" aria-expanded="true">Henkaten<span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.skillmatrix')}}"> Matrix</a></li>
+                        <li><a href="{{route('delivery.layout_area')}}"> Layout Area</a></li>
                       </ul>
                     </li>
                   </ul>

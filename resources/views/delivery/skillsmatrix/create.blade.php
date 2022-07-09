@@ -31,44 +31,44 @@
                     </div>
                 @enderror
             </div>
-              @foreach ($skills as $skill)
-              
-            <form action="{{route('delivery.skillmatrix.insert')}}" id="form_{{$loop->iteration}}" enctype="multipart/form-data" method="post">
-                {{csrf_field()}}
-                {{method_field("PUT")}}
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                                <label>Skill Code</label> 
-                                
-                                <input type="text" name="skill_id" value="{{$skill->skill_code}}" class="form-control" autocomplete="off" readonly >
-                                @error('skill_id') 
-                                    <div class="text-danger">
-                                        {{$message}}    
-                                    </div>
-                                @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Skill Value</label> 
-                            <select name="value" class="form-control" required>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                            @error('value') 
-                                <div class="text-danger">
-                                    {{$message}}    
+             @foreach ($list_skill_each_category as $category)
+                <label for="Category"><b>{{$list_categories[ $loop->index ]}}</b></label>
+                @foreach ($category as $skill)
+                    <form action="{{route('delivery.skillmatrix.insert')}}" id="form_{{$loop->iteration}}" enctype="multipart/form-data" method="post">
+                        {{csrf_field()}}
+                        {{method_field("PUT")}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <input type="hidden" name="category" value="{{$skill->category}}" class="form-control" autocomplete="off" readonly >
+                                        <input type="text" name="skill_id" value="{{$skill->skill_code}}" class="form-control" autocomplete="off" readonly >
+                                        @error('skill_id') 
+                                            <div class="text-danger">
+                                                {{$message}}    
+                                            </div>
+                                        @enderror
                                 </div>
-                            @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select name="value" class="form-control" required>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    @error('value') 
+                                        <div class="text-danger">
+                                            {{$message}}    
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-sm submit_form d-none" >Save</button>
-            </form>
-                @endforeach
+                        <button class="btn btn-primary btn-sm submit_form d-none" >Save</button>
+                    </form>
+                 @endforeach
+             @endforeach
           </div>
         </div>
         <div class="ibox-footer text-right">
@@ -107,6 +107,7 @@
             $('.ibox-content form').each(function(i, obj) {
                 data.push({
                     skill_id: obj.skill_id.value, 
+                    category: obj.category.value, 
                     user_id: $('#user_id').val(), 
                     value:  obj.value.value
                 });

@@ -20,7 +20,7 @@
           <div >
             <div class="form-group">
                 <label>Man Power</label>  <br/>
-                <select name="user_id" class="form-control" id="user_id" required>
+                <select name="user_id" class="form-control" id="user_id" required readonly>
                     @foreach ($mps as $mp)
                         <option value="{{$mp->npk}}" {{$mp->npk == $npk ? "selected" : ""}}>{{$mp->npk}} </option>
                     @endforeach
@@ -31,54 +31,16 @@
                     </div>
                 @enderror
             </div>
-
-             @foreach ($skillmatrix as $skill)
+            @foreach ($diff_skills as $diff_skill)
                 <form action="{{route('delivery.skillmatrix.update')}}"  enctype="multipart/form-data" method="post">
                     {{csrf_field()}}
                     {{method_field("PUT")}}
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                    <label>Skill Code</label> 
-                                    
-                                    <input type="text" name="skill_id" value="{{$skill->skill_id}}" class="form-control" autocomplete="off" readonly >
-                                    @error('skill_id') 
-                                        <div class="text-danger">
-                                            {{$message}}    
-                                        </div>
-                                    @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Skill Value</label> 
-                                <select name="value" class="form-control" required>
-                                    <option value="1" {{"1" == $skill->value ? "selected" : ""}}>1</option>
-                                    <option value="2" {{"2" == $skill->value ? "selected" : ""}}>2</option>
-                                    <option value="3" {{"3" == $skill->value ? "selected" : ""}}>3</option>
-                                    <option value="4" {{"4" == $skill->value ? "selected" : ""}}>4</option>
-                                </select>
-                                @error('value') 
-                                    <div class="text-danger">
-                                        {{$message}}    
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-sm submit_form d-none" >Save</button>
-                </form>
-             @endforeach
-             @foreach ($diff_skills as $diff_skill)
-                <form action="{{route('delivery.skillmatrix.update')}}"  enctype="multipart/form-data" method="post">
-                    {{csrf_field()}}
-                    {{method_field("PUT")}}
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                    <label>Skill Code</label> 
-                                    
+                                    <label class="bg-danger">New Skill from category {{$diff_skill->category}}</label> 
                                     <input type="text" name="skill_id" value="{{$diff_skill->skill_code}}" class="form-control" autocomplete="off" readonly >
+                                    <input type="hidden" name="category" value="{{$diff_skill->category}}" class="form-control" autocomplete="off" readonly >
                                     @error('skill_id') 
                                         <div class="text-danger">
                                             {{$message}}    
@@ -105,7 +67,45 @@
                     </div>
                     <button class="btn btn-primary btn-sm submit_form d-none" >Save</button>
                 </form>
-             @endforeach
+            @endforeach
+            @foreach ($list_skill_each_category as $category)
+                <label for="Category"><b>{{$list_categories[ $loop->index ]}}</b></label>
+                @foreach ($category as $skill)
+                    <form action="{{route('delivery.skillmatrix.update')}}" id="form_{{$loop->iteration}}" enctype="multipart/form-data" method="post">
+                        {{csrf_field()}}
+                        {{method_field("PUT")}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <input type="hidden" name="category" value="{{$skill->category}}" class="form-control" autocomplete="off" readonly >
+                                        <input type="text" name="skill_id" value="{{$skill->skill_id}}" class="form-control" autocomplete="off" readonly >
+                                        @error('skill_id') 
+                                            <div class="text-danger">
+                                                {{$message}}    
+                                            </div>
+                                        @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select name="value" class="form-control" required>
+                                        <option value="1" {{"1" == $skill->value ? "selected" : ""}}>1</option>
+                                        <option value="2" {{"2" == $skill->value ? "selected" : ""}}>2</option>
+                                        <option value="3" {{"3" == $skill->value ? "selected" : ""}}>3</option>
+                                        <option value="4" {{"4" == $skill->value ? "selected" : ""}}>4</option>
+                                    </select>
+                                    @error('value') 
+                                        <div class="text-danger">
+                                            {{$message}}    
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-sm submit_form d-none" >Save</button>
+                    </form>
+                @endforeach
+            @endforeach
           </div>
         </div>
         <div class="ibox-footer text-right">
@@ -144,6 +144,7 @@
             $('.ibox-content form').each(function(i, obj) {
                 data.push({
                     skill_id: obj.skill_id.value, 
+                    category: obj.category.value, 
                     user_id: $('#user_id').val(), 
                     value:  obj.value.value
                 });

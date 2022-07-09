@@ -42,13 +42,22 @@ class DeliverySkillMatrixController extends Controller
      */
     public function create()
     {
-        $skills = Skills::all();
+        $categories = DB::table('delivery_skills')->pluck('category')->unique();
+
+        $list_skill_each_category = [];
+        $list_categories = [];
+        foreach ($categories as $category) {
+            $array = Skills::select("skill_code","category")
+            ->where("category", $category)->get();
+            array_push($list_skill_each_category , $array); 
+            array_push($list_categories, $category);
+        }   
         $mps = DB::table('delivery_man_powers')->whereNotIn('npk',function($query) {
 
             $query->select('user_id')->from('delivery_matrix_skills');
          
          })->get();
-        return view("delivery.skillsmatrix.create", compact('skills','mps'));
+        return view("delivery.skillsmatrix.create", compact('mps','list_skill_each_category','list_categories'));
     }
 
     /**
@@ -81,20 +90,36 @@ class DeliverySkillMatrixController extends Controller
      */
     public function edit(SkillMatrixDelivery $skillMatrixDelivery, $npk)
     {
-        $skills = Skills::all();
-        $diff_skills = DB::table('delivery_skills')->whereNotIn('skill_code',function($query) {
-            global $npk;
-            $query->select('skill_id')->where('user_id', $npk)->from('delivery_matrix_skills');
-         
-         })->get();
-        $skillmatrix = SkillMatrixDelivery::where('user_id', $npk)->get();
         $npk = $npk;
+
+        $categories = DB::table('delivery_matrix_skills')->pluck('category')->unique();
+
+        $list_skill_each_category = [];
+        $list_categories = [];
+        foreach ($categories as $category) {
+            $array = SkillMatrixDelivery::select("skill_id","category")
+            ->where("category", $category)->get();
+            array_push($list_skill_each_category , $array); 
+            array_push($list_categories, $category);
+        }  
+
+        $skillmatrix = SkillMatrixDelivery::where('user_id', $npk)->get();
+
+        $data_di_matrix = [];
+        foreach($skillmatrix as $object)
+        {
+            $data_di_matrix[] = $object->skill_id;
+        }
+
+        $diff_skills = DB::table('delivery_skills')->select('skill_code','category')->whereNotIn('skill_code',$data_di_matrix)->get();
+
+
         $mps = DB::table('delivery_man_powers')->whereIn('npk',function($query) {
 
             $query->select('user_id')->from('delivery_matrix_skills');
          
          })->get();
-        return view("delivery.skillsmatrix.edit", compact('skills','mps', 'skillmatrix', 'npk','diff_skills'));
+        return view("delivery.skillsmatrix.edit", compact('mps', 'list_skill_each_category', 'npk','diff_skills','list_categories'));
     }
 
     /**
@@ -175,6 +200,7 @@ class DeliverySkillMatrixController extends Controller
                             ], [
                                 'user_id' => $key['user_id'],
                                 'skill_id' => $key['skill_id'],
+                                'category' => $key['category'],
                                 'value' => $key['value']
                             ]
                         );
