@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DeliveryLayoutArea;
 use Illuminate\Http\Request;
+use App\Models\DeliveryLayoutArea;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class DeliveryLayoutAreaController extends Controller
 {
@@ -12,23 +15,75 @@ class DeliveryLayoutAreaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data= [];
-        $data[0]['photo']= asset('/image/user3.png');
-        $data[1]['photo']= asset('/image/user3.png');
-        $data[2]['photo']= asset('/image/user3.png');
-        $data[3]['photo']= asset('/image/user3.png');
-        $data[4]['photo']= asset('/image/user3.png');
-        $data[5]['photo']= asset('/image/user2.png');
-        $data[0]['npk']= '00001';
-        $data[1]['npk']= '00002';
-        $data[2]['npk']= '00003';
-        $data[3]['npk']= '00004';
-        $data[4]['npk']= '00005';
-        $data[5]['npk']= '00006';
+        if ($request->ajax()) {
+            // $query = DB::table('delivery_henkaten');
 
-        return view('delivery.layout.index', compact('data'));
+             $query = DB::table('delivery_henkaten')->select('delivery_henkaten.position','delivery_henkaten.id','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
+            'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
+            ->leftjoin('delivery_man_powers', 'delivery_man_powers.npk', '=', 'delivery_henkaten.user_id')
+            ;
+
+            $query= $query->get();
+
+            return DataTables::of($query)->toJson();
+
+        } else {
+            $data_position = $query = DB::table('delivery_henkaten')->select('delivery_henkaten.position','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
+            'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
+            ->leftjoin('delivery_man_powers', 'delivery_man_powers.npk', '=', 'delivery_henkaten.user_id')->get()
+            ;
+
+            // default
+            $data= [];
+            $data['photo_admin_delivery'] = asset('/image/nouser.png');
+            $data['photo_finish_goods_1'] = asset('/image/nouser.png');
+            $data['photo_finish_goods_2'] = asset('/image/nouser.png');
+            $data['photo_preparation_1'] = asset('/image/nouser.png');
+            $data['photo_preparation_2'] = asset('/image/nouser.png');
+            $data['photo_preparation_3'] = asset('/image/nouser.png');
+            $data['photo_packaging'] = asset('/image/nouser.png');
+            $data['photo_pulling_sparepart'] = asset('/image/nouser.png');
+            $data['photo_sparepart'] = asset('/image/nouser.png');
+
+
+
+            foreach ($data_position as $position) {
+                # code...
+                if ($position->position == 'admin_delivery' && $position->user_id != 'empty') {
+                    $data['photo_admin_delivery'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                if ($position->position == 'finish_goods_1' && $position->user_id != 'empty') {
+                    $data['photo_finish_goods_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                if ($position->position == 'finish_goods_2' && $position->user_id != 'empty') {
+                    $data['photo_finish_goods_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                if ($position->position == 'preparation_1' && $position->user_id != 'empty') {
+                    $data['photo_preparation_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                if ($position->position == 'preparation_2' && $position->user_id != 'empty') {
+                    $data['photo_preparation_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                if ($position->position == 'preparation_3' && $position->user_id != 'empty') {
+                    $data['photo_preparation_3'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                if ($position->position == 'packaging' && $position->user_id != 'empty') {
+                    $data['photo_packaging'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                if ($position->position == 'pulling_sparepart' && $position->user_id != 'empty') {
+                    $data['photo_pulling_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                if ($position->position == 'sparepart' && $position->user_id != 'empty') {
+                    $data['photo_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                } 
+                
+            }
+
+            return view('delivery.layout.index', compact('data'));
+        }
+        
     }
 
     /**
@@ -38,7 +93,8 @@ class DeliveryLayoutAreaController extends Controller
      */
     public function create()
     {
-        //
+        $mps =  DB::table('delivery_man_powers')->select('npk','name')->get();
+        return view('delivery.layout.create', compact('mps'));
     }
 
     /**
@@ -69,9 +125,12 @@ class DeliveryLayoutAreaController extends Controller
      * @param  \App\Models\DeliveryLayoutArea  $deliveryLayoutArea
      * @return \Illuminate\Http\Response
      */
-    public function edit(DeliveryLayoutArea $deliveryLayoutArea)
+    public function edit(DeliveryLayoutArea $deliveryLayoutArea, $id)
     {
-        //
+        $data = DeliveryLayoutArea::findOrFail($id);
+        $mps =  DB::table('delivery_man_powers')->select('npk','name')->get();
+        return view('delivery.layout.edit', compact('data','mps'));
+
     }
 
     /**
@@ -83,7 +142,44 @@ class DeliveryLayoutAreaController extends Controller
      */
     public function update(Request $request, DeliveryLayoutArea $deliveryLayoutArea)
     {
-        //
+        $validator =  Validator::make($request->all(),[
+            'position' =>['required'],
+            'user_id' => ['required'],
+            'henkaten_status' => ['required'],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }else{
+            
+            DB::beginTransaction();
+
+            
+            // proses db
+            try {
+
+                $data = DeliveryLayoutArea::findOrFail($request->id);
+                $data->fill($request->all());
+                if ($request->henkaten_status) {
+                    $data->henkaten_status = $request->henkaten_status;
+                    $data->date_henkaten = date("Y-m-d H:i:s");
+                }else{
+                    $data->henkaten_status = null;
+                    $data->date_henkaten = null;
+                }
+                $data->save();
+                DB::commit();
+                return redirect('/delivery/layout_area')->with('success', 'Position Updated!');
+            } catch (\Throwable $th) {
+                // dd($th);
+                DB::rollback();
+                // throw $th;
+                return redirect('/delivery/layout_area')->with('fail', "Update Position Failed! [105]");
+
+            }
+            
+           
+        }
     }
 
     /**
@@ -95,5 +191,40 @@ class DeliveryLayoutAreaController extends Controller
     public function destroy(DeliveryLayoutArea $deliveryLayoutArea)
     {
         //
+    }
+
+    public function insert(Request $request)
+    {
+
+        $validator =  Validator::make($request->all(),[
+            'position' =>['required', 'unique:delivery_henkaten'],
+            'user_id' => ['required', 'unique:delivery_henkaten'],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }else{
+            
+            DB::beginTransaction();
+
+            
+            // proses db
+            try {
+
+                $data = DeliveryLayoutArea::create($request->all());
+               
+                DB::commit();
+
+                return redirect('/delivery/layout_area')->with('success', 'Position Created!');
+            } catch (\Throwable $th) {
+                // dd($th);
+                DB::rollback();
+                throw $th;
+                // return redirect('/delivery/layout_area')->with('fail', "Create Position Failed! [105]");
+
+            }
+            
+           
+        }
     }
 }

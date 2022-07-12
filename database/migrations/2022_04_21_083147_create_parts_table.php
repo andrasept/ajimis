@@ -96,6 +96,7 @@ class CreatePartsTable extends Migration
             $table->id();
             $table->string('skill_code')->index();
             $table->string('skill');
+            $table->string('category');
             $table->timestamps();
         });
 
@@ -183,21 +184,14 @@ class CreatePartsTable extends Migration
             $table->timestamps();
         });
 
-        // Schema::create('delivery_delivery', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('customer_pickup_id');
-        //     $table->integer('cycle');
-        //     $table->dateTime('arrival_plan');
-        //     $table->dateTime('arrival_actual')->nullable();
-        //     $table->string('arrival_gap')->nullable();
-        //     $table->string('arrival_status')->nullable();
-        //     $table->dateTime('departure_plan');
-        //     $table->dateTime('departure_actual')->nullable();
-        //     $table->string('departure_gap')->nullable();
-        //     $table->string('departure_status')->nullable();
-        //     $table->string('vendor');
-        //     $table->timestamps();
-        // });
+        Schema::create('delivery_henkaten', function (Blueprint $table) {
+            $table->id();
+            $table->string('position');
+            $table->string('user_id');
+            $table->integer('henkaten_status')->nullable();
+            $table->dateTime('date_henkaten')->nullable();
+            $table->timestamps();
+        });
 
         //relasi table 
         Schema::table('delivery_parts', function($table) {
@@ -213,6 +207,10 @@ class CreatePartsTable extends Migration
 
         Schema::table('delivery_matrix_skills', function ( $table) {
             $table->foreign('skill_id')->references('skill_code')->on('delivery_skills')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('npk')->on('delivery_man_powers')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::table('delivery_henkaten', function ( $table) {
             $table->foreign('user_id')->references('npk')->on('delivery_man_powers')->onUpdate('cascade')->onDelete('cascade');
         });
 
@@ -238,5 +236,6 @@ class CreatePartsTable extends Migration
         Schema::dropIfExists('delivery_claim');
         Schema::dropIfExists('delivery_notes');
         Schema::dropIfExists('delivery_mos');
+        Schema::dropIfExists('delivery_henkaten');
     }
 }

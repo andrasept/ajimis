@@ -160,7 +160,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::post('/skillmatrix/get_data_skillmatrix', 'DeliverySkillMatrixController@get_data_skillmatrix')->name('delivery.skillmatrix.get_data_skillmatrix')->middleware('auth');
           
           // henkaten layout area
+          Route::put('/layout_area/insert', 'DeliveryLayoutAreaController@insert')->name('delivery.layout_area.insert')->middleware('auth');
+          Route::get('/layout_area/create', 'DeliveryLayoutAreaController@create')->name('delivery.layout_area.create')->middleware('auth');
           Route::get('/layout_area', 'DeliveryLayoutAreaController@index')->name('delivery.layout_area')->middleware('auth');
+          Route::get('/layout_area/{id}/edit', 'DeliveryLayoutAreaController@edit')->name('delivery.layout_area.edit')->middleware('auth');
+          Route::put('/layout_area/update', 'DeliveryLayoutAreaController@update')->name('delivery.layout_area.update')->middleware('auth');
         });
         // delivery member
         Route::get('/delivery', 'DeliveryController@index')->name('delivery.delivery')->middleware('auth');

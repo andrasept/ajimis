@@ -97,11 +97,12 @@ class DeliverySkillMatrixController extends Controller
         $list_skill_each_category = [];
         $list_categories = [];
         foreach ($categories as $category) {
-            $array = SkillMatrixDelivery::select("skill_id","category")
-            ->where("category", $category)->get();
+            $array = SkillMatrixDelivery::select("skill_id","category","value")
+            ->where("category", $category)->where('user_id', $npk)->get();
             array_push($list_skill_each_category , $array); 
             array_push($list_categories, $category);
         }  
+
 
         $skillmatrix = SkillMatrixDelivery::where('user_id', $npk)->get();
 
@@ -112,7 +113,6 @@ class DeliverySkillMatrixController extends Controller
         }
 
         $diff_skills = DB::table('delivery_skills')->select('skill_code','category')->whereNotIn('skill_code',$data_di_matrix)->get();
-
 
         $mps = DB::table('delivery_man_powers')->whereIn('npk',function($query) {
 
@@ -149,6 +149,7 @@ class DeliverySkillMatrixController extends Controller
                     
                 }
                 DB::commit();
+                // update or create
                 if ($skill->wasRecentlyCreated) {
                     return '1';
                 }else{
@@ -157,9 +158,9 @@ class DeliverySkillMatrixController extends Controller
                 
             } catch (\Throwable $th) {
                 DB::rollback();
-                // throw $th;
+                throw $th;
 
-                return  $th->getMessage();
+                // return  $th->getMessage();
             }
             
         } else {

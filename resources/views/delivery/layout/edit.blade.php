@@ -8,162 +8,48 @@
 <link href="{{asset('css/plugins/select2/select2.min.css')}}" rel="stylesheet">
 <link href="{{asset('css/plugins/clockpicker/clockpicker.css')}}" rel="stylesheet">
 <link href="{{asset('css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
-{{-- <link href="{{asset('css/animate.css')}}" rel="stylesheet"> --}}
-{{-- <link href="{{asset('css/style.css')}}" rel="stylesheet">
-<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet"> --}}
 
 
     <div class="ibox " >
         {{-- {{dd($data);}} --}}
         <div class="ibox-title">
-            <h4>Edit Claim</h4>
+            <h4>Edit Position</h4>
         </div>
         <div class="ibox-content" >
             @if(session()->has('fail'))
                 <div class="alert alert-danger">{{session('fail')}}</div>
             @endif
           <div >
-            <form action="{{route('delivery.claim.update')}}" enctype="multipart/form-data" method="post">
+            <form action="{{route('delivery.layout_area.update')}}" enctype="multipart/form-data" method="post">
                 {{csrf_field()}}
                 {{method_field("PUT")}}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Part number</label> <br>
-                            <input type="hidden" name="id" value="{{$data->id}}">
-                            <select name="part_number" id="part_number" style="width:100%" class="select2_part_number form-control" required>
-                                <option value="-">-</option>
-                                @foreach ($part_nos as $part_no)
-                                <option value="{{$part_no->part_no_customer}}" {{$part_no->part_number == $data->part_number  ? 'selected' : ''}}>{{$part_no->part_no_customer   }}</option>
+                            <label>Position</label>
+                            <input type="hidden" class="form-control" name="id" id="id" readonly value="{{$data->id}}">
+                            <input type="text" class="form-control" name="position" id="position" readonly value="{{$data->position}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Man Power</label>  <br/>
+                            <select name="user_id" class="form-control" id="user_id" required>
+                                @foreach ($mps as $mp)
+                                    <option value="{{$mp->npk}}"  {{ $data->user_id == $mp->npk ? "selected" : "" }}>{{$mp->name}} </option>
                                 @endforeach
+                                {{-- <option value="-" {{ old('user_id') == '-' ? "selected" : "" }}>-</option> --}}
                             </select>
-                            @error('part_number') 
+                            @error('user_id') 
                                 <div class="text-danger">
                                     {{$message}}    
                                 </div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Part Name</label>  
-                            <input type="text" id="part_name" placeholder="part name" name="part_name" class="form-control" value="{{old('part_name')}}" readonly>
-                            @error('part_name') 
-                            <div class="text-danger">
-                            {{$message}}    
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Customer</label> <br>
-                            <input type="text" name="customer_pickup_id" id="customer_pickup_id" placeholder="customer" class="form-control" readonly >
-                            @error('customer_pickup_id') 
-                                <div class="text-danger">
-                                    {{$message}}    
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Part Number Actual</label>  
-                            <input type="text" id="part_number_actual" placeholder="part number actual" name="part_number_actual" class="form-control" value="{{$data->part_number_actual}}" required>
-                            @error('part_number_actual') 
-                                <div class="text-danger">
-                                    {{$message}}    
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Part Name Actual</label>  
-                            <input type="text" id="part_name_actual" placeholder="part name actual" name="part_name_actual" class="form-control" value="{{$data->part_name_actual}}" required >
-                            @error('part_name_actual') 
-                                <div class="text-danger">
-                                    {{$message}}    
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Claim date</label>
-                            <input type="date" class="form-control" name="claim_date" id="" value="{{$data->claim_date ?? date('Y-m-d')}}" required>
-                            @error('claim_date') 
-                                <div class="text-danger">
-                                    {{$message}}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Problem</label>  
-                            <input type="text" id="problem" placeholder="problem" name="problem" class="form-control" value="{{$data->problem}}" required>
-                            @error('problem') 
-                                <div class="text-danger">
-                                    {{$message}}    
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Category</label> <br>
-                            <select name="category" id="category" style="width:100%" class="select2_category form-control" required>
-                                <option value="SHORTAGE" {{"SHORTAGE"  == $data->category  ? 'selected' : ''}}>SHORTAGE</option>
-                                <option value="DETAIL MISS" {{"DETAIL MISS"  == $data->category  ? 'selected' : ''}}>DETAIL MISS</option>
-                                <option value="SERVICE PART" {{"SERVICE PART"  == $data->category  ? 'selected' : ''}}>SERVICE PART</option>
+                            <label for="">Henkaten</label> </br>
+                            <select name="henkaten_status" class="form-control" id="henkaten_status" required>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
                             </select>
-                            @error('category') 
-                                <div class="text-danger">
-                                    {{$message}}    
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Qty</label>  
-                            <input type="number" id="qty" placeholder="qty" name="qty" class="form-control" value="{{$data->qty }}" required >
-                            @error('qty') 
-                                <div class="text-danger">
-                                    {{$message}}    
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group ">
-                            <label for="photo" class="text-left">Evidence</label>
-                            <div class="d-flex flex-row mb-5 photo">
-                                @foreach (explode(",", $data->evidence) as $item)
-                                    <div  class="remove col-lg-1 m-2" data-photo="{{$item}}" >
-                                        <input  name="evidence[]" type="hidden" class="custom-file-input" value="{{$item}}">
-                                        <div  data-toggle="tooltip" data-placement="right" title="Remove Evidence" style="position: relative;">
-                                            <img src="{{ url('storage/delivery-claim-photo/'.$item) }}" style="position: absolute;" class="" id-photo="{{$item}}" alt=""  width='60' height='60'>
-                                            <img src="{{ asset('image/close.png') }}" style="position: absolute;" class="" id-photo="{{$item}}" alt=""  width='60' height='60'>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="input-group-btn mb-2 text-right mt-3">
-                                <button type="button" class="btn btn-danger min"><i class="fa fa-minus"></i></button>
-                                <button type="button" class="btn btn-primary add"><i class="fa fa-plus"></i></button>
-                            </div>
-                            <div class="increment">
-                                <div class="custom-file ">
-                                    <input  name="photo[]" type="file" class="custom-file-input" >
-                                    <label for="photo" class="custom-file-label">Choose file...</label>
-                                </div>
-                                <div class="clone">
-                                    <div class="custom-file mt-2 ">
-                                        <input  name="photo[]" type="file" class="custom-file-input">
-                                        <label for="photo" class="custom-file-label">Choose file...</label>
-                                    </div>
-                                </div>
-                            </div>
-                            @error('photo.*') 
-                            <div class="text-danger">
-                                {{$message}}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Corrective Action</label>  
-                            <textarea name="corrective_action" id="corrective_action" cols="30" rows="3" class="form-control" value="" required>{{$data->corrective_action}}</textarea>
-                            @error('corrective_action') 
-                                <div class="text-danger">
-                                    {{$message}}    
-                                </div>
-                            @enderror
                         </div>
                     </div>
                 </div>

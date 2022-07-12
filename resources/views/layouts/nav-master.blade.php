@@ -94,6 +94,7 @@
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.skillmatrix')}}"> Matrix</a></li>
                         <li><a href="{{route('delivery.layout_area')}}"> Layout Area</a></li>
+                        <li><a href="#"> List Henkaten</a></li>
                       </ul>
                     </li>
                   </ul>
