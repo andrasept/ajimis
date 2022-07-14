@@ -80,7 +80,7 @@
                       <a href="#" aria-expanded="true">Claim <span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.claim.claim')}}">List Claim</a></li>
-                        <li><a href="#">  Dashboard</a></li>
+                        {{-- <li><a href="#">  Dashboard</a></li> --}}
                       </ul>
                     </li>
                     <li class="">
@@ -94,7 +94,7 @@
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.skillmatrix')}}"> Matrix</a></li>
                         <li><a href="{{route('delivery.layout_area')}}"> Layout Area</a></li>
-                        <li><a href="#"> List Henkaten</a></li>
+                        {{-- <li><a href="#"> List Henkaten</a></li> --}}
                       </ul>
                     </li>
                   </ul>

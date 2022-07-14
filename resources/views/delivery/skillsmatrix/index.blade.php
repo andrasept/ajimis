@@ -252,7 +252,7 @@
                       scale: {
                       ticks: {
                               beginAtZero: true,
-                              max: 4,
+                              max: 5,
                               min: 0,
                               stepSize: 1
                           }

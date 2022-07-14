@@ -136,6 +136,14 @@
       );
       
       $(document).ready(function() {
+
+        // menampilkan list pertama otomatis
+        setTimeout(() => {
+          var targetRow = $('#master tbody tr td:first');
+            $( targetRow[0]).trigger('click');
+        }, 1000);
+
+
         // muncul pop up ketika ada yg delay belumada alasan
           if ($("#cek_delay").html() == "ada") {
           
@@ -184,12 +192,6 @@
                           "url": "{{route('delivery.preparation')}}",
                           "data":function (d) {
                           d.member = '1';
-                          // d.max = $('#max').val();
-                          // d.customer = $('#select_customer').val();
-                          // d.partcard = $('#select_partcard').val();
-                          // d.line = $('#select_line').val();
-                          // d.packaging_code = $('#select_packaging_code').val();
-                          // d.category = $('#select_category').val();
                       },
               },
               "columns": [
@@ -221,17 +223,6 @@
                             return "<div class='btn-group'><button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-primary start "+display_start+"' id='start_"+row['id']+"'>Start</a><button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-danger "+display_end+" end' id='end_"+row['id']+"'>End</a></div>";
                           } 
 
-                          // if (data == '1') {
-                          //   return "<button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-danger end'>End</a>";
-                          //     // return "<a href='/delivery/preparation/"+row['id']+"/end' class='btn btn-lg btn-danger'>End</a>";
-                          //   } else if(data === null) {
-                          //   return "<button data-id='"+row['id']+"' data-help-column='"+row['help_column']+"' data-plan-time-preparation='"+row['plan_time_preparation']+"' data-plan-date-preparation='"+row['plan_date_preparation']+"' class='btn btn-lg btn-primary start'>Start</a>";
-                          //   // return "<a href='/delivery/preparation/"+row['id']+"/start' class='btn btn-lg btn-primary'>Start</a>";
-                          // }else if(data == '3') {
-                          //   return"<label class='label label-info'>Finished</label>";
-                          // }else{
-                          //   return '';
-                          // }
                         },
                   },
                   // { data: "help_column", className: 'dt-body-center'},
@@ -323,7 +314,7 @@
 
           // number
           table.on('draw.dt', function () {
-            
+
               var info = table.page.info();
               table.column(0, { search: 'applied', order: 'applied', page: 'applied' }).nodes().each(function (cell, i) {
                   cell.innerHTML = i + 1 + info.start;

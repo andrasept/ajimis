@@ -47,36 +47,89 @@ class DeliveryLayoutAreaController extends Controller
             $data['photo_pulling_sparepart'] = asset('/image/nouser.png');
             $data['photo_sparepart'] = asset('/image/nouser.png');
 
-
+            $data['henkaten_admin_delivery']='';
+            $data['henkaten_finish_goods_1'] = '';
+            $data['henkaten_finish_goods_2'] = '';
+            $data['henkaten_preparation_1'] = '';
+            $data['henkaten_preparation_2'] = '';
+            $data['henkaten_preparation_3'] = '';
+            $data['henkaten_packaging'] = '';
+            $data['henkaten_pulling_sparepart'] = '';
+            $data['henkaten_sparepart'] = '';
 
             foreach ($data_position as $position) {
                 # code...
                 if ($position->position == 'admin_delivery' && $position->user_id != 'empty') {
                     $data['photo_admin_delivery'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                } 
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_admin_delivery'] =asset("/image/henkaten.png");
+                    } else {
+                        # code...
+                    }
+                    
+                }
                 if ($position->position == 'finish_goods_1' && $position->user_id != 'empty') {
                     $data['photo_finish_goods_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_finish_goods_1'] =asset("/image/henkaten.png");
+                    } else {
+                        # code...
+                    }
                 } 
                 if ($position->position == 'finish_goods_2' && $position->user_id != 'empty') {
                     $data['photo_finish_goods_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_finish_goods_2'] =asset("/image/henkaten.png");
+                    } else {
+                        # code...
+                    }
                 } 
                 if ($position->position == 'preparation_1' && $position->user_id != 'empty') {
                     $data['photo_preparation_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_preparation_1'] =asset("/image/henkaten.png");
+                    } else {
+                        # code...
+                    }
                 } 
                 if ($position->position == 'preparation_2' && $position->user_id != 'empty') {
                     $data['photo_preparation_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_preparation_2'] =asset("/image/henkaten.png");
+                    } else {
+                        # code...
+                    }
                 } 
                 if ($position->position == 'preparation_3' && $position->user_id != 'empty') {
                     $data['photo_preparation_3'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_preparation_3'] =asset("/image/henkaten.png");
+                    } else {
+                        # code...
+                    }
                 } 
                 if ($position->position == 'packaging' && $position->user_id != 'empty') {
                     $data['photo_packaging'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_packaging'] =asset("/image/henkaten.png");
+                    } else {
+                        # code...
+                    }
                 } 
                 if ($position->position == 'pulling_sparepart' && $position->user_id != 'empty') {
                     $data['photo_pulling_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_pulling_sparepart'] =asset("/image/henkaten.png");
+                    } else {
+                        # code...
+                    }
                 } 
                 if ($position->position == 'sparepart' && $position->user_id != 'empty') {
                     $data['photo_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    if ($position->henkaten_status == '1') {
+                        $data['henkaten_sparepart'] =asset("/image/henkaten.png");
+                    } else {
+                    }
                 } 
                 
             }
@@ -188,9 +241,17 @@ class DeliveryLayoutAreaController extends Controller
      * @param  \App\Models\DeliveryLayoutArea  $deliveryLayoutArea
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DeliveryLayoutArea $deliveryLayoutArea)
+    public function destroy(DeliveryLayoutArea $deliveryLayoutArea, $id)
     {
-        //
+        try {
+            $data = DeliveryLayoutArea::findOrFail($id);
+            $data->delete();
+           
+            return redirect('/delivery/layout_area')->with('success', 'Position Deleted!');
+        } catch (\Throwable $th) {
+            // throw $th;
+            return redirect('/delivery/layout_area')->with("fail","Failed Delete! [105]");
+        }
     }
 
     public function insert(Request $request)
@@ -198,7 +259,7 @@ class DeliveryLayoutAreaController extends Controller
 
         $validator =  Validator::make($request->all(),[
             'position' =>['required', 'unique:delivery_henkaten'],
-            'user_id' => ['required', 'unique:delivery_henkaten'],
+            'user_id' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -219,8 +280,8 @@ class DeliveryLayoutAreaController extends Controller
             } catch (\Throwable $th) {
                 // dd($th);
                 DB::rollback();
-                throw $th;
-                // return redirect('/delivery/layout_area')->with('fail', "Create Position Failed! [105]");
+                // throw $th;
+                return redirect('/delivery/layout_area')->with('fail', "Create Position Failed! [105]");
 
             }
             

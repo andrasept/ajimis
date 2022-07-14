@@ -165,6 +165,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::get('/layout_area', 'DeliveryLayoutAreaController@index')->name('delivery.layout_area')->middleware('auth');
           Route::get('/layout_area/{id}/edit', 'DeliveryLayoutAreaController@edit')->name('delivery.layout_area.edit')->middleware('auth');
           Route::put('/layout_area/update', 'DeliveryLayoutAreaController@update')->name('delivery.layout_area.update')->middleware('auth');
+          Route::get('/layout_area/{id}/delete', 'DeliveryLayoutAreaController@destroy')->name('delivery.layout_area.destroy')->middleware('auth');
         });
         // delivery member
         Route::get('/delivery', 'DeliveryController@index')->name('delivery.delivery')->middleware('auth');

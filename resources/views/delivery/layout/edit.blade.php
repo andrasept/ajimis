@@ -47,8 +47,8 @@
                         <div class="form-group">
                             <label for="">Henkaten</label> </br>
                             <select name="henkaten_status" class="form-control" id="henkaten_status" required>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
+                                <option value="0" {{ $data->henkaten_status == "0" ? "selected" : "" }}>No</option>
+                                <option value="1" {{ $data->henkaten_status == "1" ? "selected" : "" }}>Yes</option>
                             </select>
                         </div>
                     </div>

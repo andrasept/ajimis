@@ -229,7 +229,7 @@
                     $('#pic').empty();  
                 } else {
                     $.each(result, function (key, entry) {
-                        $('#pic').append($('<option></option>').attr('value', entry.npk).text(entry.name));
+                        $('#pic').append($('<option></option>').attr('value', entry.npk+" "+entry.name).text(entry.name));
                     })
                 }
             }});

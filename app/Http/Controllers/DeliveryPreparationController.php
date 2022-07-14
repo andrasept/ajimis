@@ -32,8 +32,10 @@ class DeliveryPreparationController extends Controller
             
 
             $npk =  auth()->user()->npk;
+            $name =  auth()->user()->name;
+
             if ($request->member == '1') {
-                $query->where('pic','=', $npk);
+                $query->where('pic','=', $npk." ".$name);
             }else {
                 if (isset($request->min) && isset($request->max)) {
                     
@@ -232,7 +234,7 @@ class DeliveryPreparationController extends Controller
                                     'plan_time_preparation' => date("H:i:s", strtotime($row['plan_time_preparation'])),
                                     'time_hour' => $row['time_hour'],
                                     'shift' => $row['shift'],
-                                    'pic' => $row['pic'],
+                                    'pic' => $this->get_full_user($row['pic']),
                                     'plan_date_preparation' =>  date("Y-m-d", strtotime($row['plan_date_preparation'])),
                                     'vendor' =>$row['vendor'],
                                     'arrival_plan' => date("Y-m-d H:i:s", strtotime($row['date_plan_arrival'])),
@@ -247,9 +249,9 @@ class DeliveryPreparationController extends Controller
  
                 } catch (\Throwable $th) {
                  
-                    //  return $th;
+                     return $th->getMessage();
                     DB::rollback();
-                    return redirect('/delivery/preparation')->with('fail', "Import Failed! [105]");
+                    // return redirect('/delivery/preparation')->with('fail', "Import Failed! [105]");
                 }
                     
                 return redirect('/delivery/preparation')->with('success', 'Import Succeed!');
@@ -258,6 +260,12 @@ class DeliveryPreparationController extends Controller
         }
     }
 
+    public function get_full_user($npk)
+    {
+        $data = ManPowerDelivery::where('npk',"=", $npk)->get();
+        $username =$data[0]->npk." ".$data[0]->name;
+        return $username; 
+    }
     /**
      * Display the specified resource.
      *
@@ -427,6 +435,7 @@ class DeliveryPreparationController extends Controller
     {
         $data = PreparationDelivery::find($id);
         $npk=  Auth::user()->npk;
+        $name=  Auth::user()->name;
         
 
         if ($request->ajax()) {
@@ -434,7 +443,7 @@ class DeliveryPreparationController extends Controller
                 //code...
                 $data->start_preparation = date("Y-m-d H:i:s");
                 $data->date_preparation = date("Y-m-d");
-                $data->start_by = $npk;
+                $data->start_by = $npk." ".$name;
                 $data->status = 1;
                 $data->save();
                 $message='<b>======== PREPARATION ========</b>'.chr(10).chr(10);
@@ -471,6 +480,7 @@ class DeliveryPreparationController extends Controller
     {
         $data = PreparationDelivery::find($id);
         $npk=  Auth::user()->npk;
+        $name=  Auth::user()->name;
 
         $now =date("Y-m-d H:i:s");
         
@@ -496,7 +506,7 @@ class DeliveryPreparationController extends Controller
                 }
     
                 $data->end_preparation = $now;
-                $data->end_by = $npk;
+                $data->end_by = $npk." ".$name;
                 $data->time_preparation =  abs(strtotime ( $data->start_preparation ) - strtotime ( $now))/(60);
                 $data->save();
                 $message='<b>======== PREPARATION ========</b>'.chr(10).chr(10);

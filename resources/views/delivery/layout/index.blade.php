@@ -52,30 +52,69 @@ img {
 </style>
 
 <div class="p-w-md m-t-sm">
-  <div class="row " >
-    <div class="col-md-12 text-left">
-      <h3>Layout Area PPIC</h3>
-    </div>
-  </div>
   <div class="layout_bg" style="width:100%">
     {{-- finish goods --}}
     <div class='overlay' style="padding-left: 650px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_1']}}" alt=""></div>
-    <div class='overlay' style="padding-left: 690px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_2']}}" alt=""></div>
-    
-    
-    
+    @if ($data['henkaten_finish_goods_1'] !='')
+      <div class='overlay' style="padding-left: 650px; padding-top:70px">
+        <img class="img_user" src="{{$data['henkaten_finish_goods_1']}}" alt="">
+      </div>
+    @endif
+    <div class='overlay' style="padding-left: 700px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_2']}}" alt=""></div>
+    @if ($data['henkaten_finish_goods_2'] !='')
+      <div class='overlay' style="padding-left: 690px; padding-top:70px">
+        <img class="img_user" src="{{$data['henkaten_finish_goods_2']}}" alt="">
+      </div>
+    @endif
     {{-- spare part --}}
     <div class='overlay' style="padding-left: 105px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_sparepart']}}" alt=""></div>
+    @if ($data['henkaten_sparepart'] !='')
+      <div class='overlay' style="padding-left: 105px; padding-top:70px">
+        <img class="img_user" src="{{$data['henkaten_sparepart']}}" alt="">
+      </div>
+    @endif
     {{-- pulling sparepart --}}
     <div class='overlay' style="padding-left: 320px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_pulling_sparepart']}}" alt=""></div>
+    @if ($data['henkaten_pulling_sparepart'] !='')
+      <div class='overlay' style="padding-left: 320px; padding-top:70px">
+        <img class="img_user" src="{{$data['henkaten_pulling_sparepart']}}" alt="">
+      </div>
+    @endif
     {{-- preparation --}}
-    <div class='overlay' style="padding-left: 540px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_3']}}" alt=""></div>
-    <div class='overlay' style="padding-left: 500px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_2']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 560px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_3']}}" alt=""></div>
+    @if ($data['henkaten_preparation_3'] !='')
+      <div class='overlay' style="padding-left: 540px; padding-top:70px">
+        <img class="img_user" src="{{$data['henkaten_preparation_3']}}" alt="">
+      </div>
+    @endif
+    <div class='overlay' style="padding-left: 510px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_2']}}" alt=""></div>
+    @if ($data['henkaten_preparation_2'] !='')
+      <div class='overlay'  style="padding-left: 500px; padding-top:70px">
+        <img class="img_user" src="{{$data['henkaten_preparation_2']}}" alt="">
+      </div>
+    @endif
     <div class='overlay' style="padding-left: 460px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_1']}}" alt=""></div>
+    @if ($data['henkaten_preparation_1'] !='')
+      <div class='overlay' style="padding-left: 460px; padding-top:70px">
+        <img class="img_user" src="{{$data['henkaten_preparation_1']}}" alt="">
+      </div>
+    @endif
     {{-- packaging --}}
     <div class='overlay' style="padding-left: 450px; padding-top:0px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_packaging']}}" alt=""></div>
+    @if ($data['henkaten_packaging'] !='')
+      <div class='overlay' style="padding-left: 450px; padding-top:0px">
+        <img class="img_user" src="{{$data['henkaten_packaging']}}" alt="">
+      </div>
+    @endif
     {{-- admin delivery --}}
-    <div class='overlay' style="padding-left: 750px; padding-top:85px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_admin_delivery']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 750px; padding-top:85px">
+      <img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_admin_delivery']}}" alt="">
+    </div>
+    @if ($data['henkaten_admin_delivery'] !='')
+      <div class='overlay' style="padding-left: 750px; padding-top:85px">
+        <img class="img_user" src="{{$data['henkaten_admin_delivery']}}" alt="">
+      </div>
+    @endif
   </div>
   <img  src="{{asset('/image/layout.png')}}" width="800px" height="200px" alt="thumb">
 <div>
@@ -105,10 +144,11 @@ img {
             <tr>
               <th class="text-center">No</th>
               <th class="text-center">Position</th>
-              <th class="text-center">Man Power</th>
+              <th class="text-center">NPK</th>
+              <th class="text-center">Name</th>
               <th class="text-center">Photo</th>
               <th class="text-center">Henkaten Status</th>
-              <th class="text-center">Date Henkaten</th>
+              <th class="text-center"> Henkaten Date</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -159,6 +199,7 @@ img {
 
                   },
                   { data: 'user_id', className: 'dt-body-center'},
+                  { data: 'name', className: 'dt-body-center'},
                   { data: "photo", className: 'dt-body-center text-center',  "render": function ( data, type, row ) {
                     var url = '/storage/delivery-manpower-photo/'+data;
                       return "<img src='"+url+"' width='40' height='40'>";
@@ -178,7 +219,7 @@ img {
                   { data: 'date_henkaten', className: 'dt-body-center'},
                   { data: 'id', className: 'dt-body-center',
                       'render' : function(data,row,type){
-                          return "<div class='btn-group'><div class='btn-group'><a href='/delivery/layout_area/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a></div>";
+                          return "<div class='btn-group'><div class='btn-group'><a href='/delivery/layout_area/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='/delivery/layout_area/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
                       }
                   },
               ],

@@ -93,6 +93,7 @@
                                         <option value="2" {{"2" == $skill->value ? "selected" : ""}}>2</option>
                                         <option value="3" {{"3" == $skill->value ? "selected" : ""}}>3</option>
                                         <option value="4" {{"4" == $skill->value ? "selected" : ""}}>4</option>
+                                        <option value="5" {{"5" == $skill->value ? "selected" : ""}}>5</option>
                                     </select>
                                     @error('value') 
                                         <div class="text-danger">
