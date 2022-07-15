@@ -447,7 +447,7 @@ class DeliveryPreparationController extends Controller
                 $data->status = 1;
                 $data->save();
                 $message='<b>======== PREPARATION ========</b>'.chr(10).chr(10);
-                $message .= '<b>Preparation</b> :'.$data->help_column.''.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($data->plan_date_preparation)).''.chr(10).'<b>Plan Preparation time</b> :'.$data->plan_time_preparation.''.chr(10).'<b>Started '.' by</b>: NPK'.$npk;
+                $message .= '<b>Preparation</b> :'.$data->help_column.''.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($data->plan_date_preparation)).''.chr(10).'<b>Plan Preparation time</b> :'.$data->plan_time_preparation.''.chr(10).'<b>Started '.' by</b>: '.$npk." ".$name;
     
                 $this->sendTelegram('-690929411',$message );
                 return date("Y-m-d H:i:s");
@@ -510,7 +510,7 @@ class DeliveryPreparationController extends Controller
                 $data->time_preparation =  abs(strtotime ( $data->start_preparation ) - strtotime ( $now))/(60);
                 $data->save();
                 $message='<b>======== PREPARATION ========</b>'.chr(10).chr(10);
-                $message .= '<b>Preparation</b> : '.$data->help_column.' '.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($data->plan_date_preparation)).' '.chr(10).'<b>Plan Preparation Time </b> :'.$data->plan_time_preparation.' '.chr(10).'<b>Finished By </b>:'.' NPK'.$npk.chr(10).'<b>Status</b>:'.$status_name;
+                $message .= '<b>Preparation</b> : '.$data->help_column.' '.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($data->plan_date_preparation)).' '.chr(10).'<b>Plan Preparation Time </b> :'.$data->plan_time_preparation.' '.chr(10).'<b>Finished By </b>:'.' '.$npk." ".$name.chr(10).'<b>Status</b>:'.$status_name;
                 $this->sendTelegram('-690929411',$message );
                 return $status_name;
             } catch (\Throwable $th) {
@@ -554,6 +554,43 @@ class DeliveryPreparationController extends Controller
         
 
         
+    }
+
+    public function hold($id, Request $request)
+    {
+        $now =date("Y-m-d H:i:s");
+        // rubah status arrival menjadi null lagi
+        try {
+            $data =PreparationDelivery::find($id);
+            //cek status actual vs plan
+            $status_name='';
+            // isi siapa trigger nya
+            $data->security_name_arrival =null;
+            $data->driver_name =null;
+
+
+            $data->arrival_actual = null;
+            $data->arrival_gap =null;
+            $data->arrival_status =null;
+            $data->save();
+
+            $message='<b>======== ON HOLD ========</b>'.chr(10).chr(10);
+            
+            $message .= '<b>Delivery On Hold</b> : '.$data->help_column.' '.chr(10).'<b>Plan Date</b> :'.date('d-m-Y H:i:s', strtotime($data->arrival_plan)).''.chr(10).'<b>Hold Date</b> :'.date('d-m-Y H:i:s', strtotime($now)).' '.chr(10).'<b>Status</b>: on Hold';
+
+            $this->sendTelegram('-690929411',$message );
+
+            if (Auth::user()->roles->pluck('security')) {
+                return redirect('/delivery/preparation/security')->with('success', $data->help_column.' Vendor Hold!');
+            } else {
+                return redirect('/delivery/preparation')->with('success', $data->help_column.' Vendor Holded!');
+            }
+            
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect('/delivery/preparation/security')->with('fail', $data->help_column.' Failed Update!');
+        }
     }
 
     public function sendTelegram($chat_id, $text)
@@ -718,6 +755,7 @@ class DeliveryPreparationController extends Controller
     {
         $selection = PreparationDelivery::find($request->id);
         $npk=  Auth::user()->npk;
+        $name=  Auth::user()->name;
         DB::beginTransaction();
         try {
             $selection->update($request->all());
@@ -725,13 +763,13 @@ class DeliveryPreparationController extends Controller
 
             // kirim telegram
             $message='<b>==========   DELAY    =========</b>'.chr(10).'<b>======== PREPARATION ========</b>'.chr(10).chr(10);
-            $message .= '<b>Preparation</b> : '.$selection->help_column.' '.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($selection->plan_date_preparation)).' '.chr(10).'<b>Plan Preparation Time </b>:'.$selection->plan_time_preparation.' '.chr(10).'<b>Finished By </b>:'.' NPK'.$npk.chr(10).'<b>Problem Identification : </b>'.$request->problem.chr(10).'<b>Corrective Action: </b>'.chr(10).$request->remark;
+            $message .= '<b>Preparation</b> : '.$selection->help_column.' '.chr(10).'<b>Plan Preparation Date</b> :'.date('d-m-Y', strtotime($selection->plan_date_preparation)).' '.chr(10).'<b>Plan Preparation Time </b>:'.$selection->plan_time_preparation.' '.chr(10).'<b>Finished By </b>:'.' NPK'.$npk." ".$name.chr(10).'<b>Problem Identification : </b>'.$request->problem.chr(10).'<b>Corrective Action: </b>'.chr(10).$request->remark;
             $this->sendTelegram('-690929411',$message );
             
             $row_1 = $selection->help_column; 
             $row_2 =  date('d-m-Y', strtotime($selection->plan_date_preparation));
             $row_3 = $selection->plan_time_preparation;
-            $row_4 = ' NPK'.$npk;
+            $row_4 = ' NPK'.$npk." ".$name;
             $row_5 = $request->problem;
             $row_6 = $request->remark;
             $row_7 = $selection->arrival_plan;
@@ -743,9 +781,8 @@ class DeliveryPreparationController extends Controller
 
             return redirect('/delivery/preparation/member')->with('success', 'Schedule '.$selection->customer_pickup_id.' Updated!');
         } catch (\Throwable $th) {
-            throw $th;
             DB::rollback();
-            // return redirect('/delivery/preparation/member')->with("fail","Failed Update! [105]" );
+            return redirect('/delivery/preparation/member')->with("fail","Failed Update! [105]" );
         }
     }
 
@@ -755,6 +792,7 @@ class DeliveryPreparationController extends Controller
         $data_delay_baru_start = PreparationDelivery::where(DB::raw('DATE_FORMAT(CONCAT(plan_date_preparation," ",plan_time_preparation), "%Y-%m-%d %H:%i:%s")'), '<', date("Y-m-d H:i:s"))->where('status', '1')->get();
         $data_delay_belum_start = PreparationDelivery::where(DB::raw('DATE_FORMAT(CONCAT(plan_date_preparation," ",plan_time_preparation), "%Y-%m-%d %H:%i:%s")'), '<', date("Y-m-d H:i:s")  )->where('status', NULL)->get();
         $npk=  Auth::user()->npk;
+        $name=  Auth::user()->name;
         $now =date("Y-m-d H:i:s");
         
         // dd($data_delay_baru_start);
@@ -765,7 +803,7 @@ class DeliveryPreparationController extends Controller
             try {
                 $selection->status = '5';
                 $selection->end_preparation = $selection2->plan_date_preparation." ".$selection2->plan_time_preparation;
-                $selection->end_by = $npk;
+                $selection->end_by = $selection->pic;
                 $selection->time_preparation =   abs(strtotime ( $selection->start_preparation ) - strtotime ( $now))/(60);
                 $selection->save();
                 DB::commit();
@@ -782,8 +820,8 @@ class DeliveryPreparationController extends Controller
                 $selection2->date_preparation = $now;
                 $selection2->start_preparation = $selection2->plan_date_preparation." ".$selection2->plan_time_preparation;
                 $selection2->status = '5';
-                $selection2->end_by = $npk; 
-                $selection2->start_by = $npk;
+                $selection2->end_by = $selection2->pic; 
+                $selection2->start_by = $selection2->pic;
                 // $selection2->time_preparation =  abs(strtotime ( $selection2->start_preparation ) - strtotime ( $now))/(60);
                 $selection2->save();
                 DB::commit();
@@ -797,7 +835,7 @@ class DeliveryPreparationController extends Controller
         }
 
         // dd($data_delay_baru_start);
-        $data_delay = PreparationDelivery::where('end_preparation', '>', DB::raw("CONCAT('',plan_date_preparation, plan_time_preparation)"))->where('remark', NULL)->where('status', '5')->where('problem', NULL)->where('pic','=', $npk)->limit(1)->get();
+        $data_delay = PreparationDelivery::where('end_preparation', '>', DB::raw("CONCAT('',plan_date_preparation, plan_time_preparation)"))->where('remark', NULL)->where('status', '5')->where('problem', NULL)->where('pic','=', $npk." ".$name)->limit(1)->get();
         return $data_delay;
     }
     

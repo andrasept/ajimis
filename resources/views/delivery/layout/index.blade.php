@@ -54,53 +54,53 @@ img {
 <div class="p-w-md m-t-sm">
   <div class="layout_bg" style="width:100%">
     {{-- finish goods --}}
-    <div class='overlay' style="padding-left: 650px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_1']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 650px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_finish_goods_1'], " ")}}</label></div>
     @if ($data['henkaten_finish_goods_1'] !='')
       <div class='overlay' style="padding-left: 650px; padding-top:70px">
         <img class="img_user" src="{{$data['henkaten_finish_goods_1']}}" alt="">
       </div>
     @endif
-    <div class='overlay' style="padding-left: 700px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_2']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 700px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_finish_goods_2']," ")}}</label></div>
     @if ($data['henkaten_finish_goods_2'] !='')
       <div class='overlay' style="padding-left: 690px; padding-top:70px">
         <img class="img_user" src="{{$data['henkaten_finish_goods_2']}}" alt="">
       </div>
     @endif
     {{-- spare part --}}
-    <div class='overlay' style="padding-left: 105px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_sparepart']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 105px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_sparepart']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_sparepart']," ")}}</label></div>
     @if ($data['henkaten_sparepart'] !='')
       <div class='overlay' style="padding-left: 105px; padding-top:70px">
         <img class="img_user" src="{{$data['henkaten_sparepart']}}" alt="">
       </div>
     @endif
     {{-- pulling sparepart --}}
-    <div class='overlay' style="padding-left: 320px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_pulling_sparepart']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 320px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_pulling_sparepart']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_pulling_sparepart']," ")}}</label></div>
     @if ($data['henkaten_pulling_sparepart'] !='')
       <div class='overlay' style="padding-left: 320px; padding-top:70px">
         <img class="img_user" src="{{$data['henkaten_pulling_sparepart']}}" alt="">
       </div>
     @endif
     {{-- preparation --}}
-    <div class='overlay' style="padding-left: 560px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_3']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 550px; padding-top:80px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_3']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_3']," ")}}</label></div>
     @if ($data['henkaten_preparation_3'] !='')
-      <div class='overlay' style="padding-left: 540px; padding-top:70px">
+      <div class='overlay' style="padding-left: 550px; padding-top:80px">
         <img class="img_user" src="{{$data['henkaten_preparation_3']}}" alt="">
       </div>
     @endif
-    <div class='overlay' style="padding-left: 510px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_2']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 495px; padding-top:80px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_2'], " ")}}</label></div>
     @if ($data['henkaten_preparation_2'] !='')
-      <div class='overlay'  style="padding-left: 500px; padding-top:70px">
+      <div class='overlay'  style="padding-left: 495px; padding-top:80px">
         <img class="img_user" src="{{$data['henkaten_preparation_2']}}" alt="">
       </div>
     @endif
-    <div class='overlay' style="padding-left: 460px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_1']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 440px; padding-top:80px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_1']," ")}}</label></div>
     @if ($data['henkaten_preparation_1'] !='')
-      <div class='overlay' style="padding-left: 460px; padding-top:70px">
+      <div class='overlay' style="padding-left: 440px; padding-top:80px">
         <img class="img_user" src="{{$data['henkaten_preparation_1']}}" alt="">
       </div>
     @endif
     {{-- packaging --}}
-    <div class='overlay' style="padding-left: 450px; padding-top:0px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_packaging']}}" alt=""></div>
+    <div class='overlay' style="padding-left: 450px; padding-top:0px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_packaging']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_packaging'], " ");}}</label></div>
     @if ($data['henkaten_packaging'] !='')
       <div class='overlay' style="padding-left: 450px; padding-top:0px">
         <img class="img_user" src="{{$data['henkaten_packaging']}}" alt="">
@@ -109,6 +109,7 @@ img {
     {{-- admin delivery --}}
     <div class='overlay' style="padding-left: 750px; padding-top:85px">
       <img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_admin_delivery']}}" alt="">
+      <br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_admin_delivery'], " ")}}</label>
     </div>
     @if ($data['henkaten_admin_delivery'] !='')
       <div class='overlay' style="padding-left: 750px; padding-top:85px">

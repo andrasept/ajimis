@@ -57,10 +57,21 @@ class DeliveryLayoutAreaController extends Controller
             $data['henkaten_pulling_sparepart'] = '';
             $data['henkaten_sparepart'] = '';
 
+            $data['nama_admin_delivery']='';
+            $data['nama_finish_goods_1'] = '';
+            $data['nama_finish_goods_2'] = '';
+            $data['nama_preparation_1'] = '';
+            $data['nama_preparation_2'] = '';
+            $data['nama_preparation_3'] = '';
+            $data['nama_packaging'] = '';
+            $data['nama_pulling_sparepart'] = '';
+            $data['nama_sparepart'] = '';
+
             foreach ($data_position as $position) {
                 # code...
                 if ($position->position == 'admin_delivery' && $position->user_id != 'empty') {
                     $data['photo_admin_delivery'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_admin_delivery'] = $position->name;
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_admin_delivery'] =asset("/image/henkaten.png");
                     } else {
@@ -70,6 +81,7 @@ class DeliveryLayoutAreaController extends Controller
                 }
                 if ($position->position == 'finish_goods_1' && $position->user_id != 'empty') {
                     $data['photo_finish_goods_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_finish_goods_1'] = $position->name;
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_finish_goods_1'] =asset("/image/henkaten.png");
                     } else {
@@ -78,6 +90,7 @@ class DeliveryLayoutAreaController extends Controller
                 } 
                 if ($position->position == 'finish_goods_2' && $position->user_id != 'empty') {
                     $data['photo_finish_goods_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_finish_goods_2'] = $position->name;
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_finish_goods_2'] =asset("/image/henkaten.png");
                     } else {
@@ -86,6 +99,8 @@ class DeliveryLayoutAreaController extends Controller
                 } 
                 if ($position->position == 'preparation_1' && $position->user_id != 'empty') {
                     $data['photo_preparation_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_preparation_1'] = $position->name;
+
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_preparation_1'] =asset("/image/henkaten.png");
                     } else {
@@ -94,6 +109,8 @@ class DeliveryLayoutAreaController extends Controller
                 } 
                 if ($position->position == 'preparation_2' && $position->user_id != 'empty') {
                     $data['photo_preparation_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_preparation_2'] = $position->name;
+
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_preparation_2'] =asset("/image/henkaten.png");
                     } else {
@@ -102,6 +119,8 @@ class DeliveryLayoutAreaController extends Controller
                 } 
                 if ($position->position == 'preparation_3' && $position->user_id != 'empty') {
                     $data['photo_preparation_3'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_preparation_3'] = $position->name;
+
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_preparation_3'] =asset("/image/henkaten.png");
                     } else {
@@ -110,6 +129,8 @@ class DeliveryLayoutAreaController extends Controller
                 } 
                 if ($position->position == 'packaging' && $position->user_id != 'empty') {
                     $data['photo_packaging'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_packaging'] = $position->name;
+
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_packaging'] =asset("/image/henkaten.png");
                     } else {
@@ -118,6 +139,8 @@ class DeliveryLayoutAreaController extends Controller
                 } 
                 if ($position->position == 'pulling_sparepart' && $position->user_id != 'empty') {
                     $data['photo_pulling_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_pulling_sparepart'] = $position->name;
+
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_pulling_sparepart'] =asset("/image/henkaten.png");
                     } else {
@@ -126,6 +149,8 @@ class DeliveryLayoutAreaController extends Controller
                 } 
                 if ($position->position == 'sparepart' && $position->user_id != 'empty') {
                     $data['photo_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_sparepart'] = $position->name;
+
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_sparepart'] =asset("/image/henkaten.png");
                     } else {

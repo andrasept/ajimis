@@ -183,6 +183,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/preparation/security', 'DeliveryPreparationController@security')->name('delivery.preparation.security')->middleware('auth');
         Route::post('/preparation/arrival', 'DeliveryPreparationController@arrival')->name('delivery.preparation.arrival')->middleware('auth');
         Route::get('/preparation/{id}/departure', 'DeliveryPreparationController@departure')->name('delivery.preparation.departure')->middleware('auth');
+        Route::get('/preparation/{id}/hold', 'DeliveryPreparationController@hold')->name('delivery.preparation.hold')->middleware('auth');
         
         
       });

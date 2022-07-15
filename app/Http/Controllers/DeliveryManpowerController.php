@@ -87,7 +87,7 @@ class DeliveryManpowerController extends Controller
             'position' => ['required'],
             'title' => ['required'],
             'shift' => ['required'],
-            'photo' => ['required'],
+            // 'photo' => ['required'],
         ]);
         
         
