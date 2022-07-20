@@ -317,10 +317,7 @@
 	                          <!-- <button type="button" class="btn btn-primary">Add Cycle</button> -->
 	                          &nbsp;&nbsp;&nbsp;
 	                          @if($hasil == "sudah finish")
-	                          	
-	                          	<button type="button" class="btn btn-primary" onclick="location.href='{{ route('quality.monitor.finish') }}';">Finish Cycle</button>
-
-	                          	<a alt="add" href="{{url('')}}/quality/monitor/{{$q_monitor->id}}/finish" class=""><button type="button" class="btn btn-primary">Finish Cycle</button></i></a>
+	                          	<a alt="add" href="{{url('')}}/quality/monitor/{{$q_monitor->id}}/finish" class="" onclick="return confirm('Are you sure to finish this checksheet?')"><button type="button" class="btn btn-primary" >Finish Cycle</button></i></a>
 	                          @else
 	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
 	                          @endif	                          
@@ -358,7 +355,7 @@
 										@endif
 
 										@if($hasil == "sudah finish")
-										<span class="badge badge-primary">All OK & Checked</span>
+										<span class="badge badge-primary">All Checked</span>
 										@endif
 
 										<br/>

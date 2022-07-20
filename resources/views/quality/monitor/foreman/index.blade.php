@@ -355,7 +355,7 @@
 										@endif
 
 										@if($hasil == "sudah finish")
-										<span class="badge badge-primary">All OK & Checked</span>
+										<span class="badge badge-primary">All Checked</span>
 										@endif
 
 										<br/>

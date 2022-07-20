@@ -305,6 +305,13 @@ class QualityCsQtimeController extends Controller
             if (in_array("3", $acng)) {
                 $q_cs_qtimes->judge = 3;
                 // lanjut notif NG ke Telegram : ada NG di No. Checksheet QTime ABC | Part and Model ABC | Area ABC | Atas Nama Member ABC
+                // send notif telegram
+                $user_role = $this->getUserRole();
+                $cs_monitor = QualityMonitor::find($request->input('quality_monitor_id'));
+                $message = 'Ada NG di Checksheet QTime - '.$cs_monitor->doc_number.chr(10);
+                $message .= '[Nama Part] - Model [Nama Model]'.chr(10);
+                $message .= '[Area] - Member [Nama Member]'.chr(10);
+                $this->sendTelegram('-793766953',$message );
 
                 // lanjut Approval NG ke Leader
                 // set cs_status "Waiting Approval" di tabel q_monitors
@@ -624,6 +631,11 @@ class QualityCsQtimeController extends Controller
             // update judgement di tabel q_monitors
 
             // kasih stamp approved by jenjang leader-director di page edit
+
+            // send notif telegram
+            $user_role = $this->getUserRole();
+            $message=$user_role.' sudah approve'.chr(10);
+            $this->sendTelegram('-793766953',$message );
         }
         // cek judgement, panggil fungsi judgement getJudgementStatus(), lalu update kolom judgment
         $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
@@ -711,4 +723,37 @@ class QualityCsQtimeController extends Controller
     {
         //
     }
+
+    public function sendTelegram($chat_id, $text)
+    {
+        $token ='5316703664:AAGkWlsG2nDe1eIQtrTN_OYlYaXluxSGuCU';
+        // ddd($text);
+        // $text = urlencode($text);
+        $params=[
+            'parse_mode'=>'html',
+            'chat_id'=>$chat_id, 
+            'text'=>$text,
+        ];
+        // $url = 'https://api.telegram.org/bot'.$token.'/sendMessage/';
+        try {
+            file_get_contents('https://api.telegram.org/bot'.$token.'/sendMessage?'.http_build_query($params));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_POST, 0);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, ($params));
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // $response = curl_exec ($ch);
+        // $err = curl_error($ch); 
+        // curl_close ($ch);
+    }
+
+    public function cycleNgCheck($q_monitor_id, $cs_qtime_id) {
+        // tomboll "add cycle" dikunci dahulu sampai ada action dan approved, approval_status=6
+        
+    }
+
 }

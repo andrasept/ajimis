@@ -61,6 +61,8 @@ class QualityMonitorController extends Controller
         $q_processes = QualityProcess::all();
         $q_areas = QualityArea::all();
         $q_monitors = QualityMonitor::all();        
+        // $q_monitors = QualityMonitor::orderBy('id','ASC')->get();        
+        // $q_monitors = DB::table('quality_monitors')->orderBy('id','DESC')->get();        
 
         // doc number
         $randomNumber = $this->generateDocNumber();
@@ -217,14 +219,71 @@ class QualityMonitorController extends Controller
 
     public function finish($id)
     {
-        echo $id; exit();
+        // echo $id; exit();
         $user_id = auth()->user()->id;
-        QualityMonitor::where('id', $id)
-          ->update([
-            'cs_status' => 3,
-            'updated_by' => $user_id,
-            'updated_at' => now()
-        ]);
+        // QualityMonitor::where('id', $id)
+        //   ->update([
+        //     'cs_status' => 3,
+        //     'updated_by' => $user_id,
+        //     'updated_at' => now()
+        // ]);
+
+        // jika cs_status sudah finish
+            // get judge AC/NG di shift 1
+            $judge_status_s1 = DB::table('quality_cs_qtimes')
+                ->where('quality_monitor_id', $id)
+                ->where('shift', 1)->pluck('judge')->toArray();
+                // ->where('shift', 1)->get();
+            // dd($judge_status_s1); exit();
+            // cek jika ada AC/NG
+            if (in_array("3", $judge_status_s1)) {
+                $judgement_1 = 2;
+            } elseif(in_array("2", $judge_status_s1)) {
+                $judgement_1 = 2;
+            } elseif(in_array("1", $judge_status_s1)) {
+                $judgement_1 = 1;
+            } else {
+                $judgement_1 = 0;
+            }
+
+            // get judge AC/NG di shift 2
+            $judge_status_s2 = DB::table('quality_cs_qtimes')
+                ->where('quality_monitor_id', $id)
+                ->where('shift', 2)->pluck('judge')->toArray();
+            // cek jika ada AC/NG
+            if (in_array("3", $judge_status_s2)) {
+                $judgement_2 = 2;
+            } elseif(in_array("2", $judge_status_s2)) {
+                $judgement_2 = 2;
+            } elseif(in_array("1", $judge_status_s2)) {
+                $judgement_2 = 1;
+            } else {
+                $judgement_2 = 0;
+            }
+
+            // judgement jika cs_status = 3 dan tidak ada AC/NG di kedua shift = OK, else NG
+            $judgement_arr = array($judgement_1, $judgement_2);
+            // dd($judgement_arr); exit();
+            if (in_array("3", $judgement_arr)) {
+                $judgement = 2;
+            } elseif(in_array("2", $judgement_arr)) {
+                $judgement = 2;
+            } elseif(in_array("1", $judgement_arr)) {
+                $judgement = 1;
+            } else {
+                $judgement = 0;
+            }
+
+            // echo $judgement; exit();
+            QualityMonitor::where('id', $id)
+              ->update([
+                'cs_status' => 3,
+                'judgement' => $judgement,
+                'updated_by' => $user_id,
+                'updated_at' => now()
+            ]);
+
+
         return redirect()->route('quality.monitor.index')
             ->withSuccess(__('Quality Checksheet finished successfully.'));
     }

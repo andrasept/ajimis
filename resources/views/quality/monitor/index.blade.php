@@ -48,11 +48,7 @@
 							<tbody>
 								@foreach ($q_monitors as $key => $q_monitor)
 								<tr class="gradeA">
-									<td>
-										<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal{{$q_monitor->id}}"><i class="fa fa-list"></i></button>
-
-										<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
-
+									<td>								
                 		<div class="modal inmodal fade" id="myModal{{$q_monitor->id}}" tabindex="-1" role="dialog"  aria-hidden="true">
                       <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -134,6 +130,9 @@
 	                            <tbody>
 	                            	@php
 	                            	$cs_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_monitor->id)->get();
+
+	                            	$array_judge1 = array();
+	                            	$array_app1 = array();
 	                            	@endphp
 	                            	@foreach ($cs_s1 as $keycs => $q_cs_qtime)
 	                            		<tr>
@@ -194,7 +193,21 @@
 																			@endif
 		                                </td>
 	                                </tr>
+                                	@php
+                                		$array_judge1[] = $q_cs_qtime->judge;
+                                		$array_app1[] = $q_cs_qtime->approval_status;
+                                	@endphp
 	                            	@endforeach
+	                            	@php
+	                            		$disable_cycle = 0;
+		                            	print_r($array_judge1);
+				                        	print_r($array_app1);
+				                        	// if in_array judge=2/3 dan in_array approval_status!=6 maka disable add cycle
+				                        	if( (in_array(2,$array_judge1) || in_array(3,$array_judge1)) && (!in_array(6,$array_app1)) ) {
+																	    echo "disable";
+																	    $disable_cycle = 1;
+																	}
+	                            	@endphp
 	                            </tbody>
 	                        	</table>
 	                        	<div class="hr-line-dashed"></div>
@@ -213,6 +226,9 @@
 	                            <tbody>
 	                            	@php
 	                            	$cs_s2 = DB::table('quality_cs_qtimes')->where('shift', 2)->where('quality_monitor_id',$q_monitor->id)->get();
+
+	                            	$array_judge2 = array();
+	                            	$array_app2 = array();
 	                            	@endphp
 	                            	@foreach ($cs_s2 as $keycs2 => $q_cs_qtime)
 	                            		<tr>
@@ -273,6 +289,10 @@
 																			@endif
 		                                </td>
 	                                </tr>
+	                                @php
+                                		$array_judge2[] = $q_cs_qtime->judge;
+                                		$array_app2[] = $q_cs_qtime->approval_status;
+                                	@endphp
 	                            	@endforeach
 	                            </tbody>
 	                        	</table>
@@ -305,16 +325,44 @@
 														} 
 													}
 	                        @endphp
+	                        @php
+	                        	//$os = array("Mac", "NT", "Irix", "Linux");
+														//if (!in_array("BB", $os)) {
+														//    echo "BB is not found";
+														//}
+
+	                        	print_r($array_judge2);
+	                        	print_r($array_app2);
+	                        	// if in_array judge=2/3 dan in_array approval_status!=6 maka disable add cycle
+	                        	if( (in_array(2,$array_judge2) || in_array(3,$array_judge2)) && (!in_array(6,$array_app2)) ) {
+														    echo "disable";
+														    $disable_cycle = 1;
+														}
+                        	@endphp
 	                        <div class="modal-footer">
 	                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-	                          <!-- <button type="button" class="btn btn-primary">Add Cycle</button> -->
-	                          <a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}"><button type="button" class="btn btn-primary">Add Cycle</button></i></a>
+	                          @if($disable_cycle)
+	                          	<a alt="add" href=""><button type="button" class="btn btn-primary" disabled>Add Cycle</button></a>
+	                          @else
+	                          	<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}"><button type="button" class="btn btn-primary">Add Cycle</button></a>
+	                          @endif
 	                          &nbsp;&nbsp;&nbsp;
-	                          <!-- <button type="button" class="btn btn-primary">Finish Cycle</button> -->
+	                         	@if($hasil == "sudah finish")
+	                          	<a alt="add" href="{{url('')}}/quality/monitor/{{$q_monitor->id}}/finish" class="" onclick="return confirm('Are you sure to finish this checksheet?')"><button type="button" class="btn btn-primary" >Finish Cycle</button></i></a>
+	                          @else
+	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
+	                          @endif	
 	                        </div>
                       	</div>
                       </div>
                   	</div>
+
+                  	<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal{{$q_monitor->id}}"><i class="fa fa-list"></i></button>	
+
+                  	@if(!$disable_cycle)
+                  		<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
+                  	@endif								
+
             			</td>
 									<td>
 										@if($q_monitor->quality_cs_qtime == 1)
@@ -345,7 +393,7 @@
 										@endif
 
 										@if($hasil == "sudah finish")
-										<span class="badge badge-primary">All OK & Checked</span>
+										<span class="badge badge-primary">All Checked</span>
 										@endif
 
 										<br/>
@@ -445,6 +493,7 @@
 <script>
 	$(document).ready(function(){
 		$('.dataTables-example').DataTable({
+			order: [['2', 'asc']],
 			rowReorder: {
 	            selector: 'td:nth-child(2)'
 	        },

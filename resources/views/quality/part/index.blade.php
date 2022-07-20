@@ -123,20 +123,44 @@
 								@foreach ($q_parts as $key => $q_part)
 								<tr class="gradeA">
 									<td>
-										@foreach ($q_models as $key => $q_models)
-											@if($q_models->id == $q_part->model_id)
-												{{$q_models->name}}
+										@foreach ($q_models as $key => $q_model)
+											@if($q_model->id == $q_part->model_id)
+												{{$q_model->name}}
 											@endif
 										@endforeach
 									</td>
 									<td>{{$q_part->name}}</td>
 									<td>{{$q_part->description}}</td>
-									<td>{{$q_part->low}}</td>
-									<td>{{$q_part->mid}}</td>
-									<td>{{$q_part->high}}</td>
-									<td>{{$q_part->left}}</td>
-									<td>{{$q_part->center}}</td>
-									<td>{{$q_part->right}}</td>
+									<td>
+										@if($q_part->low)
+											V
+										@endif
+									</td>
+									<td>
+										@if($q_part->mid)
+											V
+										@endif
+									</td>
+									<td>
+										@if($q_part->high)
+											V
+										@endif
+									</td>
+									<td>
+										@if($q_part->left)
+											V
+										@endif
+									</td>
+									<td>
+										@if($q_part->center)
+											V
+										@endif
+									</td>
+									<td>
+										@if($q_part->right)
+											V
+										@endif
+									</td>
 									<td>{{$q_part->photo}}</td>
 									<td>
 										<a alt="edit" href="{{ route('quality.part.edit',$q_part->id)}}" class="btn btn-xs btn-outline btn-warning">Edit <i class="fa fa-edit"></i> </a>&nbsp;&nbsp;&nbsp;
