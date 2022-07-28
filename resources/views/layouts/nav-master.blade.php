@@ -56,10 +56,15 @@
               <a href="#" aria-expanded="true"><i class="fa fa-truck"></i> <span class="nav-label">Delivery </span><span class="fa arrow"></span></a>
               <ul class="nav nav-second-level " aria-expanded="true" style="">
                   <li class="">
+                    <a href="#" aria-expanded="true">Dashboard<span class="fa arrow"></span></a>
+                    <ul class="nav nav-third-level " aria-expanded="true" style="">
+                      <li><a href="#"> Delivery Achievement</a></li>
+                    </ul>
+                  </li>
+                  <li class="">
                       <a href="#" aria-expanded="true">Master Data <span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.master.master_part')}}">Part</a></li>
-                        {{-- <li><a href="">Part</a></li> --}}
                         <li><a href="{{route('delivery.master.master_packaging')}}">Packaging</a></li>
                         <li><a href="{{route('delivery.master.master_line')}}">Line</a></li>
                         <li><a href="{{route('delivery.master.master_customer')}}">Customer </a></li>
@@ -72,7 +77,6 @@
                       <a href="#" aria-expanded="true">Preparation & Delivery<span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.pickupcustomer')}}"> Reference Data</a></li>
-                        {{-- <li><a href="{{route('delivery.preparation.dashboard')}}"> Preparation Status Today</a></li> --}}
                         <li><a href="{{route('delivery.preparation')}}">Schedule </a></li>
                       </ul>
                     </li>
@@ -93,8 +97,9 @@
                       <a href="#" aria-expanded="true">Henkaten<span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.skillmatrix')}}"> Matrix</a></li>
+                        <li><a href="{{route('delivery.planning_refreshment')}}"> Planning Refreshment</a></li>
                         <li><a href="{{route('delivery.layout_area')}}"> Layout Area</a></li>
-                        {{-- <li><a href="#"> List Henkaten</a></li> --}}
+                        <li><a href="{{route('delivery.henkaten_detail')}}"> History</a></li>
                       </ul>
                     </li>
                   </ul>
@@ -111,10 +116,11 @@
         @role('security')
               <li >
                   <a href="#" aria-expanded="true"><i class="fa fa-truck"></i> <span class="nav-label">Delivery</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level " aria-expanded="true" style="">
-                  <li><a href="{{route('delivery.preparation.security')}}">Arrival & Departure</a></li>
-                </ul>
-            </li>
+                  <ul class="nav nav-second-level " aria-expanded="true" style="">
+                    <li><a href="{{route('delivery.preparation.security')}}">Arrival & Departure</a></li>
+                    <li><a href="{{route('delivery.preparation.security.history')}}">History</a></li>
+                  </ul>
+              </li>
         @endrole
         
         

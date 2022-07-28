@@ -39,16 +39,35 @@
                                 </div>
                             @enderror
                         </div>
+                        @foreach (explode(",", $data->position) as $item)
+                            <div class="form-group">
+                                <label>Position {{$loop->iteration}}</label> 
+                                <select name="position[]" class="form-control" >
+                                    <option value="-">-</option> 
+                                    <option value="PPC" {{"PPC" == strtoupper($item)  ? 'selected' : ''}}>PPC</option> 
+                                    <option value="PULLING" {{"PULLING" == strtoupper($item)  ? 'selected' : ''}}>PULLING</option> 
+                                    <option value="DELIVERY CONTROL" {{"DELIVERY CONTROL" == strtoupper($item)  ? 'selected' : ''}}>DELIVERY CONTROL</option> 
+                                    <option value="PREPARATION " {{"PREPARATION" == strtoupper($item)  ? 'selected' : ''}}>PREPARATION </option> 
+                                    <option value="SPAREPART" {{"SPAREPART" == strtoupper($item)  ? 'selected' : ''}}>SPAREPART</option> 
+                                    <option value="PACKAGING CONTROL" {{"PACKAGING CONTROL" == strtoupper($item)  ? 'selected' : ''}}>PACKAGING CONTROL</option> 
+                                </select>
+                                @error('position') 
+                                    <div class="text-danger">
+                                        {{$message}}
+                                    </div>
+                                @enderror
+                            </div>
+                        @endforeach
                         <div class="form-group">
-                            <label>Position</label> 
-                            <select name="position" class="form-control" id="position">
+                            <label>add Position</label> 
+                            <select name="position[]" class="form-control" >
                                 <option value="-">-</option> 
-                                <option value="PPC" {{"PPC" == strtoupper($data->position)  ? 'selected' : ''}}>PPC</option> 
-                                <option value="PULLING" {{"PULLING" == strtoupper($data->position)  ? 'selected' : ''}}>PULLING</option> 
-                                <option value="DELIVERY CONTROL" {{"DELIVERY CONTROL" == strtoupper($data->position)  ? 'selected' : ''}}>DELIVERY CONTROL</option> 
-                                <option value="PREPARATION DELIVERY" {{"PREPARATION DELIVERY" == strtoupper($data->position)  ? 'selected' : ''}}>PREPARATION DELIVERY</option> 
-                                <option value="SPAREPART" {{"SPAREPART" == strtoupper($data->position)  ? 'selected' : ''}}>SPAREPART</option> 
-                                <option value="PACKAGING CONTROL" {{"PACKAGING CONTROL" == strtoupper($data->position)  ? 'selected' : ''}}>PACKAGING CONTROL</option> 
+                                <option value="PPC" >PPC</option> 
+                                <option value="PULLING" >PULLING</option> 
+                                <option value="DELIVERY CONTROL" >DELIVERY CONTROL</option> 
+                                <option value="PREPARATION">PREPARATION </option> 
+                                <option value="SPAREPART" >SPAREPART</option> 
+                                <option value="PACKAGING CONTROL" >PACKAGING CONTROL</option> 
                             </select>
                             @error('position') 
                                 <div class="text-danger">
@@ -87,10 +106,17 @@
                         </div>
                         <div class="form-group">
                             <label for="photo">Photo</label>
+                            <div class="container mb-2">
+                                <img src="{{ url('storage/delivery-manpower-photo/'.$data->photo) }}" style="" class="" alt=""  width='60' height='60'>
+                            </div>
                             <div class="custom-file">
-                                <input id="photo" name="photo" type="file" class="custom-file-input">
+                                <input id="photo" name="photo" type="file" class="custom-file-input" value="">
                                 <label for="photo" class="custom-file-label">Choose file...</label>
                             </div>
+                            {{-- <div  class="remove col-lg-1 m-2" data-photo="{{$data->photo}}" >
+                                <input  name="photo" type="hidden" class="custom-file-input" value="{{$data->photo}}">
+                                <img src="{{ url('storage/delivery-manpower-photo/'.$data->photo) }}" style="position: absolute;" class="" id-photo="{{$item}}" alt=""  width='60' height='60'>
+                            </div> --}}
                             @error('photo') 
                                 <div class="text-danger">
                                     {{$message}}

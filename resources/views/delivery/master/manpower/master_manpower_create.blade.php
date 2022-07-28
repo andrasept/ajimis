@@ -39,13 +39,13 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Position</label> 
-                            <select name="position" class="form-control" id="position">
+                            <label>Position 1</label> 
+                            <select name="position[]" class="form-control" id="position">
                                 <option value="-">-</option> 
                                 <option value="PPC" >PPC</option> 
                                 <option value="PULLING">PULLING</option> 
                                 <option value="DELIVERY CONTROL">DELIVERY CONTROL</option> 
-                                <option value="PREPARATION DELIVERY">PREPARATION DELIVERY</option> 
+                                <option value="PREPARATION ">PREPARATION </option> 
                                 <option value="SPAREPART">SPAREPART</option> 
                                 <option value="PACKAGING CONTROL">PACKAGING CONTROL</option> 
                             </select>
@@ -55,6 +55,42 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label>Position 2</label> 
+                            <select name="position[]" class="form-control" id="position">
+                                <option value="-">-</option> 
+                                <option value="PPC" >PPC</option> 
+                                <option value="PULLING">PULLING</option> 
+                                <option value="DELIVERY CONTROL">DELIVERY CONTROL</option> 
+                                <option value="PREPARATION ">PREPARATION </option> 
+                                <option value="SPAREPART">SPAREPART</option> 
+                                <option value="PACKAGING CONTROL">PACKAGING CONTROL</option> 
+                            </select>
+                            @error('position') 
+                                <div class="text-danger">
+                                    {{$message}}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Position 3</label> 
+                            <select name="position[]" class="form-control" id="position">
+                                <option value="-">-</option> 
+                                <option value="PPC" >PPC</option> 
+                                <option value="PULLING">PULLING</option> 
+                                <option value="DELIVERY CONTROL">DELIVERY CONTROL</option> 
+                                <option value="PREPARATION ">PREPARATION </option> 
+                                <option value="SPAREPART">SPAREPART</option> 
+                                <option value="PACKAGING CONTROL">PACKAGING CONTROL</option> 
+                            </select>
+                            @error('position') 
+                                <div class="text-danger">
+                                    {{$message}}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Title</label> 
                             <select name="title" class="form-control" id="title">

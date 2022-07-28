@@ -26,14 +26,6 @@
       @endif
     </div>
     <div class="row mb-3">
-          {{-- <div class="col-2 form-group">
-            <label for="">From :</label>
-            <input type="text" class="form-control" id="min" name="min" placeholder="from">
-          </div>
-          <div class="col-2 form-group">
-            <label for="">To :</label>
-            <input type="text" class="form-control" id="max" name="max" placeholder="to">
-          </div> --}}
           <div class="col-lg-12 ">
            <a class="btn btn-primary  m-4 text-center  float-right" href="{{route('delivery.master.master_manpower.create')}}">Create</a>
           </div>
@@ -129,13 +121,6 @@
               "ajax": {
                           "url": "{{route('delivery.master.master_manpower')}}",
                           "data":function (d) {
-                          // d.min = $('#min').val();
-                          // d.max = $('#max').val();
-                          // d.customer = $('#select_customer').val();
-                          // d.partcard = $('#select_partcard').val();
-                          // d.line = $('#select_line').val();
-                          // d.packaging_code = $('#select_packaging_code').val();
-                          // d.category = $('#select_category').val();
                       },
               },
               "columns": [

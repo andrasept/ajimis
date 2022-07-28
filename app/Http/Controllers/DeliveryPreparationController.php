@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logtruck;
 use Illuminate\Http\Request;
 use App\Models\ManPowerDelivery;
 use App\Exports\PreparationExport;
@@ -249,9 +250,9 @@ class DeliveryPreparationController extends Controller
  
                 } catch (\Throwable $th) {
                  
-                     return $th->getMessage();
+                    //  return $th->getMessage();
                     DB::rollback();
-                    // return redirect('/delivery/preparation')->with('fail', "Import Failed! [105]");
+                    return redirect('/delivery/preparation')->with('fail', "Import Failed!".$th->getMessage());
                 }
                     
                 return redirect('/delivery/preparation')->with('success', 'Import Succeed!');
@@ -559,38 +560,43 @@ class DeliveryPreparationController extends Controller
     public function hold($id, Request $request)
     {
         $now =date("Y-m-d H:i:s");
-        // rubah status arrival menjadi null lagi
         try {
+            DB::beginTransaction();
             $data =PreparationDelivery::find($id);
-            //cek status actual vs plan
-            $status_name='';
-            // isi siapa trigger nya
-            $data->security_name_arrival =null;
-            $data->driver_name =null;
 
+            // insert log history
+                $history = new Logtruck;
+                $history->security_name =  $data->security_name_arrival;
+                $history->driver_name = $data->driver_name;
+                $history->customer_pickup_id = $data->customer_pickup_id;
+                $history->vendor = $data->vendor;
+                $history->jenis = "arrival";
+                $history->save();
 
-            $data->arrival_actual = null;
-            $data->arrival_gap =null;
-            $data->arrival_status =null;
-            $data->save();
+            // update
+                $data->arrival_status= null;
+                $data->arrival_gap= null;
+                $data->arrival_actual= null;
+                $data->driver_name= null;
+                $data->security_name_arrival= null;
+                $data->save();  
 
-            $message='<b>======== ON HOLD ========</b>'.chr(10).chr(10);
+            // telegram
+                $message='<b>======== ON HOLD ========</b>'.chr(10).chr(10); 
+                $message .= '<b>Delivery On Hold</b> : '.$data->help_column.' '.chr(10).'<b>Plan Date</b> :'.date('d-m-Y H:i:s', strtotime($data->arrival_plan)).''.chr(10).'<b>Hold Date</b> :'.date('d-m-Y H:i:s', strtotime($now)).' '.chr(10).'<b>Status</b>: on Hold';
+                $this->sendTelegram('-690929411',$message );
+
             
-            $message .= '<b>Delivery On Hold</b> : '.$data->help_column.' '.chr(10).'<b>Plan Date</b> :'.date('d-m-Y H:i:s', strtotime($data->arrival_plan)).''.chr(10).'<b>Hold Date</b> :'.date('d-m-Y H:i:s', strtotime($now)).' '.chr(10).'<b>Status</b>: on Hold';
+            // redirect
+                    DB::commit();
+                    return redirect('/delivery/preparation/security')->with('success', $data->help_column.' Vendor on Hold!');
+               
 
-            $this->sendTelegram('-690929411',$message );
-
-            if (Auth::user()->roles->pluck('security')) {
-                return redirect('/delivery/preparation/security')->with('success', $data->help_column.' Vendor Hold!');
-            } else {
-                return redirect('/delivery/preparation')->with('success', $data->help_column.' Vendor Holded!');
-            }
-            
-
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return redirect('/delivery/preparation/security')->with('fail', $data->help_column.' Failed Update!');
-        }
+            } catch (\Throwable $th) {
+                DB::rollback();
+                // return $th->getMessage();
+                return redirect('/delivery/preparation/security')->with('fail', $data->help_column.' Failed Update!');
+            }       
     }
 
     public function sendTelegram($chat_id, $text)
@@ -648,11 +654,12 @@ class DeliveryPreparationController extends Controller
         
         try {
             $data =PreparationDelivery::find($id);
+            
             //cek status actual vs plan
-            $status_name='';
+                $status_name='';
             // isi siapa trigger nya
-            $data->security_name_arrival = Auth::user()->name;
-            $data->driver_name = $driver_name;
+                $data->security_name_arrival = Auth::user()->name;
+                $data->driver_name = $driver_name;
 
             if ($now < date("Y-m-d H:i:s", strtotime($data->arrival_plan . '-20 minutes'))) {
                 # advance
@@ -674,6 +681,15 @@ class DeliveryPreparationController extends Controller
             $data->arrival_actual = $now;
             $data->arrival_gap = date_diff(date_create( $data->arrival_plan),date_create( $data->arrival_actual))->format("%d Days %h Hours %i Minutes");
             $data->save();
+
+            // insert log history
+                $history = new Logtruck;
+                $history->security_name =  $data->security_name_arrival;
+                $history->driver_name = $data->driver_name;
+                $history->customer_pickup_id = $data->customer_pickup_id;
+                $history->vendor = $data->vendor;
+                $history->jenis = "arrival";
+                $history->save();
 
             $message='<b>======== ARRIVAL ========</b>'.chr(10).chr(10);
             
@@ -730,6 +746,15 @@ class DeliveryPreparationController extends Controller
             $data->departure_actual = $now;
             $data->departure_gap = date_diff(date_create( $data->arrival_plan),date_create( $data->arrival_actual))->format("%d Days %h Hours %i Minutes");
             $data->save();
+
+            // insert log history
+                $history = new Logtruck;
+                $history->security_name =  $data->security_name_arrival;
+                $history->driver_name = $data->driver_name;
+                $history->customer_pickup_id = $data->customer_pickup_id;
+                $history->vendor = $data->vendor;
+                $history->jenis = "departure";
+                $history->save();
 
             $message='<b>======== DEPARTURE ========</b>'.chr(10).chr(10);
             
@@ -837,6 +862,19 @@ class DeliveryPreparationController extends Controller
         // dd($data_delay_baru_start);
         $data_delay = PreparationDelivery::where('end_preparation', '>', DB::raw("CONCAT('',plan_date_preparation, plan_time_preparation)"))->where('remark', NULL)->where('status', '5')->where('problem', NULL)->where('pic','=', $npk." ".$name)->limit(1)->get();
         return $data_delay;
+    }
+
+    public function history_milkrun(Request $request)
+    {
+        if ($request->ajax()) {
+            $query = DB::table('delivery_log_truck');
+            $query= $query->select('delivery_log_truck.*')->get();
+            
+            return DataTables::of($query)->toJson();
+        } else {
+            return view('delivery.preparation.preparation.preparation_security_history');
+        }
+        
     }
     
 }

@@ -166,6 +166,20 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::get('/layout_area/{id}/edit', 'DeliveryLayoutAreaController@edit')->name('delivery.layout_area.edit')->middleware('auth');
           Route::put('/layout_area/update', 'DeliveryLayoutAreaController@update')->name('delivery.layout_area.update')->middleware('auth');
           Route::get('/layout_area/{id}/delete', 'DeliveryLayoutAreaController@destroy')->name('delivery.layout_area.destroy')->middleware('auth');
+          Route::post('/layout_area/get_mp_with_same_position', 'DeliveryLayoutAreaController@get_mp_with_same_position')->name('delivery.layout_area.get_mp_with_same_position')->middleware('auth');
+          
+          // delivery planning refreshment
+          Route::get('/planning_refreshment/create', 'DeliveryPlanningRefreshmentController@create')->name('delivery.planning_refreshment.create')->middleware('auth');
+          Route::get('/planning_refreshment', 'DeliveryPlanningRefreshmentController@index')->name('delivery.planning_refreshment')->middleware('auth');
+          Route::get('/planning_refreshment/{id}/edit', 'DeliveryPlanningRefreshmentController@edit')->name('delivery.planning_refreshment.edit')->middleware('auth');
+          Route::put('/planning_refreshment/update', 'DeliveryPlanningRefreshmentController@update')->name('delivery.planning_refreshment.update')->middleware('auth');
+          Route::put('/planning_refreshment/insert', 'DeliveryPlanningRefreshmentController@insert')->name('delivery.planning_refreshment.insert')->middleware('auth');
+          Route::get('/planning_refreshment/{id}/delete', 'DeliveryPlanningRefreshmentController@destroy')->name('delivery.planning_refreshment.destroy')->middleware('auth');
+          Route::get('/planning_refreshment/{id}/update_status', 'DeliveryPlanningRefreshmentController@update_status')->name('delivery.planning_refreshment.update_status')->middleware('auth');
+         
+        //  henkaten history detail
+          Route::get('/henkaten_detail', 'DeliveryHenkatenDetailController@index')->name('delivery.henkaten_detail')->middleware('auth');
+
         });
         // delivery member
         Route::get('/delivery', 'DeliveryController@index')->name('delivery.delivery')->middleware('auth');
@@ -181,6 +195,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         
         // preparation / delivery security
         Route::get('/preparation/security', 'DeliveryPreparationController@security')->name('delivery.preparation.security')->middleware('auth');
+        Route::get('/preparation/security/history', 'DeliveryPreparationController@history_milkrun')->name('delivery.preparation.security.history')->middleware('auth');
         Route::post('/preparation/arrival', 'DeliveryPreparationController@arrival')->name('delivery.preparation.arrival')->middleware('auth');
         Route::get('/preparation/{id}/departure', 'DeliveryPreparationController@departure')->name('delivery.preparation.departure')->middleware('auth');
         Route::get('/preparation/{id}/hold', 'DeliveryPreparationController@hold')->name('delivery.preparation.hold')->middleware('auth');

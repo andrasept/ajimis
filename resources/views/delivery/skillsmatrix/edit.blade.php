@@ -19,7 +19,7 @@
             @endif
           <div >
             <div class="form-group">
-                <label>Man Power</label>  <br/>
+                <label><b>Man Power</b> </label>  <br/>
                 <select name="user_id" class="form-control" id="user_id" required readonly>
                     @foreach ($mps as $mp)
                         <option value="{{$mp->npk}}" {{$mp->npk == $npk ? "selected" : ""}}>{{$mp->npk}} </option>

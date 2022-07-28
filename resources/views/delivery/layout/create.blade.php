@@ -26,24 +26,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Position</label>
+                            <label>Area</label>
                             </br>
                             <select name="position" class="form-control" id="position" required>
-                                <option value="admin_delivery" {{ old('position') == "admin_delivery" ? "selected" : "" }}>admin delivery</option>
-                                <option value="finish_goods_1" {{ old('position') == "finish_goods_1" ? "selected" : "" }}>finish goods 1</option>
-                                <option value="finish_goods_2" {{ old('position') == "finish_goods_2" ? "selected" : "" }}>finish goods 2</option>
-                                <option value="preparation_1" {{ old('position') == "preparation_1" ? "selected" : "" }}>preparation 1</option>
-                                <option value="preparation_2" {{ old('position') == "preparation_2" ? "selected" : "" }}>preparation 2</option>
-                                <option value="preparation_3" {{ old('position') == "preparation_3" ? "selected" : "" }}>preparation 3</option>
-                                <option value="packaging" {{ old('position') == "packaging" ? "selected" : "" }}>packaging</option>
-                                <option value="pulling_sparepart" {{ old('position') == "pulling_sparepart" ? "selected" : "" }}>pulling sparepart</option>
+                                <option value="delivery_control" {{ old('position') == "delivery_control" ? "selected" : "" }}>delivery control</option>
+                                <option value="preparation_pulling_1" {{ old('position') == "preparation_pulling_1" ? "selected" : "" }}>pulling preparation 1</option>
+                                <option value="preparation_pulling_2" {{ old('position') == "preparation_pulling_2" ? "selected" : "" }}>pulling preparation 2</option>
+                                <option value="pulling_oem_2" {{ old('position') == "pulling_oem_2" ? "selected" : "" }}>pulling oem 2</option>
+                                <option value="packaging_2" {{ old('position') == "packaging_2" ? "selected" : "" }}>packaging 2</option>
+                                <option value="preparation" {{ old('position') == "preparation" ? "selected" : "" }}>preparation </option>
+                                <option value="packaging_1" {{ old('position') == "packaging_1" ? "selected" : "" }}>packaging 1</option>
+                                <option value="pulling_oem_1" {{ old('position') == "pulling_oem_1" ? "selected" : "" }}>pulling oem 1</option>
                                 <option value="sparepart" {{ old('position') == "sparepart" ? "selected" : "" }}>sparepart</option>
                             </select>
                             @error('position') 
                                 <div class="text-danger">
                                     {{$message}}    
-                                </div>
-                            @enderror
+                                </div>  
+                            @enderror   
                         </div>
                         <div class="form-group">
                             <label>Man Power</label>  <br/>

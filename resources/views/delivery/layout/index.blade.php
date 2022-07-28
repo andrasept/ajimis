@@ -54,66 +54,66 @@ img {
 <div class="p-w-md m-t-sm">
   <div class="layout_bg" style="width:100%">
     {{-- finish goods --}}
-    <div class='overlay' style="padding-left: 650px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_finish_goods_1'], " ")}}</label></div>
-    @if ($data['henkaten_finish_goods_1'] !='')
+    <div class='overlay' style="padding-left: 650px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_pulling_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_pulling_1'], " ")}}</label></div>
+    @if ($data['henkaten_preparation_pulling_1'] !='')
       <div class='overlay' style="padding-left: 650px; padding-top:70px">
-        <img class="img_user" src="{{$data['henkaten_finish_goods_1']}}" alt="">
+        <img class="img_user" src="{{$data['henkaten_preparation_pulling_1']}}" alt="">
       </div>
     @endif
-    <div class='overlay' style="padding-left: 700px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_finish_goods_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_finish_goods_2']," ")}}</label></div>
-    @if ($data['henkaten_finish_goods_2'] !='')
-      <div class='overlay' style="padding-left: 690px; padding-top:70px">
-        <img class="img_user" src="{{$data['henkaten_finish_goods_2']}}" alt="">
+    <div class='overlay' style="padding-left: 710px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_pulling_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_pulling_2']," ")}}</label></div>
+    @if ($data['henkaten_preparation_pulling_2'] !='')
+      <div class='overlay' style="padding-left: 710px; padding-top:70px">
+        <img class="img_user" src="{{$data['hekaten_preparation_pulling_2']}}" alt="">
       </div>
     @endif
     {{-- spare part --}}
-    <div class='overlay' style="padding-left: 105px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_sparepart']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_sparepart']," ")}}</label></div>
+    <div class='overlay' style="padding-left: 320px; padding-top:20px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_sparepart']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_sparepart']," ")}}</label></div>
     @if ($data['henkaten_sparepart'] !='')
-      <div class='overlay' style="padding-left: 105px; padding-top:70px">
+      <div class='overlay' style="padding-left: 320px; padding-top:20px">
         <img class="img_user" src="{{$data['henkaten_sparepart']}}" alt="">
       </div>
     @endif
     {{-- pulling sparepart --}}
-    <div class='overlay' style="padding-left: 320px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_pulling_sparepart']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_pulling_sparepart']," ")}}</label></div>
-    @if ($data['henkaten_pulling_sparepart'] !='')
-      <div class='overlay' style="padding-left: 320px; padding-top:70px">
-        <img class="img_user" src="{{$data['henkaten_pulling_sparepart']}}" alt="">
+    <div class='overlay' style="padding-left: 320px; padding-top:100px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_pulling_oem_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_pulling_oem_1']," ")}}</label></div>
+    @if ($data['henkaten_pulling_oem_1'] !='')
+      <div class='overlay' style="padding-left: 320px; padding-top:80px">
+        <img class="img_user" src="{{$data['henkaten_pulling_oem_1']}}" alt="">
       </div>
     @endif
     {{-- preparation --}}
-    <div class='overlay' style="padding-left: 550px; padding-top:80px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_3']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_3']," ")}}</label></div>
-    @if ($data['henkaten_preparation_3'] !='')
-      <div class='overlay' style="padding-left: 550px; padding-top:80px">
-        <img class="img_user" src="{{$data['henkaten_preparation_3']}}" alt="">
+    <div class='overlay' style="padding-left: 600px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation']," ")}}</label></div>
+    @if ($data['henkaten_preparation'] !='')
+      <div class='overlay' style="padding-left: 600px; padding-top:70px">
+        <img class="img_user" src="{{$data['henkaten_preparation']}}" alt="">
       </div>
     @endif
-    <div class='overlay' style="padding-left: 495px; padding-top:80px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_2'], " ")}}</label></div>
-    @if ($data['henkaten_preparation_2'] !='')
-      <div class='overlay'  style="padding-left: 495px; padding-top:80px">
-        <img class="img_user" src="{{$data['henkaten_preparation_2']}}" alt="">
+    <div class='overlay' style="padding-left: 510px; padding-top:0px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_packaging_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_packaging_2'], " ")}}</label></div>
+    @if ($data['henkaten_packaging_2'] !='')
+      <div class='overlay'  style="padding-left: 510px; padding-top:0px">
+        <img class="img_user" src="{{$data['henkaten_packaging_2']}}" alt="">
       </div>
     @endif
-    <div class='overlay' style="padding-left: 440px; padding-top:80px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_1']," ")}}</label></div>
-    @if ($data['henkaten_preparation_1'] !='')
-      <div class='overlay' style="padding-left: 440px; padding-top:80px">
-        <img class="img_user" src="{{$data['henkaten_preparation_1']}}" alt="">
+    <div class='overlay' style="padding-left: 440px; padding-top:100px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_pulling_oem_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_pulling_oem_2']," ")}}</label></div>
+    @if ($data['henkaten_pulling_oem_2'] !='')
+      <div class='overlay' style="padding-left: 440px; padding-top:100px">
+        <img class="img_user" src="{{$data['henkaten_pulling_oem_2']}}" alt="">
       </div>
     @endif
     {{-- packaging --}}
-    <div class='overlay' style="padding-left: 450px; padding-top:0px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_packaging']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_packaging'], " ");}}</label></div>
-    @if ($data['henkaten_packaging'] !='')
+    <div class='overlay' style="padding-left: 450px; padding-top:0px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_packaging_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_packaging_1'], " ");}}</label></div>
+    @if ($data['henkaten_packaging_1'] !='')
       <div class='overlay' style="padding-left: 450px; padding-top:0px">
-        <img class="img_user" src="{{$data['henkaten_packaging']}}" alt="">
+        <img class="img_user" src="{{$data['henkaten_packaging_1']}}" alt="">
       </div>
     @endif
     {{-- admin delivery --}}
-    <div class='overlay' style="padding-left: 750px; padding-top:85px">
-      <img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_admin_delivery']}}" alt="">
-      <br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_admin_delivery'], " ")}}</label>
+    <div class='overlay' style="padding-left: 770px; padding-top:85px">
+      <img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_delivery_control']}}" alt="">
+      <br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_delivery_control'], " ")}}</label>
     </div>
-    @if ($data['henkaten_admin_delivery'] !='')
-      <div class='overlay' style="padding-left: 750px; padding-top:85px">
-        <img class="img_user" src="{{$data['henkaten_admin_delivery']}}" alt="">
+    @if ($data['henkaten_delivery_control'] !='')
+      <div class='overlay' style="padding-left: 770px; padding-top:85px">
+        <img class="img_user" src="{{$data['henkaten_delivery_control']}}" alt="">
       </div>
     @endif
   </div>
@@ -123,7 +123,7 @@ img {
 
   <div class="ibox mt-3" >
     <div class="ibox-title">
-        <h4>Man Power Position </h4>
+        <h4>Layout Area </h4>
     </div>
     <div class="ibox-content" >
       <div>
@@ -144,12 +144,16 @@ img {
           <thead>
             <tr>
               <th class="text-center">No</th>
-              <th class="text-center">Position</th>
+              <th class="text-center">Area</th>
               <th class="text-center">NPK</th>
               <th class="text-center">Name</th>
               <th class="text-center">Photo</th>
-              <th class="text-center">Henkaten Status</th>
-              <th class="text-center"> Henkaten Date</th>
+              <th class="text-center">Position</th>
+              <th class="text-center">Reason</th>
+              <th class="text-center">Substitute 1</th>
+              <th class="text-center">Substitute 2</th>
+              {{-- <th class="text-center">Henkaten Status</th>
+              <th class="text-center"> Henkaten Date</th> --}}
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -177,6 +181,7 @@ img {
       $(document).ready(function() {
             // huruf kecil table
             $(".ibox").css({fontSize:10, textTransform:'Uppercase'});
+            $("label").css({fontSize:10, textTransform:'Uppercase'});
             $("select").css({fontSize:12});
       
           // datatable
@@ -192,35 +197,68 @@ img {
               },
               "columns": [
                   { data: null, className: 'dt-body-center'},
-                  { data: 'position', className: 'dt-body-center',
+                  { data: 'area_position', className: 'dt-body-center',
+
+                    'render' : function(data, type, row){
+                      return "<b id='keyword_area_"+row['npk']+"'>"+data+"</b>";
+                    }
+
+                  },
+                  { data: 'user_id', className: 'dt-body-center'},
+                  { data: 'name', className: 'dt-body-center',
+                
+                      'render' : function(data, type, row){
+                        return "<b id='nama_diganti_"+row['npk']+"'>"+data+"</b>";
+                      }
+                
+                  },
+                  { data: "photo", className: 'dt-body-center text-center',  "render": function ( data, type, row ) {
+                    var url = '/storage/delivery-manpower-photo/'+data;
+                      return "<img src='"+url+"' width='40' height='40'>";
+                    },
+                  },
+                  { data: 'real_position', className: 'dt-body-center',
 
                     'render' : function(data, type, row){
                       return "<b>"+data+"</b>";
                     }
 
                   },
-                  { data: 'user_id', className: 'dt-body-center'},
-                  { data: 'name', className: 'dt-body-center'},
-                  { data: "photo", className: 'dt-body-center text-center',  "render": function ( data, type, row ) {
-                    var url = '/storage/delivery-manpower-photo/'+data;
-                      return "<img src='"+url+"' width='40' height='40'>";
+                  { data: "npk", className: 'dt-body-center text-center',
+                    "render": function ( data, type, row ) {
+                      return "<select data-id='"+data+"'  id='alasan_"+data+"' class='form-control alasan_henkaten'><option value='-' selected>-</option><option value='Sick Leave'>Sick Leave</option><option value='Permit'>Permit</option><option value='Absence'>Absence</option><option value='On Leave'>On Leave</option></select>";
                     },
                   },
-                  { data: 'henkaten_status', className: 'dt-body-center',
-                  
-                    'render' : function(data, type , row){
-                      if (data == '1') {
-                        return '<label class="label label-danger">Henkaten</label>';
-                      }else{
-                        return '';  
-                      }
+                  { data: 'npk', className: 'dt-body-center',
+                
+                    'render' : function(data, type,row){
+                        return '<select class="form-control d-none" id="alter_1_'+data+'"></select>';
+                    }
+
+                  },
+                  { data: 'npk', className: 'dt-body-center',
+                
+                    'render' : function(data, type, row){
+                      return '<select class="form-control d-none" id="alter_2_'+data+'"></select>';
                     }
                 
                   },
-                  { data: 'date_henkaten', className: 'dt-body-center'},
+                  // { data: 'henkaten_status', className: 'dt-body-center',
+                  
+                  //   'render' : function(data, type , row){
+                  //     if (data == '1') {
+                  //       return '<label class="label label-danger">Henkaten</label>';
+                  //     }else{
+                  //       return '';  
+                  //     }
+                  //   }
+                
+                  // },
+                  // { data: 'date_henkaten', className: 'dt-body-center'},
                   { data: 'id', className: 'dt-body-center',
-                      'render' : function(data,row,type){
-                          return "<div class='btn-group'><div class='btn-group'><a href='/delivery/layout_area/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='/delivery/layout_area/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
+                      'render' : function(data,type,row){
+                        return "<div class='btn-group'><div class='btn-group'><button data-id='"+data+"' data-npk='"+row["npk"]+"' id='save_"+row["npk"]+"' class='btn btn-primary simpan_henkaten d-none'>SAVE</button><a onClick='return confirm("+'"are you sure  ?"'+")' href='/delivery/layout_area/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
+                        // return "<div class='btn-grx`oup'><div class='btn-group'><a href='/delivery/layout_area/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='/delivery/layout_area/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
                       }
                   },
               ],
@@ -238,6 +276,118 @@ img {
                   table.column(0, { search: 'applied', order: 'applied', page: 'applied' }).nodes().each(function (cell, i) {
                       cell.innerHTML = i + 1 + info.start;
                   });
+
+                  // henkaten logic
+                  $("#master tbody").on('click','.simpan_henkaten', function(){
+                      var npk = $(this).attr('data-npk');
+                      var id = $(this).attr('data-id');
+                      var alasan = $('#alasan_'+npk).val();
+                      var alter_1 = $('#alter_1_'+npk).val();
+                      var alter_2 = $('#alter_2_'+npk).val();
+                      var nama_diganti = $('#nama_diganti_'+npk).html();
+                      var nama_pengganti = $('#alter_2_'+npk+' option:selected').text();
+
+
+                      if(alter_1 != '-' && alter_2 != '-'){
+                        alert("Choose only one substitute!");
+                      }
+                      else if (alter_1 != '-' || alter_2 !='-') {
+                        if (alter_1 !='-') {
+                          // update henkaten
+                          $.ajax({
+                                  url: "{{route('delivery.layout_area.update')}}",
+                                  method: "put",
+                                  data:{
+                                      "npk" : npk,
+                                      "id" : id,
+                                      "pengganti" : alter_1,
+                                      "alasan" : alasan,
+                                      "henkaten" : null,
+                                      "_token": "{{ csrf_token() }}",
+                                  },
+                                  success: function(result){
+                                    if (result == '1') {
+                                      location.reload();
+                                    } else {
+                                      alert('failed update!');
+                                    }
+                                  }
+                          });
+                        } else {
+                          // update henkaten
+                          $.ajax({
+                                  url: "{{route('delivery.layout_area.update')}}",
+                                  method: "put",
+                                  data:{
+                                      "npk" : npk,
+                                      "id" : id,
+                                      "pengganti" : alter_2,
+                                      "nama_pengganti" : nama_pengganti,
+                                      "nama_diganti" : nama_diganti,
+                                      "henkaten" : '1',
+                                      "alasan" : alasan,
+                                      "_token": "{{ csrf_token() }}",
+                                  },
+                                  success: function(result){
+                                    if (result == '1') {
+                                      location.reload();
+                                    } else {
+                                      alert('failed update!');
+                                    }
+                                  }
+                          });
+                        }
+                      } else {
+                        alert("substitute cannot empty!");
+                      }
+
+                  });
+                  $(".alasan_henkaten").change( function(){
+                      var id = $(this).attr('data-id');
+                      var alasan = $('#alasan_'+id);
+                      var alter_1 = $('#alter_1_'+id);
+                      var alter_2 = $('#alter_2_'+id);
+                      var btn_save = $('#save_'+id);
+                      var keyword_area = $('#keyword_area_'+id).html().split("_")[0];
+                      
+                      // ambil option untuk alter 1 dari ajax
+                        $.ajax({
+                                url: "{{route('delivery.layout_area.get_mp_with_same_position')}}",
+                                method: "post",
+                                data:{
+                                    "jenis" : keyword_area,
+                                    "npk" : id,
+                                    "_token": "{{ csrf_token() }}",
+                                },
+                                success: function(result){
+                                  // populate
+                                  alter_1.empty().append('<option value="-" selected>-</option>');
+                                  $.each(JSON.parse(result)['get'], function(key, value) {
+                                    alter_1.append(`<option value="${value.npk}">${value.name}</option>`);
+                                  });
+                                  // populate
+                                  alter_2.empty().append('<option value="-" selected>-</option>');
+                                  $.each(JSON.parse(result)['all'], function(key, value) {
+                                    alter_2.append(`<option value="${value.npk}">${value.name}</option>`);
+                                  });
+                                }
+                              });
+                      // menampilkan BTN SAVE & ALTER
+                        if ($(this).val() =='-') {
+                          alter_1.addClass('d-none');
+                          alter_2.addClass('d-none');
+                          btn_save.addClass('d-none');
+                         
+                        } else {
+                          alter_1.removeClass('d-none');
+                          alter_2.removeClass('d-none');
+                          btn_save.removeClass('d-none');
+                        }
+                  });
+
+                  // option huruf kecil
+                  $(" option").css('font-size', 9);
+                  $("select ").css('font-size', 9);
               });
       
           } );

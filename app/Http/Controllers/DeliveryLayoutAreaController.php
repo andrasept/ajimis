@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ManPowerDelivery;
 use App\Models\DeliveryLayoutArea;
 use Illuminate\Support\Facades\DB;
+use App\Models\DeliveryHenkatenDetail;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,8 +22,8 @@ class DeliveryLayoutAreaController extends Controller
         if ($request->ajax()) {
             // $query = DB::table('delivery_henkaten');
 
-             $query = DB::table('delivery_henkaten')->select('delivery_henkaten.position','delivery_henkaten.id','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
-            'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
+             $query = DB::table('delivery_henkaten')->select('delivery_henkaten.position as area_position','delivery_henkaten.id','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
+            'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.position as real_position','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
             ->leftjoin('delivery_man_powers', 'delivery_man_powers.npk', '=', 'delivery_henkaten.user_id')
             ;
 
@@ -37,112 +39,112 @@ class DeliveryLayoutAreaController extends Controller
 
             // default
             $data= [];
-            $data['photo_admin_delivery'] = asset('/image/nouser.png');
-            $data['photo_finish_goods_1'] = asset('/image/nouser.png');
-            $data['photo_finish_goods_2'] = asset('/image/nouser.png');
-            $data['photo_preparation_1'] = asset('/image/nouser.png');
-            $data['photo_preparation_2'] = asset('/image/nouser.png');
-            $data['photo_preparation_3'] = asset('/image/nouser.png');
-            $data['photo_packaging'] = asset('/image/nouser.png');
-            $data['photo_pulling_sparepart'] = asset('/image/nouser.png');
+            $data['photo_delivery_control'] = asset('/image/nouser.png');
+            $data['photo_preparation_pulling_1'] = asset('/image/nouser.png');
+            $data['photo_preparation_pulling_2'] = asset('/image/nouser.png');
+            $data['photo_pulling_oem_2'] = asset('/image/nouser.png');
+            $data['photo_packaging_2'] = asset('/image/nouser.png');
+            $data['photo_preparation'] = asset('/image/nouser.png');
+            $data['photo_packaging_1'] = asset('/image/nouser.png');
+            $data['photo_pulling_oem_1'] = asset('/image/nouser.png');
             $data['photo_sparepart'] = asset('/image/nouser.png');
 
-            $data['henkaten_admin_delivery']='';
-            $data['henkaten_finish_goods_1'] = '';
-            $data['henkaten_finish_goods_2'] = '';
-            $data['henkaten_preparation_1'] = '';
-            $data['henkaten_preparation_2'] = '';
-            $data['henkaten_preparation_3'] = '';
-            $data['henkaten_packaging'] = '';
-            $data['henkaten_pulling_sparepart'] = '';
+            $data['henkaten_delivery_control']='';
+            $data['henkaten_preparation_pulling_1'] = '';
+            $data['henkaten_preparation_pulling_2'] = '';
+            $data['henkaten_pulling_oem_2'] = '';
+            $data['henkaten_packaging_2'] = '';
+            $data['henkaten_preparation'] = '';
+            $data['henkaten_packaging_1'] = '';
+            $data['henkaten_pulling_oem_1'] = '';
             $data['henkaten_sparepart'] = '';
 
-            $data['nama_admin_delivery']='';
-            $data['nama_finish_goods_1'] = '';
-            $data['nama_finish_goods_2'] = '';
-            $data['nama_preparation_1'] = '';
-            $data['nama_preparation_2'] = '';
-            $data['nama_preparation_3'] = '';
-            $data['nama_packaging'] = '';
-            $data['nama_pulling_sparepart'] = '';
+            $data['nama_delivery_control']='';
+            $data['nama_preparation_pulling_1'] = '';
+            $data['nama_preparation_pulling_2'] = '';
+            $data['nama_pulling_oem_2'] = '';
+            $data['nama_packaging_2'] = '';
+            $data['nama_preparation'] = '';
+            $data['nama_packaging_1'] = '';
+            $data['nama_pulling_oem_1'] = '';
             $data['nama_sparepart'] = '';
 
             foreach ($data_position as $position) {
                 # code...
-                if ($position->position == 'admin_delivery' && $position->user_id != 'empty') {
-                    $data['photo_admin_delivery'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_admin_delivery'] = $position->name;
+                if ($position->position == 'delivery_control' && $position->user_id != 'empty') {
+                    $data['photo_delivery_control'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_delivery_control'] = $position->name;
                     if ($position->henkaten_status == '1') {
-                        $data['henkaten_admin_delivery'] =asset("/image/henkaten.png");
+                        $data['henkaten_delivery_control'] =asset("/image/henkaten.png");
                     } else {
                         # code...
                     }
                     
                 }
-                if ($position->position == 'finish_goods_1' && $position->user_id != 'empty') {
-                    $data['photo_finish_goods_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_finish_goods_1'] = $position->name;
+                if ($position->position == 'preparation_pulling_1' && $position->user_id != 'empty') {
+                    $data['photo_preparation_pulling_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_preparation_pulling_1'] = $position->name;
                     if ($position->henkaten_status == '1') {
-                        $data['henkaten_finish_goods_1'] =asset("/image/henkaten.png");
+                        $data['henkaten_preparation_pulling_1'] =asset("/image/henkaten.png");
                     } else {
                         # code...
                     }
                 } 
-                if ($position->position == 'finish_goods_2' && $position->user_id != 'empty') {
-                    $data['photo_finish_goods_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_finish_goods_2'] = $position->name;
+                if ($position->position == 'preparation_pulling_2' && $position->user_id != 'empty') {
+                    $data['photo_preparation_pulling_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_preparation_pulling_2'] = $position->name;
                     if ($position->henkaten_status == '1') {
-                        $data['henkaten_finish_goods_2'] =asset("/image/henkaten.png");
+                        $data['henkaten_preparation_pulling_2'] =asset("/image/henkaten.png");
                     } else {
                         # code...
                     }
                 } 
-                if ($position->position == 'preparation_1' && $position->user_id != 'empty') {
-                    $data['photo_preparation_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_preparation_1'] = $position->name;
+                if ($position->position == 'pulling_oem_2' && $position->user_id != 'empty') {
+                    $data['photo_pulling_oem_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_pulling_oem_2'] = $position->name;
 
                     if ($position->henkaten_status == '1') {
-                        $data['henkaten_preparation_1'] =asset("/image/henkaten.png");
+                        $data['henkaten_pulling_oem_2'] =asset("/image/henkaten.png");
                     } else {
                         # code...
                     }
                 } 
-                if ($position->position == 'preparation_2' && $position->user_id != 'empty') {
-                    $data['photo_preparation_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_preparation_2'] = $position->name;
+                if ($position->position == 'packaging_2' && $position->user_id != 'empty') {
+                    $data['photo_packaging_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_packaging_2'] = $position->name;
 
                     if ($position->henkaten_status == '1') {
-                        $data['henkaten_preparation_2'] =asset("/image/henkaten.png");
+                        $data['henkaten_packaging_2'] =asset("/image/henkaten.png");
                     } else {
                         # code...
                     }
                 } 
-                if ($position->position == 'preparation_3' && $position->user_id != 'empty') {
-                    $data['photo_preparation_3'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_preparation_3'] = $position->name;
+                if ($position->position == 'preparation' && $position->user_id != 'empty') {
+                    $data['photo_preparation'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_preparation'] = $position->name;
 
                     if ($position->henkaten_status == '1') {
-                        $data['henkaten_preparation_3'] =asset("/image/henkaten.png");
+                        $data['henkaten_preparation'] =asset("/image/henkaten.png");
                     } else {
                         # code...
                     }
                 } 
-                if ($position->position == 'packaging' && $position->user_id != 'empty') {
-                    $data['photo_packaging'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_packaging'] = $position->name;
+                if ($position->position == 'packaging_1' && $position->user_id != 'empty') {
+                    $data['photo_packaging_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_packaging_1'] = $position->name;
 
                     if ($position->henkaten_status == '1') {
-                        $data['henkaten_packaging'] =asset("/image/henkaten.png");
+                        $data['henkaten_packaging_1'] =asset("/image/henkaten.png");
                     } else {
                         # code...
                     }
                 } 
-                if ($position->position == 'pulling_sparepart' && $position->user_id != 'empty') {
-                    $data['photo_pulling_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_pulling_sparepart'] = $position->name;
+                if ($position->position == 'pulling_oem_1' && $position->user_id != 'empty') {
+                    $data['photo_pulling_oem_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                    $data['nama_pulling_oem_1'] = $position->name;
 
                     if ($position->henkaten_status == '1') {
-                        $data['henkaten_pulling_sparepart'] =asset("/image/henkaten.png");
+                        $data['henkaten_pulling_oem_1'] =asset("/image/henkaten.png");
                     } else {
                         # code...
                     }
@@ -220,44 +222,71 @@ class DeliveryLayoutAreaController extends Controller
      */
     public function update(Request $request, DeliveryLayoutArea $deliveryLayoutArea)
     {
-        $validator =  Validator::make($request->all(),[
-            'position' =>['required'],
-            'user_id' => ['required'],
-            'henkaten_status' => ['required'],
-        ]);
+        if ($request->ajax()) {
+            $data = DeliveryLayoutArea::findOrFail($request->id);
+            $data->henkaten_status = $request->henkaten;
+            if ($request->henkaten == '1') {
+                $data->date_henkaten = date("Y-m-d H:i:s");
+                 // telegram
+                 $message='<b>======== HENKATEN ========</b>'.chr(10).chr(10); 
+                 $message .= '<b>Man Power</b> : '.$request->nama_pengganti.' '.chr(10).'<b>Henkaten Date</b> :'. $data->date_henkaten.''.chr(10).'<b>Area</b> :'.$data->position.' '.chr(10);
+                 $this->sendTelegram('-690929411',$message );
 
-        if ($validator->fails()) {
-            return back()->withInput()->withErrors($validator);
-        }else{
-            
-            DB::beginTransaction();
-
-            
-            // proses db
-            try {
-
-                $data = DeliveryLayoutArea::findOrFail($request->id);
-                $data->fill($request->all());
-                if ($request->henkaten_status) {
-                    $data->henkaten_status = $request->henkaten_status;
-                    $data->date_henkaten = date("Y-m-d H:i:s");
-                }else{
-                    $data->henkaten_status = null;
-                    $data->date_henkaten = null;
-                }
-                $data->save();
-                DB::commit();
-                return redirect('/delivery/layout_area')->with('success', 'Position Updated!');
-            } catch (\Throwable $th) {
-                // dd($th);
-                DB::rollback();
-                // throw $th;
-                return redirect('/delivery/layout_area')->with('fail', "Update Position Failed! [105]");
-
+                 //  insert henkaten detail / history
+                    $history = new DeliveryHenkatenDetail();
+                    $history->area =  $data->position;
+                    $history->mp_before =  $request->nama_diganti;
+                    $history->mp_after =  $request->nama_pengganti;
+                    $history->reason_henkaten =  $request->alasan;
+                    $history->date_henkaten =   $data->date_henkaten;
+                    $history->save();
+                 
+                
             }
-            
-           
+            $data->user_id = $request->pengganti;
+            $data->save();
+            return $hasil = ($data->save()) ? '1': '0' ;
+        } else {
+            $validator =  Validator::make($request->all(),[
+                'position' =>['required'],
+                'user_id' => ['required'],
+                'henkaten_status' => ['required'],
+            ]);
+    
+            if ($validator->fails()) {
+                return back()->withInput()->withErrors($validator);
+            }else{
+                
+                DB::beginTransaction();
+    
+                
+                // proses db
+                try {
+    
+                    $data = DeliveryLayoutArea::findOrFail($request->id);
+                    $data->fill($request->all());
+                    if ($request->henkaten_status) {
+                        $data->henkaten_status = $request->henkaten_status;
+                        $data->date_henkaten = date("Y-m-d H:i:s");
+                    }else{
+                        $data->henkaten_status = null;
+                        $data->date_henkaten = null;
+                    }
+                    $data->save();
+                    DB::commit();
+                    return redirect('/delivery/layout_area')->with('success', 'Position Updated!');
+                } catch (\Throwable $th) {
+                    // dd($th);
+                    DB::rollback();
+                    // throw $th;
+                    return redirect('/delivery/layout_area')->with('fail', "Update Position Failed! [105]");
+    
+                }
+                
+               
+            }
         }
+        
     }
 
     /**
@@ -284,7 +313,7 @@ class DeliveryLayoutAreaController extends Controller
 
         $validator =  Validator::make($request->all(),[
             'position' =>['required', 'unique:delivery_henkaten'],
-            'user_id' => ['required'],
+            'user_id' => ['required','unique:delivery_henkaten'],
         ]);
 
         if ($validator->fails()) {
@@ -311,6 +340,55 @@ class DeliveryLayoutAreaController extends Controller
             }
             
            
+        }
+    }
+
+    public function get_mp_with_same_position(Request $request)
+    {
+        if ($request->ajax()) {
+
+
+            $layout_area = DeliveryLayoutArea::all();
+
+            $mp_existing_layout_area = [];
+            foreach($layout_area as $object)
+            {
+                $mp_existing_layout_area[] = $object->user_id;
+            }
+    
+            // get data mp yg sesuai position bukan dia dan juga yg tidak ada di layout area
+            $data = ManPowerDelivery::where('position', 'like', "%".$request->jenis."%" )->whereNotIn('npk',$mp_existing_layout_area)->where('npk','!=', $request->npk)->get();
+            // data full yg bukan ada di sesuai
+            $mp_sesuai_position = [];
+            foreach($data as $object2)
+            {
+                $mp_sesuai_position[] = $object2->npk;
+            }
+
+            // get all manpower yg bukan dia dan juga yg tidak ada di layout area
+            $data_full = DB::table('delivery_man_powers')->select('npk','name')->whereNotIn('npk',$mp_existing_layout_area)->whereNotIn('npk',$mp_sesuai_position)->get();
+
+            // $data_full = ManPowerDelivery::where('npk','!=', $request->npk)->get();
+            return json_encode(array('get' => $data, 'all' => $data_full));
+        }
+        
+    }
+
+    public function sendTelegram($chat_id, $text)
+    {
+        $token ='1488492213:AAFkw2dzki-No0W5tuu8JjAwm0mvg__98BU';
+        // ddd($text);
+        // $text = urlencode($text);
+        $params=[
+            'parse_mode'=>'html',
+            'chat_id'=>$chat_id, 
+            'text'=>$text,
+        ];
+        // $url = 'https://api.telegram.org/bot'.$token.'/sendMessage/';
+        try {
+            file_get_contents('https://api.telegram.org/bot'.$token.'/sendMessage?'.http_build_query($params));
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }

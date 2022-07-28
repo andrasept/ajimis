@@ -21,6 +21,7 @@ class DeliveryManpowerController extends Controller
         if ($request->ajax()) {
     
             $query = DB::table('delivery_man_powers');
+            $query = $query->select('delivery_man_powers.*')->get();
 
             return DataTables::of($query)->toJson();
         }else{
@@ -84,10 +85,9 @@ class DeliveryManpowerController extends Controller
         $validator = Validator::make($request->all(), [
             'npk' => ['required'],
             'name' => ['required'],
-            'position' => ['required'],
+            'position.*' => ['required'],
             'title' => ['required'],
             'shift' => ['required'],
-            // 'photo' => ['required'],
         ]);
         
         
@@ -97,23 +97,45 @@ class DeliveryManpowerController extends Controller
             
             DB::beginTransaction();
             try {
-                // hapus photo
-                $data = ManPowerDelivery::findOrFail($request->id);
-                Storage::disk('public')->delete('/delivery-manpower-photo/'.$data->photo);
-                // upload photo
-                $request->file('photo')->store('delivery-manpower-photo');
-                $photo = $request->file('photo')->hashName();
+                
+                
+                // olah position-position menjadi array
+                    $kumpul_position = [];
+                    foreach ($request->get('position') as $key) {
+                        if ($key != '-') {
+                            array_push($kumpul_position, $key);
+                        }
+                    }
 
 
-                $data->update([
-                    'id' => $request->get('id'),
-                    'npk' => $request->get('npk'),
-                    'name' => $request->get('name'),
-                    'position' => $request->get('position'),
-                    'title' => $request->get('title'),
-                    'shift' => $request->get('shift'),
-                    'photo' => $photo,
-                ]);
+                if ($request->photo == null) {
+                    $data = ManPowerDelivery::findOrFail($request->id);
+                    $data->update([
+                        'id' => $request->get('id'),
+                        'npk' => $request->get('npk'),
+                        'name' => $request->get('name'),
+                        'position' => implode(',',$kumpul_position) ,
+                        'title' => $request->get('title'),
+                        'shift' => $request->get('shift'),
+                    ]);
+                } else {
+                    // hapus photo
+                        $data = ManPowerDelivery::findOrFail($request->id);
+                        Storage::disk('public')->delete('/delivery-manpower-photo/'.$data->photo);
+                    // upload photo
+                        $request->file('photo')->store('delivery-manpower-photo');
+                        $photo = $request->file('photo')->hashName();
+                    $data->update([
+                        'id' => $request->get('id'),
+                        'npk' => $request->get('npk'),
+                        'name' => $request->get('name'),
+                        'position' => implode(',',$kumpul_position) ,
+                        'title' => $request->get('title'),
+                        'shift' => $request->get('shift'),
+                        'photo' => $photo,
+                    ]);
+                }
+                
                 $data->save();
                 DB::commit();
                 // $message = "SKU ".$request->sku." Part Added!, added By: ".auth()->user()->name;
@@ -154,7 +176,7 @@ class DeliveryManpowerController extends Controller
         $validator = Validator::make($request->all(), [
             'npk' => ['required', 'unique:delivery_man_powers'],
             'name' => ['required'],
-            'position' => ['required'],
+            'position.*' => ['required'],
             'title' => ['required'],
             'shift' => ['required'],
             'photo' => ['required'],
@@ -168,11 +190,19 @@ class DeliveryManpowerController extends Controller
             $request->file('photo')->store('delivery-manpower-photo');
             $photo = $request->file('photo')->hashName();
             DB::beginTransaction();
+            // olah position-position menjadi array
+                $kumpul_position = [];
+                foreach ($request->get('position') as $key) {
+                    if ($key != '-') {
+                        array_push($kumpul_position, $key);
+                    }
+                }
+
             try {
                 $user =  new ManPowerDelivery([
                     'npk' => $request->get('npk'),
                     'name' => $request->get('name'),
-                    'position' => $request->get('position'),
+                    'position' => implode(',',$kumpul_position),
                     'title' => $request->get('title'),
                     'shift' => $request->get('shift'),
                     'photo' => $photo,
@@ -185,6 +215,7 @@ class DeliveryManpowerController extends Controller
             } catch (\Throwable $th) {
 
                 DB::rollback();
+                // return $th->getMessage();
                 return redirect('/delivery/master-manpower')->with('fail', "Add Man Power Failed! [105]");
             }
         }
