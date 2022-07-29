@@ -56,6 +56,7 @@
             <ul class="nav nav-second-level">
               <li><a href="{{ route('quality.area.index') }}">Area</a></li>
               <li><a href="{{ route('quality.process.index') }}">Process</a></li>
+              <li><a href="{{ route('quality.machine.index') }}">Machine</a></li>
               <li><a href="{{ route('quality.model.index') }}">Model</a></li>
               <li><a href="{{ route('quality.part.index') }}">Part</a></li>
             </ul>
@@ -79,6 +80,12 @@
             </ul>
 
           </li>  
+          <li class="">
+            <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality Checksheets</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              <li><a href="{{ route('quality.monitor.index') }}">IPQC</a></li>
+            </ul>
+          </li>
         @endrole
 
         @role('Leader Quality')
@@ -88,7 +95,8 @@
               <li><a href="{{ route('quality.monitor.index') }}">Monitoring</a></li>
               <li><a href="{{ route('quality.monitor.index') }}">Leader Approval</a></li>
             </ul>
-          </li>  
+          </li>
+
         @endrole
 
         @role('Foreman Quality')

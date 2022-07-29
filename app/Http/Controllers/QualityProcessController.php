@@ -16,7 +16,7 @@ class QualityProcessController extends Controller
      */
     public function index()
     {
-        $q_processes = QualityProcess::all();
+        $q_processes = QualityProcess::orderBy('id', 'DESC')->get();
         $q_areas = QualityArea::all();
 
         return view('quality.process.index', compact('q_processes', 'q_areas'));
@@ -73,9 +73,12 @@ class QualityProcessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    // public function edit($id)
+    public function edit(QualityProcess $QualityProcess, $id)
     {
-        //
+        $QualityProcess = QualityProcess::find($id);
+        $q_areas = QualityArea::all();
+        return view('quality.process.edit', compact('QualityProcess','q_areas'));
     }
 
     /**
@@ -87,7 +90,16 @@ class QualityProcessController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user_id = auth()->user()->id;
+        $QualityProcess['area_id'] = $request->area_id;
+        $QualityProcess['name'] = $request->name;
+        $QualityProcess['description'] = $request->description;
+        $QualityProcess['updated_by'] = $user_id;
+        $QualityProcess['updated_at'] = now();
+        QualityProcess::find($id)->update($QualityProcess);
+        return redirect()->route('quality.process.index')
+            ->withSuccess(__('Process updated successfully.'));
+
     }
 
     /**

@@ -312,13 +312,6 @@
 
 	                        <div class="modal-footer">
 	                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-	                          <!-- <button type="button" class="btn btn-primary">Add Cycle</button> -->
-	                          &nbsp;&nbsp;&nbsp;
-	                          @if($hasil == "sudah finish")
-	                          	<button type="button" class="btn btn-primary">Finish Cycle</button>
-	                          @else
-	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
-	                          @endif	                          
 	                        </div>
                       	</div>
                       </div>

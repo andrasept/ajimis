@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\QualityArea;
 use App\Models\QualityProcess;
+use App\Models\QualityMachine;
 use App\Models\QualityModel;
 use App\Models\QualityPart;
 use Illuminate\Support\Facades\DB;
+
+use Illuminate\Http\UploadedFile;
+use App\Http\Requests\StoreFileRequest;
+use Carbon\Carbon;
+use Validator;
 
 class QualityPartController extends Controller
 {
@@ -18,12 +24,13 @@ class QualityPartController extends Controller
      */
     public function index()
     {
-        $q_parts = QualityPart::all();
-        $q_models = QualityModel::all();
-        $q_processes = QualityProcess::all();
         $q_areas = QualityArea::all();
+        $q_processes = QualityProcess::all();
+        $q_machines = QualityMachine::all();
+        $q_models = QualityModel::all();
+        $q_parts = QualityPart::all();
 
-        return view('quality.part.index', compact('q_processes', 'q_areas', 'q_models', 'q_parts'));
+        return view('quality.part.index', compact('q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts'));
     }
 
     /**
@@ -33,7 +40,13 @@ class QualityPartController extends Controller
      */
     public function create()
     {
-        //
+        $q_areas = QualityArea::all();
+        $q_processes = QualityProcess::all();
+        $q_machines = QualityMachine::all();
+        $q_models = QualityModel::all();
+        $q_parts = QualityPart::all();
+
+        return view('quality.part.create', compact('q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts'));
     }
 
     /**
@@ -44,27 +57,49 @@ class QualityPartController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = auth()->user()->id;
+        $user_id = auth()->user()->id;      
 
-        $q_parts = new QualityPart;
-        $q_parts->model_id = $request->input('model_id');
-        $q_parts->name = $request->input('name');
-        $q_parts->description = $request->input('description');
-        $q_parts->low = $request->input('low');
-        $q_parts->mid = $request->input('mid');
-        $q_parts->high = $request->input('high');
-        $q_parts->left = $request->input('left');
-        $q_parts->center = $request->input('center');
-        $q_parts->right = $request->input('right');
-        $q_parts->photo = $request->input('photo');
-        $q_parts->created_by = $user_id;
-        $q_parts->created_at = now();
+        $area_id = $request->input('area_id');  
+        $process_id = $request->input('process_id');  
+        $machine_id = $request->input('machine_id');  
+        $model_id = $request->input('model_id');  
+        $name = $request->input('name');  
+        $description = $request->input('description');  
+        $low = $request->input('low');  
+        $mid = $request->input('mid');  
+        $high = $request->input('high');  
+        $left = $request->input('left');  
+        $center = $request->input('center');  
+        $right = $request->input('right');   
+        
+        $save = new QualityPart; 
+        // $save->photo = $photo;
+        $save->area_id = $area_id; 
+        $save->process_id = $process_id; 
+        $save->machine_id = $machine_id; 
+        $save->model_id = $model_id; 
+        $save->name = $name; 
+        $save->description = $description; 
+        $save->low = $low; 
+        $save->mid = $mid; 
+        $save->high = $high; 
+        $save->left = $left; 
+        $save->center = $center; 
+        $save->right = $right; 
+        $save->created_by = $user_id; 
+        $save->created_at = now(); 
 
-        if ($q_parts->save()) {
-            return redirect()->route('quality.part.index')->withSuccess(__('Part created successfully.'));
-        }else{
-            return redirect()->route('quality.part.index')->withSuccess(__('Maaf terjadi kesalahan. Silahkan coba kembali.'));
+        if($request->file('photo')){
+            $file= $request->file('photo');
+            // $filename= date('YmdHi').$file->getClientOriginalName();
+            $filename= $request->file('photo')->getClientOriginalName();
+            $file-> move(public_path('public/quality'), $filename);
+            $save->photo = $filename;
         }
+
+        $save->save(); 
+        return redirect()->route('quality.part.index')->withSuccess(__('Part added successfully.'));
+
     }
 
     /**

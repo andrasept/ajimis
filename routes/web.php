@@ -215,9 +215,21 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::patch('/process/{post}/update', 'QualityProcessController@update')->name('quality.process.update');
             Route::delete('/process/{post}/delete', 'QualityProcessController@destroy')->name('quality.process.destroy');
 
+            Route::get('/machine/', 'QualityMachineController@index')->name('quality.machine.index');
+            Route::get('/machine/create', 'QualityMachineController@create')->name('quality.machine.create');
+            Route::post('/machine/create', 'QualityMachineController@store')->name('quality.machine.store');
+            Route::get('/machine/fetchProcess/{post}', 'QualityMachineController@fetchProcess')->name('quality.machine.fetchProcess');
+            Route::get('/machine/{post}/show', 'QualityMachineController@show')->name('quality.machine.show');
+            Route::get('/machine/{post}/edit', 'QualityMachineController@edit')->name('quality.machine.edit');
+            Route::patch('/machine/{post}/update', 'QualityMachineController@update')->name('quality.machine.update');
+            Route::delete('/machine/{post}/delete', 'QualityMachineController@destroy')->name('quality.machine.destroy');
+
             Route::get('/model/', 'QualityModelController@index')->name('quality.model.index');
             Route::get('/model/create', 'QualityModelController@create')->name('quality.model.create');
             Route::post('/model/create', 'QualityModelController@store')->name('quality.model.store');
+            Route::get('/model/fetchProcess/{post}', 'QualityModelController@fetchProcess')->name('quality.model.fetchProcess');
+            Route::get('/model/fetchMachine/{post}', 'QualityModelController@fetchMachine')->name('quality.model.fetchMachine');
+            Route::get('/model/fetchModel/{post}', 'QualityModelController@fetchModel')->name('quality.model.fetchModel');
             Route::get('/model/{post}/show', 'QualityModelController@show')->name('quality.model.show');
             Route::get('/model/{post}/edit', 'QualityModelController@edit')->name('quality.model.edit');
             Route::patch('/model/{post}/update', 'QualityModelController@update')->name('quality.model.update');

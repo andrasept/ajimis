@@ -4,7 +4,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
-		<h2>Quality Model</h2>
+		<h2>Quality Machine</h2>
 	</div>
 	<div class="col-lg-2">
 	</div>
@@ -16,7 +16,7 @@
 	<div class="col-lg-12">
 		<div class="ibox ">
 			<div class="ibox-title">
-				<h5>Add Model</small></h5>
+				<h5>Add Machine</small></h5>
 				<div class="ibox-tools">
 					<a class="collapse-link">
 						<i class="fa fa-chevron-up"></i>
@@ -24,7 +24,7 @@
 				</div>
 			</div>
 			<div class="ibox-content">
-				<form method="POST" action="{{ route('quality.model.store') }}">
+				<form method="POST" action="{{ route('quality.machine.store') }}">
 					@csrf
 
 					<div class="form-group row"><label class="col-sm-2 col-form-label">Area</label>
@@ -37,18 +37,18 @@
 							</select>
 						</div>
 					</div>
-					<div class="hr-line-dashed"></div>
+
 					<div class="form-group row"><label class="col-sm-2 col-form-label">Process</label>
 						<div class="col-sm-10">
 	                        <select id="process-dropdown" class="select2 form-control m-b" name="process_id" required></select>
 						</div>
                     </div>
-                    <div class="hr-line-dashed"></div>
-                    <div class="form-group row"><label class="col-sm-2 col-form-label">Machine</label>
+                    <!-- <div class="form-group row"><label class="col-sm-2 col-form-label">Machine</label>
 						<div class="col-sm-10">
-	                        <select id="machine-dropdown" class="select2 form-control m-b" name="machine_id" required></select>
+	                        <select id="machine-dropdown" class="form-control m-b" name="machine_id" required></select>
 						</div>
-                    </div>
+                    </div> -->
+
 
 					<div class="hr-line-dashed"></div>
 					<div class="form-group  row"><label class="col-sm-2 col-form-label">Nama</label>
@@ -61,7 +61,7 @@
 					<div class="hr-line-dashed"></div>
 					<div class="form-group row">
 						<div class="col-sm-4 col-sm-offset-2">
-							<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.model.index') }}';" value="Cancel" />
+							<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.machine.index') }}';" value="Cancel" />
 							<button class="btn btn-primary btn-sm" type="submit">Save changes</button>
 						</div>
 					</div>
@@ -76,7 +76,7 @@
 		<div class="col-lg-12">
 			<div class="ibox ">
 				<div class="ibox-title">
-					<h5>List Model</h5>
+					<h5>List Machine</h5>
 					<div class="ibox-tools">
 					</div>
 				</div>
@@ -89,42 +89,34 @@
 									<th></th>
 									<th>Area</th>
 									<th>Process</th>
-									<th>Mesin</th>
 									<th>Name</th>
 									<th>Description</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach ($q_models as $key => $q_model)
+								@foreach ($q_machines as $key => $q_machine)
 								<tr class="gradeA">
 									<td></td>
 									<td>
 										@foreach ($q_areas as $key => $q_area)
-											@if($q_area->id == $q_model->area_id)
+											@if($q_area->id == $q_machine->area_id)
 												{{$q_area->name}}
 											@endif
 										@endforeach
 									</td>
 									<td>
 										@foreach ($q_processes as $key => $q_process)
-											@if($q_process->id == $q_model->process_id)
+											@if($q_process->id == $q_machine->process_id)
 												{{$q_process->name}}
 											@endif
 										@endforeach
 									</td>
+									<td>{{$q_machine->name}}</td>
+									<td>{{$q_machine->description}}</td>
 									<td>
-										@foreach ($q_machines as $key => $q_machine)
-											@if($q_machine->id == $q_model->machine_id)
-												{{$q_machine->name}}
-											@endif
-										@endforeach
-									</td>
-									<td>{{$q_model->name}}</td>
-									<td>{{$q_model->description}}</td>
-									<td>
-										<a alt="edit" href="{{ route('quality.model.edit',$q_model->id)}}" class="btn btn-success btn-info"><i class="fa fa-edit"></i> Edit</a>&nbsp;&nbsp;&nbsp;
-										{!! Form::open(['method' => 'DELETE','route' => ['quality.model.destroy', $q_model->id],'style'=>'display:inline']) !!}
+										<a alt="edit" href="{{ route('quality.machine.edit',$q_machine->id)}}" class="btn btn-success btn-info"><i class="fa fa-edit"></i> Edit</a>&nbsp;&nbsp;&nbsp;
+										{!! Form::open(['method' => 'DELETE','route' => ['quality.machine.destroy', $q_machine->id],'style'=>'display:inline']) !!}
 										{{Form::button('<i class="fa fa-trash"></i>', ['type' =>'submit', 'alt' => 'delete', 'class' => 'btn btn-danger ', 'onclick' => 'return confirm("Are you sure want to delete? All its relation will be deleted too")'])}}
 										{!! Form::close() !!}
 									</td>
@@ -178,7 +170,8 @@
             var idArea = this.value;
             $("#process-dropdown").html('');
             $.ajax({
-                url: "{{url('quality/model/fetchProcess/')}}" + '/' + idArea,
+                url: "{{url('quality/machine/fetchProcess/')}}" + '/' + idArea,
+                // url: "{{url('quality/machine/fetchProcess/')}}",
                 type: "GET",
                 data: {
                     area_id: idArea,
@@ -191,31 +184,31 @@
                     $.each(result.processes, function (key, value) {
                         $("#process-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
-                    $('#machine-dropdown').html('<option value="">-- Select Machine --</option>');
+                    // $('#machine-dropdown').html('<option value="">-- Select Machine --</option>');
                 }
             });
         });
 
         // on change process
-        $('#process-dropdown').on('change', function () {
-            var idProcess = this.value;
-            $("#machine-dropdown").html('');
-            $.ajax({
-                url: "{{url('quality/model/fetchMachine/')}}" + '/' + idProcess,
-                type: "GET",
-                data: {
-                    process_id: idProcess,
-                    _token: '{{csrf_token()}}'
-                },
-                dataType: 'json',
-                success: function (res) {
-                    $('#machine-dropdown').html('<option value="">-- Select Machine --</option>');
-                    $.each(res.machines, function (key, value) {
-                        $("#machine-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
-                    });
-                }
-            });
-        });
+        // $('#process-dropdown').on('change', function () {
+        //     var idProcess = this.value;
+        //     $("#machine-dropdown").html('');
+        //     $.ajax({
+        //         url: "{{url('quality/machine/fetchMachine/')}}" + '/' + idProcess,
+        //         type: "GET",
+        //         data: {
+        //             process_id: idProcess,
+        //             _token: '{{csrf_token()}}'
+        //         },
+        //         dataType: 'json',
+        //         success: function (res) {
+        //             $('#machine-dropdown').html('<option value="">-- Select Machine --</option>');
+        //             $.each(res.machines, function (key, value) {
+        //                 $("#machine-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
+        //             });
+        //         }
+        //     });
+        // });
 
         $(".select2").select2();
         

@@ -200,8 +200,8 @@
 	                            	@endforeach
 	                            	@php
 	                            		$disable_cycle = 0;
-		                            	print_r($array_judge1);
-				                        	print_r($array_app1);
+		                            	// print_r($array_judge1);
+				                        	// print_r($array_app1);
 				                        	// if in_array judge=2/3 dan in_array approval_status!=6 maka disable add cycle
 				                        	if( (in_array(2,$array_judge1) || in_array(3,$array_judge1)) && (!in_array(6,$array_app1)) ) {
 																	    echo "disable";
@@ -331,8 +331,8 @@
 														//    echo "BB is not found";
 														//}
 
-	                        	print_r($array_judge2);
-	                        	print_r($array_app2);
+	                        	// print_r($array_judge2);
+	                        	// print_r($array_app2);
 	                        	// if in_array judge=2/3 dan in_array approval_status!=6 maka disable add cycle
 	                        	if( (in_array(2,$array_judge2) || in_array(3,$array_judge2)) && (!in_array(6,$array_app2)) ) {
 														    echo "disable";
@@ -348,7 +348,7 @@
 	                          @endif
 	                          &nbsp;&nbsp;&nbsp;
 	                         	@if($hasil == "sudah finish")
-	                          	<a alt="add" href="{{url('')}}/quality/monitor/{{$q_monitor->id}}/finish" class="" onclick="return confirm('Are you sure to finish this checksheet?')"><button type="button" class="btn btn-primary" >Finish Cycle</button></i></a>
+	                          	<a alt="finish" href="{{url('')}}/quality/monitor/{{$q_monitor->id}}/finish" class="" onclick="return confirm('Are you sure to finish this checksheet?')"><button type="button" class="btn btn-primary" >Finish Cycle</button></i></a>
 	                          @else
 	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
 	                          @endif	
@@ -359,8 +359,10 @@
 
                   	<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal{{$q_monitor->id}}"><i class="fa fa-list"></i></button>	
 
-                  	@if(!$disable_cycle)
-                  		<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
+                  	@if( (!$disable_cycle) )   
+                  		@if ($q_monitor->judgement == 0)
+                  			<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
+                  		@endif               		
                   	@endif								
 
             			</td>

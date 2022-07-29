@@ -62,6 +62,7 @@
 									<table class="table table-striped table-bordered table-hover dataTables-example" >
 										<thead>
 											<tr>
+												<th></th>
 												<th>Name</th>
 												<th>Description</th>
 												<th>Action</th>
@@ -70,13 +71,15 @@
 										<tbody>
 											@foreach ($q_areas as $key => $q_area)
 												<tr class="gradeA">
+													<td></td>
 													<td>{{$q_area->name}}</td>
 													<td>{{$q_area->description}}</td>
 													<td>
-														<a alt="edit" href="{{ route('quality.area.edit',$q_area->id)}}" class="btn btn-xs btn-outline btn-warning">Edit <i class="fa fa-edit"></i> </a>&nbsp;&nbsp;&nbsp;
-									          {!! Form::open(['method' => 'DELETE','route' => ['quality.area.destroy', $q_area->id],'style'=>'display:inline']) !!}
-									          {{Form::button('<i class="fa fa-trash-o"></i>', ['type' =>'submit', 'alt' => 'delete', 'class' => 'btn btn-xs btn-outline btn-danger', 'onclick' => 'return confirm("Are you sure want to delete? All its relation will be deleted too")'])}}
-									          {!! Form::close() !!}
+														<a alt="edit" href="{{ route('quality.area.edit',$q_area->id)}}" class="btn btn-success btn-info "><i class="fa fa-edit"></i> Edit</a>&nbsp;&nbsp;&nbsp;
+
+											          	{!! Form::open(['method' => 'DELETE','route' => ['quality.area.destroy', $q_area->id],'style'=>'display:inline']) !!}
+														{{Form::button('<i class="fa fa-trash"></i>', ['type' =>'submit', 'alt' => 'delete', 'class' => 'btn btn-danger ', 'onclick' => 'return confirm("Are you sure want to delete? All its relation will be deleted too")'])}}
+														{!! Form::close() !!}
 													</td>
 											</tr>
 											@endforeach										
@@ -97,32 +100,28 @@
 			<script src="{{asset('js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
 			<script>
 				$(document).ready(function(){
-					$('.dataTables-example').DataTable({
-						pageLength: 25,
+					// ordering number
+					var t = $('.dataTables-example').DataTable({
+						pageLength: 10,
 						responsive: true,
-						dom: '<"html5buttons"B>lTfgitp',
-						buttons: [
-						{ extend: 'copy'},
-						{extend: 'csv'},
-						{extend: 'excel', title: 'ExampleFile'},
-						{extend: 'pdf', title: 'ExampleFile'},
-
-						{extend: 'print',
-						customize: function (win){
-							$(win.document.body).addClass('white-bg');
-							$(win.document.body).css('font-size', '10px');
-
-							$(win.document.body).find('table')
-							.addClass('compact')
-							.css('font-size', 'inherit');
-						}
-					}
-					]
-
+				        columnDefs: [
+				            {
+				                searchable: false,
+				                orderable: false,
+				                targets: 0,
+				            },
+				        ],
+				        order: [[1, 'asc']],
+				    });
+				    t.on('order.dt search.dt', function () {
+				        let i = 1;
+				 
+				        t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+				            this.data(i++);
+				        });
+				    }).draw();
+				    // ordering number end
 				});
-
-				});
-
 			</script>
 			@endpush
 

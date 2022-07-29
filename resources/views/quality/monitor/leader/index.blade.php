@@ -134,7 +134,7 @@
 	                            	@foreach ($cs_s1 as $keycs => $q_cs_qtime)
 	                            		<tr>
 	                            			<td>
-	                            				<a alt="add" href="{{url('')}}/quality/csqtime/{{$q_cs_qtime->id}}/edit" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
+	                            				<a alt="edit" href="{{url('')}}/quality/csqtime/{{$q_cs_qtime->id}}/edit" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
 	                            			</td>
 		                            		<td>
 																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
@@ -314,13 +314,6 @@
 
 	                        <div class="modal-footer">
 	                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-	                          <!-- <button type="button" class="btn btn-primary">Add Cycle</button> -->
-	                          &nbsp;&nbsp;&nbsp;
-	                          @if($hasil == "sudah finish")
-	                          	<a alt="add" href="{{url('')}}/quality/monitor/{{$q_monitor->id}}/finish" class="" onclick="return confirm('Are you sure to finish this checksheet?')"><button type="button" class="btn btn-primary" >Finish Cycle</button></i></a>
-	                          @else
-	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
-	                          @endif	                          
 	                        </div>
                       	</div>
                       </div>

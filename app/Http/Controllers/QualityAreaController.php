@@ -15,7 +15,7 @@ class QualityAreaController extends Controller
      */
     public function index()
     {
-        $q_areas = QualityArea::all();
+        $q_areas = QualityArea::orderBy('id','DESC')->get();
 
         return view('quality.area.index', compact('q_areas'));
     }

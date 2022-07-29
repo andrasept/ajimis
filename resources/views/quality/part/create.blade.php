@@ -4,7 +4,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
-		<h2>Quality Model</h2>
+		<h2>Quality Part</h2>
 	</div>
 	<div class="col-lg-2">
 	</div>
@@ -16,7 +16,7 @@
 	<div class="col-lg-12">
 		<div class="ibox ">
 			<div class="ibox-title">
-				<h5>Add Model</small></h5>
+				<h5>Add Part</small></h5>
 				<div class="ibox-tools">
 					<a class="collapse-link">
 						<i class="fa fa-chevron-up"></i>
@@ -24,8 +24,19 @@
 				</div>
 			</div>
 			<div class="ibox-content">
-				<form method="POST" action="{{ route('quality.model.store') }}">
+				<form method="POST" action="{{ route('quality.part.store') }}" enctype="multipart/form-data">
 					@csrf
+
+					<!-- <div class="form-group row"><label class="col-sm-2 col-form-label">Model</label>
+						<div class="col-sm-10">
+							<select class="form-control m-b" name="model_id" required>
+								<option value="" selected>-- Select Model --</option>
+								@foreach ($q_models as $key => $q_model)
+								<option value="{{$q_model->id}}">{{$q_model->name}}</option>
+								@endforeach
+							</select>
+						</div>
+					</div> -->
 
 					<div class="form-group row"><label class="col-sm-2 col-form-label">Area</label>
 						<div class="col-sm-10">
@@ -49,6 +60,12 @@
 	                        <select id="machine-dropdown" class="select2 form-control m-b" name="machine_id" required></select>
 						</div>
                     </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row"><label class="col-sm-2 col-form-label">Model</label>
+						<div class="col-sm-10">
+	                        <select id="model-dropdown" class="select2 form-control m-b" name="model_id" required></select>
+						</div>
+                    </div>
 
 					<div class="hr-line-dashed"></div>
 					<div class="form-group  row"><label class="col-sm-2 col-form-label">Nama</label>
@@ -58,10 +75,45 @@
 					<div class="form-group  row"><label class="col-sm-2 col-form-label">Keterangan</label>
 						<div class="col-sm-10"><input type="text" name="description" class="form-control"></div>
 					</div>
+
+					<div class="hr-line-dashed"></div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Grade</label>
+	                    <div class="col-sm-10">
+                            <div class="i-checks"><label> <input type="checkbox" name="low" value="1"> <i></i> Low </label></div>
+                            <div class="i-checks"><label> <input type="checkbox" name="mid" value="1"> <i></i> Mid </label></div>
+                            <div class="i-checks"><label> <input type="checkbox" name="high" value="1"> <i></i> High </label></div>
+                        </div>
+                	</div>
+
+                	<div class="hr-line-dashed"></div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Position</label>
+	                    <div class="col-sm-10">
+                            <div class="i-checks"><label> <input type="checkbox" name="left" value="1"> <i></i> Left </label></div>
+                            <div class="i-checks"><label> <input type="checkbox" name="center" value="1"> <i></i> Center </label></div>
+                            <div class="i-checks"><label> <input type="checkbox" name="right" value="1"> <i></i> Right </label></div>
+                        </div>
+                	</div>
+
+                	<div class="hr-line-dashed"></div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Photo/WI</label>
+	                    <div class="col-sm-10">
+                            <div class="custom-file">
+							    <input id="photo" name="photo" type="file" class="custom-file-input">
+							    <label for="photo" class="custom-file-label">Choose image...</label>
+							    @error('photo')
+			                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+			                    @enderror
+							</div> 
+                        </div>
+                	</div>
+
 					<div class="hr-line-dashed"></div>
 					<div class="form-group row">
 						<div class="col-sm-4 col-sm-offset-2">
-							<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.model.index') }}';" value="Cancel" />
+							<input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.part.index') }}';" value="Cancel" />
 							<button class="btn btn-primary btn-sm" type="submit">Save changes</button>
 						</div>
 					</div>
@@ -70,107 +122,9 @@
 		</div>
 	</div>
 </div>
-
-<div class="wrapper wrapper-content animated fadeInRight">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox ">
-				<div class="ibox-title">
-					<h5>List Model</h5>
-					<div class="ibox-tools">
-					</div>
-				</div>
-				<div class="ibox-content">
-
-					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover dataTables-example" >
-							<thead>
-								<tr>
-									<th></th>
-									<th>Area</th>
-									<th>Process</th>
-									<th>Mesin</th>
-									<th>Name</th>
-									<th>Description</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach ($q_models as $key => $q_model)
-								<tr class="gradeA">
-									<td></td>
-									<td>
-										@foreach ($q_areas as $key => $q_area)
-											@if($q_area->id == $q_model->area_id)
-												{{$q_area->name}}
-											@endif
-										@endforeach
-									</td>
-									<td>
-										@foreach ($q_processes as $key => $q_process)
-											@if($q_process->id == $q_model->process_id)
-												{{$q_process->name}}
-											@endif
-										@endforeach
-									</td>
-									<td>
-										@foreach ($q_machines as $key => $q_machine)
-											@if($q_machine->id == $q_model->machine_id)
-												{{$q_machine->name}}
-											@endif
-										@endforeach
-									</td>
-									<td>{{$q_model->name}}</td>
-									<td>{{$q_model->description}}</td>
-									<td>
-										<a alt="edit" href="{{ route('quality.model.edit',$q_model->id)}}" class="btn btn-success btn-info"><i class="fa fa-edit"></i> Edit</a>&nbsp;&nbsp;&nbsp;
-										{!! Form::open(['method' => 'DELETE','route' => ['quality.model.destroy', $q_model->id],'style'=>'display:inline']) !!}
-										{{Form::button('<i class="fa fa-trash"></i>', ['type' =>'submit', 'alt' => 'delete', 'class' => 'btn btn-danger ', 'onclick' => 'return confirm("Are you sure want to delete? All its relation will be deleted too")'])}}
-										{!! Form::close() !!}
-									</td>
-								</tr>
-								@endforeach										
-							</tbody>
-						</table>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 @endsection
 
 @push('scripts')
-<script src="{{asset('js/plugins/dataTables/datatables.min.js')}}"></script>
-<script src="{{asset('js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
-<script>
-	$(document).ready(function(){
-		// ordering number
-		var t = $('.dataTables-example').DataTable({
-			pageLength: 10,
-			responsive: true,
-	        columnDefs: [
-	            {
-	                searchable: false,
-	                orderable: false,
-	                targets: 0,
-	            },
-	        ],
-	        order: [[1, 'asc']],
-	    });
-	    t.on('order.dt search.dt', function () {
-	        let i = 1;
-	 
-	        t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
-	            this.data(i++);
-	        });
-	    }).draw();
-	    // ordering number end
-	});
-</script>
-
 <script>
     $(document).ready(function () {
     	// on change area
@@ -192,6 +146,7 @@
                         $("#process-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
                     $('#machine-dropdown').html('<option value="">-- Select Machine --</option>');
+                    $('#model-dropdown').html('<option value="">-- Select Model --</option>');
                 }
             });
         });
@@ -213,6 +168,28 @@
                     $.each(res.machines, function (key, value) {
                         $("#machine-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
                     });
+                    $('#model-dropdown').html('<option value="">-- Select Model --</option>');
+                }
+            });
+        });
+
+        // on change machine
+        $('#machine-dropdown').on('change', function () {
+            var idMachine = this.value;
+            $("#model-dropdown").html('');
+            $.ajax({
+                url: "{{url('quality/model/fetchModel/')}}" + '/' + idMachine,
+                type: "GET",
+                data: {
+                    machine_id: idMachine,
+                    _token: '{{csrf_token()}}'
+                },
+                dataType: 'json',
+                success: function (res) {
+                    $('#model-dropdown').html('<option value="">-- Select Model --</option>');
+                    $.each(res.models, function (key, value) {
+                        $("#model-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
                 }
             });
         });
@@ -222,8 +199,18 @@
     });
 
 </script>
+<!-- iCheck -->
+<script src="{{asset('js/plugins/iCheck/icheck.min.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+    });
+</script>
 @endpush
 
 @push('stylesheets')
-<link href="{{asset('css/plugins/dataTables/datatables.min.css')}}" rel="stylesheet">
+<link href="{{asset('css/plugins/iCheck/custom.css')}}" rel="stylesheet">
 @endpush
