@@ -300,6 +300,8 @@
                       return '';
                     }else if(data == '6') {
                       return '<label class="label label-warning">Pending</label>';
+                    }else if(data == '7') {
+                      return '<label class="label label-warning">Pending Milkrun Ready</label>';
                     }else{
                       return '<label class="label label-danger">Delayed</label>';
                     }

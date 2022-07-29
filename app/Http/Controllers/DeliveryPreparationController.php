@@ -89,7 +89,7 @@ class DeliveryPreparationController extends Controller
                     
                 }
                 if ($request->member == '2') {
-                    $query->where('departure_status','=', NULL)->orWhere('departure_status','=', '6')->whereIn('customer_pickup_id', function($q){
+                    $query->where('departure_status','=', NULL)->orWhere('departure_status','=', '6')->orWhere('departure_status','=', '7')->whereIn('customer_pickup_id', function($q){
                         $q->select('customer_pickup_id')->where('customer_pickup_id','like', '%AHM%'  )
                         ->orWhere('customer_pickup_id','like', '%TMMIN%'  )
                         ->orWhere('customer_pickup_id','like', '%ADM%'  );
@@ -574,7 +574,6 @@ class DeliveryPreparationController extends Controller
                 $history->save();
 
             // update
-                $data->arrival_status= null;
                 $data->arrival_gap= null;
                 $data->arrival_actual= null;
                 $data->driver_name= null;
@@ -651,24 +650,30 @@ class DeliveryPreparationController extends Controller
                 $data->security_name_arrival = Auth::user()->name;
                 $data->driver_name = $driver_name;
 
-            if ($now < date("Y-m-d H:i:s", strtotime($data->arrival_plan . '-20 minutes'))) {
-                # advance
-                $data->arrival_status = 3;
-                $status_name='advanced';
-
-            } elseif($now >= date("Y-m-d H:i:s", strtotime($data->arrival_plan . '-20 minutes')) && $now <= date("Y-m-d H:i:s", strtotime($data->arrival_plan)) ) {
-                # ontime
-                $data->arrival_status = 4;
-                $status_name='ontime';
-                
-            }else {
-                # delay
-                $data->arrival_status = 5;
-                $status_name='delayed';
-                
+            if ($data->departure_status == '6') {
+                # ketika millkrun datang kedua kali tidak mengupdate kedatangan awal
+                $data->departure_status = '7';
+            }else{
+                if ($now < date("Y-m-d H:i:s", strtotime($data->arrival_plan . '-20 minutes'))) {
+                    # advance
+                    $data->arrival_status = 3;
+                    $status_name='advanced';
+    
+                } elseif($now >= date("Y-m-d H:i:s", strtotime($data->arrival_plan . '-20 minutes')) && $now <= date("Y-m-d H:i:s", strtotime($data->arrival_plan)) ) {
+                    # ontime
+                    $data->arrival_status = 4;
+                    $status_name='ontime';
+                    
+                }else {
+                    # delay
+                    $data->arrival_status = 5;
+                    $status_name='delayed';
+                    
+                }
+                $data->arrival_actual = $now;
             }
 
-            $data->arrival_actual = $now;
+            
             $data->arrival_gap = date_diff(date_create( $data->arrival_plan),date_create( $data->arrival_actual))->format("%d Days %h Hours %i Minutes");
             $data->save();
 
