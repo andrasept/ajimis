@@ -89,7 +89,7 @@ class DeliveryPreparationController extends Controller
                     
                 }
                 if ($request->member == '2') {
-                    $query->where('departure_status','=', NULL)->whereIn('customer_pickup_id', function($q){
+                    $query->where('departure_status','=', NULL)->orWhere('departure_status','=', '6')->whereIn('customer_pickup_id', function($q){
                         $q->select('customer_pickup_id')->where('customer_pickup_id','like', '%AHM%'  )
                         ->orWhere('customer_pickup_id','like', '%TMMIN%'  )
                         ->orWhere('customer_pickup_id','like', '%ADM%'  );
@@ -570,7 +570,7 @@ class DeliveryPreparationController extends Controller
                 $history->driver_name = $data->driver_name;
                 $history->customer_pickup_id = $data->customer_pickup_id;
                 $history->vendor = $data->vendor;
-                $history->jenis = "arrival";
+                $history->jenis = "hold";
                 $history->save();
 
             // update
@@ -579,6 +579,7 @@ class DeliveryPreparationController extends Controller
                 $data->arrival_actual= null;
                 $data->driver_name= null;
                 $data->security_name_arrival= null;
+                $data->departure_status = 6;
                 $data->save();  
 
             // telegram
@@ -602,8 +603,6 @@ class DeliveryPreparationController extends Controller
     public function sendTelegram($chat_id, $text)
     {
         $token ='1488492213:AAFkw2dzki-No0W5tuu8JjAwm0mvg__98BU';
-        // ddd($text);
-        // $text = urlencode($text);
         $params=[
             'parse_mode'=>'html',
             'chat_id'=>$chat_id, 
@@ -615,15 +614,6 @@ class DeliveryPreparationController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
-        // $ch = curl_init();
-        // curl_setopt($ch, CURLOPT_URL, $url);
-        // curl_setopt($ch, CURLOPT_POST, 0);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, ($params));
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // $response = curl_exec ($ch);
-        // $err = curl_error($ch); 
-        // curl_close ($ch);
     }
 
     public function export(Request $request) 

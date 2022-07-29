@@ -298,6 +298,8 @@
                       return '<label class="label label-info">Advanced</label>';
                     } else if(data === null) {
                       return '';
+                    }else if(data == '6') {
+                      return '<label class="label label-warning">Pending</label>';
                     }else{
                       return '<label class="label label-danger">Delayed</label>';
                     }

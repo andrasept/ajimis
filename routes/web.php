@@ -258,7 +258,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           });
 
           /**
-           * Post Routes
+           * Post Routesphp artisan serve
            */
           Route::group(['prefix' => 'posts'], function() {
             Route::get('/', 'PostsController@index')->name('posts.index');

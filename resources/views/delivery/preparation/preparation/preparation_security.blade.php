@@ -248,7 +248,7 @@
                           kumpul_btn= kumpul_btn+"<button data-id='"+row['id']+"' class='btn btn-md btn-success arrive_btn'>ARRIVE</button>";
                           // kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/"+driver+"/arrival' class='btn btn-md btn-success'>Arrive</a>";
                         }
-                        else if (data === null  && row['arrival_status'] !==null) {
+                        else if (data === null || data == '6' || row['arrival_status'] !==null) {
                           // kumpul_btn= kumpul_btn+"<button data-id='"+row['id']+"' class='btn btn-md btn-primary departure_btn'>DEPARTURE</button>";
                           kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/hold' class='btn btn-md btn-warning'>Hold</a>"+"<a href='/delivery/preparation/"+row['id']+"/departure' class='btn btn-md btn-primary'>Done</a>";
                         }else{  
