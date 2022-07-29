@@ -86,6 +86,7 @@ class CreatePartsTable extends Migration
             $table->string('name');
             $table->string('npk')->index();
             $table->string('position');
+            $table->string('area');
             $table->string('title');
             $table->string('shift');
             $table->string('photo')->nullable();

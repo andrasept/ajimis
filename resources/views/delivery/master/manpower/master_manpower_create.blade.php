@@ -39,6 +39,25 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label>Default Area</label> 
+                            <select name="area" class="form-control" id="area" required>
+                                <option value="delivery_control" {{ old('area') == "delivery_control" ? "selected" : "" }}>delivery control</option>
+                                <option value="preparation_pulling_1" {{ old('area') == "preparation_pulling_1" ? "selected" : "" }}>pulling preparation 1</option>
+                                <option value="preparation_pulling_2" {{ old('area') == "preparation_pulling_2" ? "selected" : "" }}>pulling preparation 2</option>
+                                <option value="pulling_oem_2" {{ old('area') == "pulling_oem_2" ? "selected" : "" }}>pulling oem 2</option>
+                                <option value="packaging_2" {{ old('area') == "packaging_2" ? "selected" : "" }}>packaging 2</option>
+                                <option value="preparation" {{ old('area') == "preparation" ? "selected" : "" }}>preparation </option>
+                                <option value="packaging_1" {{ old('area') == "packaging_1" ? "selected" : "" }}>packaging 1</option>
+                                <option value="pulling_oem_1" {{ old('area') == "pulling_oem_1" ? "selected" : "" }}>pulling oem 1</option>
+                                <option value="sparepart" {{ old('area') == "sparepart" ? "selected" : "" }}>sparepart</option>
+                            </select>
+                            @error('area') 
+                                <div class="text-danger">
+                                    {{$message}}    
+                                </div>  
+                            @enderror   
+                        </div>
+                        <div class="form-group">
                             <label>Position 1</label> 
                             <select name="position[]" class="form-control" id="position">
                                 <option value="-">-</option> 

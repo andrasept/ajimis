@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ManPowerDelivery extends Model
 {
     use HasFactory;
-    protected $fillable=['name','npk','position','title','photo','shift'];
+    protected $fillable=['name','area','npk','position','title','photo','shift'];
     protected $table = "delivery_man_powers";
 
 }

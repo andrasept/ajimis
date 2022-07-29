@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ManPowerDelivery;
+use App\Models\DeliveryLayoutArea;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -85,6 +86,7 @@ class DeliveryManpowerController extends Controller
         $validator = Validator::make($request->all(), [
             'npk' => ['required'],
             'name' => ['required'],
+            'area' => ['required'],
             'position.*' => ['required'],
             'title' => ['required'],
             'shift' => ['required'],
@@ -114,6 +116,7 @@ class DeliveryManpowerController extends Controller
                         'id' => $request->get('id'),
                         'npk' => $request->get('npk'),
                         'name' => $request->get('name'),
+                        'area' => $request->get('area'),
                         'position' => implode(',',$kumpul_position) ,
                         'title' => $request->get('title'),
                         'shift' => $request->get('shift'),
@@ -129,6 +132,7 @@ class DeliveryManpowerController extends Controller
                         'id' => $request->get('id'),
                         'npk' => $request->get('npk'),
                         'name' => $request->get('name'),
+                        'area' => $request->get('area'),
                         'position' => implode(',',$kumpul_position) ,
                         'title' => $request->get('title'),
                         'shift' => $request->get('shift'),
@@ -177,10 +181,12 @@ class DeliveryManpowerController extends Controller
             'npk' => ['required', 'unique:delivery_man_powers'],
             'name' => ['required'],
             'position.*' => ['required'],
+            'area' => ['required'],
             'title' => ['required'],
             'shift' => ['required'],
             'photo' => ['required'],
         ]);
+        
         
         
         if ($validator->fails()) {
@@ -202,6 +208,7 @@ class DeliveryManpowerController extends Controller
                 $user =  new ManPowerDelivery([
                     'npk' => $request->get('npk'),
                     'name' => $request->get('name'),
+                    'area' => $request->get('area'),
                     'position' => implode(',',$kumpul_position),
                     'title' => $request->get('title'),
                     'shift' => $request->get('shift'),

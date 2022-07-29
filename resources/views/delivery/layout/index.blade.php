@@ -149,6 +149,7 @@ img {
               <th class="text-center">Name</th>
               <th class="text-center">Photo</th>
               <th class="text-center">Position</th>
+              <th class="text-center">Default Area</th>
               <th class="text-center">Reason</th>
               <th class="text-center">Substitute 1</th>
               <th class="text-center">Substitute 2</th>
@@ -218,6 +219,13 @@ img {
                     },
                   },
                   { data: 'real_position', className: 'dt-body-center',
+
+                    'render' : function(data, type, row){
+                      return "<b>"+data+"</b>";
+                    }
+
+                  },
+                  { data: 'area', className: 'dt-body-center',
 
                     'render' : function(data, type, row){
                       return "<b>"+data+"</b>";

@@ -23,7 +23,7 @@ class DeliveryLayoutAreaController extends Controller
             // $query = DB::table('delivery_henkaten');
 
              $query = DB::table('delivery_henkaten')->select('delivery_henkaten.position as area_position','delivery_henkaten.id','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
-            'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.position as real_position','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
+            'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.position as real_position','delivery_man_powers.area','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
             ->leftjoin('delivery_man_powers', 'delivery_man_powers.npk', '=', 'delivery_henkaten.user_id')
             ;
 
