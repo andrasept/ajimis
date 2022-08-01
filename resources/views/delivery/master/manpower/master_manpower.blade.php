@@ -39,6 +39,7 @@
             <th class="text-center">NPK</th>
             <th class="text-center">name</th>
             <th class="text-center">position</th>
+            <th class="text-center">Default Area</th>
             <th class="text-center">Title</th>
             <th class="text-center">Shift</th>
             <th class="text-center">Photo</th>
@@ -133,6 +134,7 @@
                   { data: "npk", className: 'dt-body-center'},
                   { data: "name", className: 'dt-body-center'},
                   { data: "position", className: 'dt-body-center'},
+                  { data: "area", className: 'dt-body-center'},
                   { data: "title", className: 'dt-body-center'},
                   { data: "shift", className: 'dt-body-center'},
                   { data: "photo", className: 'dt-body-center',  "render": function ( data, type, row ) {
