@@ -11,4 +11,7 @@ class ManPowerDelivery extends Model
     protected $fillable=['name','area','npk','position','title','photo','shift'];
     protected $table = "delivery_man_powers";
 
+    // Desk model
+   
+
 }

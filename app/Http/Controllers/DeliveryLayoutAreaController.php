@@ -224,12 +224,31 @@ class DeliveryLayoutAreaController extends Controller
     {
         if ($request->ajax()) {
             $data = DeliveryLayoutArea::findOrFail($request->id);
+           
+
+           
+
+
+
             $data->henkaten_status = $request->henkaten;
             if ($request->henkaten == '1') {
+
+
+                $data_user = ManPowerDelivery::where('name' ,$request->nama_pengganti)->get();
+                $area_user_pengganti = "";
+                foreach ($data_user as $key ) {
+                    $area_user_pengganti = $key->area;
+                }
+
+
                 $data->date_henkaten = date("Y-m-d H:i:s");
                  // telegram
                  $message='<b>======== HENKATEN ========</b>'.chr(10).chr(10); 
-                 $message .= '<b>Man Power</b> : '.$request->nama_pengganti.' '.chr(10).'<b>Henkaten Date</b> :'. $data->date_henkaten.''.chr(10).'<b>Area</b> :'.$data->position.' '.chr(10);
+                 $message .= 
+                 '<b>Man Power</b> : '.$request->nama_pengganti.' '.chr(10).
+                 '<b>Default area</b> : '.$area_user_pengganti.' '.chr(10).
+                 '<b>Henkaten Date</b> :'. $data->date_henkaten.''.chr(10).
+                 '<b>Area</b> :'.$data->position.' '.chr(10);
                  $this->sendTelegram('-690929411',$message );
 
                  //  insert henkaten detail / history
@@ -238,6 +257,7 @@ class DeliveryLayoutAreaController extends Controller
                     $history->mp_before =  $request->nama_diganti;
                     $history->mp_after =  $request->nama_pengganti;
                     $history->reason_henkaten =  $request->alasan;
+                    $history->area =  $area_user_pengganti;
                     $history->date_henkaten =   $data->date_henkaten;
                     $history->save();
                  

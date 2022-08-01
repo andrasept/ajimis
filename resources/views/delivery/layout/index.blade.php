@@ -149,13 +149,13 @@ img {
               <th class="text-center">Name</th>
               <th class="text-center">Photo</th>
               <th class="text-center">Position</th>
-              <th class="text-center">Default Area</th>
               <th class="text-center">Reason</th>
               <th class="text-center">Substitute 1</th>
               <th class="text-center">Substitute 2</th>
               {{-- <th class="text-center">Henkaten Status</th>
               <th class="text-center"> Henkaten Date</th> --}}
               <th class="text-center">Action</th>
+              <th class="text-center">Default Area</th>
             </tr>
           </thead>
           <tbody>
@@ -225,13 +225,7 @@ img {
                     }
 
                   },
-                  { data: 'area', className: 'dt-body-center',
-
-                    'render' : function(data, type, row){
-                      return "<b>"+data+"</b>";
-                    }
-
-                  },
+                 
                   { data: "npk", className: 'dt-body-center text-center',
                     "render": function ( data, type, row ) {
                       return "<select data-id='"+data+"'  id='alasan_"+data+"' class='form-control alasan_henkaten'><option value='-' selected>-</option><option value='Sick Leave'>Sick Leave</option><option value='Permit'>Permit</option><option value='Absence'>Absence</option><option value='On Leave'>On Leave</option></select>";
@@ -269,6 +263,13 @@ img {
                         // return "<div class='btn-grx`oup'><div class='btn-group'><a href='/delivery/layout_area/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='/delivery/layout_area/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
                       }
                   },
+                  { data: 'area', className: 'dt-body-center',
+
+                    'render' : function(data, type, row){
+                      return "<b id='default_area_diganti_"+row['npk']+"'>"+data+"</b>";
+                    }
+
+                  },
               ],
               "columnDefs": [ {
                   "searchable": true,
@@ -293,6 +294,7 @@ img {
                       var alter_1 = $('#alter_1_'+npk).val();
                       var alter_2 = $('#alter_2_'+npk).val();
                       var nama_diganti = $('#nama_diganti_'+npk).html();
+                      var default_area_diganti = $('#default_area_diganti_'+npk).html();
                       var nama_pengganti = $('#alter_2_'+npk+' option:selected').text();
 
 
@@ -332,6 +334,7 @@ img {
                                       "pengganti" : alter_2,
                                       "nama_pengganti" : nama_pengganti,
                                       "nama_diganti" : nama_diganti,
+                                      "default_area_diganti" : default_area_diganti,
                                       "henkaten" : '1',
                                       "alasan" : alasan,
                                       "_token": "{{ csrf_token() }}",
