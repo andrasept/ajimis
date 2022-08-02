@@ -34,9 +34,11 @@
           <tr>
             <th class="text-center">No</th>
             <th class="text-center">Area</th>
+            <th class="text-center">Reason</th>
             <th class="text-center">MP Before</th>
             <th class="text-center">MP After</th>
-            <th class="text-center">Reason</th>
+            <th class="text-center">Default Area MP After</th>
+            <th class="text-center">Type</th>
             <th class="text-center">Date </th>
           </tr>
         </thead>
@@ -99,9 +101,21 @@ $(document).ready(function() {
         "columns": [
             { data: null, className: 'dt-body-center'},
             { data: 'area', className: 'dt-body-center'},
+            { data: 'reason_henkaten', className: 'dt-body-center'},
             { data: 'mp_before', className: 'dt-body-center'},
             { data: 'mp_after', className: 'dt-body-center'},
-            { data: 'reason_henkaten', className: 'dt-body-center'},
+            { data: 'default_area_mp_after', className: 'dt-body-center'},
+            { data: 'type', className: 'dt-body-center',
+          
+              'render' : function(data, type, row){
+                if (data == 'henkaten') {
+                  return '<label class="label label-danger"> Henkaten </label>';
+                } else {
+                  return '<label class="label label-warning"> Substitue </label>';
+                }
+              }
+
+            },
             { data: 'date_henkaten', className: 'dt-body-center'},
         ],
         "columnDefs": [ {

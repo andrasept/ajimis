@@ -76,8 +76,10 @@ class DeliveryLayoutAreaController extends Controller
                     $data['nama_delivery_control'] = $position->name;
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_delivery_control'] =asset("/image/henkaten.png");
-                    } else {
-                        # code...
+                    } else if ($position->henkaten_status == '2') {
+                        $data['henkaten_delivery_control'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                     
                 }
@@ -86,8 +88,10 @@ class DeliveryLayoutAreaController extends Controller
                     $data['nama_preparation_pulling_1'] = $position->name;
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_preparation_pulling_1'] =asset("/image/henkaten.png");
-                    } else {
-                        # code...
+                    } else if ($position->henkaten_status == '2') {
+                        $data['henkaten_preparation_pulling_1'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                 } 
                 if ($position->position == 'preparation_pulling_2' && $position->user_id != 'empty') {
@@ -95,8 +99,10 @@ class DeliveryLayoutAreaController extends Controller
                     $data['nama_preparation_pulling_2'] = $position->name;
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_preparation_pulling_2'] =asset("/image/henkaten.png");
-                    } else {
-                        # code...
+                    }  else if ($position->henkaten_status == '2') {
+                        $data['henkaten_preparation_pulling_2'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                 } 
                 if ($position->position == 'pulling_oem_2' && $position->user_id != 'empty') {
@@ -105,8 +111,10 @@ class DeliveryLayoutAreaController extends Controller
 
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_pulling_oem_2'] =asset("/image/henkaten.png");
-                    } else {
-                        # code...
+                    }  else if ($position->henkaten_status == '2') {
+                        $data['henkaten_pulling_oem_2'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                 } 
                 if ($position->position == 'packaging_2' && $position->user_id != 'empty') {
@@ -115,8 +123,10 @@ class DeliveryLayoutAreaController extends Controller
 
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_packaging_2'] =asset("/image/henkaten.png");
-                    } else {
-                        # code...
+                    }  else if ($position->henkaten_status == '2') {
+                        $data['henkaten_packaging_2'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                 } 
                 if ($position->position == 'preparation' && $position->user_id != 'empty') {
@@ -125,8 +135,10 @@ class DeliveryLayoutAreaController extends Controller
 
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_preparation'] =asset("/image/henkaten.png");
-                    } else {
-                        # code...
+                    }  else if ($position->henkaten_status == '2') {
+                        $data['henkaten_preparation'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                 } 
                 if ($position->position == 'packaging_1' && $position->user_id != 'empty') {
@@ -135,8 +147,10 @@ class DeliveryLayoutAreaController extends Controller
 
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_packaging_1'] =asset("/image/henkaten.png");
-                    } else {
-                        # code...
+                    }  else if ($position->henkaten_status == '2') {
+                        $data['henkaten_packaging_1'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                 } 
                 if ($position->position == 'pulling_oem_1' && $position->user_id != 'empty') {
@@ -145,8 +159,10 @@ class DeliveryLayoutAreaController extends Controller
 
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_pulling_oem_1'] =asset("/image/henkaten.png");
-                    } else {
-                        # code...
+                    }  else if ($position->henkaten_status == '2') {
+                        $data['henkaten_pulling_oem_1'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                 } 
                 if ($position->position == 'sparepart' && $position->user_id != 'empty') {
@@ -155,7 +171,10 @@ class DeliveryLayoutAreaController extends Controller
 
                     if ($position->henkaten_status == '1') {
                         $data['henkaten_sparepart'] =asset("/image/henkaten.png");
-                    } else {
+                    }  else if ($position->henkaten_status == '2') {
+                        $data['henkaten_sparepart'] =asset("/image/substitute.png");
+                    }else{
+
                     }
                 } 
                 
@@ -230,15 +249,15 @@ class DeliveryLayoutAreaController extends Controller
 
 
 
-            $data->henkaten_status = $request->henkaten;
+            $data_user = ManPowerDelivery::where('name' ,$request->nama_pengganti)->get();
+            $area_user_pengganti = "";
+            foreach ($data_user as $key ) {
+                $area_user_pengganti = $key->area;
+            }
             if ($request->henkaten == '1') {
 
+                $data->henkaten_status = $request->henkaten;
 
-                $data_user = ManPowerDelivery::where('name' ,$request->nama_pengganti)->get();
-                $area_user_pengganti = "";
-                foreach ($data_user as $key ) {
-                    $area_user_pengganti = $key->area;
-                }
 
 
                 $data->date_henkaten = date("Y-m-d H:i:s");
@@ -254,14 +273,38 @@ class DeliveryLayoutAreaController extends Controller
                  //  insert henkaten detail / history
                     $history = new DeliveryHenkatenDetail();
                     $history->area =  $data->position;
+                    $history->type =  'henkaten';
                     $history->mp_before =  $request->nama_diganti;
                     $history->mp_after =  $request->nama_pengganti;
                     $history->reason_henkaten =  $request->alasan;
-                    $history->area =  $area_user_pengganti;
+                    $history->default_area_mp_after =  $area_user_pengganti;
                     $history->date_henkaten =   $data->date_henkaten;
                     $history->save();
+
+                
+
                  
                 
+            }else{
+                // ketika pengganti memang default area nya disitu
+               if ($data->position == $area_user_pengganti) {
+                // update status layout henkaten ke null
+                $data->henkaten_status = null;
+               } else {
+                   $data->henkaten_status = $request->henkaten;
+                   
+                // insert history ke detail henkaten dengan type substitute
+                 $history = new DeliveryHenkatenDetail();
+                 $history->area =  $data->position;
+                 $history->type =  'substitute';
+                 $history->mp_before =  $request->nama_diganti;
+                 $history->mp_after =  $request->nama_pengganti;
+                 $history->reason_henkaten =  $request->alasan;
+                 $history->default_area_mp_after =  $area_user_pengganti;
+                 $history->date_henkaten =   $data->date_henkaten;
+                 $history->save();
+               }
+               
             }
             $data->user_id = $request->pengganti;
             $data->save();

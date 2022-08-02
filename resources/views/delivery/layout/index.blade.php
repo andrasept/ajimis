@@ -294,8 +294,8 @@ img {
                       var alter_1 = $('#alter_1_'+npk).val();
                       var alter_2 = $('#alter_2_'+npk).val();
                       var nama_diganti = $('#nama_diganti_'+npk).html();
-                      var default_area_diganti = $('#default_area_diganti_'+npk).html();
                       var nama_pengganti = $('#alter_2_'+npk+' option:selected').text();
+                      var nama_pengganti_substitute = $('#alter_1_'+npk+' option:selected').text();
 
 
                       if(alter_1 != '-' && alter_2 != '-'){
@@ -312,7 +312,9 @@ img {
                                       "id" : id,
                                       "pengganti" : alter_1,
                                       "alasan" : alasan,
-                                      "henkaten" : null,
+                                      "henkaten" : '2',
+                                      "nama_pengganti" : nama_pengganti_substitute,
+                                      "nama_diganti" : nama_diganti,
                                       "_token": "{{ csrf_token() }}",
                                   },
                                   success: function(result){
@@ -334,7 +336,6 @@ img {
                                       "pengganti" : alter_2,
                                       "nama_pengganti" : nama_pengganti,
                                       "nama_diganti" : nama_diganti,
-                                      "default_area_diganti" : default_area_diganti,
                                       "henkaten" : '1',
                                       "alasan" : alasan,
                                       "_token": "{{ csrf_token() }}",
