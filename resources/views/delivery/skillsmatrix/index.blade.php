@@ -140,7 +140,7 @@
             { data: 'name', className: 'dt-body-center'},
             { data: 'npk', className: 'dt-body-center'},
             { data: "photo", className: 'dt-body-center',  "render": function ( data, type, row ) {
-                var url = '/storage/delivery-manpower-photo/'+data;
+                var url = '{{asset("/storage/delivery-manpower-photo")}}/'+data;
                   return "<img src='"+url+"' width='40' height='40'>";
                 },
             },
@@ -170,7 +170,8 @@
         $("#master tbody").on('click', '.detail', function () {
               var npk = $(this).attr('data-npk');
               var name = $(this).attr('data-name');
-              var photo = '/storage/delivery-manpower-photo/'+$(this).attr('data-photo');
+              var photo = '{{asset("/storage/delivery-manpower-photo")}}/'+$(this).attr('data-photo');
+              
               $("#mp").empty().html(name);
               $('#photo_mp').attr('src', photo);
 

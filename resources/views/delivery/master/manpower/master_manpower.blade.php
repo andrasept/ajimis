@@ -138,7 +138,7 @@
                   { data: "title", className: 'dt-body-center'},
                   { data: "shift", className: 'dt-body-center'},
                   { data: "photo", className: 'dt-body-center',  "render": function ( data, type, row ) {
-                    var url = '/storage/delivery-manpower-photo/'+data;
+                    var url = '{{asset("/storage/delivery-manpower-photo")}}/'+data;
                       return "<img src='"+url+"' width='40' height='40'>";
                     },
                   },

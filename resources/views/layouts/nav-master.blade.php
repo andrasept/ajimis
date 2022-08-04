@@ -58,7 +58,7 @@
                   <li class="">
                     <a href="#" aria-expanded="true">Dashboard<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level " aria-expanded="true" style="">
-                      <li><a href="#"> Delivery Achievement</a></li>
+                      <li><a href="{{route('delivery.dashboard')}}"> Delivery Achievement</a></li>
                     </ul>
                   </li>
                   <li class="">

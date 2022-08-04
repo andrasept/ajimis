@@ -181,6 +181,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         //  henkaten history detail
           Route::get('/henkaten_detail', 'DeliveryHenkatenDetailController@index')->name('delivery.henkaten_detail')->middleware('auth');
 
+        // dashboard 
+          Route::get('/dashboard_delivery', 'DeliveryDashboardController@index')->name('delivery.dashboard')->middleware('auth');
+        
         });
         // delivery member
         Route::get('/delivery', 'DeliveryController@index')->name('delivery.delivery')->middleware('auth');

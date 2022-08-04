@@ -125,7 +125,7 @@ $(document).ready(function() {
             "orderable": true,
             "targets": 0
         } ],
-        "order": [[ 5, 'desc' ]]
+        "order": [[ 7, 'desc' ]]
         } );
 
         // number

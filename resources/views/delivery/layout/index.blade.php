@@ -215,7 +215,7 @@ img {
                 
                   },
                   { data: "photo", className: 'dt-body-center text-center',  "render": function ( data, type, row ) {
-                    var url = '/storage/delivery-manpower-photo/'+data;
+                    var url = '{{asset("/storage/delivery-manpower-photo")}}/'+data;
                       return "<img src='"+url+"' width='40' height='40'>";
                     },
                   },

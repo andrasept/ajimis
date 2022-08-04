@@ -136,7 +136,7 @@ $(document).ready(function() {
 
                         array_img.forEach(
                           function(value){
-                            url = '/storage/delivery-claim-photo/'+value;
+                            url = '{{asset("/storage/delivery-claim-photo")}}/'+value;
                             element +="<img src='"+url+"' class='photo m-1' id-problem='"+problem+"' id-date='"+ moment(date).format('DD/MM/YYYY')+"' id-customer='"+customer+"' id-photo='"+url+"' width='40' height='40'>";
                           }
                         );
