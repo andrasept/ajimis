@@ -48,9 +48,27 @@
 								@foreach ($q_parts as $key => $q_part)
 								<tr class="gradeA">
 									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td>
+										@foreach ($q_areas as $key => $q_area)
+											@if($q_area->id == $q_part->area_id)
+												{{$q_area->name}}
+											@endif
+										@endforeach
+									</td>
+									<td>
+										@foreach ($q_processes as $key => $q_process)
+											@if($q_process->id == $q_part->process_id)
+												{{$q_process->name}}
+											@endif
+										@endforeach
+									</td>
+									<td>
+										@foreach ($q_machines as $key => $q_machine)
+											@if($q_machine->id == $q_part->machine_id)
+												{{$q_machine->name}}
+											@endif
+										@endforeach
+									</td>
 									<td>
 										@foreach ($q_models as $key => $q_model)
 											@if($q_model->id == $q_part->model_id)
@@ -90,7 +108,11 @@
 											V
 										@endif
 									</td>
-									<td>{{$q_part->photo}}</td>
+									<td>
+										@if($q_part->photo)
+											<img src="{{asset('quality/wi/'.$q_part->photo)}}" width="100" \>
+										@endif										
+									</td>
 									<td>
 										<a alt="edit" href="{{ route('quality.part.edit',$q_part->id)}}" class="btn btn-success btn-info"><i class="fa fa-edit"></i> Edit</a>&nbsp;&nbsp;&nbsp;
 										<!-- {!! Form::open(['method' => 'DELETE','route' => ['quality.part.destroy', $q_model->id],'style'=>'display:inline']) !!}

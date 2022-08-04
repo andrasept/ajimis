@@ -230,6 +230,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/model/fetchProcess/{post}', 'QualityModelController@fetchProcess')->name('quality.model.fetchProcess');
             Route::get('/model/fetchMachine/{post}', 'QualityModelController@fetchMachine')->name('quality.model.fetchMachine');
             Route::get('/model/fetchModel/{post}', 'QualityModelController@fetchModel')->name('quality.model.fetchModel');
+            Route::get('/model/fetchPart/{post}', 'QualityModelController@fetchPart')->name('quality.model.fetchPart');
             Route::get('/model/{post}/show', 'QualityModelController@show')->name('quality.model.show');
             Route::get('/model/{post}/edit', 'QualityModelController@edit')->name('quality.model.edit');
             Route::patch('/model/{post}/update', 'QualityModelController@update')->name('quality.model.update');
@@ -259,6 +260,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/csqtime/{post}/edit', 'QualityCsQtimeController@edit')->name('quality.csqtime.edit');
             Route::patch('/csqtime/{post}/update', 'QualityCsQtimeController@update')->name('quality.csqtime.update');
             Route::delete('/csqtime/{post}/delete', 'QualityCsQtimeController@destroy')->name('quality.csqtime.destroy');
+
+            Route::get('/ipqc/', 'QualityIpqcController@index')->name('quality.ipqc.index');
+            Route::get('/ipqc/create', 'QualityIpqcController@create')->name('quality.ipqc.create');
+            Route::post('/ipqc/create', 'QualityIpqcController@store')->name('quality.ipqc.store');
+            Route::get('/ipqc/{post}/show', 'QualityIpqcController@show')->name('quality.ipqc.show');
+            Route::get('/ipqc/{post}/edit', 'QualityIpqcController@edit')->name('quality.ipqc.edit');
+            Route::patch('/ipqc/{post}/update', 'QualityIpqcController@update')->name('quality.ipqc.update');
+            Route::delete('/ipqc/{post}/delete', 'QualityIpqcController@destroy')->name('quality.ipqc.destroy');
+            Route::get('/ipqc/{post}/finish', 'QualityIpqcController@finish')->name('quality.ipqc.finish');
 
 
           });

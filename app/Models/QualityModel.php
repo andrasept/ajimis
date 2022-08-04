@@ -10,7 +10,9 @@ class QualityModel extends Model
     use HasFactory;
 
     protected $fillable = [
+        'area_id',
         'process_id',
+        'machine_id',
         'name',
         'description',
         'created_by',

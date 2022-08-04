@@ -7,6 +7,7 @@ use App\Models\QualityArea;
 use App\Models\QualityProcess;
 use App\Models\QualityMachine;
 use App\Models\QualityModel;
+use App\Models\QualityPart;
 use Illuminate\Support\Facades\DB;
 
 class QualityModelController extends Controller
@@ -51,6 +52,12 @@ class QualityModelController extends Controller
     public function fetchModel(Request $request)
     {
         $data['models'] = QualityModel::where("machine_id", $request->machine_id)->get(["name", "id"]); 
+        return response()->json($data);
+    }
+
+    public function fetchPart(Request $request)
+    {
+        $data['parts'] = QualityPart::where("model_id", $request->model_id)->get(["name", "id"]); 
         return response()->json($data);
     }
 

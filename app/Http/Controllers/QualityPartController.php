@@ -14,6 +14,9 @@ use Illuminate\Http\UploadedFile;
 use App\Http\Requests\StoreFileRequest;
 use Carbon\Carbon;
 use Validator;
+// use Illuminate\Support\Facades\Storage;
+use Storage;
+use File;
 
 class QualityPartController extends Controller
 {
@@ -71,7 +74,7 @@ class QualityPartController extends Controller
         $left = $request->input('left');  
         $center = $request->input('center');  
         $right = $request->input('right');   
-        
+
         $save = new QualityPart; 
         // $save->photo = $photo;
         $save->area_id = $area_id; 
@@ -91,9 +94,18 @@ class QualityPartController extends Controller
 
         if($request->file('photo')){
             $file= $request->file('photo');
-            // $filename= date('YmdHi').$file->getClientOriginalName();
-            $filename= $request->file('photo')->getClientOriginalName();
-            $file-> move(public_path('public/quality'), $filename);
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('quality/wi'), $filename);
+
+            // $file_resize = $request->file('photo');
+            // $filename_thumb = "thumb_".date('YmdHi').$file_resize->getClientOriginalName();
+            // $file_resize->move(public_path('quality/wi'), $filename_thumb);
+
+            // for save thumnail image
+            // $thumbnailPath = 'public/thumbnail/';
+            // $ImageUpload->resize(250,125);
+            // $ImageUpload = $ImageUpload->save($thumbnailPath.time().$files->getClientOriginalName());
+
             $save->photo = $filename;
         }
 
@@ -121,7 +133,18 @@ class QualityPartController extends Controller
      */
     public function edit($id)
     {
-        //
+        $area_id = DB::table('quality_parts')->where('id', $id)->pluck('area_id');
+        $process_id = DB::table('quality_parts')->where('id', $id)->pluck('process_id');
+        $machine_id = DB::table('quality_parts')->where('id', $id)->pluck('machine_id');
+        $model_id = DB::table('quality_parts')->where('id', $id)->pluck('model_id');
+        // dd($model_id);
+        $QualityPart = QualityPart::find($id);
+        $q_areas = QualityArea::all();
+        $q_processes = DB::table('quality_processes')->where('area_id', $area_id)->get();
+        $q_machines = DB::table('quality_machines')->where('process_id', $process_id)->get();
+        $q_models = DB::table('quality_models')->where('machine_id', $machine_id)->get();
+        // dd($q_models);
+        return view('quality.part.edit', compact('QualityPart','q_areas','q_processes','q_machines','q_models'));
     }
 
     /**
@@ -133,7 +156,42 @@ class QualityPartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user_id = auth()->user()->id;
+        $QualityPart['area_id'] = $request->area_id;
+        // dd($request->area_id);
+        $QualityPart['process_id'] = $request->process_id;
+        $QualityPart['machine_id'] = $request->machine_id;
+        $QualityPart['model_id'] = $request->model_id;
+        $QualityPart['name'] = $request->name;
+        $QualityPart['description'] = $request->description;
+        $QualityPart['low'] = $request->low;
+        $QualityPart['mid'] = $request->mid;
+        $QualityPart['high'] = $request->high;
+        $QualityPart['left'] = $request->left;
+        $QualityPart['center'] = $request->center;
+        $QualityPart['right'] = $request->right;
+
+        // change photo
+        if($request->file('photo')){
+            $file= $request->file('photo');
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            // upload
+            $file->move(public_path('quality/wi'), $filename);
+            // update
+            $QualityPart['photo'] = $filename;
+
+            // delete file
+            if(File::exists(public_path('quality/wi/'.$request->photo_existing))){
+                File::delete(public_path('quality/wi/'.$request->photo_existing));
+            }
+        }
+
+        $QualityPart['updated_by'] = $user_id;
+        $QualityPart['updated_at'] = now();
+        QualityPart::find($id)->update($QualityPart);
+        // dd($QualityPart);
+        return redirect()->route('quality.part.index')
+            ->withSuccess(__('Part updated successfully.'));
     }
 
     /**
@@ -145,9 +203,29 @@ class QualityPartController extends Controller
     public function destroy($id)
     {
         $QualityPart = QualityPart::find($id);
+
+        // dd($QualityPart->photo);
+
+        // if(Storage::exists('quality/wi/'.$QualityPart->photo)){
+        //     Storage::delete('quality/wi/'.$QualityPart->photo);
+        //     // Delete Multiple File like this way
+        //     // Storage::delete(['upload/test.png', 'upload/test2.png']);
+        // }else{
+        //     dd('File does not exists.');
+        // }
+
+
+        if(File::exists(public_path('quality/wi/'.$QualityPart->photo))){
+            File::delete(public_path('quality/wi/'.$QualityPart->photo));
+        }
+        // else{
+        //     dd('Filed does not exists.');
+        // }
+
+
         $QualityPart->delete();
 
         return redirect()->route('quality.part.index')
-            ->withSuccess(__('Model deleted successfully.'));
+            ->withSuccess(__('Part deleted successfully.'));
     }
 }

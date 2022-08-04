@@ -10,6 +10,9 @@ class QualityPart extends Model
     use HasFactory;
 
     protected $fillable = [
+        'area_id',
+        'process_id',
+        'machine_id',
         'model_id',
         'name',
         'description',
