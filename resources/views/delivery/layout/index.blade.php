@@ -77,7 +77,7 @@ img {
     {{-- pulling sparepart --}}
     <div class='overlay' style="padding-left: 320px; padding-top:100px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_pulling_oem_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_pulling_oem_1']," ")}}</label></div>
     @if ($data['henkaten_pulling_oem_1'] !='')
-      <div class='overlay' style="padding-left: 320px; padding-top:80px">
+      <div class='overlay' style="padding-left: 320px; padding-top:100px">
         <img class="img_user" src="{{$data['henkaten_pulling_oem_1']}}" alt="">
       </div>
     @endif
@@ -229,7 +229,7 @@ img {
                  
                   { data: "npk", className: 'dt-body-center text-center',
                     "render": function ( data, type, row ) {
-                      return "<select data-id='"+data+"'  id='alasan_"+data+"' class='form-control alasan_henkaten'><option value='-' selected>-</option><option value='Sick Leave'>Sick Leave</option><option value='Permit'>Permit</option><option value='Absence'>Absence</option><option value='On Leave'>On Leave</option></select>";
+                      return "<select data-id='"+data+"'  id='alasan_"+data+"' class='form-control alasan_henkaten'><option value='-' selected>-</option><option value='cancel' >cancel</option><option value='Sick Leave'>Sick Leave</option><option value='Permit'>Permit</option><option value='Absence'>Absence</option><option value='On Leave'>On Leave</option></select>";
                     },
                   },
                   { data: 'npk', className: 'dt-body-center',
@@ -305,27 +305,51 @@ img {
                       else if (alter_1 != '-' || alter_2 !='-') {
                         if (alter_1 !='-') {
                           // update henkaten
-                          $.ajax({
-                                  url: "{{route('delivery.layout_area.update')}}",
-                                  method: "put",
-                                  data:{
-                                      "npk" : npk,
-                                      "id" : id,
-                                      "pengganti" : alter_1,
-                                      "alasan" : alasan,
-                                      "henkaten" : '2',
-                                      "nama_pengganti" : nama_pengganti_substitute,
-                                      "nama_diganti" : nama_diganti,
-                                      "_token": "{{ csrf_token() }}",
-                                  },
-                                  success: function(result){
-                                    if (result == '1') {
-                                      location.reload();
-                                    } else {
-                                      alert('failed update!');
+                          if (alasan == 'cancel') {
+                              $.ajax({
+                                    url: "{{route('delivery.layout_area.update')}}",
+                                    method: "put",
+                                    data:{
+                                        "npk" : npk,
+                                        "id" : id,
+                                        "pengganti" : alter_1,
+                                        "alasan" : alasan,
+                                        "henkaten" : '3',
+                                        "nama_pengganti" : nama_pengganti_substitute,
+                                        "nama_diganti" : nama_diganti,
+                                        "_token": "{{ csrf_token() }}",
+                                    },
+                                    success: function(result){
+                                      if (result == '1') {
+                                        location.reload();
+                                      } else {
+                                        alert('failed update!');
+                                      }
                                     }
-                                  }
-                          });
+                            });
+                          } else {
+                            $.ajax({
+                                    url: "{{route('delivery.layout_area.update')}}",
+                                    method: "put",
+                                    data:{
+                                        "npk" : npk,
+                                        "id" : id,
+                                        "pengganti" : alter_1,
+                                        "alasan" : alasan,
+                                        "henkaten" : '2',
+                                        "nama_pengganti" : nama_pengganti_substitute,
+                                        "nama_diganti" : nama_diganti,
+                                        "_token": "{{ csrf_token() }}",
+                                    },
+                                    success: function(result){
+                                      if (result == '1') {
+                                        location.reload();
+                                      } else {
+                                        alert('failed update!');
+                                      }
+                                    }
+                            });
+                          }
                         } else {
                           // update henkaten
                           $.ajax({
@@ -390,11 +414,15 @@ img {
                           alter_1.addClass('d-none');
                           alter_2.addClass('d-none');
                           btn_save.addClass('d-none');
-                         
+                          
                         } else {
-                          alter_1.removeClass('d-none');
-                          alter_2.removeClass('d-none');
-                          btn_save.removeClass('d-none');
+                          
+                          alert($(this).val());
+                          
+                            alter_1.removeClass('d-none');
+                            alter_2.removeClass('d-none');
+                            btn_save.removeClass('d-none');
+                          
                         }
                   });
 

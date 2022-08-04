@@ -110,8 +110,10 @@ $(document).ready(function() {
               'render' : function(data, type, row){
                 if (data == 'henkaten') {
                   return '<label class="label label-danger"> Henkaten </label>';
-                } else {
-                  return '<label class="label label-warning"> Substitue </label>';
+                } else if (data == 'cancel') {
+                  return '<label class="label label-info"> Cancel </label>';
+                }else{
+                  return '<label class="label label-warning"> Substitute </label>';
                 }
               }
 
