@@ -801,6 +801,7 @@ class DeliveryPreparationController extends Controller
 
             return redirect('/delivery/preparation/member')->with('success', 'Schedule '.$selection->customer_pickup_id.' Updated!');
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             DB::rollback();
             return redirect('/delivery/preparation/member')->with("fail","Failed Update! [105]" );
         }

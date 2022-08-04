@@ -33,7 +33,8 @@
 
 .img_user{
   width: 50px;
-  width: 50px;
+  height: 50px;
+  border:1px solid green;
 }
 
 img {
@@ -63,7 +64,7 @@ img {
     <div class='overlay' style="padding-left: 710px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_pulling_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_pulling_2']," ")}}</label></div>
     @if ($data['henkaten_preparation_pulling_2'] !='')
       <div class='overlay' style="padding-left: 710px; padding-top:70px">
-        <img class="img_user" src="{{$data['hekaten_preparation_pulling_2']}}" alt="">
+        <img class="img_user" src="{{$data['henkaten_preparation_pulling_2']}}" alt="">
       </div>
     @endif
     {{-- spare part --}}

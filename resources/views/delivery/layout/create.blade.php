@@ -11,7 +11,6 @@
 
 
     <div class="ibox " >
-        {{-- {{dd($data);}} --}}
         <div class="ibox-title">
             <h4>Create Position</h4>
         </div>
@@ -29,15 +28,10 @@
                             <label>Area</label>
                             </br>
                             <select name="position" class="form-control" id="position" required>
-                                <option value="delivery_control" {{ old('position') == "delivery_control" ? "selected" : "" }}>delivery control</option>
-                                <option value="preparation_pulling_1" {{ old('position') == "preparation_pulling_1" ? "selected" : "" }}>pulling preparation 1</option>
-                                <option value="preparation_pulling_2" {{ old('position') == "preparation_pulling_2" ? "selected" : "" }}>pulling preparation 2</option>
-                                <option value="pulling_oem_2" {{ old('position') == "pulling_oem_2" ? "selected" : "" }}>pulling oem 2</option>
-                                <option value="packaging_2" {{ old('position') == "packaging_2" ? "selected" : "" }}>packaging 2</option>
-                                <option value="preparation" {{ old('position') == "preparation" ? "selected" : "" }}>preparation </option>
-                                <option value="packaging_1" {{ old('position') == "packaging_1" ? "selected" : "" }}>packaging 1</option>
-                                <option value="pulling_oem_1" {{ old('position') == "pulling_oem_1" ? "selected" : "" }}>pulling oem 1</option>
-                                <option value="sparepart" {{ old('position') == "sparepart" ? "selected" : "" }}>sparepart</option>
+                                <option value="">-</option>
+                                @foreach ($area as $item)
+                                <option value="{{$item->area}}" {{ old('position') == $item->area ? "selected" : "" }}>{{$item->area}}</option>
+                                @endforeach
                             </select>
                             @error('position') 
                                 <div class="text-danger">
@@ -48,10 +42,7 @@
                         <div class="form-group">
                             <label>Man Power</label>  <br/>
                             <select name="user_id" class="form-control" id="user_id" required>
-                                @foreach ($mps as $mp)
-                                    <option value="{{$mp->npk}}" {{ old('user_id') == $mp->npk ? "selected" : "" }}>{{$mp->name}} </option>
-                                @endforeach
-                                {{-- <option value="-" {{ old('user_id') == '-' ? "selected" : "" }}>-</option> --}}
+                                <option value="-" {{ old('user_id') == '-' ? "selected" : "" }}>-</option>
                             </select>
                             @error('user_id') 
                                 <div class="text-danger">
@@ -93,7 +84,27 @@
     $("input").css({fontSize:12});
 
     $(document).ready(function(){
-
+        $('#position').change(function(){
+            var area = this.value;
+            $.ajax({
+                    url: "{{route('delivery.layout_area.get_mp_where_area')}}",
+                    method: "post",
+                    data:{
+                        "area" : area,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(result){
+                        $('#user_id').empty();
+                        if (result != '404') {
+                            $.each(result, function (key, entry) {
+                                $('#user_id').append($('<option></option>').attr('value', entry.npk).text(entry.name));
+                            })
+                        } else {
+                            
+                        }
+                    }
+            });
+        });
     });
 
     

@@ -179,7 +179,7 @@ class DeliveryLayoutAreaController extends Controller
                 } 
                 
             }
-
+            // dd($data);
             return view('delivery.layout.index', compact('data'));
         }
         
@@ -192,8 +192,8 @@ class DeliveryLayoutAreaController extends Controller
      */
     public function create()
     {
-        $mps =  DB::table('delivery_man_powers')->select('npk','name')->get();
-        return view('delivery.layout.create', compact('mps'));
+        $area =  DB::table('delivery_man_powers')->select('area')->where('area','!=', '')->get()->unique();
+        return view('delivery.layout.create', compact('area'));
     }
 
     /**
@@ -395,7 +395,7 @@ class DeliveryLayoutAreaController extends Controller
 
                 return redirect('/delivery/layout_area')->with('success', 'Position Created!');
             } catch (\Throwable $th) {
-                // dd($th);
+                // dd($th->getMessage());
                 DB::rollback();
                 // throw $th;
                 return redirect('/delivery/layout_area')->with('fail', "Create Position Failed! [105]");
@@ -435,6 +435,18 @@ class DeliveryLayoutAreaController extends Controller
             return json_encode(array('get' => $data, 'all' => $data_full));
         }
         
+    }
+
+    public function get_mp_where_area(Request $request)
+    {
+        if ($request->ajax()) {
+            try {
+                $pic = ManPowerDelivery::where('area', '=', $request->area)->get();
+                return $pic = (count($pic) == 0) ? "404": $pic ;
+            } catch (\Throwable $th) {
+                return '404';
+            }
+        }
     }
 
     public function sendTelegram($chat_id, $text)
