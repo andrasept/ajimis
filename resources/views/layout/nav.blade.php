@@ -55,7 +55,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 @guest
                 <li>
-                    <a href="/login">
+                    <a href="{{route('login.show')}}">
                         <i class="fa fa-sign-in"></i> Log in
                     </a>
                 </li>
