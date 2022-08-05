@@ -14,7 +14,7 @@ class DeliveryDashboardController extends Controller
      */
     public function index()
     {
-        $data = DB::table('delivery_preparation')->select('help_column', 'cycle', 'arrival_plan', 'departure_plan', 'departure_status')->whereDate('departure_plan', '=', date('Y-m-d'))->get();
+        $data = DB::table('delivery_preparation')->select('help_column', 'cycle', 'arrival_plan', 'departure_plan', 'departure_status', 'status')->whereDate('departure_plan', '=', date('Y-m-d'))->get();
         $data = json_encode($data);
         return view('delivery.dashboard.dashboard_delivery', compact('data'));
     }

@@ -27,7 +27,7 @@
 
 <div class="ibox" >
   <div class="ibox-title">
-      <h4>Delivery Achievement</h4>
+      <h4>Delivery Achievement Today</h4>
   </div>
   <div class="ibox-content" >
     
@@ -111,7 +111,9 @@
                 var time_arrival = '';
                 var date_departurel = '';
                 var time_departurel = '';
-                var color = am5.color(0x80b3e0);
+                var color = null;
+                var status_delivery = "";
+                var status_preparation = "";
                 data_decode.forEach(element => {
                     
                     // spit date & time
@@ -120,17 +122,41 @@
                     date_departure = element.departure_plan.split(' ')[0].split('-');
                     time_departure = element.departure_plan.split(' ')[1].split(':');
 
-                    //color status
+                    //color status delivery
                     if (element.departure_status === null) {
-                        
+                        color = am5.color(0x80b3e0);
+                        status_delivery = "On Progress";
+                    }else if (element.departure_status == '3') {
+                        color = am5.color(0x30c4c9);
+                        status_delivery = "Advanced";
                     } else if (element.departure_status == '5') {
                         color = am5.Color.brighten(colors.getIndex(9), 0);
+                        status_delivery = "Delay";
                     } else if (element.departure_status == '4') {
+                        status_delivery = "On Time";
                         color = am5.color(0x53a346);
                     } else if (element.departure_status == '6') {
+                        status_delivery = "Pending";
+                        color = am5.color(0xedea21);
+                    } else if (element.departure_status == '7') {
+                        status_delivery = "Pending Return";
                         color = am5.color(0xf5b642);
                     }else{
-                        color = am5.color(0xf5b642);
+                        status_delivery = "On Progress";
+                        color = am5.color(0x80b3e0);
+                    }
+
+                    //status preparation
+                    if (element.status === null) {
+                        status_preparation = "On Progress";
+                    } else if (element.status == '3') {
+                        status_preparation = "Advanced";
+                    } else if (element.status == '4') {
+                        status_preparation = "On Time";
+                    } else if (element.status == '5') {
+                        status_preparation = "Delay";
+                    } else{
+                        status_preparation = "On Progress";
                     }
 
 
@@ -141,7 +167,7 @@
                         columnSettings: {
                             fill: color
                         },
-                        task: "Cycle "+element.cycle,
+                        task: "Cycle "+element.cycle+" Delivery : "+status_delivery+", Preparation : "+status_preparation+", ",
                     });
                 });
 
