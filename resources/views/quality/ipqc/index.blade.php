@@ -33,7 +33,6 @@
 								<tr>
 									<th></th>
 									<th>Checksheet</th>
-									<th>Doc. Number</th>
 									<th>Judgement</th>
 									<th>Status</th>
 									<th>Area</th>
@@ -63,7 +62,6 @@
 																Accuracy
 															@endif
                             </h5>
-                            <h5 class="font-bold">Doc. Number : {{$q_monitor->doc_number}}</h5>
                             <h5 class="font-bold">
                             	Line :
                             	@foreach ($q_areas as $key => $q_area)
@@ -373,7 +371,6 @@
 											<label>Accuracy</label>
 										@endif
 									</td>
-									<td>{{$q_monitor->doc_number}}</td>
 									<td>
 										@if($q_monitor->judgement == 0)
 											<span class="badge badge-info">In Progress</span>
@@ -503,6 +500,7 @@
 			responsive: true,
 			// dom: '<"top"i>rt<"bottom"flp><"clear">',
 			dom: '<"html5buttons"B>lTfgitp',
+			 // dom: 'lrtip',
 			buttons: [
 				// {extend: 'copy'},
 				// {extend: 'csv'},

@@ -34,17 +34,11 @@
 							<label class="col-sm-2 col-form-label">Date</label>
 	                        <div class="col-sm-10"><input type="text" name="datetime" class="form-control" value="{{now()}}" required readonly></div>
 	                    </div>
-	                    <div class="hr-line-dashed"></div>
-
-	                    <div class="form-group row">
-							<label class="col-sm-2 col-form-label">Document Number</label>
-							<div class="col-sm-10"><input type="text" name="doc_number" class="form-control" value="AJI/QA/{{$randomNumber}}" required readonly></div>
-	                    </div>
-	                    <div class="hr-line-dashed"></div>
+	                    <div class="hr-line-dashed"></div>	                    
 
 	                    <div class="form-group row">
 							<label class="col-sm-2 col-form-label">Lot Produksi</label>
-							<div class="col-sm-10"><input type="text" name="lot_produksi" class="form-control" value="" required></div>
+							<div class="col-sm-10"><input type="text" name="lot_produksi" class="form-control" value="{{$lotProduksi}}" readonly required></div>
 	                    </div>
 	                    <div class="hr-line-dashed"></div>
 

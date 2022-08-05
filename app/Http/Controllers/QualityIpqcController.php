@@ -40,7 +40,7 @@ class QualityIpqcController extends Controller
         $q_monitors = QualityIpqc::all();             
 
         // doc number
-        $randomNumber = $this->generateDocNumber();
+        // $randomNumber = $this->generateDocNumber();
 
         // LANJUT DI SINI UNTUK MENAMPILKAN DETAIL SETIAP CYCLE DI SATU MONITOR NYA 
         // shift cs
@@ -92,40 +92,35 @@ class QualityIpqcController extends Controller
         if ($user_role == "Leader Quality") {
             return view('quality.ipqc.leader.index', compact(
                 'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors', 
-                'randomNumber', 'q_monitors', 
+                // 'qualityMonitors','q_monitors', 
                 'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
                 'users'
             ));
         } elseif ($user_role == "Foreman Quality") {
             return view('quality.ipqc.foreman.index', compact(
                 'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors', 
-                'randomNumber', 'q_monitors', 
+                // 'qualityMonitors','q_monitors', 
                 'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
                 'users'
             ));
         } elseif ($user_role == "Supervisor Quality") {
             return view('quality.ipqc.supervisor.index', compact(
                 'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors', 
-                'randomNumber', 'q_monitors', 
+                // 'qualityMonitors','q_monitors', 
                 'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
                 'users'
             ));
         } elseif ($user_role == "Dept Head Quality") {
             return view('quality.ipqc.depthead.index', compact(
                 'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors', 
-                'randomNumber', 'q_monitors', 
+                // 'qualityMonitors','q_monitors', 
                 'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
                 'users'
             ));
         } elseif ($user_role == "Director Quality") {
             return view('quality.ipqc.director.index', compact(
                 'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors', 
-                'randomNumber', 'q_monitors', 
+                // 'qualityMonitors', 'q_monitors', 
                 'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
                 'users'
             ));
@@ -133,7 +128,7 @@ class QualityIpqcController extends Controller
             return view('quality.ipqc.index', compact(
                 'q_processes', 'q_areas', 'q_models', 'q_parts', 
                 // 'qualityMonitors', 
-                'randomNumber', 'q_monitors', 
+                'q_monitors', 
                 'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
                 'users'
             ));
@@ -146,6 +141,31 @@ class QualityIpqcController extends Controller
             $doc_number = random_int(100000, 999999);
         } while (QualityMonitor::where("doc_number", "=", "AJI/QA/".$doc_number)->first()); 
         return $doc_number;
+    }
+
+    public function generateLotProduksi() {
+        // format tahun-bulan-tangga;
+        // tahun, get 1 digit terakhir
+        // bulan, huruf A-M
+        // tanggal, 1-9 10-31(A-Y)
+        // contoh 06 oktober 2022 = 2K6
+        $date_now = now();
+        $year = date('Y', strtotime($date_now)); 
+        $month = date('m', strtotime($date_now)); 
+        $date = date('d', strtotime($date_now)); 
+        // dd($year);
+        $year = substr($year, -1);
+        $month = substr($month, -1);
+        $date = substr($date, -1);
+
+        $date_array = array('1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M');
+        $month_array = array('A','B','C','D','E','F','G','H','I','J','K','L','M');
+
+        $tanggal = $date_array[$date-1];
+        $bulan = $month_array[$month-1];
+        $tahun = $year;
+
+        return $tahun.$bulan.$tanggal;
     }
     /**
      * Show the form for creating a new resource.
@@ -165,11 +185,13 @@ class QualityIpqcController extends Controller
         $q_parts = QualityPart::all();
         // $q_monitors = QualityMonitor::all();
 
-        // doc number
-        $randomNumber = $this->generateDocNumber();
+        // generate Lot Produksi
+        // format : tahun
+        $lotProduksi = $this->generateLotProduksi();
+        // dd($lotProduksi);
 
         return view('quality.ipqc.create', compact(
-            'q_processes', 'q_areas', 'q_models', 'q_parts', 'randomNumber',
+            'q_processes', 'q_areas', 'q_models', 'q_parts', 'lotProduksi'
             // 'q_monitors'
         ));
     }
@@ -186,7 +208,6 @@ class QualityIpqcController extends Controller
 
         $q_ipqc = new QualityIpqc;
         $q_ipqc->user_id = $user_id;
-        $q_ipqc->doc_number = $request->input('doc_number');
         $q_ipqc->lot_produksi = $request->input('lot_produksi');
         $q_ipqc->judgement = 0;
         $q_ipqc->quality_area_id = $request->input('area_id');
