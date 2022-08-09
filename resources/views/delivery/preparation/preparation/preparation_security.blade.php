@@ -255,16 +255,16 @@
                         else if (row['arrival_status'] != null && data == '7') {
                           // ketika prepare ready tidak muncul hold btn
                           if (row['status'] === null) {
-                            kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/hold' class='btn btn-md btn-warning'>Hold</a>";
+                            kumpul_btn= kumpul_btn+"<a href='{{URL::to('/')}}/delivery/preparation/"+row['id']+"/hold' class='btn btn-md btn-warning'>Hold</a>";
                           }
-                          kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/departure' class='btn btn-md btn-primary'>Done</a>";
+                          kumpul_btn= kumpul_btn+"<a href='{{URL::to('/')}}/delivery/preparation/"+row['id']+"/departure' class='btn btn-md btn-primary'>Done</a>";
                         }
                         else if (data === null) {
                            // ketika prepare ready tidak muncul hold btn
                            if (row['status'] === null) {
-                            kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/hold' class='btn btn-md btn-warning'>Hold</a>";
+                            kumpul_btn= kumpul_btn+"<a href='{{URL::to('/')}}/delivery/preparation/"+row['id']+"/hold' class='btn btn-md btn-warning'>Hold</a>";
                           }
-                          kumpul_btn= kumpul_btn+"<a href='/delivery/preparation/"+row['id']+"/departure' class='btn btn-md btn-primary'>Done</a>";
+                          kumpul_btn= kumpul_btn+"<a href='{{URL::to('/')}}/delivery/preparation/"+row['id']+"/departure' class='btn btn-md btn-primary'>Done</a>";
                         }else{  
                           
                         }      

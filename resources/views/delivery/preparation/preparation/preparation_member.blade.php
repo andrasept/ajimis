@@ -327,7 +327,7 @@
                 var help_column = $(this).attr("data-help-column");
                 var btn = $(this);
                 $.ajax({
-                          url: "/delivery/preparation/"+id+"/start",
+                          url: "{{URL::to('/')}}/delivery/preparation/"+id+"/start",
                           method: "get",
                           data:{
                               "_token": "{{ csrf_token() }}",
@@ -375,7 +375,7 @@
                 var help_column = $(this).attr("data-help-column");
                 // update status
                 $.ajax({
-                        url: "/delivery/preparation/"+id+"/end",
+                        url: "{{URL::to('/')}}/delivery/preparation/"+id+"/end",
                         method: "get",
                         data:{
                             "_token": "{{ csrf_token() }}",

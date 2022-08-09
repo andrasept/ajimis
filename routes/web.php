@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeliveryMasterPartController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\auth\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,6 +183,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
         // dashboard 
           Route::get('/dashboard_delivery', 'DeliveryDashboardController@index')->name('delivery.dashboard')->middleware('auth');
+          Route::get('/dashboard_claim_graph', 'DeliveryDashboardController@claim')->name('delivery.claim.graph')->middleware('auth');
         
         });
         // delivery member
