@@ -12,9 +12,27 @@ class DeliveryDashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+       if ($request->start != null && $request->end != null) {
+       
+
+         // convert date
+         $start = date('Y-m-d', strtotime($request->start));
+         $end = date('Y-m-d', strtotime($request->end));
+
+         $data = DB::table('delivery_preparation')->select('help_column', 'cycle', 'arrival_plan', 'departure_plan', 'departure_status', 'status', 'customer_pickup_id')->where('departure_plan','>=', $start.' 00:00:00')->where('departure_plan','<=', $end.' 23:59:00')->orderBy('customer_pickup_id')->orderBy('departure_plan')->get();
+       } else {
         $data = DB::table('delivery_preparation')->select('help_column', 'cycle', 'arrival_plan', 'departure_plan', 'departure_status', 'status', 'customer_pickup_id')->whereDate('departure_plan', date('y-m-d'))->orderBy('customer_pickup_id')->orderBy('departure_plan')->get();
+       }
+       
+        $data = json_encode($data);
+        return view('delivery.dashboard.dashboard_delivery', compact('data'));
+    }
+
+    public function preparation()
+    {
+        $data = DB::table('delivery_preparation')->select('help_column', 'cycle', 'arrival_plan', DB::raw('CONCAT(plan_date_preparation," ",plan_time_preparation) as preparation_plan'), 'departure_status', 'status', 'customer_pickup_id')->whereDate('departure_plan', date('y-m-d'))->orderBy('customer_pickup_id')->orderBy('departure_plan')->get();
         $data = json_encode($data);
         return view('delivery.dashboard.dashboard_delivery', compact('data'));
     }

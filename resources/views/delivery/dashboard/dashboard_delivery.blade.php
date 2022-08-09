@@ -29,6 +29,27 @@
   <div class="ibox-title">
       <h4>Delivery Achievement Today</h4>
   </div>
+  <div class="ibox-content">
+    <div class="row">
+        <div class="col-lg-5"></div>
+        <div class="col-lg-3">
+            <form action="{{route('delivery.dashboard')}}" method="GET">
+                @csrf
+            <div class="form-group">
+                <input type="date" class="form-control" name="start" id="start" value="">
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <input type="date" class="form-control" name="end" id="end" value="">
+            </div>
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
   <div class="ibox-content" >
     
     <!-- HTML -->
@@ -114,6 +135,7 @@
                 var color = null;
                 var status_delivery = "";
                 var status_preparation = "";
+                console.log(data_decode);
                 data_decode.forEach(element => {
                     
                     // spit date & time
@@ -121,6 +143,7 @@
                     time_arrival = element.arrival_plan.split(' ')[1].split(':');
                     date_departure = element.departure_plan.split(' ')[0].split('-');
                     time_departure = element.departure_plan.split(' ')[1].split(':');
+                    console.log(parseInt(date_arrival[1]-1));
 
                     //color status delivery
                     if (element.departure_status === null) {
@@ -162,8 +185,8 @@
 
                     data.push({
                         category: element.help_column,
-                        start: new Date(date_arrival[0], date_arrival[1], date_arrival[2], time_arrival[0], time_arrival[1], time_arrival[2]).getTime(),
-                        end: new Date(date_departure[0], date_departure[1], date_departure[2], time_departure[0], time_departure[1], time_departure[2]).getTime(),
+                        start: new Date(date_arrival[0], parseInt(date_arrival[1]-1), date_arrival[2], time_arrival[0], time_arrival[1], time_arrival[2]).getTime(),
+                        end: new Date(date_departure[0], parseInt(date_departure[1]-1), date_departure[2], time_departure[0], time_departure[1], time_departure[2]).getTime(),
                         columnSettings: {
                             fill: color
                         },
