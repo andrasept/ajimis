@@ -283,7 +283,13 @@
                       return '<label class="label label-primary">On Time</label>';
                     } else if(data == '3') {
                       return '<label class="label label-info">Advanced</label>';
-                    } else if(data === null) {
+                    }else if(data == '8') {
+                      return '<label class="label label-info">Advanced Return</label>';
+                    }else if(data == '9') {
+                      return '<label class="label label-primary">On Time Return</label>';
+                    }else if(data == '10') {
+                      return '<label class="label label-danger">Delay Return</label>';
+                    }  else if(data === null) {
                       return '';
                     }else{
                       return '<label class="label label-danger">Delayed</label>';

@@ -190,7 +190,7 @@
                         columnSettings: {
                             fill: color
                         },
-                        task: "Cycle "+element.cycle+" Delivery : "+status_delivery+", Preparation : "+status_preparation+", ",
+                        task: "[bold]Cycle "+element.cycle+"[/]\nDelivery : [bold]"+status_delivery+"[/], \nPreparation : [bold]"+status_preparation+"[/], ",
                     });
                 });
 
@@ -232,7 +232,7 @@
                 series.columns.template.setAll({
                 templateField: "columnSettings",
                 strokeOpacity: 0,
-                tooltipText: "{task}:\n[bold]{openValueX}[/] - [bold]{valueX}[/]"
+                tooltipText: "{task}\n[bold]{openValueX}[/]"
                 });
                 
                 series.data.setAll(data);

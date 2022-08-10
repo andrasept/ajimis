@@ -653,6 +653,23 @@ class DeliveryPreparationController extends Controller
             if ($data->departure_status == '6') {
                 # ketika millkrun datang kedua kali tidak mengupdate kedatangan awal
                 $data->departure_status = '7';
+                if ($now < date("Y-m-d H:i:s", strtotime($data->arrival_plan . '-20 minutes'))) {
+                    # advance
+                    $data->arrival_status = 8;
+                    $status_name='advanced return';
+    
+                } elseif($now >= date("Y-m-d H:i:s", strtotime($data->arrival_plan . '-20 minutes')) && $now <= date("Y-m-d H:i:s", strtotime($data->arrival_plan)) ) {
+                    # ontime
+                    $data->arrival_status = 9;
+                    $status_name='ontime return';
+                    
+                }else {
+                    # delay
+                    $data->arrival_status = 10;
+                    $status_name='delayed return';
+                    
+                }
+                $data->arrival_actual = $now;
             }else{
                 if ($now < date("Y-m-d H:i:s", strtotime($data->arrival_plan . '-20 minutes'))) {
                     # advance
