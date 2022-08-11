@@ -229,7 +229,13 @@ img {
                  
                   { data: "npk", className: 'dt-body-center text-center',
                     "render": function ( data, type, row ) {
-                      return "<select data-id='"+data+"'  id='alasan_"+data+"' class='form-control alasan_henkaten'><option value='-' selected>-</option><option value='cancel' >cancel</option><option value='Sick Leave'>Sick Leave</option><option value='Permit'>Permit</option><option value='Absence'>Absence</option><option value='On Leave'>On Leave</option></select>";
+                      // ketika status nya henkaten select option ada cancel
+                      console.log(row['henkaten_status' ] );
+                      if (row['henkaten_status' ]== '1' || row['henkaten_status' ]== '2') {
+                        return "<select data-id='"+data+"'  id='alasan_"+data+"' class='form-control alasan_henkaten'><option value='-' selected>-</option><option value='cancel' >cancel</option><option value='Sick Leave'>Sick Leave</option><option value='Permit'>Permit</option><option value='Absence'>Absence</option><option value='On Leave'>On Leave</option></select>";
+                      } else {
+                        return "<select data-id='"+data+"'  id='alasan_"+data+"' class='form-control alasan_henkaten'><option value='-' selected>-</option><option value='Sick Leave'>Sick Leave</option><option value='Permit'>Permit</option><option value='Absence'>Absence</option><option value='On Leave'>On Leave</option></select>";
+                      }
                     },
                   },
                   { data: 'npk', className: 'dt-body-center',
@@ -417,7 +423,7 @@ img {
                           
                         } else {
                           
-                          alert($(this).val());
+                          // alert($(this).val());
                           
                             alter_1.removeClass('d-none');
                             alter_2.removeClass('d-none');

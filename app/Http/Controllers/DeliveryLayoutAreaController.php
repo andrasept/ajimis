@@ -294,12 +294,12 @@ class DeliveryLayoutAreaController extends Controller
                 // insert history ke detail henkaten dengan type cancel
                 $history = new DeliveryHenkatenDetail();
                 $history->area =  $data->position;
-                $history->type =  'cancel';
+                $history->type =  'default';
                 $history->mp_before =  $request->nama_diganti;
                 $history->mp_after =  $request->nama_pengganti;
                 $history->reason_henkaten =  $request->alasan;
                 $history->default_area_mp_after =  $area_user_pengganti;
-                $history->date_henkaten =   $data->date_henkaten;
+                $history->date_henkaten =    date('Y-m-d H:i:s');
                 $history->save();
                } else {
                    $data->henkaten_status = $request->henkaten;
@@ -312,7 +312,7 @@ class DeliveryLayoutAreaController extends Controller
                  $history->mp_after =  $request->nama_pengganti;
                  $history->reason_henkaten =  $request->alasan;
                  $history->default_area_mp_after =  $area_user_pengganti;
-                 $history->date_henkaten =   $data->date_henkaten;
+                 $history->date_henkaten =   date('Y-m-d H:i:s');
                  $history->save();
                }
                
