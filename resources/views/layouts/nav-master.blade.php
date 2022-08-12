@@ -60,6 +60,7 @@
                     <ul class="nav nav-third-level " aria-expanded="true" style="">
                       <li><a href="{{route('delivery.dashboard')}}"> Delivery Achievement</a></li>
                       <li><a href="{{route('delivery.claim.graph')}}"> Claim</a></li>
+                      <li><a href="{{route('delivery.henkaten')}}"> Henkaten Today</a></li>
                     </ul>
                   </li>
                   <li class="">

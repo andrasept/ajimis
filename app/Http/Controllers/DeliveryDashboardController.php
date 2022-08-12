@@ -42,6 +42,8 @@ class DeliveryDashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    //  claim
     public function claim(Request $request)
     {
 
@@ -103,6 +105,72 @@ class DeliveryDashboardController extends Controller
     public function cari_count_range($category, $start, $end){
         return DB::table('delivery_claim')->select('qty')->where('category', $category)->where('claim_date','>=', $start)->where('claim_date','<=', $end)->count();
     }
+    // akhir claim
+
+    //  henkaten
+    public function henkaten(Request $request)
+    {
+
+        // ketika ada request
+        if ($request->start == null || $request->end == null) {
+            
+             // cari semua type henkaten
+             $category_henkaten = DB::table('delivery_henkaten_detail')->select('type')->distinct()->get();
+             // declare count array tiap category
+             $arr_jenis_count_henkaten = [];
+             // declare array category
+             $arr_jenis_henkaten= [];
+             // color
+             $color = ['#074a42', '#914f19'];
+             // cari jumlah sesuai masing masing cateory
+             foreach ($category_henkaten as $item) {
+                 array_push($arr_jenis_henkaten, $item->type);
+                 array_push($arr_jenis_count_henkaten, $this->cari_count_henkaten( $item->type));
+                 
+             }
+ 
+             // convert json
+             $arr_jenis_count_henkaten = json_encode($arr_jenis_count_henkaten);
+             $arr_jenis_henkaten = json_encode($arr_jenis_henkaten);
+             $arr_color = json_encode($color);
+        }else{
+            // convert date
+            $start = date('Y-m-d', strtotime($request->start));
+            $end = date('Y-m-d', strtotime($request->end));
+
+            // dd($start);
+            // cari semua category henkaten
+            $category_henkaten = DB::table('delivery_henkaten_detail')->select('type')->where('date_henkaten','>=', $start)->where('date_henkaten','<=', $end)->distinct()->get();
+            // declare count array tiap category
+            $arr_jenis_count_henkaten = [];
+            // declare array category
+            $arr_jenis_henkaten = [];
+            // color
+            $color = ['#074a42', '#914f19'];
+            // cari jumlah sesuai masing masing cateory
+            foreach ($category_henkaten as $item) {
+                array_push($arr_jenis_henkaten, $item->type);
+                array_push($arr_jenis_count_henkaten, $this->cari_count_range_henkaten( $item->type, $start, $end));
+                
+            }
+
+            // convert json
+            $arr_jenis_count_henkaten = json_encode($arr_jenis_count_henkaten);
+            $arr_jenis_henkaten = json_encode($arr_jenis_henkaten);
+            $arr_color = json_encode($color);
+        }
+        return view('delivery.dashboard.dashboard_delivery_henkaten', compact('arr_jenis_henkaten', 'arr_jenis_count_henkaten', 'arr_color'));
+    }
+
+    public function cari_count_henkaten($type){
+        return DB::table('delivery_henkaten_detail')->select('mp_before')->where('type', $type)->count();
+    }
+    public function cari_count_range_henkaten($type, $start, $end){
+        return DB::table('delivery_henkaten_detail')->select('mp_before')->where('type', $type)->where('date_henkaten','>=', $start." 00:00:00")->where('date_henkaten','<=', $end." 23:59:00")->count();
+    }
+    // akhir henkaten
+
+  
 
     /**
      * Store a newly created resource in storage.
