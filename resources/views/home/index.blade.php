@@ -58,6 +58,7 @@
         </div>
       </div>
       <div class="col-md-3">
+        <a href="{{route('login.show')}}"> 
         <div class="ibox">
             <div class="ibox-content product-box">
                 <div class="product-imitation">
@@ -76,11 +77,13 @@
                         @else
                             <a href="#" class="btn btn-xs btn-outline btn-danger" style="cursor: not-allowed;pointer-events: none;">Not Allowed</a>
                         @endrole --}}
+                        
                         {{-- <a href="{{route('login.show')}}" class="btn btn-xs btn-outline btn-primary">Login <i class="fa fa-long-arrow-right"></i> </a> --}}
                     </div>
                 </div>
             </div>
         </div>
+        </a>
     </div>
     </div>
   </div>

@@ -135,7 +135,7 @@
                 var color = null;
                 var status_delivery = "";
                 var status_preparation = "";
-                console.log(data_decode);
+                
                 data_decode.forEach(element => {
                     
                     // spit date & time
@@ -143,8 +143,9 @@
                     time_arrival = element.arrival_plan.split(' ')[1].split(':');
                     date_departure = element.departure_plan.split(' ')[0].split('-');
                     time_departure = element.departure_plan.split(' ')[1].split(':');
-                    console.log(parseInt(date_arrival[1]-1));
-
+                    
+console.log(element.departure_plan);
+console.log(element.departure_plan.split(' ')[1].split(':')[1]-2);
                     //color status delivery
                     if (element.departure_status === null) {
                         color = am5.color(0x80b3e0);
@@ -185,8 +186,8 @@
 
                     data.push({
                         category: element.help_column,
-                        start: new Date(date_arrival[0], parseInt(date_arrival[1]-1), date_arrival[2], time_arrival[0], time_arrival[1], time_arrival[2]).getTime(),
-                        end: new Date(date_departure[0], parseInt(date_departure[1]-1), date_departure[2], time_departure[0], time_departure[1], time_departure[2]).getTime(),
+                        start: new Date(date_arrival[0], parseInt(date_arrival[1]-1), date_arrival[2], time_arrival[0], parseInt(time_arrival[1]), time_arrival[2]).getTime(),
+                        end: new Date(date_departure[0], parseInt(date_departure[1]-1), date_departure[2], time_departure[0],parseInt(time_departure[1]), time_departure[2]).getTime(),
                         columnSettings: {
                             fill: color
                         },

@@ -31,7 +31,7 @@ class DeliveryNoteController extends Controller
             return DataTables::of($query)->toJson();
         }else{
            
-            return view("delivery.deliveryNote.delivery_note");
+            return view("delivery.deliverynote.delivery_note");
         }
        
     }
@@ -44,7 +44,7 @@ class DeliveryNoteController extends Controller
     public function create()
     {
         $customers = Customer::select('*')->orderBy('customer_code', 'asc')->get()->unique('customer_code');
-        return view("delivery.deliveryNote.create", compact('customers'));
+        return view("delivery.deliverynote.create", compact('customers'));
     }
 
     /**
