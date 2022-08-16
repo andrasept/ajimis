@@ -149,6 +149,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::get('/skills/{id}/edit', 'DeliverySkillsController@edit')->name('delivery.skills.edit')->middleware('auth');
           Route::put('/skills/update', 'DeliverySkillsController@update')->name('delivery.skills.update')->middleware('auth');
           Route::get('/skills/{id}/delete', 'DeliverySkillsController@destroy')->name('delivery.skills.destroy')->middleware('auth');
+          Route::get('/skills-export', 'DeliverySkillsController@export')->name('delivery.skills.export')->middleware('auth');
+
           
           // skill matrix
           Route::get('/skillmatrix', 'DeliverySkillMatrixController@index')->name('delivery.skillmatrix')->middleware('auth');
@@ -158,6 +160,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::put('/skillmatrix/update', 'DeliverySkillMatrixController@update')->name('delivery.skillmatrix.update')->middleware('auth');
           Route::get('/skillmatrix/{npk}/delete', 'DeliverySkillMatrixController@destroy')->name('delivery.skillmatrix.destroy')->middleware('auth');
           Route::post('/skillmatrix/get_data_skillmatrix', 'DeliverySkillMatrixController@get_data_skillmatrix')->name('delivery.skillmatrix.get_data_skillmatrix')->middleware('auth');
+          Route::post('/skillmatrix/import', 'DeliverySkillMatrixController@store')->name('delivery.skillmatrix.import')->middleware('auth');
           
           // henkaten layout area
           Route::put('/layout_area/insert', 'DeliveryLayoutAreaController@insert')->name('delivery.layout_area.insert')->middleware('auth');

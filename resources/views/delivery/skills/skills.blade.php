@@ -31,6 +31,7 @@
     </div>
     <div class="row mb-3">
       <div class="col-lg-12 text-right">
+        <a class="btn btn-primary  mr-4 mt-4 text-center" href="{{route('delivery.skills.export')}}">Export</a>
         <a class="btn btn-primary  mr-4 mt-4 text-center" href="{{route('delivery.skills.create')}}">Create</a>
       </div>
     </div>

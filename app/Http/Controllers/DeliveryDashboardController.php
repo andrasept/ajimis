@@ -115,7 +115,7 @@ class DeliveryDashboardController extends Controller
         if ($request->start == null || $request->end == null) {
             
              // cari semua type henkaten
-             $category_henkaten = DB::table('delivery_henkaten_detail')->select('type')->distinct()->get();
+             $category_henkaten = DB::table('delivery_henkaten_detail')->select('type')->where('date_henkaten','>=', date("Y-m-d")." 00:00:00")->where('date_henkaten','<=', date("Y-m-d")." 23:59:00")->distinct()->get();
              // declare count array tiap category
              $arr_jenis_count_henkaten = [];
              // declare array category

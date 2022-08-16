@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Skills;
 use Illuminate\Http\Request;
+use App\Exports\SkillMasterExport;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -162,5 +164,10 @@ class DeliverySkillsController extends Controller
                 return redirect('/delivery/skills')->with('fail', "Add Skills Failed! [105]");
             }
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new SkillMasterExport(), "Master Skill.xlsx");
     }
 }

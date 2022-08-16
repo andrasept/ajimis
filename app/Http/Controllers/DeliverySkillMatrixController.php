@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Skills;
 use Illuminate\Http\Request;
 use App\Models\ManPowerDelivery;
+use App\Imports\SkillMatrixImport;
 use Illuminate\Support\Facades\DB;
 use App\Models\SkillMatrixDelivery;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -68,7 +70,67 @@ class DeliverySkillMatrixController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // untuk import excel 
+        if ($request->hasFile('skill-matrix-excel')) {
+            // data import dari excel
+            $data = Excel::toArray(new SkillMatrixImport, request()->file('skill-matrix-excel'));
+            for ($i=0; $i < count($data[0]); $i++) { 
+                // id mp yg akan diisi skill value
+                $data[0][$i][3] =  $request->user_id;
+            }
+            // dd($data);
+            $validator = Validator::make($data[0], [
+                '*.0' => ['required'],
+                '*.1' =>  ['required'],
+                '*.2' =>  ['required'],
+                '*.3' =>  ['required'],
+               
+            ]);
+            
+            if ($validator->fails()) {
+
+                $errors = $validator->errors()->all();
+                foreach ($errors as $key => $error) {
+                    $num =(int)preg_replace('/[^0-9]/', '', $error)+2;
+                    $err_message = explode(".",$error)[1];
+                    $errors[$key] = "Line (".$num.") $err_message";
+                }
+
+                return redirect('/delivery/skillmatrix')->with('fail', "Export Failed! Because:".implode(", ",$errors));
+                
+            }else{
+
+                DB::beginTransaction();
+
+                try {
+                    $proses = collect(head($data))->each(function ($row, $key) {
+
+                        SkillMatrixDelivery::Create(
+                            [
+                                'user_id' => $row[3],
+                                'skill_id' => $row[0],
+                                'value' => $row[2],
+                                'category' => $row[1],
+                            ]
+                        );
+                            
+                    });
+
+                    DB::commit();
+
+                } catch (\Throwable $th) {
+
+                    DB::rollback();
+                    return redirect('/delivery/skillmatrix')->with('fail', "Export Failed! [105]");
+                }
+                    
+                return redirect('/delivery/skillmatrix')->with('success', 'Export Succeed!');
+
+            }
+               
+           
+
+        }
     }
 
     /**

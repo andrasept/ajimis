@@ -20,6 +20,9 @@
           <div >
             <div class="form-group">
                 <label><b>Man Power</b> </label>  <br/>
+                <form action="{{route('delivery.skillmatrix.import')}}"  method="POST"  enctype="multipart/form-data">
+                    @csrf
+                    {{method_field("POST")}}
                 <select name="user_id" class="form-control" id="user_id" required>
                     @foreach ($mps as $mp)
                         <option value="{{$mp->npk}}">{{$mp->name}} </option>
@@ -30,6 +33,21 @@
                         {{$message}}    
                     </div>
                 @enderror
+            </div>
+            <div class="form-group">
+                <label><b>Import Excel</b> </label>
+                    <div class="row">
+                        <div class="col-lg-11">
+                            <div class="custom-file">
+                                <input id="logo" type="file"  name="skill-matrix-excel" class="custom-file-input" required>
+                                <label for="logo" class="custom-file-label">Choose file...</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="submit" class="btn btn-lg btn-primary">Import</button>
+                        </div>
+                    </div>
+                </form>
             </div>
              @foreach ($list_skill_each_category as $category)
                 <label for="Category"><b>{{$list_categories[ $loop->index ]}}</b></label>
@@ -102,6 +120,17 @@
     $("select").css({fontSize:12});
     $("input").css({fontSize:12});
     $(document).ready(function(){
+         // check input
+        //  $('.custom-file-input').on('change', function() {
+        //     let fileName = $(this).val().split('\\').pop();
+        //     var ext = fileName.split('.').pop();
+        //     if (ext == "xlsx" || ext == "xls"|| ext == "csv" ) {
+        //       $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        //     } else {
+        //       $(this).html("");
+        //       alert("Only Excel or CSV file!");
+        //     }
+        //   });
         $(".submit_all_form").click(function(){
             $(this).attr("disabled", "disabled");
             var data = [];

@@ -167,17 +167,6 @@
       
       $(document).ready(function() {
 
-          // check input
-          $('.custom-file-input').on('change', function() {
-            let fileName = $(this).val().split('\\').pop();
-            var ext = fileName.split('.').pop();
-            if (ext == "xlsx" || ext == "xls"|| ext == "csv" ) {
-              $(this).next('.custom-file-label').addClass("selected").html(fileName);
-            } else {
-              $(this).html("");
-              swal("Oops!", "Only Excel or CSV file!", "error");
-            }
-          }); 
           // Create date inputs
           minDate = new DateTime($('#min'), {
               format: 'YYYY-MM-DD'
