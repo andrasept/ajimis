@@ -128,7 +128,7 @@
                   { data: null, className: 'dt-body-center'},
                   { data: "id", className: 'dt-body-center',
                       "render": function ( data, type, row ) {
-                            return "<div class='btn-group'><a href='/delivery/master-manpower/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='/delivery/master-manpower/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
+                            return "<div class='btn-group'><a href='{{URL::to('/')}}/delivery/master-manpower/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='{{URL::to('/')}}/delivery/master-manpower/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
                         },
                   },
                   { data: "npk", className: 'dt-body-center'},

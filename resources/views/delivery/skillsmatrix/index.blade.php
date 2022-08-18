@@ -147,7 +147,7 @@
             { data: 'position', className: 'dt-body-center'},
             { data: 'npk', className: 'dt-body-center',
               'render' : function(data, type, row){
-                return "<div class='btn btn-group'><button class='btn btn-secondary detail' data-photo='"+row['photo']+"' data-name='"+row['name']+"' data-npk='"+data+"'><i class='fa fa-eye'></i></button><a href='/delivery/skillmatrix/"+data+"/edit' class='btn  btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='/delivery/skillmatrix/"+data+"/delete' class='btn  btn-danger'><i class='fa fa-trash'></i></a></div>";
+                return "<div class='btn btn-group'><button class='btn btn-secondary detail' data-photo='"+row['photo']+"' data-name='"+row['name']+"' data-npk='"+data+"'><i class='fa fa-eye'></i></button><a href='{{URL::to('/')}}/delivery/skillmatrix/"+data+"/edit' class='btn  btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='{{URL::to('/')}}/delivery/skillmatrix/"+data+"/delete' class='btn  btn-danger'><i class='fa fa-trash'></i></a></div>";
               }
             },
         ],

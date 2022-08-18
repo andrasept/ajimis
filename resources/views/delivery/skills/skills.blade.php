@@ -92,7 +92,7 @@
             { data: 'id', className: 'dt-body-center',
           
               'render' : function(data, type, row){
-                return "<div class='btn-group'><div class='btn-group'><a href='/delivery/skills/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='skills/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
+                return "<div class='btn-group'><div class='btn-group'><a href='{{URL::to('/')}}/delivery/skills/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='{{URL::to('/')}}/skills/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
               }
             },
         ],

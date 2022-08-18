@@ -228,11 +228,11 @@
                           var tutup_btn="</div>";
 
                           if (row['arrival_status'] === null) {
-                            kumpul_btn= kumpul_btn+"<a href='/delivery/delivery/"+row['id']+"/arrival' class='btn btn-md btn-success'>Arrive</a>";
+                            kumpul_btn= kumpul_btn+"<a href='{{URL::to('/')}}/delivery/delivery/"+row['id']+"/arrival' class='btn btn-md btn-success'>Arrive</a>";
                           }
                           else if (data === null  && row['arrival_status'] !==null) {
 
-                            kumpul_btn= kumpul_btn+"<a href='/delivery/delivery/"+row['id']+"/departure' class='btn btn-md btn-primary'>Departure</a>";
+                            kumpul_btn= kumpul_btn+"<a href='{{URL::to('/')}}/delivery/delivery/"+row['id']+"/departure' class='btn btn-md btn-primary'>Departure</a>";
                           }else{  
                             
                           }      

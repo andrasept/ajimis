@@ -147,7 +147,7 @@ $(document).ready(function() {
             { data: 'corrective_action', className: 'dt-body-center'},
             { data: 'id', className: 'dt-body-center',
                 'render' : function(data,row,type){
-                    return "<div class='btn-group'><div class='btn-group'><a href='/delivery/claim/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='claim/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
+                    return "<div class='btn-group'><div class='btn-group'><a href='{{URL::to('/')}}/delivery/claim/"+data+"/edit' class='btn btn-xs btn-default'><i class='fa fa-pencil'></i></a><a onClick='return confirm("+'"are you sure  ?"'+")' href='{{URL::to('/')}}/claim/"+data+"/delete' class='btn btn-xs btn-danger'><i class='fa fa-trash'></i></a></div>";
                 }
             },
         ],
