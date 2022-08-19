@@ -270,6 +270,23 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::delete('/ipqc/{post}/delete', 'QualityIpqcController@destroy')->name('quality.ipqc.destroy');
             Route::get('/ipqc/{post}/finish', 'QualityIpqcController@finish')->name('quality.ipqc.finish');
 
+            Route::get('/csipqc/', 'QualityCsIpqcController@index')->name('quality.csipqc.index');
+            Route::get('/csipqc/create/{post}', 'QualityCsIpqcController@create')->name('quality.csipqc.create');
+            Route::post('/csipqc/create', 'QualityCsIpqcController@store')->name('quality.csipqc.store');
+            Route::get('/csipqc/{post}/show', 'QualityCsIpqcController@show')->name('quality.csipqc.show');
+            Route::get('/csipqc/{post}/edit', 'QualityCsIpqcController@edit')->name('quality.csipqc.edit');
+            Route::patch('/csipqc/{post}/update', 'QualityCsIpqcController@update')->name('quality.csipqc.update');
+            Route::delete('/csqtime/{post}/delete', 'QualityCsIpqcController@destroy')->name('quality.csipqc.destroy');
+
+            Route::get('ngcategory/', 'QualityNgCategoryController@index')->name('quality.ngcategory.index');
+            Route::get('ngcategory/create', 'QualityNgCategoryController@create')->name('quality.ngcategory.create');
+            Route::post('ngcategory/create', 'QualityNgCategoryController@store')->name('quality.ngcategory.store');
+            Route::get('ngcategory/{post}/show', 'QualityNgCategoryController@show')->name('quality.ngcategory.show');
+            Route::get('ngcategory/{post}/edit', 'QualityNgCategoryController@edit')->name('quality.ngcategory.edit');
+            Route::patch('ngcategory/{post}/update', 'QualityNgCategoryController@update')->name('quality.ngcategory.update');
+            Route::delete('ngcategory/{post}/delete', 'QualityNgCategoryController@destroy')->name('quality.ngcategory.destroy');
+            Route::get('ngcategory/{post}/finish', 'QualityIpqcController@finish')->name('quality.ngcategory.finish');
+
 
           });
           

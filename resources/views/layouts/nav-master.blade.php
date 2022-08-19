@@ -59,6 +59,7 @@
               <li><a href="{{ route('quality.machine.index') }}">Machine</a></li>
               <li><a href="{{ route('quality.model.index') }}">Model</a></li>
               <li><a href="{{ route('quality.part.index') }}">Part</a></li>
+              <li><a href="{{ route('quality.ngcategory.index') }}"><br/>NG Category</a></li>
             </ul>
           </li>
           <li class="">

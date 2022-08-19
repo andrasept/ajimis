@@ -68,7 +68,7 @@
                     </div>
 
 					<div class="hr-line-dashed"></div>
-					<div class="form-group  row"><label class="col-sm-2 col-form-label">Nama</label>
+					<div class="form-group  row"><label class="col-sm-2 col-form-label">Nama Part</label>
 						<div class="col-sm-10"><input type="text" name="name" class="form-control" required></div>
 					</div>
 					<div class="hr-line-dashed"></div>

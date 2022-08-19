@@ -32,11 +32,12 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th>Checksheet</th>
+									<th>Lot Produksi</th>
 									<th>Judgement</th>
 									<th>Status</th>
 									<th>Area</th>
 									<th>Process</th>
+									<th>Machine</th>
 									<th>Model</th>
 									<th>Part</th>
 									<th>Created by</th>
@@ -45,47 +46,45 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach ($q_monitors as $key => $q_monitor)
+								@foreach ($q_ipqcs as $key => $q_ipqc)
 								<tr class="gradeA">
 									<td>								
-                		<div class="modal inmodal fade" id="myModal{{$q_monitor->id}}" tabindex="-1" role="dialog"  aria-hidden="true">
+                		<div class="modal inmodal fade" id="myModal{{$q_ipqc->id}}" tabindex="-1" role="dialog"  aria-hidden="true">
                       <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                             <h4 class="modal-title">Detail Checksheet</h4>
                             <h5 class="font-bold">
-                            	Category : 
-                            	@if($q_monitor->quality_cs_qtime == 1)
-																QTime
-															@elseif($q_monitor->quality_cs_accuracy == 1)
-																Accuracy
-															@endif
-                            </h5>
-                            <h5 class="font-bold">
                             	Line :
                             	@foreach ($q_areas as $key => $q_area)
-																@if($q_area->id == $q_monitor->quality_area_id)
+																@if($q_area->id == $q_ipqc->quality_area_id)
 																	{{$q_area->name}}
 																@endif
 															@endforeach 
 															-
 															@foreach ($q_processes as $key => $q_process)
-																@if($q_process->id == $q_monitor->quality_process_id)
+																@if($q_process->id == $q_ipqc->quality_process_id)
 																	{{$q_process->name}}
+																@endif
+															@endforeach
+															-
+															@foreach ($q_machines as $key => $q_machine)
+																@if($q_machine->id == $q_ipqc->quality_machine_id)
+																	{{$q_machine->name}}
 																@endif
 															@endforeach
                             </h5>
                             <h5 class="font-bold">
                             	Model Part : 
                             	@foreach ($q_models as $key => $q_model)
-																@if($q_model->id == $q_monitor->quality_model_id)
+																@if($q_model->id == $q_ipqc->quality_model_id)
 																	{{$q_model->name}}
 																@endif
 															@endforeach
 															-
 															@foreach ($q_parts as $key => $q_part)
-																@if($q_part->id == $q_monitor->quality_part_id)
+																@if($q_part->id == $q_ipqc->quality_part_id)
 																	{{$q_part->name}} - 
 																	@php
 																		if ($q_part->left) {
@@ -127,7 +126,7 @@
 	                            </thead>
 	                            <tbody>
 	                            	@php
-	                            	$cs_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_monitor->id)->get();
+	                            	$cs_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_ipqc->id)->get();
 
 	                            	$array_judge1 = array();
 	                            	$array_app1 = array();
@@ -135,12 +134,12 @@
 	                            	@foreach ($cs_s1 as $keycs => $q_cs_qtime)
 	                            		<tr>
 		                            		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				{{$q_cs_qtime->cycle}}
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				@if($q_cs_qtime->judge == 0)
 																					<span class="badge badge-info">Waiting</span>
 																				@elseif($q_cs_qtime->judge == 1)
@@ -153,7 +152,7 @@
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				@if($q_cs_qtime->approval_status == 0)
 																					<span class="badge badge-primary"><i class="fa fa-check-square"></i></span>
 																				@elseif($q_cs_qtime->approval_status == 1)
@@ -172,12 +171,12 @@
 																			@endif
 																		</td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				{{$q_cs_qtime->created_at}}
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				@foreach ($users as $key_user => $user)
 																					@if($user->id == $q_cs_qtime->updated_by)
 																						{{$user->name}}
@@ -186,7 +185,7 @@
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				{{$q_cs_qtime->updated_at}}
 																			@endif
 		                                </td>
@@ -223,7 +222,7 @@
 	                            </thead>
 	                            <tbody>
 	                            	@php
-	                            	$cs_s2 = DB::table('quality_cs_qtimes')->where('shift', 2)->where('quality_monitor_id',$q_monitor->id)->get();
+	                            	$cs_s2 = DB::table('quality_cs_qtimes')->where('shift', 2)->where('quality_monitor_id',$q_ipqc->id)->get();
 
 	                            	$array_judge2 = array();
 	                            	$array_app2 = array();
@@ -231,12 +230,12 @@
 	                            	@foreach ($cs_s2 as $keycs2 => $q_cs_qtime)
 	                            		<tr>
 		                            		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				{{$q_cs_qtime->cycle}}
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				@if($q_cs_qtime->judge == 0)
 																					<span class="badge badge-info">Waiting</span>
 																				@elseif($q_cs_qtime->judge == 1)
@@ -249,7 +248,7 @@
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				@if($q_cs_qtime->approval_status == 0)
 																					<span class="badge badge-primary"><i class="fa fa-check-square"></i></span>
 																				@elseif($q_cs_qtime->approval_status == 1)
@@ -268,12 +267,12 @@
 																			@endif
 																		</td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				{{$q_cs_qtime->created_at}}
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				@foreach ($users as $key_user => $user)
 																					@if($user->id == $q_cs_qtime->updated_by)
 																						{{$user->name}}
@@ -282,7 +281,7 @@
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_monitor->id)
+		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
 																				{{$q_cs_qtime->updated_at}}
 																			@endif
 		                                </td>
@@ -298,7 +297,7 @@
 	                        @php
 	                        $hasil = "sudah finish";
                         	$app_status1 = DB::table('quality_cs_qtimes')
-																	->where('quality_monitor_id',$q_monitor->id)
+																	->where('quality_monitor_id',$q_ipqc->id)
 																	->get();
 																	//->toArray();
                         	// $app_status_unfinish = array(1,2,3,4,5);
@@ -342,11 +341,11 @@
 	                          @if($disable_cycle)
 	                          	<a alt="add" href=""><button type="button" class="btn btn-primary" disabled>Add Cycle</button></a>
 	                          @else
-	                          	<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}"><button type="button" class="btn btn-primary">Add Cycle</button></a>
+	                          	<a alt="add" href="{{url('')}}/quality/csipqc/create/{{$q_ipqc->id}}"><button type="button" class="btn btn-primary">Add Cycle</button></a>
 	                          @endif
 	                          &nbsp;&nbsp;&nbsp;
 	                         	@if($hasil == "sudah finish")
-	                          	<a alt="finish" href="{{url('')}}/quality/monitor/{{$q_monitor->id}}/finish" class="" onclick="return confirm('Are you sure to finish this checksheet?')"><button type="button" class="btn btn-primary" >Finish Cycle</button></i></a>
+	                          	<a alt="finish" href="{{url('')}}/quality/monitor/{{$q_ipqc->id}}/finish" class="" onclick="return confirm('Are you sure to finish this checksheet?')"><button type="button" class="btn btn-primary" >Finish Cycle</button></i></a>
 	                          @else
 	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
 	                          @endif	
@@ -355,39 +354,35 @@
                       </div>
                   	</div>
 
-                  	<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal{{$q_monitor->id}}"><i class="fa fa-list"></i></button>	
+                  	<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal{{$q_ipqc->id}}"><i class="fa fa-list"></i></button>	
 
                   	@if( (!$disable_cycle) )   
-                  		@if ($q_monitor->judgement == 0)
-                  			<a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_monitor->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
+                  		@if ($q_ipqc->judgement == 0)
+                  			<a alt="add" href="{{url('')}}/quality/csipqc/create/{{$q_ipqc->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
                   		@endif               		
                   	@endif								
 
             			</td>
 									<td>
-										@if($q_monitor->quality_cs_qtime == 1)
-											<label>QTime</label>
-										@elseif($q_monitor->quality_cs_accuracy == 1)
-											<label>Accuracy</label>
+										{{$q_ipqc->lot_produksi}}
+									</td>
+									<td>
+										@if($q_ipqc->judgement == 0)
+											<span class="badge badge-info">In Progress</span>
+										@elseif($q_ipqc->judgement == 1)
+											<span class="badge badge-primary">OK</span> X pcs
+										@elseif($q_ipqc->judgement == 2)
+											<span class="badge badge-danger">NG</span> X pcs
 										@endif
 									</td>
 									<td>
-										@if($q_monitor->judgement == 0)
+										@if($q_ipqc->cs_status == 0)
 											<span class="badge badge-info">In Progress</span>
-										@elseif($q_monitor->judgement == 1)
-											<span class="badge badge-primary">OK</span>
-										@elseif($q_monitor->judgement == 2)
-											<span class="badge badge-danger">NG</span>
-										@endif
-									</td>
-									<td>
-										@if($q_monitor->cs_status == 0)
-											<span class="badge badge-info">In Progress</span>
-										@elseif($q_monitor->cs_status == 1)
+										@elseif($q_ipqc->cs_status == 1)
 											<span class="badge badge-warning">Waiting Approval</span>
-										@elseif($q_monitor->cs_status == 2)
+										@elseif($q_ipqc->cs_status == 2)
 										<span class="badge badge-info">Back In Cycle</span>
-										@elseif($q_monitor->cs_status == 3)
+										@elseif($q_ipqc->cs_status == 3)
 										<span class="badge badge-info">All Checked</span>
 										@endif
 
@@ -398,37 +393,44 @@
 										<br/>
 										<!-- count cycle -->
 										@php
-                  	$css_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_monitor->id)->get();
+                  	$css_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_ipqc->id)->get();
                   	$c1 = count($css_s1);
-                  	$css_s2 = DB::table('quality_cs_qtimes')->where('shift', 2)->where('quality_monitor_id',$q_monitor->id)->get();
+                  	$css_s2 = DB::table('quality_cs_qtimes')->where('shift', 2)->where('quality_monitor_id',$q_ipqc->id)->get();
                   	$c2 = count($css_s2);
                   	@endphp
                   	shift 1 : {{$c1}}/7 | shift 2 : {{$c2}}/7
 									</td>
 									<td>
 										@foreach ($q_areas as $key => $q_area)
-											@if($q_area->id == $q_monitor->quality_area_id)
+											@if($q_area->id == $q_ipqc->quality_area_id)
 												{{$q_area->name}}
 											@endif
 										@endforeach
 									</td>
 									<td>
 										@foreach ($q_processes as $key => $q_process)
-											@if($q_process->id == $q_monitor->quality_process_id)
+											@if($q_process->id == $q_ipqc->quality_process_id)
 												{{$q_process->name}}
 											@endif
 										@endforeach
 									</td>
 									<td>
+										@foreach ($q_machines as $key => $q_machine)
+											@if($q_machine->id == $q_ipqc->quality_machine_id)
+												{{$q_machine->name}}
+											@endif
+										@endforeach
+									</td>
+									<td>
 										@foreach ($q_models as $key => $q_model)
-											@if($q_model->id == $q_monitor->quality_model_id)
+											@if($q_model->id == $q_ipqc->quality_model_id)
 												{{$q_model->name}}
 											@endif
 										@endforeach
 									</td>
 									<td>
 										@foreach ($q_parts as $key => $q_part)
-											@if($q_part->id == $q_monitor->quality_part_id)
+											@if($q_part->id == $q_ipqc->quality_part_id)
 												{{$q_part->name}} - 
 													@php
 														if ($q_part->left) {
@@ -457,16 +459,16 @@
 									</td>
 									<td>
 										@foreach($users as $u)
-											@if($u->id == $q_monitor->created_by)
+											@if($u->id == $q_ipqc->created_by)
 												{{$u->name}}
 											@endif
 										@endforeach
 									</td>
-									<td>{{$q_monitor->created_at}}</td>
+									<td>{{$q_ipqc->created_at}}</td>
 									<!--
 									<td>
-										<a alt="edit" href="{{ route('quality.monitor.edit',$q_monitor->id)}}" class="btn btn-info "><i class="fa fa-paste"></i><span class="bold"> Edit</span> </a>&nbsp;&nbsp;&nbsp;
-										{!! Form::open(['method' => 'DELETE','route' => ['quality.monitor.destroy', $q_monitor->id],'style'=>'display:inline']) !!}
+										<a alt="edit" href="{{ route('quality.monitor.edit',$q_ipqc->id)}}" class="btn btn-info "><i class="fa fa-paste"></i><span class="bold"> Edit</span> </a>&nbsp;&nbsp;&nbsp;
+										{!! Form::open(['method' => 'DELETE','route' => ['quality.monitor.destroy', $q_ipqc->id],'style'=>'display:inline']) !!}
 										{{Form::button('<i class="fa fa-trash"></i>', ['type' =>'submit', 'alt' => 'delete', 'class' => 'btn btn-danger ', 'onclick' => 'return confirm("Are you sure want to delete? All its relation will be deleted too")'])}}
 										{!! Form::close() !!}
 									</td>

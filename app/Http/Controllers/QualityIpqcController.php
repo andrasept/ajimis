@@ -11,6 +11,7 @@ use App\Models\QualityPart;
 use App\Models\QualityMonitor;
 use App\Models\QualityCsQtime;
 use App\Models\QualityIpqc;
+use App\Models\QualityCsIpqc;
 use App\Models\User;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -35,101 +36,55 @@ class QualityIpqcController extends Controller
         $q_processes = QualityProcess::all();
         $q_machines = QualityMachine::all();
         $q_models = QualityModel::all();
-        $q_parts = QualityPart::all();
-        // $q_monitors = QualityMonitor::all();             
-        $q_monitors = QualityIpqc::all();             
+        $q_parts = QualityPart::all();           
+        $q_ipqcs = QualityIpqc::all();             
 
-        // doc number
-        // $randomNumber = $this->generateDocNumber();
-
-        // LANJUT DI SINI UNTUK MENAMPILKAN DETAIL SETIAP CYCLE DI SATU MONITOR NYA 
         // shift cs
         // $q_cs_qtimes = QualityCsQtime::all();
-        $q_cs_qtimes_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->get(); // ini harusnya where id_monitor = xx   
-        $q_cs_qtimes_s2 = DB::table('quality_cs_qtimes')->where('shift', 2)->get();
+        $q_cs_ipqcs_s1 = DB::table('quality_cs_ipqcs')->where('shift', 1)->get(); // ini harusnya where id_monitor = xx   
+        $q_cs_ipqcs_s2 = DB::table('quality_cs_ipqcs')->where('shift', 2)->get();
         $users = User::all();
 
         // cek user login
         $user_id = auth()->user()->id;
 
         // get users by its roles 
-        // $user_roles = User::whereHas("roles", function($q){ $q->where("name", "Leader Quality"); })->get();
-        // foreach ($user_roles as $key => $ur) {
-        //     // echo $ur->id."<br/>";
-        //     if ($user_id == $ur->id) {
-        //         // echo "bener"; exit();
-        //         $user_role = "Leader Quality";
-        //     } else {
-        //         $user_role = "";
-        //     }
-        // }
         $user_role = (New QualityCsQtimeController)->getUserRole();
-        // echo $user_role; exit();
-
-        // LANJUT
-        // set status "All Checked"
-        // $app_status = DB::table('quality_cs_qtimes')
-        //     ->where('quality_monitor_id',$q_monitor->id)
-        //     ->get();    
-        // $finish_status = "belum";
-        // foreach($app_status as $as) {
-        //     if($as->approval_status == 1) {
-        //         // echo "belum";
-        //         $finish_status = "belum";
-        //     } elseif($as->approval_status == 2) {
-        //         $finish_status = "belum";
-        //     } elseif($as->approval_status == 3) {
-        //         $finish_status = "belum";
-        //     } elseif($as->approval_status == 4) {
-        //         $finish_status = "belum";
-        //     } elseif($as->approval_status == 5) {
-        //         $finish_status = "belum";
-        //     } else {
-        //         $finish_status = "sudah";
-        //     }
-        // }
 
         if ($user_role == "Leader Quality") {
             return view('quality.ipqc.leader.index', compact(
-                'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors','q_monitors', 
-                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
                 'users'
             ));
         } elseif ($user_role == "Foreman Quality") {
             return view('quality.ipqc.foreman.index', compact(
-                'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors','q_monitors', 
-                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
                 'users'
             ));
         } elseif ($user_role == "Supervisor Quality") {
             return view('quality.ipqc.supervisor.index', compact(
-                'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors','q_monitors', 
-                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
                 'users'
             ));
         } elseif ($user_role == "Dept Head Quality") {
             return view('quality.ipqc.depthead.index', compact(
-                'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors','q_monitors', 
-                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
                 'users'
             ));
         } elseif ($user_role == "Director Quality") {
             return view('quality.ipqc.director.index', compact(
-                'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors', 'q_monitors', 
-                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
                 'users'
             ));
         } else {
             return view('quality.ipqc.index', compact(
-                'q_processes', 'q_areas', 'q_models', 'q_parts', 
-                // 'qualityMonitors', 
-                'q_monitors', 
-                'q_cs_qtimes_s1', 'q_cs_qtimes_s2', 
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
                 'users'
             ));
         }
@@ -153,10 +108,12 @@ class QualityIpqcController extends Controller
         $year = date('Y', strtotime($date_now)); 
         $month = date('m', strtotime($date_now)); 
         $date = date('d', strtotime($date_now)); 
-        // dd($year);
+        // dd($date);
         $year = substr($year, -1);
         $month = substr($month, -1);
-        $date = substr($date, -1);
+        // $date = substr($date, -1);
+
+        // dd($date);
 
         $date_array = array('1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M');
         $month_array = array('A','B','C','D','E','F','G','H','I','J','K','L','M');
