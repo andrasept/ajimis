@@ -155,35 +155,59 @@ class QualityCsIpqcController extends Controller
         $user_name = auth()->user()->name;
 
         // insert cs qtime untuk cs low
-        $q_cs_qtimes = new QualityCsQtime;
-        $q_cs_qtimes->quality_monitor_id = $request->input('quality_monitor_id');
-        $q_cs_qtimes->shift = $request->input('shift');
-        $q_cs_qtimes->cycle = $request->input('cycle');
+        $q_cs_ipqcs = new QualityCsIpqc;
+        $q_cs_ipqcs->quality_ipqc_id = $request->input('quality_ipqc_id');
+        $q_cs_ipqcs->shift = $request->input('shift');
+        $q_cs_ipqcs->cycle = $request->input('cycle');
 
-        $q_cs_qtimes->destructive_test = $request->input('destructive_test');
-        $q_cs_qtimes->destructive_test_remark = $request->input('destructive_test_remark');
-        $q_cs_qtimes->appearance_produk = $request->input('appearance_produk');
-        $q_cs_qtimes->appearance_produk_remark = $request->input('appearance_produk_remark');
-        $q_cs_qtimes->parting_line = $request->input('parting_line');
-        $q_cs_qtimes->parting_line_remark = $request->input('parting_line_remark');
+        $q_cs_ipqcs->destructive_test = $request->input('destructive_test');
+        $q_cs_ipqcs->destructive_test_remark = $request->input('destructive_test_remark');
+        $q_cs_ipqcs->destructive_test_hold_status = $request->input('destructive_test_hold_status');
+        $q_cs_ipqcs->destructive_test_qty = $request->input('destructive_test_qty');
+        $q_cs_ipqcs->destructive_test_hold_cat = $request->input('destructive_test_hold_cat');
 
-        $q_cs_qtimes->marking_cek_final = $request->input('marking_cek_final');
-        $q_cs_qtimes->marking_cek_final_remark = $request->input('marking_cek_final_remark');
-        $q_cs_qtimes->marking_garansi_function = $request->input('marking_garansi_function');
-        $q_cs_qtimes->marking_garansi_function_remark = $request->input('marking_garansi_function_remark');
-        $q_cs_qtimes->marking_identification = $request->input('marking_identification');
-        $q_cs_qtimes->marking_identification_remark = $request->input('marking_identification_remark');
+        $q_cs_ipqcs->appearance_produk = $request->input('appearance_produk');
+        $q_cs_ipqcs->appearance_produk_remark = $request->input('appearance_produk_remark');
+        $q_cs_ipqcs->appearance_produk_ng_cat = $request->input('appearance_produk_ng_cat');
+        $q_cs_ipqcs->appearance_produk_photo = $request->input('appearance_produk_photo');
+        $q_cs_ipqcs->appearance_produk_causes = $request->input('appearance_produk_causes');
+        $q_cs_ipqcs->appearance_produk_repair = $request->input('appearance_produk_repair');
+        $q_cs_ipqcs->appearance_produk_repair_res = $request->input('appearance_produk_repair_res');
+        $q_cs_ipqcs->appearance_produk_hold_status = $request->input('appearance_produk_hold_status');
+        $q_cs_ipqcs->appearance_produk_qty = $request->input('appearance_produk_qty');
+        $q_cs_ipqcs->appearance_produk_hold_cat = $request->input('appearance_produk_hold_cat');
+
+        $q_cs_ipqcs->parting_line = $request->input('parting_line');
+        $q_cs_ipqcs->parting_line_remark = $request->input('parting_line_remark');
+        $q_cs_ipqcs->parting_line_ng_cat = $request->input('parting_line_ng_cat');
+        $q_cs_ipqcs->parting_line_photo = $request->input('parting_line_photo');
+        $q_cs_ipqcs->parting_line_causes = $request->input('parting_line_causes');
+        $q_cs_ipqcs->parting_line_repair = $request->input('parting_line_repair');
+        $q_cs_ipqcs->parting_line_repair_res = $request->input('parting_line_repair_res');
+        $q_cs_ipqcs->parting_line_hold_status = $request->input('parting_line_hold_status');
+        $q_cs_ipqcs->parting_line_qty = $request->input('parting_line_qty');
+        $q_cs_ipqcs->parting_line_hold_cat = $request->input('parting_line_hold_cat');
+
+        $q_cs_ipqcs->marking_cek_final = $request->input('marking_cek_final');
+        $q_cs_ipqcs->marking_cek_final_remark = $request->input('marking_cek_final_remark');
+        $q_cs_ipqcs->marking_garansi_function = $request->input('marking_garansi_function');
+        $q_cs_ipqcs->marking_garansi_function_remark = $request->input('marking_garansi_function_remark');
+        $q_cs_ipqcs->marking_identification = $request->input('marking_identification');
+        $q_cs_ipqcs->marking_identification_remark = $request->input('marking_identification_remark');
 
         // Kelengkapan Komponen
-        $q_cs_qtimes->kelengkapan_komponen = $request->input('kelengkapan_komponen');
-        $q_cs_qtimes->kelengkapan_komponen_remark = $request->input('kelengkapan_komponen_remark');
+        $q_cs_ipqcs->kelengkapan_komponen = $request->input('kelengkapan_komponen');
+        $q_cs_ipqcs->kelengkapan_komponen_remark = $request->input('kelengkapan_komponen_remark');
+        $q_cs_ipqcs->kelengkapan_komponen_hold_status = $request->input('kelengkapan_komponen_hold_status');
+        $q_cs_ipqcs->kelengkapan_komponen_qty = $request->input('kelengkapan_komponen_qty');
+        $q_cs_ipqcs->kelengkapan_komponen_hold_cat = $request->input('kelengkapan_komponen_hold_cat');
         
         // komponen dihilangkan
 
         // Line Process dipindahkan ke fomr checksheet Audit
 
-        $q_cs_qtimes->created_by = $user_id;
-        $q_cs_qtimes->updated_by = $user_id;
+        $q_cs_ipqcs->created_by = $user_id;
+        $q_cs_ipqcs->updated_by = $user_id;
 
         // judge di cycle 1 OK jika semua OK, jika ada NG maka NG, jika ada AC maka tunggu dulu sampai approval nya judge ??
         // apakah harus tambah column destructive_judge_1 utk cycle 1 dan destructive_judge_2 utk cycle 2 
@@ -192,111 +216,111 @@ class QualityCsIpqcController extends Controller
         // checksheet category
         // $cs_cat = $request->input('quality_cs');
         // if ($cs_cat == 1) {
-        //     $q_cs_qtimes->quality_cs_qtime = 1;
+        //     $q_cs_ipqcs->quality_cs_qtime = 1;
         // } elseif ($cs_cat == 2) {
-        //     $q_cs_qtimes->quality_cs_accuracy = 1;
+        //     $q_cs_ipqcs->quality_cs_accuracy = 1;
         // }
 
         // judge
         // cek jika ada NG
         $acng = array(
-            $q_cs_qtimes->destructive_test, 
-            $q_cs_qtimes->appearance_produk, 
-            $q_cs_qtimes->parting_line,
-            $q_cs_qtimes->marking_cek_final,
-            $q_cs_qtimes->marking_garansi_function,
-            $q_cs_qtimes->marking_identification,
-            $q_cs_qtimes->kelengkapan_komponen
+            $q_cs_ipqcs->destructive_test, 
+            $q_cs_ipqcs->appearance_produk, 
+            $q_cs_ipqcs->parting_line,
+            $q_cs_ipqcs->marking_cek_final,
+            $q_cs_ipqcs->marking_garansi_function,
+            $q_cs_ipqcs->marking_identification,
+            $q_cs_ipqcs->kelengkapan_komponen
         );
         if (in_array("3", $acng)) {
-            $q_cs_qtimes->judge = 3;
+            $q_cs_ipqcs->judge = 3;
         } elseif(in_array("2", $acng)) {
-            $q_cs_qtimes->judge = 2;
+            $q_cs_ipqcs->judge = 2;
         } elseif(in_array("1", $acng)) {
-            $q_cs_qtimes->judge = 1;
+            $q_cs_ipqcs->judge = 1;
         } else {
-            $q_cs_qtimes->judge = 0;
+            $q_cs_ipqcs->judge = 0;
         }
 
 
-        if ($q_cs_qtimes->save()) {
+        if ($q_cs_ipqcs->save()) {
             // DONE judge di cycle 1 OK jika semua OK, jika ada NG maka NG, jika ada AC maka tunggu dulu sampai approval nya judge ??
             // DONE apakah harus tambah column destructive_judge_1 utk cycle 1 dan destructive_judge_2 utk cycle 2 
             // DONE apakah harus disimpan disini, agar bisa query update jika ada yg NG
 
             // last insert id
-            $last_cs_qtime_id = DB::getPdo()->lastInsertId();
-            $last_insert_id = $last_cs_qtime_id;
+            $last_cs_ipqc_id = DB::getPdo()->lastInsertId();
+            $last_insert_id = $last_cs_ipqc_id;
 
             if (in_array("3", $acng)) {
-                $q_cs_qtimes->judge = 3;
+                $q_cs_ipqcs->judge = 3;
                 // lanjut notif NG ke Telegram : ada NG di No. Checksheet QTime ABC | Part and Model ABC | Area ABC | Atas Nama Member ABC
                 // send notif telegram
                 $user_role = $this->getUserRole();
-                $cs_monitor = QualityMonitor::find($request->input('quality_monitor_id'));
-                $message = 'Ada NG di Checksheet QTime - '.$cs_monitor->doc_number.chr(10);
+                $cs_ipqc = QualityIpqc::find($request->input('quality_ipqc_id'));
+                $message = 'Ada NG di Checksheet IPQC - '.$cs_ipqc->lot_produksi.chr(10);
                 $message .= '[Nama Part] - Model [Nama Model]'.chr(10);
                 $message .= '[Area] - Member [Nama Member]'.chr(10);
                 $this->sendTelegram('-793766953',$message );
 
                 // lanjut Approval NG ke Leader
-                // set cs_status "Waiting Approval" di tabel q_monitors
-                $quality_monitor_id = $request->input('quality_monitor_id');
-                DB::table('quality_monitors')->where('id', $quality_monitor_id)->update([
+                // set cs_status "Waiting Approval" di tabel q_ipqcs
+                $quality_ipqc_id = $request->input('quality_ipqc_id');
+                DB::table('quality_ipqcs')->where('id', $quality_ipqc_id)->update([
                     'cs_status' => 1,
                     'updated_at' => now(),
                     'updated_by' => $user_id
                 ]);
 
                 // DB::enableQueryLog();
-                // set approval_status berjenjang di tabel q_cs_qtimes, pertama ke Leader dahulu dan atau seterusnya
+                // set approval_status berjenjang di tabel q_cs_ipqcs, pertama ke Leader dahulu dan atau seterusnya
                 // Request approval ke Leader
-                DB::table('quality_cs_qtimes')->where('id', $last_insert_id)->update([
+                DB::table('quality_cs_ipqcs')->where('id', $last_insert_id)->update([
                     'approval_status' => 1,
                     'updated_at' => now(),
                     'updated_by' => $user_id
                 ]);
-                // $query_print = DB::table('quality_cs_qtimes')->where('id', $last_insert_id)->update(['approval_status' => 1]);
+                // $query_print = DB::table('quality_cs_ipqcs')->where('id', $last_insert_id)->update(['approval_status' => 1]);
                 // dd($query_print); exit();
 
 
                 // setelah approval_status = 6 (selesai), maka kolom judge di tabel cs_qtimes berubah sesuai dengan action dari approver
-                // judgement di tabel quality_monitors pun ter update
+                // judgement di tabel quality_ipqcs pun ter update
 
                 // LANJUT UPDATE STATUS KOLOM JUDGEMENT
                 // kondisi OK
                 // kondisi NG
 
             } elseif(in_array("2", $acng)) {
-                $q_cs_qtimes->judge = 2;
+                $q_cs_ipqcs->judge = 2;
                 // lanjut notif approval ACceptance ke leader dst
                 // cs status = approval AC ke leader dst
                 // judgment collect dari tiap cycle, lalu update
 
-                // set cs_status "Waiting Approval" di tabel q_monitors
-                $quality_monitor_id = $request->input('quality_monitor_id');
-                DB::table('quality_monitors')->where('id', $quality_monitor_id)->update([
+                // set cs_status "Waiting Approval" di tabel q_ipqcs
+                $quality_ipqc_id = $request->input('quality_ipqc_id');
+                DB::table('quality_ipqcs')->where('id', $quality_ipqc_id)->update([
                     'cs_status' => 1,
                     'updated_at' => now(),
                     'updated_by' => $user_id
                 ]);
-                // set approval_status berjenjang di tabel q_cs_qtimes, pertama ke Leader dahulu dan atau seterusnya
+                // set approval_status berjenjang di tabel q_cs_ipqcs, pertama ke Leader dahulu dan atau seterusnya
                 // Request approval ke Leader
-                DB::table('quality_cs_qtimes')->where('id', $last_insert_id)->update([
+                DB::table('quality_cs_ipqcs')->where('id', $last_insert_id)->update([
                     'approval_status' => 1
                     // 'updated_at' => now(),
                     // 'updated_by' => $user_id
                 ]);
 
             } elseif(in_array("1", $acng)) {
-                $q_cs_qtimes->judge = 1;
+                $q_cs_ipqcs->judge = 1;
             } else {
-                $q_cs_qtimes->judge = 0;
+                $q_cs_ipqcs->judge = 0;
             }
 
 
             // LANJUT
-            // LANJUT view detail di tabel monitors
+            // LANJUT view detail di tabel ipqcs
             // LANJUT view approval Leader
             // LANJUT view approval Foreman
             // LANJUT
@@ -305,9 +329,9 @@ class QualityCsIpqcController extends Controller
 
             // Kirim notif ke Telegram
 
-            return redirect()->route('quality.monitor.index')->withSuccess(__('Monitor created successfully.'));
+            return redirect()->route('quality.ipqc.index')->withSuccess(__('Monitor IPQC created successfully.'));
         }else{
-            return redirect()->route('quality.monitor.index')->withSuccess(__('Maaf terjadi kesalahan. Silahkan coba kembali.'));
+            return redirect()->route('quality.ipqc.index')->withSuccess(__('Maaf terjadi kesalahan. Silahkan coba kembali.'));
         }
     }
 

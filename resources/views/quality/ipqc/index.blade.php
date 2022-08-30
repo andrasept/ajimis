@@ -126,7 +126,7 @@
 	                            </thead>
 	                            <tbody>
 	                            	@php
-	                            	$cs_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_ipqc->id)->get();
+	                            	$cs_s1 = DB::table('quality_cs_ipqcs')->where('shift', 1)->where('quality_ipqc_id',$q_ipqc->id)->get();
 
 	                            	$array_judge1 = array();
 	                            	$array_app1 = array();
@@ -134,12 +134,12 @@
 	                            	@foreach ($cs_s1 as $keycs => $q_cs_qtime)
 	                            		<tr>
 		                            		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				{{$q_cs_qtime->cycle}}
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				@if($q_cs_qtime->judge == 0)
 																					<span class="badge badge-info">Waiting</span>
 																				@elseif($q_cs_qtime->judge == 1)
@@ -152,7 +152,7 @@
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				@if($q_cs_qtime->approval_status == 0)
 																					<span class="badge badge-primary"><i class="fa fa-check-square"></i></span>
 																				@elseif($q_cs_qtime->approval_status == 1)
@@ -171,12 +171,12 @@
 																			@endif
 																		</td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				{{$q_cs_qtime->created_at}}
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				@foreach ($users as $key_user => $user)
 																					@if($user->id == $q_cs_qtime->updated_by)
 																						{{$user->name}}
@@ -185,7 +185,7 @@
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				{{$q_cs_qtime->updated_at}}
 																			@endif
 		                                </td>
@@ -222,7 +222,7 @@
 	                            </thead>
 	                            <tbody>
 	                            	@php
-	                            	$cs_s2 = DB::table('quality_cs_qtimes')->where('shift', 2)->where('quality_monitor_id',$q_ipqc->id)->get();
+	                            	$cs_s2 = DB::table('quality_cs_ipqcs')->where('shift', 2)->where('quality_ipqc_id',$q_ipqc->id)->get();
 
 	                            	$array_judge2 = array();
 	                            	$array_app2 = array();
@@ -230,12 +230,12 @@
 	                            	@foreach ($cs_s2 as $keycs2 => $q_cs_qtime)
 	                            		<tr>
 		                            		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				{{$q_cs_qtime->cycle}}
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				@if($q_cs_qtime->judge == 0)
 																					<span class="badge badge-info">Waiting</span>
 																				@elseif($q_cs_qtime->judge == 1)
@@ -248,7 +248,7 @@
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				@if($q_cs_qtime->approval_status == 0)
 																					<span class="badge badge-primary"><i class="fa fa-check-square"></i></span>
 																				@elseif($q_cs_qtime->approval_status == 1)
@@ -267,12 +267,12 @@
 																			@endif
 																		</td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				{{$q_cs_qtime->created_at}}
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				@foreach ($users as $key_user => $user)
 																					@if($user->id == $q_cs_qtime->updated_by)
 																						{{$user->name}}
@@ -281,7 +281,7 @@
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_monitor_id == $q_ipqc->id)
+		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
 																				{{$q_cs_qtime->updated_at}}
 																			@endif
 		                                </td>
@@ -296,8 +296,8 @@
 	                        </div>
 	                        @php
 	                        $hasil = "sudah finish";
-                        	$app_status1 = DB::table('quality_cs_qtimes')
-																	->where('quality_monitor_id',$q_ipqc->id)
+                        	$app_status1 = DB::table('quality_cs_ipqcs')
+																	->where('quality_ipqc_id',$q_ipqc->id)
 																	->get();
 																	//->toArray();
                         	// $app_status_unfinish = array(1,2,3,4,5);
@@ -393,9 +393,9 @@
 										<br/>
 										<!-- count cycle -->
 										@php
-                  	$css_s1 = DB::table('quality_cs_qtimes')->where('shift', 1)->where('quality_monitor_id',$q_ipqc->id)->get();
+                  	$css_s1 = DB::table('quality_cs_ipqcs')->where('shift', 1)->where('quality_ipqc_id',$q_ipqc->id)->get();
                   	$c1 = count($css_s1);
-                  	$css_s2 = DB::table('quality_cs_qtimes')->where('shift', 2)->where('quality_monitor_id',$q_ipqc->id)->get();
+                  	$css_s2 = DB::table('quality_cs_ipqcs')->where('shift', 2)->where('quality_ipqc_id',$q_ipqc->id)->get();
                   	$c2 = count($css_s2);
                   	@endphp
                   	shift 1 : {{$c1}}/7 | shift 2 : {{$c2}}/7

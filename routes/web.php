@@ -276,7 +276,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::get('/csipqc/{post}/show', 'QualityCsIpqcController@show')->name('quality.csipqc.show');
             Route::get('/csipqc/{post}/edit', 'QualityCsIpqcController@edit')->name('quality.csipqc.edit');
             Route::patch('/csipqc/{post}/update', 'QualityCsIpqcController@update')->name('quality.csipqc.update');
-            Route::delete('/csqtime/{post}/delete', 'QualityCsIpqcController@destroy')->name('quality.csipqc.destroy');
+            Route::delete('/csipqc/{post}/delete', 'QualityCsIpqcController@destroy')->name('quality.csipqc.destroy');
 
             Route::get('ngcategory/', 'QualityNgCategoryController@index')->name('quality.ngcategory.index');
             Route::get('ngcategory/create', 'QualityNgCategoryController@create')->name('quality.ngcategory.create');

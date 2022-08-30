@@ -10,19 +10,41 @@ class QualityCsIpqc extends Model
 {
     use HasFactory;
 
-    protected $table = 'quality_cs_qtimes';
+    protected $table = 'quality_cs_ipqcs';
 
     protected $fillable = [
-        'quality_monitor_id',
+        'quality_ipqc_id',
         'shift',   
         'cycle',   
              
         'destructive_test',        
-        'destructive_test_remark',        
+        'destructive_test_remark', 
+        'destructive_test_hold_status',
+        'destructive_test_qty',           
+        'destructive_test_hold_cat',           
+
         'appearance_produk',        
-        'appearance_produk_remark',        
+        'appearance_produk_remark',    
+        'appearance_produk_ng_cat',   
+        'appearance_produk_photo',
+        'appearance_produk_causes',
+        'appearance_produk_repair',
+        'appearance_produk_repair_res',
+        'appearance_produk_hold_status',
+        'appearance_produk_qty',
+        'appearance_produk_hold_cat',
+
         'parting_line',        
-        'parting_line_remark',        
+        'parting_line_remark',
+        'parting_line_ng_cat',
+        'parting_line_photo',
+        'parting_line_causes',
+        'parting_line_repair',
+        'parting_line_repair_res',
+        'parting_line_hold_status',
+        'parting_line_qty',
+        'parting_line_hold_cat',
+
         'marking_cek_final',        
         'marking_cek_final_remark',        
         'marking_garansi_function',        
@@ -32,6 +54,9 @@ class QualityCsIpqc extends Model
 
         'kelengkapan_komponen',        
         'kelengkapan_komponen_remark',        
+        'kelengkapan_komponen_hold_status',        
+        'kelengkapan_komponen_qty',        
+        'kelengkapan_komponen_hold_cat',        
         // 'housing',        
         // 'lens',        
         // 'extension',        

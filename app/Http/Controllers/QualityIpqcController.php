@@ -115,7 +115,7 @@ class QualityIpqcController extends Controller
 
         // dd($date);
 
-        $date_array = array('1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M');
+        $date_array = array('1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V');
         $month_array = array('A','B','C','D','E','F','G','H','I','J','K','L','M');
 
         $tanggal = $date_array[$date-1];
