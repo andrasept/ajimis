@@ -840,7 +840,7 @@ class DeliveryPreparationController extends Controller
             DB::beginTransaction();
             try {
                 $selection->status = '5';
-                $selection->end_preparation = $selection2->plan_date_preparation." ".$selection2->plan_time_preparation;
+                $selection->end_preparation = $selection->plan_date_preparation." ".$selection->plan_time_preparation;
                 $selection->end_by = $selection->pic;
                 $selection->time_preparation =   abs(strtotime ( $selection->start_preparation ) - strtotime ( $now))/(60);
                 $selection->save();

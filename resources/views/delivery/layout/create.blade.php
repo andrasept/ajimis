@@ -40,6 +40,19 @@
                             @enderror   
                         </div>
                         <div class="form-group">
+                            <label>Shift</label>
+                            </br>
+                            <select name="shift" class="form-control" id="shift" required>
+                                <option value="SHIFT 1" {{ old('shift') == "SHIFT 1" ? "selected" : "" }}>SHIFT 1</option>
+                                <option value="SHIFT 2" {{ old('shift') == "SHIFT 2" ? "selected" : "" }}>SHIFT 2</option>
+                            </select>
+                            @error('shift') 
+                                <div class="text-danger">
+                                    {{$message}}    
+                                </div>  
+                            @enderror   
+                        </div>
+                        <div class="form-group">
                             <label>Man Power</label>  <br/>
                             <select name="user_id" class="form-control" id="user_id" required>
                                 <option value="-" {{ old('user_id') == '-' ? "selected" : "" }}>-</option>
@@ -86,11 +99,36 @@
     $(document).ready(function(){
         $('#position').change(function(){
             var area = this.value;
+            var shift = $('#shift').val();
             $.ajax({
                     url: "{{route('delivery.layout_area.get_mp_where_area')}}",
                     method: "post",
                     data:{
                         "area" : area,
+                        "shift" : shift,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(result){
+                        $('#user_id').empty();
+                        if (result != '404') {
+                            $.each(result, function (key, entry) {
+                                $('#user_id').append($('<option></option>').attr('value', entry.npk).text(entry.name));
+                            })
+                        } else {
+                            
+                        }
+                    }
+            });
+        });
+        $('#shift').change(function(){
+            var shift = this.value;
+            var area = $('#position').val();
+            $.ajax({
+                    url: "{{route('delivery.layout_area.get_mp_where_area')}}",
+                    method: "post",
+                    data:{
+                        "area" : area,
+                        "shift" : shift,
                         "_token": "{{ csrf_token() }}",
                     },
                     success: function(result){

@@ -52,8 +52,8 @@ img {
 }
 </style>
 
-<div class="p-w-md m-t-sm">
-  <div class="layout_bg" style="width:100%">
+<div class="p-w-md m-t-sm ">
+  <div class="layout_bg shift_1" style="width:100%">
     {{-- finish goods --}}
     <div class='overlay' style="padding-left: 650px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data['photo_preparation_pulling_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data['nama_preparation_pulling_1'], " ")}}</label></div>
     @if ($data['henkaten_preparation_pulling_1'] !='')
@@ -118,8 +118,79 @@ img {
       </div>
     @endif
   </div>
+  <div class="layout_bg shift_2 d-none" style="width:100%">
+    {{-- finish goods --}}
+    <div class='overlay' style="padding-left: 650px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_preparation_pulling_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_preparation_pulling_1'], " ")}}</label></div>
+    @if ($data2['henkaten_preparation_pulling_1'] !='')
+      <div class='overlay' style="padding-left: 650px; padding-top:70px">
+        <img class="img_user" src="{{$data2['henkaten_preparation_pulling_1']}}" alt="">
+      </div>
+    @endif
+    <div class='overlay' style="padding-left: 710px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_preparation_pulling_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_preparation_pulling_2']," ")}}</label></div>
+    @if ($data2['henkaten_preparation_pulling_2'] !='')
+      <div class='overlay' style="padding-left: 710px; padding-top:70px">
+        <img class="img_user" src="{{$data2['henkaten_preparation_pulling_2']}}" alt="">
+      </div>
+    @endif
+    {{-- spare part --}}
+    <div class='overlay' style="padding-left: 320px; padding-top:20px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_sparepart']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_sparepart']," ")}}</label></div>
+    @if ($data2['henkaten_sparepart'] !='')
+      <div class='overlay' style="padding-left: 320px; padding-top:20px">
+        <img class="img_user" src="{{$data2['henkaten_sparepart']}}" alt="">
+      </div>
+    @endif
+    {{-- pulling sparepart --}}
+    <div class='overlay' style="padding-left: 320px; padding-top:100px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_pulling_oem_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_pulling_oem_1']," ")}}</label></div>
+    @if ($data2['henkaten_pulling_oem_1'] !='')
+      <div class='overlay' style="padding-left: 320px; padding-top:100px">
+        <img class="img_user" src="{{$data2['henkaten_pulling_oem_1']}}" alt="">
+      </div>
+    @endif
+    {{-- preparation --}}
+    <div class='overlay' style="padding-left: 600px; padding-top:70px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_preparation']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_preparation']," ")}}</label></div>
+    @if ($data2['henkaten_preparation'] !='')
+      <div class='overlay' style="padding-left: 600px; padding-top:70px">
+        <img class="img_user" src="{{$data2['henkaten_preparation']}}" alt="">
+      </div>
+    @endif
+    <div class='overlay' style="padding-left: 510px; padding-top:0px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_packaging_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_packaging_2'], " ")}}</label></div>
+    @if ($data2['henkaten_packaging_2'] !='')
+      <div class='overlay'  style="padding-left: 510px; padding-top:0px">
+        <img class="img_user" src="{{$data2['henkaten_packaging_2']}}" alt="">
+      </div>
+    @endif
+    <div class='overlay' style="padding-left: 440px; padding-top:100px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_pulling_oem_2']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_pulling_oem_2']," ")}}</label></div>
+    @if ($data2['henkaten_pulling_oem_2'] !='')
+      <div class='overlay' style="padding-left: 440px; padding-top:100px">
+        <img class="img_user" src="{{$data2['henkaten_pulling_oem_2']}}" alt="">
+      </div>
+    @endif
+    {{-- packaging --}}
+    <div class='overlay' style="padding-left: 450px; padding-top:0px"><img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_packaging_1']}}" alt=""><br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_packaging_1'], " ");}}</label></div>
+    @if ($data2['henkaten_packaging_1'] !='')
+      <div class='overlay' style="padding-left: 450px; padding-top:0px">
+        <img class="img_user" src="{{$data2['henkaten_packaging_1']}}" alt="">
+      </div>
+    @endif
+    {{-- admin delivery --}}
+    <div class='overlay' style="padding-left: 770px; padding-top:85px">
+      <img class="img_user" onerror="this.onerror=null;this.src='{{asset('/image/nouser.png')}}';"  src="{{$data2['photo_delivery_control']}}" alt="">
+      <br><label for="" style="color: black;font-weight:bold;font-size:10;">{{strtok($data2['nama_delivery_control'], " ")}}</label>
+    </div>
+    @if ($data2['henkaten_delivery_control'] !='')
+      <div class='overlay' style="padding-left: 770px; padding-top:85px">
+        <img class="img_user" src="{{$data2['henkaten_delivery_control']}}" alt="">
+      </div>
+    @endif
+  </div>
   <img  src="{{asset('/image/layout.png')}}" width="800px" height="200px" alt="thumb">
 <div>
+  
+
+
+
+
+
 
 
   <div class="ibox mt-3" >
@@ -137,8 +208,18 @@ img {
       </div>
       
       <div class="row mb-3">
-        <div class="col-lg-12 text-right">
-          <a class="btn btn-primary  mr-4 mt-4 text-center" href="{{route('delivery.layout_area.create')}}">Create</a>
+        <div class="col-lg-10">
+          <select name="select_shift" id="select_shift" class="form-control">
+            <option value="SHIFT 1">SHIFT 1</option>
+            <option value="SHIFT 2">SHIFT 2</option>
+          </select>
+        </div>
+        <div class="col-lg-1 text-right">
+          <input type="hidden" name="default-value" id="default-value" value="0">
+          <a class="btn btn-default   text-center " href="{{route('delivery.layout_area.default')}}" id="default" >DEFAULT</a>
+        </div>
+        <div class="col-lg-1 text-right">
+          <a class="btn btn-primary   text-center" href="{{route('delivery.layout_area.create')}}">Create</a>
         </div>
       </div>
         <table id="master" class="table table-bordered">
@@ -146,7 +227,7 @@ img {
             <tr>
               <th class="text-center">No</th>
               <th class="text-center">Area</th>
-              <th class="text-center">NPK</th>
+              <th class="text-center">Shift</th>
               <th class="text-center">Name</th>
               <th class="text-center">Photo</th>
               <th class="text-center">Position</th>
@@ -157,6 +238,7 @@ img {
               <th class="text-center"> Henkaten Date</th> --}}
               <th class="text-center">Action</th>
               <th class="text-center">Default Area</th>
+              <th class="text-center">NPK</th>
             </tr>
           </thead>
           <tbody>
@@ -195,6 +277,8 @@ img {
               "ajax": {
                           "url": "{{route('delivery.layout_area')}}",
                           "data":function (d) {
+                            d.shift = $('#select_shift').val();
+                            d.default = $('#select_shift').val();
                       },
               },
               "columns": [
@@ -206,7 +290,7 @@ img {
                     }
 
                   },
-                  { data: 'user_id', className: 'dt-body-center'},
+                  { data: 'shift', className: 'dt-body-center'},
                   { data: 'name', className: 'dt-body-center',
                 
                       'render' : function(data, type, row){
@@ -230,7 +314,6 @@ img {
                   { data: "npk", className: 'dt-body-center text-center',
                     "render": function ( data, type, row ) {
                       // ketika status nya henkaten select option ada cancel
-                      console.log(row['henkaten_status' ] );
                       if (row['henkaten_status' ]== '1' || row['henkaten_status' ]== '2') {
                         return "<select data-id='"+data+"'  id='alasan_"+data+"' class='form-control alasan_henkaten'><option value='-' selected>-</option><option value='cancel' >cancel</option><option value='Sick Leave'>Sick Leave</option><option value='Permit'>Permit</option><option value='Absence'>Absence</option><option value='On Leave'>On Leave</option></select>";
                       } else {
@@ -277,6 +360,7 @@ img {
                     }
 
                   },
+                  { data: 'user_id', className: 'dt-body-center'},
               ],
               "columnDefs": [ {
                   "searchable": true,
@@ -358,6 +442,7 @@ img {
                           }
                         } else {
                           // update henkaten
+                         
                           $.ajax({
                                   url: "{{route('delivery.layout_area.update')}}",
                                   method: "put",
@@ -436,7 +521,16 @@ img {
                   $(" option").css('font-size', 9);
                   $("select ").css('font-size', 9);
               });
-      
+              $("#select_shift").change(function(){
+                  if (this.value == "SHIFT 1") {
+                    $('.shift_1').removeClass('d-none');
+                    $('.shift_2').addClass('d-none');
+                  } else {
+                    $('.shift_2').removeClass('d-none');
+                    $('.shift_1').addClass('d-none');
+                  }
+                  table.ajax.reload(null,true)
+              });
           } );
       </script>
 @endpush

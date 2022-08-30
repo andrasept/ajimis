@@ -171,6 +171,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::get('/layout_area/{id}/delete', 'DeliveryLayoutAreaController@destroy')->name('delivery.layout_area.destroy')->middleware('auth');
           Route::post('/layout_area/get_mp_with_same_position', 'DeliveryLayoutAreaController@get_mp_with_same_position')->name('delivery.layout_area.get_mp_with_same_position')->middleware('auth');
           Route::post('/layout_area/get_mp_where_area', 'DeliveryLayoutAreaController@get_mp_where_area')->name('delivery.layout_area.get_mp_where_area')->middleware('auth');
+          Route::get('/layout_area/default', 'DeliveryLayoutAreaController@set_default')->name('delivery.layout_area.default')->middleware('auth');
           
           // delivery planning refreshment
           Route::get('/planning_refreshment/create', 'DeliveryPlanningRefreshmentController@create')->name('delivery.planning_refreshment.create')->middleware('auth');

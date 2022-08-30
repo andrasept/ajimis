@@ -144,8 +144,7 @@
                     date_departure = element.departure_plan.split(' ')[0].split('-');
                     time_departure = element.departure_plan.split(' ')[1].split(':');
                     
-console.log(element.departure_plan);
-console.log(element.departure_plan.split(' ')[1].split(':')[1]-2);
+
                     //color status delivery
                     if (element.departure_status === null) {
                         color = am5.color(0x80b3e0);

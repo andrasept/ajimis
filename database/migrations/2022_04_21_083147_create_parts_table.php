@@ -189,6 +189,7 @@ class CreatePartsTable extends Migration
             $table->id();
             $table->string('position');
             $table->string('user_id');
+            $table->string('shift');
             $table->integer('henkaten_status')->nullable();
             $table->dateTime('date_henkaten')->nullable();
             $table->timestamps();

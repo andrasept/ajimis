@@ -23,164 +23,317 @@ class DeliveryLayoutAreaController extends Controller
             // $query = DB::table('delivery_henkaten');
 
              $query = DB::table('delivery_henkaten')->select('delivery_henkaten.position as area_position','delivery_henkaten.id','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
-            'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.position as real_position','delivery_man_powers.area','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
+            'delivery_henkaten.date_henkaten','delivery_henkaten.shift','delivery_man_powers.npk','delivery_man_powers.position as real_position','delivery_man_powers.area','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
             ->leftjoin('delivery_man_powers', 'delivery_man_powers.npk', '=', 'delivery_henkaten.user_id')
             ;
+
+            if ($request->shift != '' || $request->shift != NULL ) {
+                $query->where('delivery_henkaten.shift', $request->shift);
+            }
 
             $query= $query->get();
 
             return DataTables::of($query)->toJson();
 
         } else {
-            $data_position = $query = DB::table('delivery_henkaten')->select('delivery_henkaten.position','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
+            $data_position_1  = DB::table('delivery_henkaten')->select('delivery_henkaten.position','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
             'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
-            ->leftjoin('delivery_man_powers', 'delivery_man_powers.npk', '=', 'delivery_henkaten.user_id')->get()
+            ->leftjoin('delivery_man_powers', 'delivery_man_powers.npk', '=', 'delivery_henkaten.user_id')->where('delivery_henkaten.shift', 'SHIFT 1')->get()
+            ;
+            $data_position_2  = DB::table('delivery_henkaten')->select('delivery_henkaten.position','delivery_henkaten.user_id','delivery_henkaten.henkaten_status',
+            'delivery_henkaten.date_henkaten','delivery_man_powers.npk','delivery_man_powers.name','delivery_man_powers.photo','delivery_man_powers.title')
+            ->leftjoin('delivery_man_powers', 'delivery_man_powers.npk', '=', 'delivery_henkaten.user_id')->where('delivery_henkaten.shift', 'SHIFT 2')->get()
             ;
 
-            // default
-            $data= [];
-            $data['photo_delivery_control'] = asset('/image/nouser.png');
-            $data['photo_preparation_pulling_1'] = asset('/image/nouser.png');
-            $data['photo_preparation_pulling_2'] = asset('/image/nouser.png');
-            $data['photo_pulling_oem_2'] = asset('/image/nouser.png');
-            $data['photo_packaging_2'] = asset('/image/nouser.png');
-            $data['photo_preparation'] = asset('/image/nouser.png');
-            $data['photo_packaging_1'] = asset('/image/nouser.png');
-            $data['photo_pulling_oem_1'] = asset('/image/nouser.png');
-            $data['photo_sparepart'] = asset('/image/nouser.png');
+            // dd($data_position);
 
-            $data['henkaten_delivery_control']='';
-            $data['henkaten_preparation_pulling_1'] = '';
-            $data['henkaten_preparation_pulling_2'] = '';
-            $data['henkaten_pulling_oem_2'] = '';
-            $data['henkaten_packaging_2'] = '';
-            $data['henkaten_preparation'] = '';
-            $data['henkaten_packaging_1'] = '';
-            $data['henkaten_pulling_oem_1'] = '';
-            $data['henkaten_sparepart'] = '';
+            // default shift 1
+                $data= [];
+                $data['photo_delivery_control'] = asset('/image/nouser.png');
+                $data['photo_preparation_pulling_1'] = asset('/image/nouser.png');
+                $data['photo_preparation_pulling_2'] = asset('/image/nouser.png');
+                $data['photo_pulling_oem_2'] = asset('/image/nouser.png');
+                $data['photo_packaging_2'] = asset('/image/nouser.png');
+                $data['photo_preparation'] = asset('/image/nouser.png');
+                $data['photo_packaging_1'] = asset('/image/nouser.png');
+                $data['photo_pulling_oem_1'] = asset('/image/nouser.png');
+                $data['photo_sparepart'] = asset('/image/nouser.png');
 
-            $data['nama_delivery_control']='';
-            $data['nama_preparation_pulling_1'] = '';
-            $data['nama_preparation_pulling_2'] = '';
-            $data['nama_pulling_oem_2'] = '';
-            $data['nama_packaging_2'] = '';
-            $data['nama_preparation'] = '';
-            $data['nama_packaging_1'] = '';
-            $data['nama_pulling_oem_1'] = '';
-            $data['nama_sparepart'] = '';
+                $data['henkaten_delivery_control']='';
+                $data['henkaten_preparation_pulling_1'] = '';
+                $data['henkaten_preparation_pulling_2'] = '';
+                $data['henkaten_pulling_oem_2'] = '';
+                $data['henkaten_packaging_2'] = '';
+                $data['henkaten_preparation'] = '';
+                $data['henkaten_packaging_1'] = '';
+                $data['henkaten_pulling_oem_1'] = '';
+                $data['henkaten_sparepart'] = '';
 
-            foreach ($data_position as $position) {
-                # code...
-                if ($position->position == 'delivery_control' && $position->user_id != 'empty') {
-                    $data['photo_delivery_control'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_delivery_control'] = $position->name;
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_delivery_control'] =asset("/image/henkaten.png");
-                    } else if ($position->henkaten_status == '2') {
-                        $data['henkaten_delivery_control'] =asset("/image/substitute.png");
-                    }else{
+                $data['nama_delivery_control']='';
+                $data['nama_preparation_pulling_1'] = '';
+                $data['nama_preparation_pulling_2'] = '';
+                $data['nama_pulling_oem_2'] = '';
+                $data['nama_packaging_2'] = '';
+                $data['nama_preparation'] = '';
+                $data['nama_packaging_1'] = '';
+                $data['nama_pulling_oem_1'] = '';
+                $data['nama_sparepart'] = '';
+            // default shift 2
+                $data2= [];
+                $data2['photo_delivery_control'] = asset('/image/nouser.png');
+                $data2['photo_preparation_pulling_1'] = asset('/image/nouser.png');
+                $data2['photo_preparation_pulling_2'] = asset('/image/nouser.png');
+                $data2['photo_pulling_oem_2'] = asset('/image/nouser.png');
+                $data2['photo_packaging_2'] = asset('/image/nouser.png');
+                $data2['photo_preparation'] = asset('/image/nouser.png');
+                $data2['photo_packaging_1'] = asset('/image/nouser.png');
+                $data2['photo_pulling_oem_1'] = asset('/image/nouser.png');
+                $data2['photo_sparepart'] = asset('/image/nouser.png');
 
+                $data2['henkaten_delivery_control']='';
+                $data2['henkaten_preparation_pulling_1'] = '';
+                $data2['henkaten_preparation_pulling_2'] = '';
+                $data2['henkaten_pulling_oem_2'] = '';
+                $data2['henkaten_packaging_2'] = '';
+                $data2['henkaten_preparation'] = '';
+                $data2['henkaten_packaging_1'] = '';
+                $data2['henkaten_pulling_oem_1'] = '';
+                $data2['henkaten_sparepart'] = '';
+
+                $data2['nama_delivery_control']='';
+                $data2['nama_preparation_pulling_1'] = '';
+                $data2['nama_preparation_pulling_2'] = '';
+                $data2['nama_pulling_oem_2'] = '';
+                $data2['nama_packaging_2'] = '';
+                $data2['nama_preparation'] = '';
+                $data2['nama_packaging_1'] = '';
+                $data2['nama_pulling_oem_1'] = '';
+                $data2['nama_sparepart'] = '';
+            // foreach data shift 1
+                foreach ($data_position_1 as $position) {
+                    # code...
+                    if ($position->position == 'delivery_control' && $position->user_id != 'empty') {
+                        $data['photo_delivery_control'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_delivery_control'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_delivery_control'] =asset("/image/henkaten.png");
+                        } else if ($position->henkaten_status == '2') {
+                            $data['henkaten_delivery_control'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                        
                     }
+                    if ($position->position == 'preparation_pulling_1' && $position->user_id != 'empty') {
+                        $data['photo_preparation_pulling_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_preparation_pulling_1'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_preparation_pulling_1'] =asset("/image/henkaten.png");
+                        } else if ($position->henkaten_status == '2') {
+                            $data['henkaten_preparation_pulling_1'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
+                    if ($position->position == 'preparation_pulling_2' && $position->user_id != 'empty') {
+                        $data['photo_preparation_pulling_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_preparation_pulling_2'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_preparation_pulling_2'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data['henkaten_preparation_pulling_2'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
+                    if ($position->position == 'pulling_oem_2' && $position->user_id != 'empty') {
+                        $data['photo_pulling_oem_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_pulling_oem_2'] = $position->name;
+
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_pulling_oem_2'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data['henkaten_pulling_oem_2'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
+                    if ($position->position == 'packaging_2' && $position->user_id != 'empty') {
+                        $data['photo_packaging_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_packaging_2'] = $position->name;
+
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_packaging_2'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data['henkaten_packaging_2'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
+                    if ($position->position == 'preparation' && $position->user_id != 'empty') {
+                        $data['photo_preparation'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_preparation'] = $position->name;
+
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_preparation'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data['henkaten_preparation'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
+                    if ($position->position == 'packaging_1' && $position->user_id != 'empty') {
+                        $data['photo_packaging_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_packaging_1'] = $position->name;
+
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_packaging_1'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data['henkaten_packaging_1'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
+                    if ($position->position == 'pulling_oem_1' && $position->user_id != 'empty') {
+                        $data['photo_pulling_oem_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_pulling_oem_1'] = $position->name;
+
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_pulling_oem_1'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data['henkaten_pulling_oem_1'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
+                    if ($position->position == 'sparepart' && $position->user_id != 'empty') {
+                        $data['photo_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data['nama_sparepart'] = $position->name;
+
+                        if ($position->henkaten_status == '1') {
+                            $data['henkaten_sparepart'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data['henkaten_sparepart'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
                     
                 }
-                if ($position->position == 'preparation_pulling_1' && $position->user_id != 'empty') {
-                    $data['photo_preparation_pulling_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_preparation_pulling_1'] = $position->name;
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_preparation_pulling_1'] =asset("/image/henkaten.png");
-                    } else if ($position->henkaten_status == '2') {
-                        $data['henkaten_preparation_pulling_1'] =asset("/image/substitute.png");
-                    }else{
 
+            // foreach data shift 2
+                foreach ($data_position_2 as $position) {
+                    # code...
+                    if ($position->position == 'delivery_control' && $position->user_id != 'empty') {
+                        $data2['photo_delivery_control'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_delivery_control'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_delivery_control'] =asset("/image/henkaten.png");
+                        } else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_delivery_control'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                        
                     }
-                } 
-                if ($position->position == 'preparation_pulling_2' && $position->user_id != 'empty') {
-                    $data['photo_preparation_pulling_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_preparation_pulling_2'] = $position->name;
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_preparation_pulling_2'] =asset("/image/henkaten.png");
-                    }  else if ($position->henkaten_status == '2') {
-                        $data['henkaten_preparation_pulling_2'] =asset("/image/substitute.png");
-                    }else{
+                    if ($position->position == 'preparation_pulling_1' && $position->user_id != 'empty') {
+                        $data2['photo_preparation_pulling_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_preparation_pulling_1'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_preparation_pulling_1'] =asset("/image/henkaten.png");
+                        } else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_preparation_pulling_1'] =asset("/image/substitute.png");
+                        }else{
 
-                    }
-                } 
-                if ($position->position == 'pulling_oem_2' && $position->user_id != 'empty') {
-                    $data['photo_pulling_oem_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_pulling_oem_2'] = $position->name;
+                        }
+                    } 
+                    if ($position->position == 'preparation_pulling_2' && $position->user_id != 'empty') {
+                        $data2['photo_preparation_pulling_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_preparation_pulling_2'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_preparation_pulling_2'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_preparation_pulling_2'] =asset("/image/substitute.png");
+                        }else{
 
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_pulling_oem_2'] =asset("/image/henkaten.png");
-                    }  else if ($position->henkaten_status == '2') {
-                        $data['henkaten_pulling_oem_2'] =asset("/image/substitute.png");
-                    }else{
+                        }
+                    } 
+                    if ($position->position == 'pulling_oem_2' && $position->user_id != 'empty') {
+                        $data2['photo_pulling_oem_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_pulling_oem_2'] = $position->name;
 
-                    }
-                } 
-                if ($position->position == 'packaging_2' && $position->user_id != 'empty') {
-                    $data['photo_packaging_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_packaging_2'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_pulling_oem_2'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_pulling_oem_2'] =asset("/image/substitute.png");
+                        }else{
 
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_packaging_2'] =asset("/image/henkaten.png");
-                    }  else if ($position->henkaten_status == '2') {
-                        $data['henkaten_packaging_2'] =asset("/image/substitute.png");
-                    }else{
+                        }
+                    } 
+                    if ($position->position == 'packaging_2' && $position->user_id != 'empty') {
+                        $data2['photo_packaging_2'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_packaging_2'] = $position->name;
 
-                    }
-                } 
-                if ($position->position == 'preparation' && $position->user_id != 'empty') {
-                    $data['photo_preparation'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_preparation'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_packaging_2'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_packaging_2'] =asset("/image/substitute.png");
+                        }else{
 
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_preparation'] =asset("/image/henkaten.png");
-                    }  else if ($position->henkaten_status == '2') {
-                        $data['henkaten_preparation'] =asset("/image/substitute.png");
-                    }else{
+                        }
+                    } 
+                    if ($position->position == 'preparation' && $position->user_id != 'empty') {
+                        $data2['photo_preparation'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_preparation'] = $position->name;
 
-                    }
-                } 
-                if ($position->position == 'packaging_1' && $position->user_id != 'empty') {
-                    $data['photo_packaging_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_packaging_1'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_preparation'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_preparation'] =asset("/image/substitute.png");
+                        }else{
 
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_packaging_1'] =asset("/image/henkaten.png");
-                    }  else if ($position->henkaten_status == '2') {
-                        $data['henkaten_packaging_1'] =asset("/image/substitute.png");
-                    }else{
+                        }
+                    } 
+                    if ($position->position == 'packaging_1' && $position->user_id != 'empty') {
+                        $data2['photo_packaging_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_packaging_1'] = $position->name;
 
-                    }
-                } 
-                if ($position->position == 'pulling_oem_1' && $position->user_id != 'empty') {
-                    $data['photo_pulling_oem_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_pulling_oem_1'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_packaging_1'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_packaging_1'] =asset("/image/substitute.png");
+                        }else{
 
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_pulling_oem_1'] =asset("/image/henkaten.png");
-                    }  else if ($position->henkaten_status == '2') {
-                        $data['henkaten_pulling_oem_1'] =asset("/image/substitute.png");
-                    }else{
+                        }
+                    } 
+                    if ($position->position == 'pulling_oem_1' && $position->user_id != 'empty') {
+                        $data2['photo_pulling_oem_1'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_pulling_oem_1'] = $position->name;
 
-                    }
-                } 
-                if ($position->position == 'sparepart' && $position->user_id != 'empty') {
-                    $data['photo_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
-                    $data['nama_sparepart'] = $position->name;
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_pulling_oem_1'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_pulling_oem_1'] =asset("/image/substitute.png");
+                        }else{
 
-                    if ($position->henkaten_status == '1') {
-                        $data['henkaten_sparepart'] =asset("/image/henkaten.png");
-                    }  else if ($position->henkaten_status == '2') {
-                        $data['henkaten_sparepart'] =asset("/image/substitute.png");
-                    }else{
+                        }
+                    } 
+                    if ($position->position == 'sparepart' && $position->user_id != 'empty') {
+                        $data2['photo_sparepart'] = asset('/storage/delivery-manpower-photo/'.$position->photo);
+                        $data2['nama_sparepart'] = $position->name;
 
-                    }
-                } 
-                
-            }
+                        if ($position->henkaten_status == '1') {
+                            $data2['henkaten_sparepart'] =asset("/image/henkaten.png");
+                        }  else if ($position->henkaten_status == '2') {
+                            $data2['henkaten_sparepart'] =asset("/image/substitute.png");
+                        }else{
+
+                        }
+                    } 
+                    
+                }
             // dd($data);
-            return view('delivery.layout.index', compact('data'));
+            return view('delivery.layout.index', compact('data','data2'));
         }
         
     }
@@ -268,7 +421,7 @@ class DeliveryLayoutAreaController extends Controller
                  '<b>Default area</b> : '.$area_user_pengganti.' '.chr(10).
                  '<b>Henkaten Date</b> :'. $data->date_henkaten.''.chr(10).
                  '<b>Area</b> :'.$data->position.' '.chr(10);
-                 $this->sendTelegram('-690929411',$message );
+                //  $this->sendTelegram('-690929411', $message );
 
                  //  insert henkaten detail / history
                     $history = new DeliveryHenkatenDetail();
@@ -279,7 +432,7 @@ class DeliveryLayoutAreaController extends Controller
                     $history->reason_henkaten =  $request->alasan;
                     $history->default_area_mp_after =  $area_user_pengganti;
                     $history->date_henkaten =   $data->date_henkaten;
-                    $history->save();
+                    $save = $history->save();
 
                 
 
@@ -300,7 +453,7 @@ class DeliveryLayoutAreaController extends Controller
                 $history->reason_henkaten =  $request->alasan;
                 $history->default_area_mp_after =  $area_user_pengganti;
                 $history->date_henkaten =    date('Y-m-d H:i:s');
-                $history->save();
+                $save_history = $history->save();
                } else {
                    $data->henkaten_status = $request->henkaten;
                    
@@ -313,7 +466,7 @@ class DeliveryLayoutAreaController extends Controller
                  $history->reason_henkaten =  $request->alasan;
                  $history->default_area_mp_after =  $area_user_pengganti;
                  $history->date_henkaten =   date('Y-m-d H:i:s');
-                 $history->save();
+                 $save_history_2 = $history->save();
                }
                
             }
@@ -386,8 +539,9 @@ class DeliveryLayoutAreaController extends Controller
     {
 
         $validator =  Validator::make($request->all(),[
-            'position' =>['required', 'unique:delivery_henkaten'],
+            'position' =>['required'],
             'user_id' => ['required','unique:delivery_henkaten'],
+            'shift' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -415,6 +569,73 @@ class DeliveryLayoutAreaController extends Controller
             
            
         }
+    }
+
+    public function set_default()
+    {
+         // cari mp default area masing masing shift
+         $mp_default_shift_1 =  DB::table('delivery_man_powers')->select('position','name', 'npk','area', 'shift')->where('shift','SHIFT 1')->distinct('area')->get()->toArray();
+         $mp_default_shift_2 =  DB::table('delivery_man_powers')->select('position','name', 'npk','area', 'shift')->where('shift','SHIFT 2')->distinct('area')->get()->toArray();
+         
+        //  filter default area biar tisdak duplikat
+            $hasil_shift_1 =[]; 
+            $area_shift_1 =[]; 
+            $hasil_shift_2 =[]; 
+            $area_shift_2 =[]; 
+
+            for ($i=0; $i < count($mp_default_shift_1) ; $i++) { 
+                if (!in_array($mp_default_shift_1[$i]->area, $area_shift_1)) {
+                    array_push($area_shift_1,$mp_default_shift_1[$i]->area );
+                     $hasil_shift_1[$i]['area']=$mp_default_shift_1[$i]->area;
+                     $hasil_shift_1[$i]['npk']=$mp_default_shift_1[$i]->npk;
+                     $hasil_shift_1[$i]['shift']=$mp_default_shift_1[$i]->shift;
+                     $hasil_shift_1[$i]['area']=$mp_default_shift_1[$i]->area;
+                }
+            }
+            for ($i=0; $i < count($mp_default_shift_2) ; $i++) { 
+                if (!in_array($mp_default_shift_2[$i]->area, $area_shift_2)) {
+                    array_push($area_shift_2,$mp_default_shift_2[$i]->area );
+                     $hasil_shift_2[$i]['area']=$mp_default_shift_2[$i]->area;
+                     $hasil_shift_2[$i]['npk']=$mp_default_shift_2[$i]->npk;
+                     $hasil_shift_2[$i]['shift']=$mp_default_shift_2[$i]->shift;
+                     $hasil_shift_2[$i]['area']=$mp_default_shift_2[$i]->area;
+                }
+            }
+
+            
+         DB::beginTransaction();
+         try {
+            // hapus layout henkaten
+                DeliveryLayoutArea::truncate();
+            // insert semua masing masing shift tapi tidak dupolikat default area
+                $dataset_1=[];
+                $dataset_2=[];
+                foreach ($hasil_shift_1 as $item) {
+                    $dataset_1 =[
+                        'position'  => $item['area'],
+                        'user_id'    => $item['npk'],
+                        'shift'       => $item['shift'],
+                    ];
+                    DB::table('delivery_henkaten')->insert($dataset_1);
+                }
+                foreach ($hasil_shift_2 as $item) {
+                    $dataset_2 =[
+                        'position'  => $item['area'],
+                        'user_id'    => $item['npk'],
+                        'shift'       => $item['shift'],
+                    ];
+                    DB::table('delivery_henkaten')->insert($dataset_2);
+                }
+                DB::commit();
+
+                return redirect('/delivery/layout_area')->with('success', 'Layout Area Default!');
+
+         } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect('/delivery/layout_area')->with('fail', "Failed! [105]"); 
+
+         }
+            
     }
 
     public function get_mp_with_same_position(Request $request)
@@ -452,7 +673,7 @@ class DeliveryLayoutAreaController extends Controller
     {
         if ($request->ajax()) {
             try {
-                $pic = ManPowerDelivery::where('area', '=', $request->area)->get();
+                $pic = ManPowerDelivery::where('area', '=', $request->area)->where('shift', $request->shift)->get();
                 return $pic = (count($pic) == 0) ? "404": $pic ;
             } catch (\Throwable $th) {
                 return '404';
@@ -474,7 +695,7 @@ class DeliveryLayoutAreaController extends Controller
         try {
             file_get_contents('https://api.telegram.org/bot'.$token.'/sendMessage?'.http_build_query($params));
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 }
