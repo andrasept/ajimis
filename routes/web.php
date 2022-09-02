@@ -189,6 +189,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
           Route::get('/dashboard_delivery', 'DeliveryDashboardController@index')->name('delivery.dashboard')->middleware('auth');
           Route::get('/dashboard_claim_graph', 'DeliveryDashboardController@claim')->name('delivery.claim.graph')->middleware('auth');
           Route::get('/dashboard_henkaten', 'DeliveryDashboardController@henkaten')->name('delivery.henkaten')->middleware('auth');
+          Route::get('/dashboard_all', 'DeliveryDashboardController@all')->name('delivery.all.graph')->middleware('auth');
         
         });
         // delivery member

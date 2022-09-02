@@ -58,9 +58,17 @@
                   <li class="">
                     <a href="#" aria-expanded="true">Dashboard<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level " aria-expanded="true" style="">
-                      <li><a href="{{route('delivery.dashboard')}}"> Delivery Achievement</a></li>
-                      <li><a href="{{route('delivery.claim.graph')}}"> Claim</a></li>
-                      <li><a href="{{route('delivery.henkaten')}}"> Henkaten Today</a></li>
+                      <li><a href="{{route('delivery.dashboard')}}"> Shipment Operation Diagram</a></li>
+                      <li><a href="{{route('delivery.all.graph')}}"> Dashboard All</a></li>
+                    </ul>
+                  </li>
+                  <li class="">
+                    <a href="#" aria-expanded="true">Henkaten<span class="fa arrow"></span></a>
+                    <ul class="nav nav-third-level " aria-expanded="true" style="">
+                      <li><a href="{{route('delivery.skillmatrix')}}"> Matrix</a></li>
+                      <li><a href="{{route('delivery.planning_refreshment')}}"> Planning Refreshment</a></li>
+                      <li><a href="{{route('delivery.layout_area')}}"> Layout Area</a></li>
+                      <li><a href="{{route('delivery.henkaten_detail')}}"> History</a></li>
                     </ul>
                   </li>
                   <li class="">
@@ -93,15 +101,6 @@
                       <a href="#" aria-expanded="true">Delivery note<span class="fa arrow"></span></a>
                       <ul class="nav nav-third-level " aria-expanded="true" style="">
                         <li><a href="{{route('delivery.delivery_note')}}">List Delivery Note</a></li>
-                      </ul>
-                    </li>
-                    <li class="">
-                      <a href="#" aria-expanded="true">Henkaten<span class="fa arrow"></span></a>
-                      <ul class="nav nav-third-level " aria-expanded="true" style="">
-                        <li><a href="{{route('delivery.skillmatrix')}}"> Matrix</a></li>
-                        <li><a href="{{route('delivery.planning_refreshment')}}"> Planning Refreshment</a></li>
-                        <li><a href="{{route('delivery.layout_area')}}"> Layout Area</a></li>
-                        <li><a href="{{route('delivery.henkaten_detail')}}"> History</a></li>
                       </ul>
                     </li>
                   </ul>

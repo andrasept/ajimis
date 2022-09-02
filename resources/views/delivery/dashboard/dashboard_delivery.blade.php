@@ -27,7 +27,7 @@
 
 <div class="ibox" >
   <div class="ibox-title">
-      <h4>Delivery Achievement Today</h4>
+      <h4>Shipment Operation Diagram</h4>
   </div>
   <div class="ibox-content">
     <div class="row">
