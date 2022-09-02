@@ -94,7 +94,7 @@ class QualityPartController extends Controller
 
         if($request->file('photo')){
             $file= $request->file('photo');
-            $filename = date('YmdHi').$file->getClientOriginalName();
+            $filename = date('YmdHis').$file->getClientOriginalName();
             $file->move(public_path('quality/wi'), $filename);
 
             // $file_resize = $request->file('photo');

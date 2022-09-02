@@ -22,7 +22,7 @@
 					</div>
 				</div>
 				<div class="ibox-content">
-					<form method="POST" action="{{ route('quality.csipqc.store') }}">
+					<form method="POST" action="{{ route('quality.csipqc.store') }}" enctype="multipart/form-data">
 						@csrf
 						<!-- Checksheet Info -->
 						<div class="form-group row">
@@ -112,10 +112,29 @@
                             </div>
                             <div class="col-md-4">
                                 <div id="destructive_test_show" class="" style="display:none;">
+                                   	<select class="destructive_test_ng_cat form-control m-b" name="destructive_test_ng_cat">
+	                                    <option value="" selected>--Jenis NG--</option>
+	                                    @foreach($q_ngcategories as $ngc)
+	                                    	<option value="{{$ngc->id}}">{{$ngc->name}}</option>
+	                                    @endforeach
+	                                </select>
+					                <button class="btn btn-danger btn-circle" type="button" style="position: absolute; left:-20px;"><i class="fa fa-trash" onclick="destructiveClearImage()"></i></button>
+	                                <input class="destructive_test_photo form-control" type="file" id="destructive_test_photo" onchange="destructivePreview()" accept="image/*;capture=camera" name="destructive_test_photo" placeholder="Upload Photo">
+	                                <br/><br/>
+					                <img width="200px" id="destructive_test_img" src="" class="img-fluid" />
+					                <br/>
+					                <textarea class="destructive_test_causes form-control" id="destructive_test_causes" name="destructive_test_causes" rows="2" placeholder="Problem Identification"></textarea>
+					                <br/>
+					                <textarea class="destructive_test_repair form-control" id="destructive_test_repair" name="destructive_test_repair" rows="2" placeholder="Corrective Action"></textarea>
+					                <br/>
+					                Repair Result 
+					                <input type="radio" name="destructive_test_repair_res" id="destructive_test_repair_res_ok" value="1">
+                                    <span class="badge badge-primary" for="destructive_test_repair_res_ok">OK</span>
+                                    <input type="radio" name="destructive_test_repair_res" id="destructive_test_repair_res_ng" value="3">
+                                    <span class="badge badge-danger" for="destructive_test_repair_res_ng">NG</span>
+                                   	<br/><hr/>
 
-                        			<textarea class="form-control" id="destructive_test_remark" name="destructive_test_remark" rows="2"></textarea>
-                                   	<hr/>
-                                   	Hold : 
+                                   	Hold Suspect : 
                                    	<input type="radio" name="destructive_test_hold_status" id="destructive_test_hold_status_yes" value="1">
                                     <span class="badge badge-primary" for="destructive_test_hold_status_yes">Ya</span>
                                     <input type="radio" name="destructive_test_hold_status" id="destructive_test_hold_status_no" value="0">
@@ -168,9 +187,9 @@
 	                                <br/><br/>
 					                <img width="200px" id="appearance_produk_img" src="" class="img-fluid" />
 					                <br/>
-					                <textarea class="appearance_produk_causes form-control" id="appearance_produk_causes" name="appearance_produk_causes" rows="2" placeholder="Causes"></textarea>
+					                <textarea class="appearance_produk_causes form-control" id="appearance_produk_causes" name="appearance_produk_causes" rows="2" placeholder="Problem Identification"></textarea>
 					                <br/>
-					                <textarea class="appearance_produk_repair form-control" id="appearance_produk_repair" name="appearance_produk_repair" rows="2" placeholder="Repair"></textarea>
+					                <textarea class="appearance_produk_repair form-control" id="appearance_produk_repair" name="appearance_produk_repair" rows="2" placeholder="Corrective Action"></textarea>
 					                <br/>
 					                Repair Result 
 					                <input type="radio" name="appearance_produk_repair_res" id="appearance_produk_repair_res_ok" value="1">
@@ -178,8 +197,8 @@
                                     <input type="radio" name="appearance_produk_repair_res" id="appearance_produk_repair_res_ng" value="3">
                                     <span class="badge badge-danger" for="appearance_produk_repair_res_ng">NG</span>
                                    	<br/><hr/>
-                                   	Hold : 
-                                   	<input type="radio" name="appearance_produk_hold_status" id="appearance_produk_hold_status_yes" value="1" data-toggle="modal" data-target="#myModal6">
+                                   	Hold Suspect : 
+                                   	<input type="radio" name="appearance_produk_hold_status" id="appearance_produk_hold_status_yes" value="1">
                                     <span class="badge badge-primary" for="appearance_produk_hold_status_yes">Ya</span>
                                     <input type="radio" name="appearance_produk_hold_status" id="appearance_produk_hold_status_no" value="0">
                                     <span class="badge badge-danger" for="appearance_produk_hold_status_no">Tidak</span>
@@ -361,9 +380,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div id="kelengkapan_komponen_show" class="" style="display:none;">
-                                	<textarea class="form-control" id="kelengkapan_komponen_remark" name="kelengkapan_komponen_remark" rows="2"></textarea>
+                                	<textarea class="form-control" id="kelengkapan_komponen_remark" name="kelengkapan_komponen_remark" rows="2" placeholder="Remark Komponen"></textarea>
                                    	<hr/>
-                                   	Hold : 
+                                   	Hold Suspect : 
                                    	<input type="radio" name="kelengkapan_komponen_hold_status" id="kelengkapan_komponen_hold_status_yes" value="1">
                                     <span class="badge badge-primary" for="kelengkapan_komponen_hold_status_yes">Ya</span>
                                     <input type="radio" name="kelengkapan_komponen_hold_status" id="kelengkapan_komponen_hold_status_no" value="0">
@@ -675,6 +694,13 @@
 <!-- iCheck -->
 <script src="{{asset('js/plugins/iCheck/icheck.min.js')}}"></script>
 <script>
+	function destructivePreview() {
+        destructive_test_img.src = URL.createObjectURL(event.target.files[0]);
+    }
+    function destructiveClearImage() {
+        document.getElementById('destructive_test_photo').value = null;
+        destructive_test_img.src = "";
+    }
     function appearancePreview() {
         appearance_produk_img.src = URL.createObjectURL(event.target.files[0]);
     }
@@ -698,12 +724,22 @@
         // Destructive Test
         $("#destructive_test_ng").click(function() {
 	        $("div#destructive_test_show").show();
-	        $("div#destructive_test_show textarea#destructive_test_remark").prop('required',true);
+	        // $("div#destructive_test_show textarea#destructive_test_remark").prop('required',true);
+	        $("div#destructive_test_show select.destructive_test_ng_cat").prop('required',true);
+	        $("div#destructive_test_show input.destructive_test_photo").prop('required',false);
+	        $("div#destructive_test_show textarea.destructive_test_causes").prop('required',false);
+	        $("div#destructive_test_show textarea.destructive_test_repair").prop('required',false);
+	        $("div#destructive_test_show input[name='destructive_test_repair_res']").prop('required',true);
 	        $("div#destructive_test_show input[name='destructive_test_hold_status']").prop('required',true);
 	    });
 	    $("#destructive_test_ok").click(function() {
 	        $("div#destructive_test_show").hide();
-	        $("div#destructive_test_show textarea#destructive_test_remark").prop('required',false);
+	        // $("div#destructive_test_show textarea#destructive_test_remark").prop('required',false);
+	        $("div#destructive_test_show select.destructive_test_ng_cat").prop('required',false);
+	        $("div#destructive_test_show input.destructive_test_photo").prop('required',false);
+	        $("div#destructive_test_show textarea.destructive_test_causes").prop('required',false);
+	        $("div#destructive_test_show textarea.destructive_test_repair").prop('required',false);
+	        $("div#destructive_test_show input[name='destructive_test_repair_res']").prop('required',false);
 	        $("div#destructive_test_show input[name='destructive_test_hold_status']").prop('required',false);
 	    });
 	    // destructive_test_hold_status_yes_show
@@ -723,8 +759,8 @@
 	        $("div#appearance_produk_show").show();
 	        $("div#appearance_produk_show select.appearance_produk_ng_cat").prop('required',true);
 	        $("div#appearance_produk_show input.appearance_produk_photo").prop('required',true);
-	        $("div#appearance_produk_show textarea.appearance_produk_causes").prop('required',true);
-	        $("div#appearance_produk_show textarea.appearance_produk_repair").prop('required',true);
+	        $("div#appearance_produk_show textarea.appearance_produk_causes").prop('required',false);
+	        $("div#appearance_produk_show textarea.appearance_produk_repair").prop('required',false);
 	        $("div#appearance_produk_show input[name='appearance_produk_repair_res']").prop('required',true);
 	        $("div#appearance_produk_show input[name='appearance_produk_hold_status']").prop('required',true);
 	    });

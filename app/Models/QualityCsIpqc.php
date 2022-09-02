@@ -19,6 +19,11 @@ class QualityCsIpqc extends Model
              
         'destructive_test',        
         'destructive_test_remark', 
+        'destructive_test_ng_cat',   
+        'destructive_test_photo',
+        'destructive_test_causes',
+        'destructive_test_repair',
+        'destructive_test_repair_res',
         'destructive_test_hold_status',
         'destructive_test_qty',           
         'destructive_test_hold_cat',           

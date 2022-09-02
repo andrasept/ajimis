@@ -161,15 +161,32 @@ class QualityCsIpqcController extends Controller
         $q_cs_ipqcs->cycle = $request->input('cycle');
 
         $q_cs_ipqcs->destructive_test = $request->input('destructive_test');
-        $q_cs_ipqcs->destructive_test_remark = $request->input('destructive_test_remark');
+        // $q_cs_ipqcs->destructive_test_remark = $request->input('destructive_test_remark');
+        $q_cs_ipqcs->destructive_test_ng_cat = $request->input('destructive_test_ng_cat');
+        // $q_cs_ipqcs->destructive_test_photo = $request->input('destructive_test_photo');  
+        if($request->file('destructive_test_photo')){
+            $file= $request->file('destructive_test_photo');
+            $filename = 'destructive_test'.date('YmdHis').$file->getClientOriginalName();
+            $file->move(public_path('quality/csipqc'), $filename);
+            $q_cs_ipqcs->destructive_test_photo = $filename;
+        }
+        $q_cs_ipqcs->destructive_test_causes = $request->input('destructive_test_causes');
+        $q_cs_ipqcs->destructive_test_repair = $request->input('destructive_test_repair');
+        $q_cs_ipqcs->destructive_test_repair_res = $request->input('destructive_test_repair_res');
         $q_cs_ipqcs->destructive_test_hold_status = $request->input('destructive_test_hold_status');
         $q_cs_ipqcs->destructive_test_qty = $request->input('destructive_test_qty');
         $q_cs_ipqcs->destructive_test_hold_cat = $request->input('destructive_test_hold_cat');
 
         $q_cs_ipqcs->appearance_produk = $request->input('appearance_produk');
-        $q_cs_ipqcs->appearance_produk_remark = $request->input('appearance_produk_remark');
+        // $q_cs_ipqcs->appearance_produk_remark = $request->input('appearance_produk_remark');
         $q_cs_ipqcs->appearance_produk_ng_cat = $request->input('appearance_produk_ng_cat');
-        $q_cs_ipqcs->appearance_produk_photo = $request->input('appearance_produk_photo');
+        // $q_cs_ipqcs->appearance_produk_photo = $request->input('appearance_produk_photo');
+        if($request->file('appearance_produk_photo')){
+            $file= $request->file('appearance_produk_photo');
+            $filename = 'appearance_produk'.date('YmdHis').$file->getClientOriginalName();
+            $file->move(public_path('quality/csipqc'), $filename);
+            $q_cs_ipqcs->appearance_produk_photo = $filename;
+        }
         $q_cs_ipqcs->appearance_produk_causes = $request->input('appearance_produk_causes');
         $q_cs_ipqcs->appearance_produk_repair = $request->input('appearance_produk_repair');
         $q_cs_ipqcs->appearance_produk_repair_res = $request->input('appearance_produk_repair_res');
@@ -181,6 +198,12 @@ class QualityCsIpqcController extends Controller
         $q_cs_ipqcs->parting_line_remark = $request->input('parting_line_remark');
         $q_cs_ipqcs->parting_line_ng_cat = $request->input('parting_line_ng_cat');
         $q_cs_ipqcs->parting_line_photo = $request->input('parting_line_photo');
+        if($request->file('parting_line_photo')){
+            $file= $request->file('parting_line_photo');
+            $filename = 'parting_line'.date('YmdHis').$file->getClientOriginalName();
+            $file->move(public_path('quality/csipqc'), $filename);
+            $q_cs_ipqcs->parting_line_photo = $filename;
+        }
         $q_cs_ipqcs->parting_line_causes = $request->input('parting_line_causes');
         $q_cs_ipqcs->parting_line_repair = $request->input('parting_line_repair');
         $q_cs_ipqcs->parting_line_repair_res = $request->input('parting_line_repair_res');
@@ -241,7 +264,7 @@ class QualityCsIpqcController extends Controller
         } else {
             $q_cs_ipqcs->judge = 0;
         }
-
+        
 
         if ($q_cs_ipqcs->save()) {
             // DONE judge di cycle 1 OK jika semua OK, jika ada NG maka NG, jika ada AC maka tunggu dulu sampai approval nya judge ??
@@ -253,6 +276,7 @@ class QualityCsIpqcController extends Controller
             $last_insert_id = $last_cs_ipqc_id;
 
             if (in_array("3", $acng)) {
+                // 20220830 todo ini harusnya jika ada hold
                 $q_cs_ipqcs->judge = 3;
                 // lanjut notif NG ke Telegram : ada NG di No. Checksheet QTime ABC | Part and Model ABC | Area ABC | Atas Nama Member ABC
                 // send notif telegram
@@ -329,7 +353,7 @@ class QualityCsIpqcController extends Controller
 
             // Kirim notif ke Telegram
 
-            return redirect()->route('quality.ipqc.index')->withSuccess(__('Monitor IPQC created successfully.'));
+            return redirect()->route('quality.ipqc.index')->withSuccess(__('Monitoring Cycle IPQC created successfully.'));
         }else{
             return redirect()->route('quality.ipqc.index')->withSuccess(__('Maaf terjadi kesalahan. Silahkan coba kembali.'));
         }
@@ -354,61 +378,52 @@ class QualityCsIpqcController extends Controller
      */
     public function edit($id)
     {
-        $cs_qtime_id = $id;
-        // get monitor_id
-        // get quality_monitor_id from $id
-        $monitor_id = DB::table('quality_cs_qtimes')->where('id', $id)->pluck('quality_monitor_id')->first();
-        // echo $monitor_id; exit();
-        $id = $monitor_id;
+        $cs_ipqc_id = $id;
+        // get ipqc_id
+        // get quality_ipqc_id from $id
+        $ipqc_id = DB::table('quality_cs_ipqcs')->where('id', $id)->pluck('quality_ipqc_id')->first();
+        // echo $ipqc_id; exit();
+        $id = $ipqc_id;
         // echo $cs_qtime_id; exit();
 
         // echo $id; exit();
         // dependent dropdown
-        $qualityMonitors = QualityMonitor::with(['qualityArea', 'qualityProcess', 'qualityModel', 'qualityPart']);
+        // $qualityIpqcs = QualityMonitor::with(['qualityArea', 'qualityProcess', 'qualityMachine', 'qualityModel', 'qualityPart']);
         // return view('quality.monitor.index', [
-        //     'qualityMonitors' => $qualityMonitors->get(),
+        //     'qualityIpqcs' => $qualityIpqcs->get(),
         // ]);
-        $qualityMonitors = $qualityMonitors->get();
+        // $qualityIpqcs = $qualityIpqcs->get();
 
-        $q_parts = QualityPart::all();
-        $q_models = QualityModel::all();
-        $q_processes = QualityProcess::all();
         $q_areas = QualityArea::all();
-        $q_monitors = QualityMonitor::all();
+        $q_processes = QualityProcess::all();
+        $q_machines = QualityMachine::all();
+        $q_models = QualityModel::all();
+        $q_parts = QualityPart::all();
+        $q_ipqcs = QualityIpqc::all();
+        $q_ngcategories = QualityNgCategory::all();
 
-        // doc number
-        // $randomNumber = $this->generateDocNumber();
-        $randomNumber = (new QualityMonitorController)->generateDocNumber();
-
-        // cs monitors
-        // $q_monitors_id = DB::table('quality_monitors')->where('id', $id)->get();
-
-        // get cs category
-        $cs_cat_qtime = DB::table('quality_monitors')->where('id', $id)->pluck('quality_cs_qtime')->first();
-        $cs_cat_acc = DB::table('quality_monitors')->where('id', $id)->pluck('quality_cs_accuracy')->first();
-        if ($cs_cat_qtime == 1) {
-            $cs_category = "QTime";
-        } elseif ($cs_cat_acc == 1) {
-            $cs_category = "Accuracy";
-        } else {
-            $cs_category = "No Category";
-        }
-        // get cs doc number
-        $doc_number = DB::table('quality_monitors')->where('id', $id)->pluck('doc_number')->first();
+        // lot produksi
+        $lot_produksi = DB::table('quality_ipqcs')->where('id', $id)->pluck('lot_produksi')->first();
         // get area
-        $cs_area = DB::table('quality_monitors')->where('id', $id)->pluck('quality_area_id')->first();
+        $cs_area = DB::table('quality_ipqcs')->where('id', $id)->pluck('quality_area_id')->first();
         $cs_area = DB::table('quality_areas')->where('id', $cs_area)->pluck('name')->first();
         // echo $cs_area; exit();
         // get process
-        $cs_process = DB::table('quality_monitors')->where('id', $id)->pluck('quality_process_id')->first();
+        $cs_process = DB::table('quality_ipqcs')->where('id', $id)->pluck('quality_process_id')->first();
         $cs_process = DB::table('quality_processes')->where('id', $cs_process)->pluck('name')->first();
+        // get machine
+        $cs_machine = DB::table('quality_ipqcs')->where('id', $id)->pluck('quality_machine_id')->first();
+        $cs_machine = DB::table('quality_machines')->where('id', $cs_machine)->pluck('name')->first();
         // get model
-        $cs_model = DB::table('quality_monitors')->where('id', $id)->pluck('quality_model_id')->first();
+        $cs_model = DB::table('quality_ipqcs')->where('id', $id)->pluck('quality_model_id')->first();
         $cs_model = DB::table('quality_models')->where('id', $cs_model)->pluck('name')->first();
         // get part
-        $cs_part_id = DB::table('quality_monitors')->where('id', $id)->pluck('quality_part_id')->first();   
-        $cs_part = DB::table('quality_monitors')->where('id', $id)->pluck('quality_part_id')->first();   
+        $cs_part_id = DB::table('quality_ipqcs')->where('id', $id)->pluck('quality_part_id')->first();   
+        $cs_part = DB::table('quality_ipqcs')->where('id', $id)->pluck('quality_part_id')->first();   
         $cs_part = DB::table('quality_parts')->where('id', $cs_part)->pluck('name')->first();   
+        // get photo part
+        $cs_part_photo_id = DB::table('quality_ipqcs')->where('id', $id)->pluck('quality_part_id')->first(); 
+        $cs_photo = DB::table('quality_parts')->where('id', $cs_part_photo_id)->pluck('photo')->first();
         // get part vertical
         $cs_part_ver = DB::table('quality_parts')->where('id', $cs_part_id)->get();
         foreach($cs_part_ver as $cpv) {
@@ -436,20 +451,20 @@ class QualityCsIpqcController extends Controller
             }
         }
 
-        $q_monitor_id = $id;
+        $q_ipqc_id = $id;
 
         // kondisional jika di part horizontal terdapat yg low, maka pindahkan form ke yg low, dst
 
         // show quality_cs_qtimes
-        $q_cs_qtimes = DB::table('quality_cs_qtimes')->where('id', $cs_qtime_id)->get();
+        $q_cs_ipqcs = DB::table('quality_cs_ipqcs')->where('id', $cs_ipqc_id)->get();
         // dd($q_cs_qtimes);
 
 
-        return view('quality.csqtime.leader.edit', compact(
-            'q_processes', 'q_areas', 'q_models', 'q_parts', 'qualityMonitors', 'randomNumber', 'q_monitors', 
-            'cs_category', 'doc_number', 'cs_area', 'cs_process', 'cs_model', 'cs_part', 'part_ver', 'part_hor',
-            'q_monitor_id',
-            'q_cs_qtimes', 'cs_qtime_id'
+        return view('quality.csipqc.leader.edit', compact(
+            'q_processes', 'q_areas', 'q_machines', 'q_models', 'q_parts', 'q_ipqcs', 
+            'lot_produksi', 'cs_area', 'cs_process', 'cs_machine', 'cs_model', 'cs_part', 'part_ver', 'part_hor', 'cs_photo',
+            'q_ipqc_id',
+            'q_cs_ipqcs', 'cs_ipqc_id'
         ));
     }
 

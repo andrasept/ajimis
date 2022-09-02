@@ -38,7 +38,7 @@
 
 	                    <div class="form-group row">
 							<label class="col-sm-2 col-form-label">Lot Produksi</label>
-							<div class="col-sm-10"><input type="text" name="lot_produksi" class="form-control" value="{{$lotProduksi}}" readonly required></div>
+							<div class="col-sm-10"><input type="text" name="lot_produksi" class="form-control" value="{{$lotProduksi}}" required></div>
 	                    </div>
 	                    <div class="hr-line-dashed"></div>
 
