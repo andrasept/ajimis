@@ -109,6 +109,7 @@ class DeliveryLayoutAreaController extends Controller
                 $data2['nama_packaging_1'] = '';
                 $data2['nama_pulling_oem_1'] = '';
                 $data2['nama_sparepart'] = '';
+
             // foreach data shift 1
                 foreach ($data_position_1 as $position) {
                     # code...
