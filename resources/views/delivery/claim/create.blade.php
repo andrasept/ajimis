@@ -57,7 +57,12 @@
                         </div>
                         <div class="form-group">
                             <label>Part Number Actual</label>  
-                            <input type="text" id="part_number_actual" placeholder="part number actual" name="part_number_actual" class="form-control" value="{{old('part_number_actual')}}" required>
+                            <select name="part_number_actual" id="part_number_actual" style="width:100%" class="select2_part_number form-control" required>
+                                <option value="-">-</option>
+                                @foreach ($part_nos as $part_no)
+                                <option value="{{$part_no->part_no_customer}}">{{$part_no->part_no_customer}}</option>
+                                @endforeach
+                            </select>
                             @error('part_number_actual') 
                                 <div class="text-danger">
                                     {{$message}}    
@@ -83,9 +88,9 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Problem Identification</label>  
-                            <input type="text" id="problem" placeholder="problem" name="problem" class="form-control" value="{{old('problem')}}" required>
-                            @error('problem') 
+                            <label>Qty</label>  
+                            <input type="number" id="qty" placeholder="qty" name="qty" class="form-control" value="{{old('qty')}}" required >
+                            @error('qty') 
                                 <div class="text-danger">
                                     {{$message}}    
                                 </div>
@@ -107,15 +112,7 @@
                                 </div>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label>Qty</label>  
-                            <input type="number" id="qty" placeholder="qty" name="qty" class="form-control" value="{{old('qty')}}" required >
-                            @error('qty') 
-                                <div class="text-danger">
-                                    {{$message}}    
-                                </div>
-                            @enderror
-                        </div>
+                        
                         <div class="form-group ">
                             <label for="photo" class="text-left">Evidence</label>
                             <div class="input-group-btn mb-2 text-right ">
@@ -138,6 +135,15 @@
                             <div class="text-danger">
                                 {{$message}}
                             </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Problem Identification</label>  
+                            <input type="text" id="problem" placeholder="problem" name="problem" class="form-control" value="{{old('problem')}}" required>
+                            @error('problem') 
+                                <div class="text-danger">
+                                    {{$message}}    
+                                </div>
                             @enderror
                         </div>
                         <div class="form-group">
@@ -243,6 +249,27 @@
                         } else {
                             $('#part_name').val(result.part_name);  
                             $('#customer_pickup_id').val(result.customer_id);  
+                        }
+                    }});
+            });
+        // autocomplete part actual
+            $('#part_number_actual').change(function(){
+                var part_no = $('#part_number_actual').val(); 
+                
+                $.ajax({
+                    url: "{{route('delivery.claim.get_data_part')}}",
+                    method: "post",
+                    data:{
+                        "part_no" : part_no,
+                        "_token": "{{ csrf_token() }}",
+                    },
+                    success: function(result){
+                        console.log(result);
+                        $('#part_name_actual').empty();
+                        if (result == '404'  ) {
+                            $('#part_name_actual').empty();  
+                        } else {
+                            $('#part_name_actual').val(result.part_name);  
                         }
                     }});
             });
