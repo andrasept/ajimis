@@ -268,15 +268,15 @@
                         return '<label class="label label-warning ">on Progress</label><br/>'+waktu_progress+" minutes";
                       } else  if (data == '3') {
                         // cek status delay, ontime, adavance
-                        return '<label class="label label-info">Advanced</label><br/>'+waktu_progress+" minutes";
+                        return '<label class="label label-info">Advanced</label><br/>';
                       
                       } else  if (data == '4') {
                         // cek status delay, ontime, adavance
-                        return '<label class="label label-primary">On time</label><br/>'+waktu_progress+" minutes";
+                        return '<label class="label label-primary">On time</label><br/>';
                       
                       }else  if (data == '5') {
                         // cek status delay, ontime, adavance
-                        return '<label class="label label-danger">Delayed</label><br/>'+waktu_progress+" minutes";
+                        return '<label class="label label-danger">Delayed</label><br/>';
                       
                       }else{
                         return'';
