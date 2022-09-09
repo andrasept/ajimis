@@ -185,8 +185,8 @@ class DeliveryPreparationController extends Controller
 
             $data = Excel::toArray(new PreparationDeliveryImport, request()->file('file'));
             foreach ($data[0] as $key => $value) {
-                $data[0][$key] ['date_plan_arrival'] = date("Y-m-d H:i:s", strtotime($data[0][$key] ['date_plan_arrival']));
-                $data[0][$key] ['date_plan_departure'] = date("Y-m-d H:i:s", strtotime($data[0][$key] ['date_plan_departure']));
+                $data[0][$key] ['date_plan_arrival'] = date("Y-m-d H:i:s", strtotime($data[0][$key] ['date_plan_arrival']." ".$data[0][$key] ['time_plan_arrival']));
+                $data[0][$key] ['date_plan_departure'] = date("Y-m-d H:i:s", strtotime($data[0][$key] ['date_plan_departure']." ".$data[0][$key] ['time_plan_departure']));
             }
 
             // dd($data);
