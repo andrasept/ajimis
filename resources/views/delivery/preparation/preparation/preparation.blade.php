@@ -255,22 +255,28 @@
                     {
                       var waktu_selesai_prepare = moment(row['end_preparation']);
                       var waktu_plan_prepare = moment(row['plan_date_preparation']);
+                      var waktu_start= null;
+                      if (row['start_preparation'] !== null) {
+                        waktu_start = moment(row['start_preparation']);
+                      }
+                      var waktu_sekarang = moment().format("DD/MM/YYYY HH:mm:ss");
+                      var waktu_progress = moment(waktu_sekarang,"DD/MM/YYYY HH:mm:ss").diff(moment(waktu_start,"DD/MM/YYYY HH:mm:ss"), 'minutes');
 
                       var waktu_plan_prepare_min_20 =waktu_plan_prepare.subtract({minutes:20}).format('DD/MM/YYYY HH:mm:ss');
 
                       if (data == '1') {
-                        return '<label class="label label-warning ">on Progress</label>';
+                        return '<label class="label label-warning ">on Progress</label><br/>'+waktu_progress+" minutes";
                       } else  if (data == '3') {
                         // cek status delay, ontime, adavance
-                        return '<label class="label label-info">Advanced</label>';
+                        return '<label class="label label-info">Advanced</label><br/>'+waktu_progress+" minutes";
                       
                       } else  if (data == '4') {
                         // cek status delay, ontime, adavance
-                        return '<label class="label label-primary">On time</label>';
+                        return '<label class="label label-primary">On time</label><br/>'+waktu_progress+" minutes";
                       
                       }else  if (data == '5') {
                         // cek status delay, ontime, adavance
-                        return '<label class="label label-danger">Delayed</label>';
+                        return '<label class="label label-danger">Delayed</label><br/>'+waktu_progress+" minutes";
                       
                       }else{
                         return'';
