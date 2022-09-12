@@ -121,13 +121,13 @@
 					                <button class="btn btn-danger btn-circle" type="button" style="position: absolute; left:-20px;"><i class="fa fa-trash" onclick="destructiveClearImage()"></i></button>
 	                                <input class="destructive_test_photo form-control" type="file" id="destructive_test_photo" onchange="destructivePreview()" accept="image/*;capture=camera" name="destructive_test_photo" placeholder="Upload Photo">
 	                                <br/><br/>
-					                <img width="200px" id="destructive_test_img" src="" class="img-fluid" />
-					                <br/>
+					                <img width="" id="destructive_test_img" src="" class="img-fluid" />
+					                <br/><br/>
 					                <textarea class="destructive_test_causes form-control" id="destructive_test_causes" name="destructive_test_causes" rows="2" placeholder="Problem Identification"></textarea>
 					                <br/>
 					                <textarea class="destructive_test_repair form-control" id="destructive_test_repair" name="destructive_test_repair" rows="2" placeholder="Corrective Action"></textarea>
 					                <br/>
-					                Repair Result 
+					                Action Result : 
 					                <input type="radio" name="destructive_test_repair_res" id="destructive_test_repair_res_ok" value="1">
                                     <span class="badge badge-primary" for="destructive_test_repair_res_ok">OK</span>
                                     <input type="radio" name="destructive_test_repair_res" id="destructive_test_repair_res_ng" value="3">
@@ -185,13 +185,13 @@
 					                <button class="btn btn-danger btn-circle" type="button" style="position: absolute; left:-20px;"><i class="fa fa-trash" onclick="appearanceClearImage()"></i></button>
 	                                <input class="appearance_produk_photo form-control" type="file" id="appearance_produk_photo" onchange="appearancePreview()" accept="image/*;capture=camera" name="appearance_produk_photo" placeholder="Upload Photo">
 	                                <br/><br/>
-					                <img width="200px" id="appearance_produk_img" src="" class="img-fluid" />
-					                <br/>
+					                <img width="" id="appearance_produk_img" src="" class="img-fluid" />
+					                <br/><br/>
 					                <textarea class="appearance_produk_causes form-control" id="appearance_produk_causes" name="appearance_produk_causes" rows="2" placeholder="Problem Identification"></textarea>
 					                <br/>
 					                <textarea class="appearance_produk_repair form-control" id="appearance_produk_repair" name="appearance_produk_repair" rows="2" placeholder="Corrective Action"></textarea>
 					                <br/>
-					                Repair Result 
+					                Action Result : 
 					                <input type="radio" name="appearance_produk_repair_res" id="appearance_produk_repair_res_ok" value="1">
                                     <span class="badge badge-primary" for="appearance_produk_repair_res_ok">OK</span>
                                     <input type="radio" name="appearance_produk_repair_res" id="appearance_produk_repair_res_ng" value="3">
@@ -247,13 +247,13 @@
 					                <button class="btn btn-danger btn-circle" type="button" style="position: absolute; left:-20px;"><i class="fa fa-trash" onclick="partinglineClearImage()"></i></button>
 	                                <input class="parting_line_photo form-control" type="file" id="parting_line_photo" onchange="partinglinePreview()" accept="image/*;capture=camera" name="parting_line_photo" placeholder="Upload Photo">
 	                                <br/><br/>
-					                <img width="200px" id="parting_line_img" src="" class="img-fluid" />
-					                <br/>
+					                <img width="" id="parting_line_img" src="" class="img-fluid" />
+					                <br/><br/>
 					                <textarea class="parting_line_causes form-control" id="parting_line_causes" name="parting_line_causes" rows="2" placeholder="Causes"></textarea>
 					                <br/>
 					                <textarea class="parting_line_repair form-control" id="parting_line_repair" name="parting_line_repair" rows="2" placeholder="Repair"></textarea>
 					                <br/>
-					                Repair Result 
+					                Action Result : 
 					                <input type="radio" name="parting_line_repair_res" id="parting_line_repair_res_ok" value="1">
                                     <span class="badge badge-primary" for="parting_line_repair_res_ok">OK</span>
                                     <input type="radio" name="parting_line_repair_res" id="parting_line_repair_res_ng" value="3">

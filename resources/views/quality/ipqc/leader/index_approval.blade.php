@@ -4,7 +4,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
-		<h2>Quality Monitoring IPQC | Member Page</h2>
+		<h2>Quality Monitoring IPQC | Leader Page</h2>
 	</div>
 	<div class="col-lg-2">
 	</div>
@@ -22,11 +22,6 @@
 					</div>
 				</div>
 				<div class="ibox-content">
-					<div class="row">
-						<div class="col-sm-10">
-							<a alt="add" href="{{ route('quality.ipqc.create')}}" class="btn btn-success "><i class="fa fa-plus"> </i><span class="bold"> &nbsp; Add Checksheet</span> </a><br/><br/>
-						</div>						
-					</div>
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered table-hover dataTables-example" >
 							<thead>
@@ -46,9 +41,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach ($q_ipqcs as $key => $q_ipqc)
+								@foreach ($q_ipqc_leaders as $key => $q_ipqc)
 								<tr class="gradeA">
-									<td>								
+									<td>
+										<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal{{$q_ipqc->id}}"><i class="fa fa-list"></i></button>
+
+										<!-- <a alt="add" href="{{url('')}}/quality/csqtime/create/{{$q_ipqc->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a> -->
+
                 		<div class="modal inmodal fade" id="myModal{{$q_ipqc->id}}" tabindex="-1" role="dialog"  aria-hidden="true">
                       <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -110,26 +109,13 @@
 																@endif
 															@endforeach
                             </h5>
-                            @php
-                            	$cycle_button = 0;
-                            	$finish_button = 0;
-                            	$judgement_status = DB::table('quality_ipqcs')
-							                ->where('id', $q_ipqc->id)->get();
-							                // echo "tess".$judgement_status;
-							                // var_dump($judgement_status);
-							                foreach($judgement_status as $js){
-							                	$judgement = $js->judgement;
-							                }
-							                if($judgement > 0){
-							                	$finish_button = 1;
-							                }
-                            @endphp
                           </div>
 	                        <div class="modal-body">
 	                        	<h3><i>Shift 1</i></h3>
 	                          <table class="table">
 	                            <thead>
 		                            <tr>
+	                                <th>Action</th>
 	                                <th>Cycle</th>
 	                                <th>Judge</th>
 	                                <th>Approval</th>
@@ -140,90 +126,79 @@
 	                            </thead>
 	                            <tbody>
 	                            	@php
-	                            	$cs_s1 = DB::table('quality_cs_ipqcs')->where('shift', 1)->where('quality_ipqc_id',$q_ipqc->id)->get();
-
-	                            	$array_judge1 = array();
-	                            	$array_app1 = array();
+	                            		$cs_s1 = DB::table('quality_cs_ipqcs')->where('shift', 1)->where('quality_ipqc_id',$q_ipqc->id)->get();
 	                            	@endphp
-	                            	@foreach ($cs_s1 as $keycs => $q_cs_qtime)
+	                            	@foreach ($cs_s1 as $keycs => $q_cs_ipqc)
 	                            		<tr>
+	                            			<td>
+	                            				<a alt="edit" href="{{url('')}}/quality/csipqc/{{$q_cs_ipqc->id}}/edit" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
+	                            			</td>
 		                            		<td>
-																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				{{$q_cs_qtime->cycle}}
+																			@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				{{$q_cs_ipqc->cycle}}
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				@if($q_cs_qtime->judge == 0)
+																			@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				@if($q_cs_ipqc->judge == 0)
 																					<span class="badge badge-info">Waiting</span>
-																				@elseif($q_cs_qtime->judge == 1)
+																				@elseif($q_cs_ipqc->judge == 1)
 																					<span class="badge badge-primary">OK</span>
-																				@elseif($q_cs_qtime->judge == 2)
+																				@elseif($q_cs_ipqc->judge == 2)
 																					<span class="badge badge-warning">AC</span>
-																				@elseif($q_cs_qtime->judge == 3)
+																				@elseif($q_cs_ipqc->judge == 3)
 																				<span class="badge badge-danger">NG</span>
 																				@endif
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				@if($q_cs_qtime->approval_status == 0)
+																			@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				@if($q_cs_ipqc->approval_status == 0)
 																					<span class="badge badge-primary"><i class="fa fa-check-square"></i></span>
-																				@elseif($q_cs_qtime->approval_status == 1)
+																				@elseif($q_cs_ipqc->approval_status == 1)
 																					<span class="badge badge-warning">Waiting Leader</span><br/>
-																				@elseif($q_cs_qtime->approval_status == 2)
+																				@elseif($q_cs_ipqc->approval_status == 2)
 																					<span class="badge badge-warning">Waiting Foreman</span>
-																				@elseif($q_cs_qtime->approval_status == 3)
+																				@elseif($q_cs_ipqc->approval_status == 3)
 																				<span class="badge badge-warning">Waiting Spv</span>
-																				@elseif($q_cs_qtime->approval_status == 4)
+																				@elseif($q_cs_ipqc->approval_status == 4)
 																				<span class="badge badge-warning">Waiting Dept Head</span>
-																				@elseif($q_cs_qtime->approval_status == 5)
+																				@elseif($q_cs_ipqc->approval_status == 5)
 																				<span class="badge badge-warning">Waiting Director</span>
-																				@elseif($q_cs_qtime->approval_status == 6)
+																				@elseif($q_cs_ipqc->approval_status == 6)
 																				<span class="badge badge-primary">Approved</span>
 																				@endif
 																			@endif
 																		</td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				{{$q_cs_qtime->created_at}}
+		                                	@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				{{$q_cs_ipqc->created_at}}
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
+		                                	@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
 																				@foreach ($users as $key_user => $user)
-																					@if($user->id == $q_cs_qtime->updated_by)
+																					@if($user->id == $q_cs_ipqc->updated_by)
 																						{{$user->name}}
 																					@endif
 																				@endforeach
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				{{$q_cs_qtime->updated_at}}
-																			@endif
+		                                	@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				{{$q_cs_ipqc->updated_at}}
+																			@endif																			
 		                                </td>
 	                                </tr>
-                                	@php
-                                		$array_judge1[] = $q_cs_qtime->judge;
-                                		$array_app1[] = $q_cs_qtime->approval_status;
-                                	@endphp
-	                            	@endforeach
-	                            	@php
-	                            		$disable_cycle = 0;
-				                        	// if in_array judge=2/3 dan in_array approval_status!=6 maka disable add cycle
-				                        	if( (in_array(2,$array_judge1) || in_array(3,$array_judge1)) && (!in_array(6,$array_app1)) ) {
-																	    echo "disable";
-																	    $disable_cycle = 1;
-																	}
-	                            	@endphp
+	                            	@endforeach	                            	
 	                            </tbody>
-	                        	</table>
+	                        	</table>	                        	
 	                        	<div class="hr-line-dashed"></div>
 	                        	<h3><i>Shift 2</i></h3>
 	                          <table class="table">
 	                            <thead>
 		                            <tr>
+	                                <th>Action</th>
 	                                <th>Cycle</th>
 	                                <th>Judge</th>
 	                                <th>Approval</th>
@@ -235,131 +210,111 @@
 	                            <tbody>
 	                            	@php
 	                            	$cs_s2 = DB::table('quality_cs_ipqcs')->where('shift', 2)->where('quality_ipqc_id',$q_ipqc->id)->get();
-
-	                            	$array_judge2 = array();
-	                            	$array_app2 = array();
 	                            	@endphp
-	                            	@foreach ($cs_s2 as $keycs2 => $q_cs_qtime)
+	                            	@foreach ($cs_s2 as $keycs2 => $q_cs_ipqc)
 	                            		<tr>
+	                            			<td>
+	                            				<a alt="add" href="{{url('')}}/quality/csipqc/{{$q_cs_ipqc->id}}/edit" class="btn btn-success btn-circle "><i class="fa fa-edit"></i></a>
+	                            			</td>
 		                            		<td>
-																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				{{$q_cs_qtime->cycle}}
+																			@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				{{$q_cs_ipqc->cycle}}
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				@if($q_cs_qtime->judge == 0)
+																			@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				@if($q_cs_ipqc->judge == 0)
 																					<span class="badge badge-info">Waiting</span>
-																				@elseif($q_cs_qtime->judge == 1)
+																				@elseif($q_cs_ipqc->judge == 1)
 																					<span class="badge badge-primary">OK</span>
-																				@elseif($q_cs_qtime->judge == 2)
+																				@elseif($q_cs_ipqc->judge == 2)
 																					<span class="badge badge-warning">AC</span>
-																				@elseif($q_cs_qtime->judge == 3)
+																				@elseif($q_cs_ipqc->judge == 3)
 																				<span class="badge badge-danger">NG</span>
 																				@endif
 																			@endif
 																		</td>
 																		<td>
-																			@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				@if($q_cs_qtime->approval_status == 0)
+																			@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				@if($q_cs_ipqc->approval_status == 0)
 																					<span class="badge badge-primary"><i class="fa fa-check-square"></i></span>
-																				@elseif($q_cs_qtime->approval_status == 1)
+																				@elseif($q_cs_ipqc->approval_status == 1)
 																					<span class="badge badge-warning">Waiting Leader</span><br/>
-																				@elseif($q_cs_qtime->approval_status == 2)
+																				@elseif($q_cs_ipqc->approval_status == 2)
 																					<span class="badge badge-warning">Waiting Foreman</span>
-																				@elseif($q_cs_qtime->approval_status == 3)
+																				@elseif($q_cs_ipqc->approval_status == 3)
 																				<span class="badge badge-warning">Waiting Spv</span>
-																				@elseif($q_cs_qtime->approval_status == 4)
+																				@elseif($q_cs_ipqc->approval_status == 4)
 																				<span class="badge badge-warning">Waiting Dept Head</span>
-																				@elseif($q_cs_qtime->approval_status == 5)
+																				@elseif($q_cs_ipqc->approval_status == 5)
 																				<span class="badge badge-warning">Waiting Director</span>
-																				@elseif($q_cs_qtime->approval_status == 6)
+																				@elseif($q_cs_ipqc->approval_status == 6)
 																				<span class="badge badge-primary">Approved</span>
 																				@endif
 																			@endif
 																		</td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				{{$q_cs_qtime->created_at}}
+		                                	@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				{{$q_cs_ipqc->created_at}}
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
+		                                	@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
 																				@foreach ($users as $key_user => $user)
-																					@if($user->id == $q_cs_qtime->updated_by)
+																					@if($user->id == $q_cs_ipqc->updated_by)
 																						{{$user->name}}
 																					@endif
 																				@endforeach
 																			@endif
 		                                </td>
 		                                <td>
-		                                	@if($q_cs_qtime->quality_ipqc_id == $q_ipqc->id)
-																				{{$q_cs_qtime->updated_at}}
+		                                	@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
+																				{{$q_cs_ipqc->updated_at}}
 																			@endif
 		                                </td>
 	                                </tr>
-	                                @php
-                                		$array_judge2[] = $q_cs_qtime->judge;
-                                		$array_app2[] = $q_cs_qtime->approval_status;
-                                	@endphp
 	                            	@endforeach
 	                            </tbody>
 	                        	</table>
 	                        </div>
+
 	                        @php
-	                        $hasil = "sudah finish";
-                        	$app_status1 = DB::table('quality_cs_ipqcs')
-																	->where('quality_ipqc_id',$q_ipqc->id)
-																	->get();
-																	//->toArray();
-													foreach($app_status1 as $as) {
-														if($as->approval_status == 1) {
-															$hasil = "belum finish";
-														} elseif($as->approval_status == 2) {
-															$hasil = "belum finish";
-														} elseif($as->approval_status == 3) {
-															$hasil = "belum finish";
-														} elseif($as->approval_status == 4) {
-															$hasil = "belum finish";
-														} elseif($as->approval_status == 5) {
-															$hasil = "belum finish";
-														} 
-													}
-	                        @endphp
-	                        @php
-	                        	// if in_array judge=2/3 dan in_array approval_status!=6 maka disable add cycle
-	                        	if( (in_array(2,$array_judge2) || in_array(3,$array_judge2)) && (!in_array(6,$array_app2)) ) {
-														    echo "disable";
-														    $disable_cycle = 1;
+	                        	$hasil = "sudah finish";
+	                        	$app_status1 = DB::table('quality_cs_ipqcs')
+																		->where('quality_ipqc_id',$q_ipqc->id)
+																		->get();
+																		//->toArray();
+	                        	// $app_status_unfinish = array(1,2,3,4,5);
+														// cek apakah	ada selain 0 dan 6	
+														// dd($app_status1);
+														// if(in_array($app_status_unfinish, $app_status1)){
+														//	echo "belum finish";
+														// } else {
+														//	echo "sudah finish";
+														// }
+														foreach($app_status1 as $as) {
+															if($as->approval_status == 1) {
+																$hasil = "belum finish";
+															} elseif($as->approval_status == 2) {
+																$hasil = "belum finish";
+															} elseif($as->approval_status == 3) {
+																$hasil = "belum finish";
+															} elseif($as->approval_status == 4) {
+																$hasil = "belum finish";
+															} elseif($as->approval_status == 5) {
+																$hasil = "belum finish";
+															} 
 														}
+														// echo $hasil;
+														// echo $q_ipqc->id;
                         	@endphp
+
 	                        <div class="modal-footer">
 	                          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-
-	                          @if($finish_button > 0)
-	                          	<a alt="add" href=""><button type="button" class="btn btn-primary" disabled>Add Cycle</button></a>
-	                          @else
-	                          	<a alt="add" href="{{url('')}}/quality/csipqc/create/{{$q_ipqc->id}}"><button type="button" class="btn btn-primary">Add Cycle</button></a>
-	                          @endif
-	                          &nbsp;&nbsp;&nbsp;
-	                         	@if($finish_button > 0)
-	                          	<button type="button" class="btn btn-primary" disabled>Finish Cycle</button>
-	                          @else
-	                          	<a alt="finish" href="{{url('')}}/quality/ipqc/{{$q_ipqc->id}}/finish" class="" onclick="return confirm('Are you sure to finish this checksheet?')"><button type="button" class="btn btn-primary" >Finish Cycle</button></i></a>
-	                          @endif	
 	                        </div>
                       	</div>
                       </div>
                   	</div>
-
-                  	<button class="btn btn-primary btn-circle" type="button" data-toggle="modal" data-target="#myModal{{$q_ipqc->id}}"><i class="fa fa-list"></i></button>	
-
-                  	@if( (!$disable_cycle) )   
-                  		@if ($q_ipqc->judgement == 0)
-                  			<a alt="add" href="{{url('')}}/quality/csipqc/create/{{$q_ipqc->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
-                  		@endif               		
-                  	@endif								
-
             			</td>
 									<td>
 										{{$q_ipqc->lot_produksi}}
@@ -368,7 +323,7 @@
 										@if($q_ipqc->judgement == 0)
 											<span class="badge badge-info">In Progress</span>
 										@elseif($q_ipqc->judgement == 1)
-											<span class="badge badge-primary">OK</span>
+											<span class="badge badge-primary">OK</span> 
 										@elseif($q_ipqc->judgement == 2)
 											<span class="badge badge-danger">NG</span>
 										@endif
@@ -463,14 +418,6 @@
 										@endforeach
 									</td>
 									<td>{{$q_ipqc->created_at}}</td>
-									<!--
-									<td>
-										<a alt="edit" href="{{ route('quality.monitor.edit',$q_ipqc->id)}}" class="btn btn-info "><i class="fa fa-paste"></i><span class="bold"> Edit</span> </a>&nbsp;&nbsp;&nbsp;
-										{!! Form::open(['method' => 'DELETE','route' => ['quality.monitor.destroy', $q_ipqc->id],'style'=>'display:inline']) !!}
-										{{Form::button('<i class="fa fa-trash"></i>', ['type' =>'submit', 'alt' => 'delete', 'class' => 'btn btn-danger ', 'onclick' => 'return confirm("Are you sure want to delete? All its relation will be deleted too")'])}}
-										{!! Form::close() !!}
-									</td>
-									-->	
 								</tr>
 								@endforeach										
 							</tbody>
@@ -492,7 +439,6 @@
 <script>
 	$(document).ready(function(){
 		$('.dataTables-example').DataTable({
-			order: [['2', 'asc']],
 			rowReorder: {
 	            selector: 'td:nth-child(2)'
 	        },
@@ -500,7 +446,6 @@
 			responsive: true,
 			// dom: '<"top"i>rt<"bottom"flp><"clear">',
 			dom: '<"html5buttons"B>lTfgitp',
-			 // dom: 'lrtip',
 			buttons: [
 				// {extend: 'copy'},
 				// {extend: 'csv'},

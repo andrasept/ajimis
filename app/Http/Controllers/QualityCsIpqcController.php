@@ -463,7 +463,7 @@ class QualityCsIpqcController extends Controller
         return view('quality.csipqc.leader.edit', compact(
             'q_processes', 'q_areas', 'q_machines', 'q_models', 'q_parts', 'q_ipqcs', 
             'lot_produksi', 'cs_area', 'cs_process', 'cs_machine', 'cs_model', 'cs_part', 'part_ver', 'part_hor', 'cs_photo',
-            'q_ipqc_id',
+            'q_ipqc_id', 'q_ngcategories',
             'q_cs_ipqcs', 'cs_ipqc_id'
         ));
     }
@@ -479,33 +479,63 @@ class QualityCsIpqcController extends Controller
     // public function update(Request $request, QualityCsQtime $id)
     {
         $user_id = auth()->user()->id;
-        $cs_qtime_id = $id;
-        $q_monitor_id = $request->quality_monitor_id;
-        // echo $cs_qtime_id; exit();
+        $cs_ipqc_id = $id;
+        $q_ipqc_id = $request->quality_ipqc_id;
+        // echo $cs_ipqc_id; exit();
 
-        $csqtime['quality_monitor_id'] = $request->quality_monitor_id;
-        $csqtime['destructive_test'] = $request->destructive_test;
-        $csqtime['destructive_test_remark'] = $request->destructive_test_remark;
-        $csqtime['appearance_produk'] = $request->appearance_produk;
-        $csqtime['appearance_produk_remark'] = $request->appearance_produk_remark;
-        $csqtime['parting_line'] = $request->parting_line;
-        $csqtime['parting_line_remark'] = $request->parting_line_remark;
-        $csqtime['marking_cek_final'] = $request->marking_cek_final;
-        $csqtime['marking_cek_final_remark'] = $request->marking_cek_final_remark;
-        $csqtime['marking_garansi_function'] = $request->marking_garansi_function;
-        $csqtime['marking_garansi_function_remark'] = $request->marking_garansi_function_remark;
-        $csqtime['marking_identification'] = $request->marking_identification;
-        $csqtime['marking_identification_remark'] = $request->marking_identification_remark;
-        $csqtime['kelengkapan_komponen'] = $request->kelengkapan_komponen;
-        $csqtime['kelengkapan_komponen_remark'] = $request->kelengkapan_komponen_remark;
+        $csipqc['quality_ipqc_id'] = $request->quality_ipqc_id;
+
+        $csipqc['destructive_test'] = $request->destructive_test;
+        $csipqc['destructive_test_ng_cat'] = $request->destructive_test_ng_cat;
+        $csipqc['destructive_test_photo'] = $request->destructive_test_photo;
+        $csipqc['destructive_test_causes'] = $request->destructive_test_causes;
+        $csipqc['destructive_test_repair'] = $request->destructive_test_repair;
+        $csipqc['destructive_test_repair_res'] = $request->destructive_test_repair_res;
+        $csipqc['destructive_test_hold_status'] = $request->destructive_test_hold_status;
+        $csipqc['destructive_test_qty'] = $request->destructive_test_qty;
+        $csipqc['destructive_test_hold_cat'] = $request->destructive_test_hold_cat;
+
+        $csipqc['appearance_produk'] = $request->appearance_produk;
+        $csipqc['appearance_produk_ng_cat'] = $request->appearance_produk_ng_cat;
+        $csipqc['appearance_produk_photo'] = $request->appearance_produk_photo;
+        $csipqc['appearance_produk_causes'] = $request->appearance_produk_causes;
+        $csipqc['appearance_produk_repair'] = $request->appearance_produk_repair;
+        $csipqc['appearance_produk_repair_res'] = $request->appearance_produk_repair_res;
+        $csipqc['appearance_produk_hold_status'] = $request->appearance_produk_hold_status;
+        $csipqc['appearance_produk_qty'] = $request->appearance_produk_qty;
+        $csipqc['appearance_produk_hold_cat'] = $request->appearance_produk_hold_cat;
+
+        $csipqc['parting_line'] = $request->parting_line;
+        $csipqc['parting_line_ng_cat'] = $request->parting_line_ng_cat;
+        $csipqc['parting_line_photo'] = $request->parting_line_photo;
+        $csipqc['parting_line_causes'] = $request->parting_line_causes;
+        $csipqc['parting_line_repair'] = $request->parting_line_repair;
+        $csipqc['parting_line_repair_res'] = $request->parting_line_repair_res;
+        $csipqc['parting_line_hold_status'] = $request->parting_line_hold_status;
+        $csipqc['parting_line_qty'] = $request->parting_line_qty;
+        $csipqc['parting_line_hold_cat'] = $request->parting_line_hold_cat;
+
+        $csipqc['marking_cek_final'] = $request->marking_cek_final;
+        $csipqc['marking_cek_final_remark'] = $request->marking_cek_final_remark;        
+        $csipqc['marking_garansi_function'] = $request->marking_garansi_function;
+        $csipqc['marking_garansi_function_remark'] = $request->marking_garansi_function_remark;
+        $csipqc['marking_identification'] = $request->marking_identification;
+        $csipqc['marking_identification_remark'] = $request->marking_identification_remark;
+
+        $csipqc['kelengkapan_komponen'] = $request->kelengkapan_komponen;
+        $csipqc['kelengkapan_komponen_remark'] = $request->kelengkapan_komponen_remark;
+        $csipqc['kelengkapan_komponen_hold_status'] = $request->kelengkapan_komponen_hold_status;
+        $csipqc['kelengkapan_komponen_qty'] = $request->kelengkapan_komponen_qty;
+        $csipqc['kelengkapan_komponen_hold_cat'] = $request->kelengkapan_komponen_hold_cat;
+
         // update last judge by dan last judge at
-        $csqtime['updated_by'] = $user_id;
-        $csqtime['updated_at'] = now();
-        // dd($csqtime); exit();
+        $csipqc['updated_by'] = $user_id;
+        $csipqc['updated_at'] = now();
+        // dd($csipqc); exit();
 
         // // cek judgement, panggil fungsi judgement getJudgementStatus()
-        // $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
-        // // DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
+        // $judgement = $this->getJudgementStatus($q_ipqc_id, $cs_ipqc_id);
+        // // DB::table('quality_ipqcs')->where('id', $q_ipqc_id)->update(['judgement' => $judgement]);
         // echo $judgement;
         // exit();   
 
@@ -513,9 +543,9 @@ class QualityCsIpqcController extends Controller
         // kondisional submit
         if (isset($_POST['submit_ac'])) {
             // jika di-ACceptance 
-            // update cs_status Waiting Approval di tabel q_monitors
-            DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['cs_status' => 1]);
-            // update judge dan approval_status di tabel q_cs_qtimes
+            // update cs_status Waiting Approval di tabel q_ipqcs
+            DB::table('quality_ipqcs')->where('id', $q_ipqc_id)->update(['cs_status' => 1]);
+            // update judge dan approval_status di tabel q_cs_ipqcs
             // update judge
             $acng = array(
                 $request->destructive_test, 
@@ -528,45 +558,45 @@ class QualityCsIpqcController extends Controller
             );
             if (in_array("3", $acng)) {
                 $request->judge = 3;
-                $csqtime['judge'] = $request->judge;
+                $csipqc['judge'] = $request->judge;
             } elseif(in_array("2", $acng)) {
                 $request->judge = 2;
-                $csqtime['judge'] = $request->judge;
+                $csipqc['judge'] = $request->judge;
             } elseif(in_array("1", $acng)) {
                 $request->judge = 1;
-                $csqtime['judge'] = $request->judge;
+                $csipqc['judge'] = $request->judge;
             } else {
                 $request->judge = 0;
-                $csqtime['judge'] = $request->judge;
+                $csipqc['judge'] = $request->judge;
             }
             // update approval_status
-            // DB::table('quality_cs_qtimes')->where('id', $cs_qtime_id)->update(['approval_status' => 6]);
+            // DB::table('quality_cs_ipqcs')->where('id', $cs_ipqc_id)->update(['approval_status' => 6]);
             // approval level
             $user_role = $this->getUserRole();
             if ($user_role == "User Quality") {
-                $csqtime['approval_status'] = 1;
+                $csipqc['approval_status'] = 1;
             } elseif ($user_role == "Leader Quality") {
-                $csqtime['approval_status'] = 2;
+                $csipqc['approval_status'] = 2;
             } elseif ($user_role == "Foreman Quality") {
-                $csqtime['approval_status'] = 3;
+                $csipqc['approval_status'] = 3;
             } elseif ($user_role == "Supervisor Quality") {
-                $csqtime['approval_status'] = 4;
+                $csipqc['approval_status'] = 4;
             } elseif ($user_role == "Dept Head Quality") {
-                $csqtime['approval_status'] = 5;
+                $csipqc['approval_status'] = 5;
             } elseif ($user_role == "Director Quality") {
-                $csqtime['approval_status'] = 6;
+                $csipqc['approval_status'] = 6;
             }            
 
-            // update judgement di tabel q_monitors
+            // update judgement di tabel q_ipqcs
 
             // kasih stamp approved by jenjang leader-director di page edit
         } elseif (isset($_POST['submit_app'])) {
             // jika di-approved 
-            // update cs_status approved by Leader di tabel q_monitors
-            // harusnya cek dahulu approval di setiap cs_qtime_id nya, jika sudah approved semua baru cs_status = 2, jika belum cs_status = 1
-            DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['cs_status' => 2]);
+            // update cs_status approved by Leader di tabel q_ipqcs
+            // harusnya cek dahulu approval di setiap cs_ipqc_id nya, jika sudah approved semua baru cs_status = 2, jika belum cs_status = 1
+            DB::table('quality_ipqcs')->where('id', $q_ipqc_id)->update(['cs_status' => 2]);
 
-            // update judge dan approval_status di tabel q_cs_qtimes
+            // update judge dan approval_status di tabel q_cs_ipqcs
             // update judge
             $acng = array(
                 $request->destructive_test, 
@@ -579,21 +609,21 @@ class QualityCsIpqcController extends Controller
             );
             if (in_array("3", $acng)) {
                 $request->judge = 3;
-                $csqtime['judge'] = $request->judge;
+                $csipqc['judge'] = $request->judge;
             } elseif(in_array("2", $acng)) {
                 $request->judge = 2;
-                $csqtime['judge'] = $request->judge;
+                $csipqc['judge'] = $request->judge;
             } elseif(in_array("1", $acng)) {
                 $request->judge = 1;
-                $csqtime['judge'] = $request->judge;
+                $csipqc['judge'] = $request->judge;
             } else {
                 $request->judge = 0;
-                $csqtime['judge'] = $request->judge;
+                $csipqc['judge'] = $request->judge;
             }
             // update approval_status
-            // DB::table('quality_cs_qtimes')->where('id', $cs_qtime_id)->update(['approval_status' => 6]);
-            $csqtime['approval_status'] = 6;
-            // update judgement di tabel q_monitors
+            // DB::table('quality_cs_ipqcs')->where('id', $cs_ipqc_id)->update(['approval_status' => 6]);
+            $csipqc['approval_status'] = 6;
+            // update judgement di tabel q_ipqcs
 
             // kasih stamp approved by jenjang leader-director di page edit
 
@@ -603,20 +633,20 @@ class QualityCsIpqcController extends Controller
             $this->sendTelegram('-793766953',$message );
         }
         // cek judgement, panggil fungsi judgement getJudgementStatus(), lalu update kolom judgment
-        $judgement = $this->getJudgementStatus($q_monitor_id, $cs_qtime_id);
+        $judgement = $this->getJudgementStatus($q_ipqc_id, $cs_ipqc_id);
         // echo $judgement;
-        DB::table('quality_monitors')->where('id', $q_monitor_id)->update(['judgement' => $judgement]);
+        DB::table('quality_ipqcs')->where('id', $q_ipqc_id)->update(['judgement' => $judgement]);
         // exit();     
-        // LANJUT DI SINI 20220704, TESTING UPDATE, LALU LANJUT BUAT LEVELING (pakai get role di qmonitor view) APPROVAL PAGE UNTUK FOREMAN UP
+        // LANJUT DI SINI 20220704, TESTING UPDATE, LALU LANJUT BUAT LEVELING (pakai get role di qipqc view) APPROVAL PAGE UNTUK FOREMAN UP
 
-        QualityCsQtime::find($id)->update($csqtime);
-        return redirect()->route('quality.monitor.index')
-            ->withSuccess(__('Checksheet updated successfully.'));
+        QualityCsIpqc::find($id)->update($csipqc);
+        return redirect()->route('quality.ipqc.leader_approval')
+            ->withSuccess(__('Checksheet IPQC updated successfully.'));
     }
 
-    public function getJudgementStatus($q_monitor_id, $cs_qtime_id) {
+    public function getJudgementStatus($q_ipqc_id, $cs_ipqc_id) {
         // get cs status sudah finish cs_status = 3
-        $cs_statuses = DB::table('quality_monitors')->where('id', $q_monitor_id)
+        $cs_statuses = DB::table('quality_ipqcs')->where('id', $q_ipqc_id)
             // ->where('cs_status', 3)
             ->pluck('cs_status');
         foreach ($cs_statuses as $key => $value) {
@@ -626,8 +656,8 @@ class QualityCsIpqcController extends Controller
         // jika cs_status sudah finish
         if ($cs_status == 3) {
             // get judge AC/NG di shift 1
-            $judge_status_s1 = DB::table('quality_cs_qtimes')
-                ->where('quality_monitor_id', $q_monitor_id)
+            $judge_status_s1 = DB::table('quality_cs_ipqcs')
+                ->where('quality_ipqc_id', $q_ipqc_id)
                 ->where('shift', 1)->pluck('judge')->toArray();
                 // ->where('shift', 1)->get();
             // dd($judge_status_s1); exit();
@@ -643,8 +673,8 @@ class QualityCsIpqcController extends Controller
             }
 
             // get judge AC/NG di shift 2
-            $judge_status_s2 = DB::table('quality_cs_qtimes')
-                ->where('quality_monitor_id', $q_monitor_id)
+            $judge_status_s2 = DB::table('quality_cs_ipqcs')
+                ->where('quality_ipqc_id', $q_ipqc_id)
                 ->where('shift', 2)->pluck('judge')->toArray();
             // cek jika ada AC/NG
             if (in_array("3", $judge_status_s2)) {

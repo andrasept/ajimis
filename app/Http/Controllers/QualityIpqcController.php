@@ -90,6 +90,49 @@ class QualityIpqcController extends Controller
         }
     }
 
+    public function leader_approval() {
+        $q_areas = QualityArea::all();
+        $q_processes = QualityProcess::all();
+        $q_machines = QualityMachine::all();
+        $q_models = QualityModel::all();
+        $q_parts = QualityPart::all();           
+        $q_ipqcs = QualityIpqc::all();             
+        $q_ipqc_leaders = DB::table('quality_ipqcs')
+          ->leftJoin('quality_cs_ipqcs', 'quality_ipqcs.id', '=', 'quality_cs_ipqcs.quality_ipqc_id')
+          ->select('*', 'quality_ipqcs.created_at')
+          ->where('quality_cs_ipqcs.approval_status',1)
+          ->get();          
+        // var_dump($q_ipqc_leaders);   
+
+        // shift cs
+        // $q_cs_qtimes = QualityCsQtime::all();
+        $q_cs_ipqcs_s1 = DB::table('quality_cs_ipqcs')->where('shift', 1)->get(); // ini harusnya where id_monitor = xx   
+        $q_cs_ipqcs_s2 = DB::table('quality_cs_ipqcs')->where('shift', 2)->get();
+        $users = User::all();
+
+        // cek user login
+        $user_id = auth()->user()->id;
+
+        // get users by its roles 
+        $user_role = (New QualityCsQtimeController)->getUserRole();
+
+        if ($user_role == "Leader Quality") {
+            return view('quality.ipqc.leader.index_approval', compact(
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqc_leaders',
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+                'users'
+            ));
+        } 
+        else {
+            return view('quality.ipqc.index', compact(
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+                'users'
+            ));
+        }
+    }
+
 
     public function generateDocNumber() {
         do {
@@ -181,6 +224,77 @@ class QualityIpqcController extends Controller
         }else{
             return redirect()->route('quality.ipqc.index')->withSuccess(__('Maaf terjadi kesalahan. Silahkan coba kembali.'));
         }
+    }
+
+    public function finish($id)
+    {
+        // echo $id; exit();
+        $user_id = auth()->user()->id;
+        // QualityIpqc::where('id', $id)
+        //   ->update([
+        //     'cs_status' => 3,
+        //     'updated_by' => $user_id,
+        //     'updated_at' => now()
+        // ]);
+
+        // jika cs_status sudah finish
+            // get judge AC/NG di shift 1
+            $judge_status_s1 = DB::table('quality_cs_ipqcs')
+                ->where('quality_ipqc_id', $id)
+                ->where('shift', 1)->pluck('judge')->toArray();
+                // ->where('shift', 1)->get();
+            // dd($judge_status_s1); exit();
+            // cek jika ada AC/NG
+            if (in_array("3", $judge_status_s1)) {
+                $judgement_1 = 2;
+            } elseif(in_array("2", $judge_status_s1)) {
+                $judgement_1 = 2;
+            } elseif(in_array("1", $judge_status_s1)) {
+                $judgement_1 = 1;
+            } else {
+                $judgement_1 = 0;
+            }
+
+            // get judge AC/NG di shift 2
+            $judge_status_s2 = DB::table('quality_cs_ipqcs')
+                ->where('quality_ipqc_id', $id)
+                ->where('shift', 2)->pluck('judge')->toArray();
+            // cek jika ada AC/NG
+            if (in_array("3", $judge_status_s2)) {
+                $judgement_2 = 2;
+            } elseif(in_array("2", $judge_status_s2)) {
+                $judgement_2 = 2;
+            } elseif(in_array("1", $judge_status_s2)) {
+                $judgement_2 = 1;
+            } else {
+                $judgement_2 = 0;
+            }
+
+            // judgement jika cs_status = 3 dan tidak ada AC/NG di kedua shift = OK, else NG
+            $judgement_arr = array($judgement_1, $judgement_2);
+            // dd($judgement_arr); exit();
+            if (in_array("3", $judgement_arr)) {
+                $judgement = 2;
+            } elseif(in_array("2", $judgement_arr)) {
+                $judgement = 2;
+            } elseif(in_array("1", $judgement_arr)) {
+                $judgement = 1;
+            } else {
+                $judgement = 0;
+            }
+
+            // echo $judgement; exit();
+            QualityIpqc::where('id', $id)
+              ->update([
+                'cs_status' => 3,
+                'judgement' => $judgement,
+                'updated_by' => $user_id,
+                'updated_at' => now()
+            ]);
+
+
+        return redirect()->route('quality.ipqc.index')
+            ->withSuccess(__('Quality Checksheet finished successfully.'));
     }
 
     /**

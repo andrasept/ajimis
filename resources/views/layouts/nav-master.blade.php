@@ -96,7 +96,7 @@
             <ul class="nav nav-second-level">
               <!-- <li><a href="{{ route('quality.monitor.index') }}">Monitoring</a></li> -->
               <li><a href="{{ route('quality.ipqc.index') }}">List</a></li>
-              <li><a href="{{ route('quality.ipqc.index') }}">Leader Approval</a></li>
+              <li><a href="{{ route('quality.ipqc.leader_approval') }}">Leader Approval</a></li>
             </ul>
           </li>
 

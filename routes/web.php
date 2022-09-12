@@ -262,6 +262,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::delete('/csqtime/{post}/delete', 'QualityCsQtimeController@destroy')->name('quality.csqtime.destroy');
 
             Route::get('/ipqc/', 'QualityIpqcController@index')->name('quality.ipqc.index');
+            Route::get('/ipqc/leader_approval', 'QualityIpqcController@leader_approval')->name('quality.ipqc.leader_approval');
             Route::get('/ipqc/create', 'QualityIpqcController@create')->name('quality.ipqc.create');
             Route::post('/ipqc/create', 'QualityIpqcController@store')->name('quality.ipqc.store');
             Route::get('/ipqc/{post}/show', 'QualityIpqcController@show')->name('quality.ipqc.show');
