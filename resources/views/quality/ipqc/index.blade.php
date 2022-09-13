@@ -356,9 +356,13 @@
 
                   	@if( (!$disable_cycle) )   
                   		@if ($q_ipqc->judgement == 0)
-                  			<a alt="add" href="{{url('')}}/quality/csipqc/create/{{$q_ipqc->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
+                  			<!-- <a alt="add" href="{{url('')}}/quality/csipqc/create/{{$q_ipqc->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a> -->
                   		@endif               		
-                  	@endif								
+                  	@endif		
+
+                  	@if($finish_button == 0)
+                    	<a alt="add" href="{{url('')}}/quality/csipqc/create/{{$q_ipqc->id}}" class="btn btn-success btn-circle "><i class="fa fa-plus"></i></a>
+                    @endif					
 
             			</td>
 									<td>
@@ -385,7 +389,7 @@
 										@endif
 
 										@if($hasil == "sudah finish")
-										<span class="badge badge-primary">All Checked</span>
+										<!-- <span class="badge badge-primary">All Checked</span> -->
 										@endif
 
 										<br/>
