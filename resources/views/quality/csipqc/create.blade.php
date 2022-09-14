@@ -249,9 +249,9 @@
 	                                <br/><br/>
 					                <img width="" id="parting_line_img" src="" class="img-fluid" />
 					                <br/><br/>
-					                <textarea class="parting_line_causes form-control" id="parting_line_causes" name="parting_line_causes" rows="2" placeholder="Causes"></textarea>
+					                <textarea class="parting_line_causes form-control" id="parting_line_causes" name="parting_line_causes" rows="2" placeholder="Problem Identification"></textarea>
 					                <br/>
-					                <textarea class="parting_line_repair form-control" id="parting_line_repair" name="parting_line_repair" rows="2" placeholder="Repair"></textarea>
+					                <textarea class="parting_line_repair form-control" id="parting_line_repair" name="parting_line_repair" rows="2" placeholder="Corrective Action"></textarea>
 					                <br/>
 					                Action Result : 
 					                <input type="radio" name="parting_line_repair_res" id="parting_line_repair_res_ok" value="1">
@@ -259,7 +259,7 @@
                                     <input type="radio" name="parting_line_repair_res" id="parting_line_repair_res_ng" value="3">
                                     <span class="badge badge-danger" for="parting_line_repair_res_ng">NG</span>
                                    	<br/><hr/>
-                                   	Hold : 
+                                   	Hold Suspect : 
                                    	<input type="radio" name="parting_line_hold_status" id="parting_line_hold_status_yes" value="1" data-toggle="modal" data-target="#myModal6">
                                     <span class="badge badge-primary" for="parting_line_hold_status_yes">Ya</span>
                                     <input type="radio" name="parting_line_hold_status" id="parting_line_hold_status_no" value="0">

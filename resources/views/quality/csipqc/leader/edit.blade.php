@@ -191,7 +191,23 @@
                                                 @endif
                                             @endforeach
                                         </select>
+                                        <br/>
+                                        <!-- Approval Action -->
+                                        <div id="destructive_test_approval_action" style="background-color: bisque; padding: 10px;">
+                                            Approval Action :
+                                            <input type="radio" name="destructive_test_approval" id="destructive_test_approval_yes" value="1">
+                                            <span class="badge badge-primary" for="destructive_test_approval_yes">Approve</span>
+                                            <input type="radio" name="destructive_test_approval" id="destructive_test_approval_no" value="0">
+                                            <span class="badge badge-danger" for="destructive_test_approval_no">Eskalasi</span>
+                                            <div id="destructive_test_approval_yes">
+                                                <label class="col-form-label">Quantity OK : </label><br/>
+                                                <input type="number" class="destructive_test_approval_qtyok form-control" name="destructive_test_approval_qtyok" value=""><br/>
+                                                <label class="col-form-label">Quantity NG : </label><br/>
+                                                <input type="number" class="destructive_test_approval_qtyng form-control" name="destructive_test_approval_qtyng" value=""><br/>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
 
                             </div>
@@ -301,6 +317,15 @@
                                                 @endif
                                             @endforeach
                                         </select>
+                                        <br/>
+                                        <!-- Approval Action -->
+                                        <div id="appearance_produk_approval_action" style="background-color: bisque; padding: 10px;">
+                                            Approval Action :
+                                            <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_yes" value="1">
+                                            <span class="badge badge-primary" for="appearance_produk_approval_yes">Approve</span>
+                                            <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_no" value="0">
+                                            <span class="badge badge-danger" for="appearance_produk_approval_no">Eskalasi</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -410,6 +435,15 @@
                                                 @endif
                                             @endforeach
                                         </select>
+                                        <br/>
+                                        <!-- Approval Action -->
+                                        <div id="parting_line_approval_action" style="background-color: bisque; padding: 10px;">
+                                            Approval Action :
+                                            <input type="radio" name="parting_line_approval" id="parting_line_approval_yes" value="1">
+                                            <span class="badge badge-primary" for="parting_line_approval_yes">Approve</span>
+                                            <input type="radio" name="parting_line_approval" id="parting_line_approval_no" value="0">
+                                            <span class="badge badge-danger" for="parting_line_approval_no">Eskalasi</span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -576,6 +610,15 @@
                                                 @endif
                                             @endforeach
                                         </select>
+                                        <br/>
+                                        <!-- Approval Action -->
+                                        <div id="kelengkapan_komponen_approval_action" style="background-color: bisque; padding: 10px;">
+                                            Approval Action :
+                                            <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_yes" value="1">
+                                            <span class="badge badge-primary" for="kelengkapan_komponen_approval_yes">Approve</span>
+                                            <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_no" value="0">
+                                            <span class="badge badge-danger" for="kelengkapan_komponen_approval_no">Eskalasi</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

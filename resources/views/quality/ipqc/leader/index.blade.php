@@ -323,9 +323,9 @@
 										@if($q_ipqc->judgement == 0)
 											<span class="badge badge-info">In Progress</span>
 										@elseif($q_ipqc->judgement == 1)
-											<span class="badge badge-primary">OK</span> X pcs
+											<span class="badge badge-primary">OK</span>
 										@elseif($q_ipqc->judgement == 2)
-											<span class="badge badge-danger">NG</span> X pcs
+											<span class="badge badge-danger">NG</span>
 										@endif
 									</td>
 									<td>
