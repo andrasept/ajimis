@@ -325,6 +325,12 @@
                                             <span class="badge badge-primary" for="appearance_produk_approval_yes">Approve</span>
                                             <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_no" value="0">
                                             <span class="badge badge-danger" for="appearance_produk_approval_no">Eskalasi</span>
+                                            <div id="appearance_produk_approval_yes">
+                                                <label class="col-form-label">Quantity OK : </label><br/>
+                                                <input type="number" class="appearance_produk_approval_qtyok form-control" name="appearance_produk_approval_qtyok" value=""><br/>
+                                                <label class="col-form-label">Quantity NG : </label><br/>
+                                                <input type="number" class="appearance_produk_approval_qtyng form-control" name="appearance_produk_approval_qtyng" value=""><br/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -443,6 +449,12 @@
                                             <span class="badge badge-primary" for="parting_line_approval_yes">Approve</span>
                                             <input type="radio" name="parting_line_approval" id="parting_line_approval_no" value="0">
                                             <span class="badge badge-danger" for="parting_line_approval_no">Eskalasi</span>
+                                            <div id="parting_line_approval_yes">
+                                                <label class="col-form-label">Quantity OK : </label><br/>
+                                                <input type="number" class="parting_line_approval_qtyok form-control" name="parting_line_approval_qtyok" value=""><br/>
+                                                <label class="col-form-label">Quantity NG : </label><br/>
+                                                <input type="number" class="parting_line_approval_qtyng form-control" name="parting_line_approval_qtyng" value=""><br/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -618,6 +630,12 @@
                                             <span class="badge badge-primary" for="kelengkapan_komponen_approval_yes">Approve</span>
                                             <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_no" value="0">
                                             <span class="badge badge-danger" for="kelengkapan_komponen_approval_no">Eskalasi</span>
+                                            <div id="kelengkapan_komponen_approval_yes">
+                                                <label class="col-form-label">Quantity OK : </label><br/>
+                                                <input type="number" class="kelengkapan_komponen_approval_qtyok form-control" name="kelengkapan_komponen_approval_qtyok" value=""><br/>
+                                                <label class="col-form-label">Quantity NG : </label><br/>
+                                                <input type="number" class="kelengkapan_komponen_approval_qtyng form-control" name="kelengkapan_komponen_approval_qtyng" value=""><br/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
