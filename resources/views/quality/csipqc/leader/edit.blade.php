@@ -894,11 +894,13 @@
 							<div class="col-sm-10 col-sm-offset-2">
                                 @role('Director Quality')
                                     <input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.ipqc.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-primary btn-sm" name="submit_app" type="submit">Submit</button>
+                                    <!-- <button class="btn btn-primary btn-sm" name="submit_app" type="submit">Submit</button> -->
+                                    <button class="btn btn-primary btn-sm" name="submit_leader" type="submit">Submit</button>
                                 @else
                                     <input class="btn btn-white btn-sm" type="button" onclick="location.href='{{ route('quality.ipqc.index') }}';" value="Cancel" />&nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-primary btn-sm" name="submit_ac" type="submit">Submit Acceptance</button>&nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-primary btn-sm" name="submit_app" type="submit">Submit</button>
+                                    <!-- <button class="btn btn-primary btn-sm" name="submit_ac" type="submit">Submit Acceptance</button>&nbsp;&nbsp;&nbsp; -->
+                                    <!-- <button class="btn btn-primary btn-sm" name="submit_app" type="submit">Submit</button> -->
+                                    <button class="btn btn-primary btn-sm" name="submit_leader" type="submit">Submit</button>
                                 @endrole
 								
 							</div>
@@ -1016,7 +1018,7 @@
         $("#appearance_produk_ng").click(function() {
             $("div#appearance_produk_show").show();
             $("div#appearance_produk_show select.appearance_produk_ng_cat").prop('required',true);
-            $("div#appearance_produk_show input.appearance_produk_photo").prop('required',true);
+            $("div#appearance_produk_show input.appearance_produk_photo").prop('required',false);
             $("div#appearance_produk_show textarea.appearance_produk_causes").prop('required',false);
             $("div#appearance_produk_show textarea.appearance_produk_repair").prop('required',false);
             $("div#appearance_produk_show input[name='appearance_produk_repair_res']").prop('required',true);
@@ -1026,7 +1028,7 @@
             // alert("it's checked");
             $("div#appearance_produk_show").show();
             $("div#appearance_produk_show select.appearance_produk_ng_cat").prop('required',true);
-            $("div#appearance_produk_show input.appearance_produk_photo").prop('required',true);
+            $("div#appearance_produk_show input.appearance_produk_photo").prop('required',false);
             $("div#appearance_produk_show textarea.appearance_produk_causes").prop('required',false);
             $("div#appearance_produk_show textarea.appearance_produk_repair").prop('required',false);
             $("div#appearance_produk_show input[name='appearance_produk_repair_res']").prop('required',true);
@@ -1062,7 +1064,7 @@
         $("#parting_line_ng").click(function() {
             $("div#parting_line_show").show();
             $("div#parting_line_show select.parting_line_ng_cat").prop('required',true);
-            $("div#parting_line_show input.parting_line_photo").prop('required',true);
+            $("div#parting_line_show input.parting_line_photo").prop('required',false);
             $("div#parting_line_show textarea.parting_line_causes").prop('required',true);
             $("div#parting_line_show textarea.parting_line_repair").prop('required',true);
             $("div#parting_line_show input[name='parting_line_repair_res']").prop('required',true);
@@ -1071,7 +1073,7 @@
         if($("#parting_line_ng").is(':checked')) { 
             $("div#parting_line_show").show();
             $("div#parting_line_show select.parting_line_ng_cat").prop('required',true);
-            $("div#parting_line_show input.parting_line_photo").prop('required',true);
+            $("div#parting_line_show input.parting_line_photo").prop('required',false);
             $("div#parting_line_show textarea.parting_line_causes").prop('required',true);
             $("div#parting_line_show textarea.parting_line_repair").prop('required',true);
             $("div#parting_line_show input[name='parting_line_repair_res']").prop('required',true);

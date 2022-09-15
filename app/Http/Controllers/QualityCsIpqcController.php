@@ -480,6 +480,10 @@ class QualityCsIpqcController extends Controller
         $csipqc['destructive_test_hold_status'] = $request->destructive_test_hold_status;
         $csipqc['destructive_test_qty'] = $request->destructive_test_qty;
         $csipqc['destructive_test_hold_cat'] = $request->destructive_test_hold_cat;
+        // hold approval
+        $csipqc['destructive_test_approval'] = $request->destructive_test_approval;
+        $csipqc['destructive_test_approval_qtyok'] = $request->destructive_test_approval_qtyok;
+        $csipqc['destructive_test_approval_qtyng'] = $request->destructive_test_approval_qtyng;
 
         $csipqc['appearance_produk'] = $request->appearance_produk;
         $csipqc['appearance_produk_ng_cat'] = $request->appearance_produk_ng_cat;
@@ -490,6 +494,10 @@ class QualityCsIpqcController extends Controller
         $csipqc['appearance_produk_hold_status'] = $request->appearance_produk_hold_status;
         $csipqc['appearance_produk_qty'] = $request->appearance_produk_qty;
         $csipqc['appearance_produk_hold_cat'] = $request->appearance_produk_hold_cat;
+        // hold approval
+        $csipqc['appearance_produk_approval'] = $request->appearance_produk_approval;
+        $csipqc['appearance_produk_approval_qtyok'] = $request->appearance_produk_approval_qtyok;
+        $csipqc['appearance_produk_approval_qtyng'] = $request->appearance_produk_approval_qtyng;
 
         $csipqc['parting_line'] = $request->parting_line;
         $csipqc['parting_line_ng_cat'] = $request->parting_line_ng_cat;
@@ -500,6 +508,10 @@ class QualityCsIpqcController extends Controller
         $csipqc['parting_line_hold_status'] = $request->parting_line_hold_status;
         $csipqc['parting_line_qty'] = $request->parting_line_qty;
         $csipqc['parting_line_hold_cat'] = $request->parting_line_hold_cat;
+        // hold approval
+        $csipqc['parting_line_approval'] = $request->parting_line_approval;
+        $csipqc['parting_line_approval_qtyok'] = $request->parting_line_approval_qtyok;
+        $csipqc['parting_line_approval_qtyng'] = $request->parting_line_approval_qtyng;
 
         $csipqc['marking_cek_final'] = $request->marking_cek_final;
         $csipqc['marking_cek_final_remark'] = $request->marking_cek_final_remark;        
@@ -513,6 +525,10 @@ class QualityCsIpqcController extends Controller
         $csipqc['kelengkapan_komponen_hold_status'] = $request->kelengkapan_komponen_hold_status;
         $csipqc['kelengkapan_komponen_qty'] = $request->kelengkapan_komponen_qty;
         $csipqc['kelengkapan_komponen_hold_cat'] = $request->kelengkapan_komponen_hold_cat;
+        // hold approval
+        $csipqc['kelengkapan_komponen_approval'] = $request->kelengkapan_komponen_approval;
+        $csipqc['kelengkapan_komponen_approval_qtyok'] = $request->kelengkapan_komponen_approval_qtyok;
+        $csipqc['kelengkapan_komponen_approval_qtyng'] = $request->kelengkapan_komponen_approval_qtyng;
 
         // update last judge by dan last judge at
         $csipqc['updated_by'] = $user_id;
@@ -618,6 +634,70 @@ class QualityCsIpqcController extends Controller
             $message=$user_role.' sudah approve'.chr(10);
             $this->sendTelegram('-793766953',$message );
         }
+        elseif(isset($_POST['submit_leader'])) {
+
+            // 20220914
+            // cek jika ada approval eskalasi
+            // 1 = approve OK, namun jika qty_ok=0 maka NG
+            // 0 = eskalasi, status masih NG dan Hold
+            $approval_action = array(
+                $request->destructive_test_approval, 
+                $request->appearance_produk_approval, 
+                $request->parting_line_approval, 
+                $request->kelengkapan_komponen_approval
+            );
+            if (in_array("0", $approval_action)) { // eskalasi
+                $request->judge = 3;
+                $csipqc['judge'] = $request->judge;
+                DB::table('quality_ipqcs')->where('id', $q_ipqc_id)->update(['cs_status' => 1]);
+                // cek role, eskalasikan approval status ke superiornya
+                $user_role = $this->getUserRole();
+                if ($user_role == "User Quality") {
+                    $csipqc['approval_status'] = 1;
+                } elseif ($user_role == "Leader Quality") {
+                    $csipqc['approval_status'] = 2;
+                } elseif ($user_role == "Foreman Quality") {
+                    $csipqc['approval_status'] = 3;
+                } elseif ($user_role == "Supervisor Quality") {
+                    $csipqc['approval_status'] = 4;
+                } elseif ($user_role == "Dept Head Quality") {
+                    $csipqc['approval_status'] = 5;
+                } elseif ($user_role == "Director Quality") {
+                    $csipqc['approval_status'] = 6;
+                }
+                // send notif telegram
+                $user_role = $this->getUserRole();
+                $message=$user_role.' melakukan Eskalasi'.chr(10);
+                $this->sendTelegram('-793766953',$message ); 
+            } elseif(in_array("1", $approval_action)) { // approve
+                // cek apakah qty_ok ada yang 0, jika ada maka judge NG, jika tidak ada maka judge OK
+                $approval_qty_ok = array(
+                    $request->destructive_test_approval_qtyok, 
+                    $request->appearance_produk_approval_qtyok, 
+                    $request->parting_line_approval_qtyok, 
+                    $request->kelengkapan_komponen_approval_qtyok
+                );
+                if (in_array("0", $approval_qty_ok)) { // approve jadi NG
+                    $request->judge = 3;
+                    $tele_judge = "NG";
+                } else { // approve jadi OK
+                    $request->judge = 1;   
+                    $tele_judge = "OK";                 
+                }
+                $csipqc['judge'] = $request->judge;
+                $csipqc['approval_status'] = 6;
+                DB::table('quality_ipqcs')->where('id', $q_ipqc_id)->update(['cs_status' => 2]);
+                // send notif telegram
+                $user_role = $this->getUserRole();
+                $message=$user_role.' sudah approve menjadi '.$tele_judge.chr(10);
+                $this->sendTelegram('-793766953',$message );
+            } else { // approve tidak ada yang di hold? approval harusnya jadi NG?
+                $request->judge = 0;
+                $request->judge = 3;
+                $csipqc['judge'] = $request->judge;
+            }
+        }
+
         // cek judgement, panggil fungsi judgement getJudgementStatus(), lalu update kolom judgment
         $judgement = $this->getJudgementStatus($q_ipqc_id, $cs_ipqc_id);
         // echo $judgement;

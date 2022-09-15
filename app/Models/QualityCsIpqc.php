@@ -26,7 +26,11 @@ class QualityCsIpqc extends Model
         'destructive_test_repair_res',
         'destructive_test_hold_status',
         'destructive_test_qty',           
-        'destructive_test_hold_cat',           
+        'destructive_test_hold_cat',  
+        // hold approval
+        'destructive_test_approval',           
+        'destructive_test_approval_qtyok',           
+        'destructive_test_approval_qtyng',           
 
         'appearance_produk',        
         'appearance_produk_remark',    
@@ -38,6 +42,10 @@ class QualityCsIpqc extends Model
         'appearance_produk_hold_status',
         'appearance_produk_qty',
         'appearance_produk_hold_cat',
+        // hold approval
+        'appearance_produk_approval',           
+        'appearance_produk_approval_qtyok',           
+        'appearance_produk_approval_qtyng',
 
         'parting_line',        
         'parting_line_remark',
@@ -49,6 +57,10 @@ class QualityCsIpqc extends Model
         'parting_line_hold_status',
         'parting_line_qty',
         'parting_line_hold_cat',
+        // hold approval
+        'parting_line_approval',           
+        'parting_line_approval_qtyok',           
+        'parting_line_approval_qtyng',
 
         'marking_cek_final',        
         'marking_cek_final_remark',        
@@ -61,7 +73,12 @@ class QualityCsIpqc extends Model
         'kelengkapan_komponen_remark',        
         'kelengkapan_komponen_hold_status',        
         'kelengkapan_komponen_qty',        
-        'kelengkapan_komponen_hold_cat',        
+        'kelengkapan_komponen_hold_cat',    
+        // hold approval
+        'kelengkapan_komponen_approval',           
+        'kelengkapan_komponen_approval_qtyok',           
+        'kelengkapan_komponen_approval_qtyng',
+
         // 'housing',        
         // 'lens',        
         // 'extension',        
