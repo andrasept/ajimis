@@ -106,9 +106,8 @@
           <li class="">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality IPQC</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
-              <li><a href="{{ route('quality.monitor.index') }}">Monitoring</a></li>
-              <li><a href="{{ route('quality.ipqc.index') }}">IPQC</a></li>
-              <li><a href="{{ route('quality.ipqc.index') }}">Leader Approval</a></li>
+              <li><a href="{{ route('quality.ipqc.index') }}">List</a></li>
+              <li><a href="{{ route('quality.ipqc.leader_approval') }}">Foreman Approval</a></li>
             </ul>
           </li>  
         @endrole
@@ -117,8 +116,8 @@
           <li class="">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality IPQC</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
-              <li><a href="{{ route('quality.monitor.index') }}">Monitoring</a></li>
-              <li><a href="{{ route('quality.monitor.index') }}">Supervisor Approval</a></li>
+              <li><a href="{{ route('quality.ipqc.index') }}">List</a></li>
+              <li><a href="{{ route('quality.ipqc.leader_approval') }}">Supervisor Approval</a></li>
             </ul>
           </li>  
         @endrole
@@ -127,8 +126,10 @@
           <li class="">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality IPQC</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
-              <li><a href="{{ route('quality.monitor.index') }}">Monitoring</a></li>
-              <li><a href="{{ route('quality.monitor.index') }}">Dept Head Approval</a></li>
+              <!-- <li><a href="{{ route('quality.monitor.index') }}">Monitoring</a></li>
+              <li><a href="{{ route('quality.monitor.index') }}">Dept Head Approval</a></li> -->
+              <li><a href="{{ route('quality.ipqc.index') }}">List</a></li>
+              <li><a href="{{ route('quality.ipqc.leader_approval') }}">Dept Head Approval</a></li>
             </ul>
           </li>  
         @endrole
@@ -137,8 +138,8 @@
           <li class="">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality IPQC</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
-              <li><a href="{{ route('quality.monitor.index') }}">Monitoring</a></li>
-              <li><a href="{{ route('quality.monitor.index') }}">Director Approval</a></li>
+              <li><a href="{{ route('quality.ipqc.index') }}">List</a></li>
+              <li><a href="{{ route('quality.ipqc.leader_approval') }}">Director Approval</a></li>
             </ul>
           </li>  
         @endrole

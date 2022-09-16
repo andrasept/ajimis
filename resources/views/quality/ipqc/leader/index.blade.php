@@ -4,7 +4,7 @@
 
 <div class="row wrapper border-bottom white-bg page-heading">
 	<div class="col-lg-10">
-		<h2>Quality Monitoring IPQC | Leader Page</h2>
+		<h2>Quality Monitoring IPQC | List Page</h2>
 	</div>
 	<div class="col-lg-2">
 	</div>
@@ -54,6 +54,9 @@
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                             <h4 class="modal-title">Detail Checksheet</h4>
+                            <h5 class="font-bold">
+                            	Lot Produksi : {{$q_ipqc->lot_produksi}}
+                            </h5>
                             <h5 class="font-bold">
                             	Line :
                             	@foreach ($q_areas as $key => $q_area)
@@ -119,6 +122,7 @@
 	                                <th>Cycle</th>
 	                                <th>Judge</th>
 	                                <th>Approval</th>
+	                                <th>Action Result</th>
 	                                <th>Checked at</th>
 	                                <th>Last Judge by</th>
 	                                <th>Last Judge at</th>
@@ -170,6 +174,31 @@
 																				@endif
 																			@endif
 																		</td>
+																		<td>
+																			@if($q_cs_ipqc->destructive_test_approval_qtyok > 0 || $q_cs_ipqc->destructive_test_approval_qtyng > 0)
+																				Destructive Test :<br/>
+																				<span class="badge badge-primary">OK</span> {{$q_cs_ipqc->destructive_test_approval_qtyok}} pcs<br/>
+																				<span class="badge badge-danger">NG</span>{{$q_cs_ipqc->destructive_test_approval_qtyng}} pcs<br/>
+																			@endif
+																			<br/>
+																			@if($q_cs_ipqc->appearance_produk_approval_qtyok > 0 || $q_cs_ipqc->appearance_produk_approval_qtyng > 0)
+																				Appear. Produk :<br/>
+																				<span class="badge badge-primary">OK</span> {{$q_cs_ipqc->appearance_produk_approval_qtyok}} pcs<br/>
+																				<span class="badge badge-danger">NG</span>{{$q_cs_ipqc->appearance_produk_approval_qtyng}} pcs<br/>
+																			@endif
+																			<br/>
+																			@if($q_cs_ipqc->parting_line_approval_qtyok > 0 || $q_cs_ipqc->parting_line_approval_qtyng > 0)
+																				Parting Line :<br/>
+																				<span class="badge badge-primary">OK</span> {{$q_cs_ipqc->parting_line_approval_qtyok}} pcs<br/>
+																				<span class="badge badge-danger">NG</span>{{$q_cs_ipqc->parting_line_approval_qtyng}} pcs<br/>
+																			@endif
+																			<br/>
+																			@if($q_cs_ipqc->kelengkapan_komponen_approval_qtyok > 0 || $q_cs_ipqc->kelengkapan_komponen_approval_qtyng > 0)
+																				Kelengkapan Komponen :<br/>
+																				<span class="badge badge-primary">OK</span> {{$q_cs_ipqc->kelengkapan_komponen_approval_qtyok}} pcs<br/>
+																				<span class="badge badge-danger">NG</span>{{$q_cs_ipqc->kelengkapan_komponen_approval_qtyng}} pcs<br/>
+																			@endif
+																		</td>
 		                                <td>
 		                                	@if($q_cs_ipqc->quality_ipqc_id == $q_ipqc->id)
 																				{{$q_cs_ipqc->created_at}}
@@ -202,6 +231,7 @@
 	                                <th>Cycle</th>
 	                                <th>Judge</th>
 	                                <th>Approval</th>
+	                                <th>Action Result</th>
 	                                <th>Checked at</th>
 	                                <th>Last Judge by</th>
 	                                <th>Last Judge at</th>
@@ -251,6 +281,31 @@
 																				@elseif($q_cs_ipqc->approval_status == 6)
 																				<span class="badge badge-primary">Approved</span>
 																				@endif
+																			@endif
+																		</td>
+																		<td>
+																			@if($q_cs_ipqc->destructive_test_approval_qtyok > 0 || $q_cs_ipqc->destructive_test_approval_qtyng > 0)
+																				Destructive Test :<br/>
+																				<span class="badge badge-primary">OK</span> {{$q_cs_ipqc->destructive_test_approval_qtyok}} pcs<br/>
+																				<span class="badge badge-danger">NG</span>{{$q_cs_ipqc->destructive_test_approval_qtyng}} pcs<br/>
+																			@endif
+																			<br/>
+																			@if($q_cs_ipqc->appearance_produk_approval_qtyok > 0 || $q_cs_ipqc->appearance_produk_approval_qtyng > 0)
+																				Appear. Produk :<br/>
+																				<span class="badge badge-primary">OK</span> {{$q_cs_ipqc->appearance_produk_approval_qtyok}} pcs<br/>
+																				<span class="badge badge-danger">NG</span>{{$q_cs_ipqc->appearance_produk_approval_qtyng}} pcs<br/>
+																			@endif
+																			<br/>
+																			@if($q_cs_ipqc->parting_line_approval_qtyok > 0 || $q_cs_ipqc->parting_line_approval_qtyng > 0)
+																				Parting Line :<br/>
+																				<span class="badge badge-primary">OK</span> {{$q_cs_ipqc->parting_line_approval_qtyok}} pcs<br/>
+																				<span class="badge badge-danger">NG</span>{{$q_cs_ipqc->parting_line_approval_qtyng}} pcs<br/>
+																			@endif
+																			<br/>
+																			@if($q_cs_ipqc->kelengkapan_komponen_approval_qtyok > 0 || $q_cs_ipqc->kelengkapan_komponen_approval_qtyng > 0)
+																				Kelengkapan Komponen :<br/>
+																				<span class="badge badge-primary">OK</span> {{$q_cs_ipqc->kelengkapan_komponen_approval_qtyok}} pcs<br/>
+																				<span class="badge badge-danger">NG</span>{{$q_cs_ipqc->kelengkapan_komponen_approval_qtyng}} pcs<br/>
 																			@endif
 																		</td>
 		                                <td>

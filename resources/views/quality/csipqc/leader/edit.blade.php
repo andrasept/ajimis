@@ -195,15 +195,27 @@
                                         <!-- Approval Action -->
                                         <div id="destructive_test_approval_action" style="background-color: bisque; padding: 10px;">
                                             Approval Action :
-                                            <input type="radio" name="destructive_test_approval" id="destructive_test_approval_yes" value="1">
-                                            <span class="badge badge-primary" for="destructive_test_approval_yes">Approve</span>
-                                            <input type="radio" name="destructive_test_approval" id="destructive_test_approval_no" value="0">
-                                            <span class="badge badge-danger" for="destructive_test_approval_no">Eskalasi</span>
+                                            @if($qcs->destructive_test_approval == "1")
+                                                <input checked type="radio" name="destructive_test_approval" id="destructive_test_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="destructive_test_approval_yes">Approve</span>
+                                                <input type="radio" name="destructive_test_approval" id="destructive_test_approval_no" value="0">
+                                                <span class="badge badge-danger" for="destructive_test_approval_no">Eskalasi</span>
+                                            @elseif($qcs->destructive_test_approval == "0")
+                                                <input type="radio" name="destructive_test_approval" id="destructive_test_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="destructive_test_approval_yes">Approve</span>
+                                                <input checked type="radio" name="destructive_test_approval" id="destructive_test_approval_no" value="0">
+                                                <span class="badge badge-danger" for="destructive_test_approval_no">Eskalasi</span>
+                                            @else
+                                                <input type="radio" name="destructive_test_approval" id="destructive_test_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="destructive_test_approval_yes">Approve</span>
+                                                <input type="radio" name="destructive_test_approval" id="destructive_test_approval_no" value="0">
+                                                <span class="badge badge-danger" for="destructive_test_approval_no">Eskalasi</span>
+                                            @endif
                                             <div id="destructive_test_approval_yes">
                                                 <label class="col-form-label">Quantity OK : </label><br/>
-                                                <input type="number" class="destructive_test_approval_qtyok form-control" name="destructive_test_approval_qtyok" value=""><br/>
+                                                <input type="number" class="destructive_test_approval_qtyok form-control" name="destructive_test_approval_qtyok" value="{{$qcs->destructive_test_approval_qtyok}}"><br/>
                                                 <label class="col-form-label">Quantity NG : </label><br/>
-                                                <input type="number" class="destructive_test_approval_qtyng form-control" name="destructive_test_approval_qtyng" value=""><br/>
+                                                <input type="number" class="destructive_test_approval_qtyng form-control" name="destructive_test_approval_qtyng" value="{{$qcs->destructive_test_approval_qtyng}}"><br/>
                                             </div>
                                         </div>
                                     </div>
@@ -321,15 +333,36 @@
                                         <!-- Approval Action -->
                                         <div id="appearance_produk_approval_action" style="background-color: bisque; padding: 10px;">
                                             Approval Action :
-                                            <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_yes" value="1">
-                                            <span class="badge badge-primary" for="appearance_produk_approval_yes">Approve</span>
-                                            <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_no" value="0">
-                                            <span class="badge badge-danger" for="appearance_produk_approval_no">Eskalasi</span>
+                                            @if($qcs->appearance_produk_approval == "1")
+                                                <input checked type="radio" name="appearance_produk_approval" id="appearance_produk_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="appearance_produk_approval_yes">Approve</span>
+                                                <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_no" value="0">
+                                                <span class="badge badge-danger" for="appearance_produk_approval_no">Eskalasi</span>
+                                            @elseif($qcs->appearance_produk_approval == "0")
+
+                                                @role('Director Quality')
+                                                    <input checked type="radio" name="appearance_produk_approval" id="appearance_produk_approval_yes" value="1">
+                                                    <span class="badge badge-primary" for="appearance_produk_approval_yes">Approve</span>
+                                                    <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_no" value="0" style="display: none;">
+                                                @else 
+                                                    <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_yes" value="1">
+                                                    <span class="badge badge-primary" for="appearance_produk_approval_yes">Approve</span>
+                                                    <input checked type="radio" name="appearance_produk_approval" id="appearance_produk_approval_no" value="0">
+                                                    <span class="badge badge-danger" for="appearance_produk_approval_no">Eskalasi</span>
+                                                @endrole
+
+                                                
+                                            @else
+                                                <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="appearance_produk_approval_yes">Approve</span>
+                                                <input type="radio" name="appearance_produk_approval" id="appearance_produk_approval_no" value="0">
+                                                <span class="badge badge-danger" for="appearance_produk_approval_no">Eskalasi</span>
+                                            @endif
                                             <div id="appearance_produk_approval_yes">
                                                 <label class="col-form-label">Quantity OK : </label><br/>
-                                                <input type="number" class="appearance_produk_approval_qtyok form-control" name="appearance_produk_approval_qtyok" value=""><br/>
+                                                <input type="number" class="appearance_produk_approval_qtyok form-control" name="appearance_produk_approval_qtyok" value="{{$qcs->appearance_produk_approval_qtyok}}"><br/>
                                                 <label class="col-form-label">Quantity NG : </label><br/>
-                                                <input type="number" class="appearance_produk_approval_qtyng form-control" name="appearance_produk_approval_qtyng" value=""><br/>
+                                                <input type="number" class="appearance_produk_approval_qtyng form-control" name="appearance_produk_approval_qtyng" value="{{$qcs->appearance_produk_approval_qtyng}}"><br/>
                                             </div>
                                         </div>
                                     </div>
@@ -445,15 +478,27 @@
                                         <!-- Approval Action -->
                                         <div id="parting_line_approval_action" style="background-color: bisque; padding: 10px;">
                                             Approval Action :
-                                            <input type="radio" name="parting_line_approval" id="parting_line_approval_yes" value="1">
-                                            <span class="badge badge-primary" for="parting_line_approval_yes">Approve</span>
-                                            <input type="radio" name="parting_line_approval" id="parting_line_approval_no" value="0">
-                                            <span class="badge badge-danger" for="parting_line_approval_no">Eskalasi</span>
+                                            @if($qcs->parting_line_approval == "1")
+                                                <input checked type="radio" name="parting_line_approval" id="parting_line_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="parting_line_approval_yes">Approve</span>
+                                                <input type="radio" name="parting_line_approval" id="parting_line_approval_no" value="0">
+                                                <span class="badge badge-danger" for="parting_line_approval_no">Eskalasi</span>
+                                            @elseif($qcs->parting_line_approval == "0")
+                                                <input type="radio" name="parting_line_approval" id="parting_line_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="parting_line_approval_yes">Approve</span>
+                                                <input checked type="radio" name="parting_line_approval" id="parting_line_approval_no" value="0">
+                                                <span class="badge badge-danger" for="parting_line_approval_no">Eskalasi</span>
+                                            @else
+                                                <input type="radio" name="parting_line_approval" id="parting_line_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="parting_line_approval_yes">Approve</span>
+                                                <input type="radio" name="parting_line_approval" id="parting_line_approval_no" value="0">
+                                                <span class="badge badge-danger" for="parting_line_approval_no">Eskalasi</span>
+                                            @endif
                                             <div id="parting_line_approval_yes">
                                                 <label class="col-form-label">Quantity OK : </label><br/>
-                                                <input type="number" class="parting_line_approval_qtyok form-control" name="parting_line_approval_qtyok" value=""><br/>
+                                                <input type="number" class="parting_line_approval_qtyok form-control" name="parting_line_approval_qtyok" value="{{$qcs->parting_line_approval_qtyok}}"><br/>
                                                 <label class="col-form-label">Quantity NG : </label><br/>
-                                                <input type="number" class="parting_line_approval_qtyng form-control" name="parting_line_approval_qtyng" value=""><br/>
+                                                <input type="number" class="parting_line_approval_qtyng form-control" name="parting_line_approval_qtyng" value="{{$qcs->parting_line_approval_qtyng}}"><br/>
                                             </div>
                                         </div>
                                     </div>
@@ -626,15 +671,27 @@
                                         <!-- Approval Action -->
                                         <div id="kelengkapan_komponen_approval_action" style="background-color: bisque; padding: 10px;">
                                             Approval Action :
-                                            <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_yes" value="1">
-                                            <span class="badge badge-primary" for="kelengkapan_komponen_approval_yes">Approve</span>
-                                            <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_no" value="0">
-                                            <span class="badge badge-danger" for="kelengkapan_komponen_approval_no">Eskalasi</span>
+                                            @if($qcs->kelengkapan_komponen_approval == "1")
+                                                <input checked type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="kelengkapan_komponen_approval_yes">Approve</span>
+                                                <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_no" value="0">
+                                                <span class="badge badge-danger" for="kelengkapan_komponen_approval_no">Eskalasi</span>
+                                            @elseif($qcs->kelengkapan_komponen_approval == "0")
+                                                <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="kelengkapan_komponen_approval_yes">Approve</span>
+                                                <input checked type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_no" value="0">
+                                                <span class="badge badge-danger" for="kelengkapan_komponen_approval_no">Eskalasi</span>
+                                            @else
+                                                <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_yes" value="1">
+                                                <span class="badge badge-primary" for="kelengkapan_komponen_approval_yes">Approve</span>
+                                                <input type="radio" name="kelengkapan_komponen_approval" id="kelengkapan_komponen_approval_no" value="0">
+                                                <span class="badge badge-danger" for="kelengkapan_komponen_approval_no">Eskalasi</span>
+                                            @endif
                                             <div id="kelengkapan_komponen_approval_yes">
                                                 <label class="col-form-label">Quantity OK : </label><br/>
-                                                <input type="number" class="kelengkapan_komponen_approval_qtyok form-control" name="kelengkapan_komponen_approval_qtyok" value=""><br/>
+                                                <input type="number" class="kelengkapan_komponen_approval_qtyok form-control" name="kelengkapan_komponen_approval_qtyok" value="{{$qcs->kelengkapan_komponen_approval_qtyok}}"><br/>
                                                 <label class="col-form-label">Quantity NG : </label><br/>
-                                                <input type="number" class="kelengkapan_komponen_approval_qtyng form-control" name="kelengkapan_komponen_approval_qtyng" value=""><br/>
+                                                <input type="number" class="kelengkapan_komponen_approval_qtyng form-control" name="kelengkapan_komponen_approval_qtyng" value="{{$qcs->kelengkapan_komponen_approval_qtyng}}"><br/>
                                             </div>
                                         </div>
                                     </div>

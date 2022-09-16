@@ -51,43 +51,58 @@ class QualityIpqcController extends Controller
         // get users by its roles 
         $user_role = (New QualityCsQtimeController)->getUserRole();
 
-        if ($user_role == "Leader Quality") {
-            return view('quality.ipqc.leader.index', compact(
-                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
-                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
-                'users'
-            ));
-        } elseif ($user_role == "Foreman Quality") {
-            return view('quality.ipqc.foreman.index', compact(
-                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
-                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
-                'users'
-            ));
-        } elseif ($user_role == "Supervisor Quality") {
-            return view('quality.ipqc.supervisor.index', compact(
-                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
-                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
-                'users'
-            ));
-        } elseif ($user_role == "Dept Head Quality") {
-            return view('quality.ipqc.depthead.index', compact(
-                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
-                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
-                'users'
-            ));
-        } elseif ($user_role == "Director Quality") {
-            return view('quality.ipqc.director.index', compact(
-                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
-                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
-                'users'
-            ));
-        } else {
+        // if ($user_role == "Leader Quality") {
+        //     return view('quality.ipqc.leader.index', compact(
+        //         'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+        //         'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+        //         'users'
+        //     ));
+        // } elseif ($user_role == "Foreman Quality") {
+        //     return view('quality.ipqc.foreman.index', compact(
+        //         'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+        //         'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+        //         'users'
+        //     ));
+        // } elseif ($user_role == "Supervisor Quality") {
+        //     return view('quality.ipqc.supervisor.index', compact(
+        //         'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+        //         'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+        //         'users'
+        //     ));
+        // } elseif ($user_role == "Dept Head Quality") {
+        //     return view('quality.ipqc.depthead.index', compact(
+        //         'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+        //         'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+        //         'users'
+        //     ));
+        // } elseif ($user_role == "Director Quality") {
+        //     return view('quality.ipqc.director.index', compact(
+        //         'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+        //         'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+        //         'users'
+        //     ));
+        // } else {
+        //     return view('quality.ipqc.index', compact(
+        //         'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+        //         'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+        //         'users'
+        //     ));
+        // }
+
+        if ($user_role == "User Quality") {
             return view('quality.ipqc.index', compact(
                 'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
                 'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
                 'users'
             ));
+        } else {
+            return view('quality.ipqc.leader.index', compact(
+                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+                'users'
+            ));
         }
+
     }
 
     public function leader_approval() {
@@ -96,43 +111,11 @@ class QualityIpqcController extends Controller
         $q_machines = QualityMachine::all();
         $q_models = QualityModel::all();
         $q_parts = QualityPart::all();           
-        $q_ipqcs = QualityIpqc::all();             
-        // $q_ipqc_leaders = DB::table('quality_ipqcs')
-        //   ->join('quality_cs_ipqcs', 'quality_ipqcs.id', '=', 'quality_cs_ipqcs.quality_ipqc_id')
-        //   ->select(
-        //     'quality_ipqcs.id', 
-        //     'quality_ipqcs.lot_produksi', 
-        //     'quality_ipqcs.judgement', 
-        //     'quality_ipqcs.quality_area_id', 
-        //     'quality_ipqcs.quality_process_id', 
-        //     'quality_ipqcs.quality_machine_id', 
-        //     'quality_ipqcs.quality_model_id', 
-        //     'quality_ipqcs.quality_part_id', 
-        //     'quality_ipqcs.cs_status', 
-        //     'quality_ipqcs.created_by', 
-        //     'quality_ipqcs.created_at',
-        //     )
-        //   ->where('quality_cs_ipqcs.approval_status', 1)
-        //   ->get()      
-        //   ->groupBy('quality_ipqcs.id');
-        // dd($q_ipqc_leaders);   
-
-        // SELECT * from quality_ipqcs qi, quality_cs_ipqcs qcs WHERE qi.id = qcs.quality_ipqc_id AND qcs.approval_status=1 GROUP BY qi.id 
-        // $q_ipqc_leaders = DB::select('SELECT qi.* FROM quality_ipqcs qi, quality_cs_ipqcs qcs WHERE qi.id = qcs.quality_ipqc_id AND qcs.approval_status=1');
-        // dd($q_ipqc_leaders); 
-
-        $q_ipqc_leaders = DB::table('quality_ipqcs')
-            ->selectRaw('quality_ipqcs.*')
-            ->join('quality_cs_ipqcs', 'quality_ipqcs.id', '=', 'quality_cs_ipqcs.quality_ipqc_id')
-            ->where('quality_cs_ipqcs.approval_status', 1)
-            ->groupBy('quality_ipqcs.id')
-            ->get();
-        // dd($q_ipqc_leaders);  
-
+        $q_ipqcs = QualityIpqc::all();   
 
         // shift cs
         // $q_cs_qtimes = QualityCsQtime::all();
-        $q_cs_ipqcs_s1 = DB::table('quality_cs_ipqcs')->where('shift', 1)->get(); // ini harusnya where id_monitor = xx   
+        $q_cs_ipqcs_s1 = DB::table('quality_cs_ipqcs')->where('shift', 1)->get(); 
         $q_cs_ipqcs_s2 = DB::table('quality_cs_ipqcs')->where('shift', 2)->get();
         $users = User::all();
 
@@ -142,21 +125,51 @@ class QualityIpqcController extends Controller
         // get users by its roles 
         $user_role = (New QualityCsQtimeController)->getUserRole();
 
+        // query list ipqc by role
         if ($user_role == "Leader Quality") {
-            return view('quality.ipqc.leader.index_approval', compact(
-                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
-                'q_ipqc_leaders',
-                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
-                'users'
-            ));
-        } 
-        else {
-            return view('quality.ipqc.index', compact(
-                'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
-                'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
-                'users'
-            ));
+            $q_ipqc_leaders = DB::table('quality_ipqcs')
+                ->selectRaw('quality_ipqcs.*')
+                ->join('quality_cs_ipqcs', 'quality_ipqcs.id', '=', 'quality_cs_ipqcs.quality_ipqc_id')
+                ->where('quality_cs_ipqcs.approval_status', 1)
+                ->groupBy('quality_ipqcs.id')
+                ->get();
+        } elseif ($user_role == "Foreman Quality") {
+            $q_ipqc_leaders = DB::table('quality_ipqcs')
+                ->selectRaw('quality_ipqcs.*')
+                ->join('quality_cs_ipqcs', 'quality_ipqcs.id', '=', 'quality_cs_ipqcs.quality_ipqc_id')
+                ->where('quality_cs_ipqcs.approval_status', 2)
+                ->groupBy('quality_ipqcs.id')
+                ->get();
+        } elseif ($user_role == "Supervisor Quality") {
+            $q_ipqc_leaders = DB::table('quality_ipqcs')
+                ->selectRaw('quality_ipqcs.*')
+                ->join('quality_cs_ipqcs', 'quality_ipqcs.id', '=', 'quality_cs_ipqcs.quality_ipqc_id')
+                ->where('quality_cs_ipqcs.approval_status', 3)
+                ->groupBy('quality_ipqcs.id')
+                ->get();
+        } elseif ($user_role == "Dept Head Quality") {
+            $q_ipqc_leaders = DB::table('quality_ipqcs')
+                ->selectRaw('quality_ipqcs.*')
+                ->join('quality_cs_ipqcs', 'quality_ipqcs.id', '=', 'quality_cs_ipqcs.quality_ipqc_id')
+                ->where('quality_cs_ipqcs.approval_status', 4)
+                ->groupBy('quality_ipqcs.id')
+                ->get();
+        } elseif ($user_role == "Director Quality") {
+            $q_ipqc_leaders = DB::table('quality_ipqcs')
+                ->selectRaw('quality_ipqcs.*')
+                ->join('quality_cs_ipqcs', 'quality_ipqcs.id', '=', 'quality_cs_ipqcs.quality_ipqc_id')
+                ->where('quality_cs_ipqcs.approval_status', 5)
+                ->groupBy('quality_ipqcs.id')
+                ->get();
         }
+
+        return view('quality.ipqc.leader.index_approval', compact(
+            'q_areas', 'q_processes', 'q_machines', 'q_models', 'q_parts', 
+            'q_ipqc_leaders',
+            'q_ipqcs','q_cs_ipqcs_s1', 'q_cs_ipqcs_s2', 
+            'users'
+        ));
+        
     }
 
 
