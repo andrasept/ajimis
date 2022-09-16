@@ -284,17 +284,29 @@
                     }
                   },
                   { data: 'arrival_status', className: 'dt-body-center',
-                  'render' : function(data, row, type){
+                  'render' : function(data, type, row){
+                    var waktu_start= null;
+                    var waktu_progress = "";
+                    if (row['departure_actual'] == null) {
+
+                        if (row['arrival_actual'] !== null) {
+                          waktu_start = moment(row['arrival_actual']);
+                        }
+                        var waktu_sekarang = moment().format("DD/MM/YYYY HH:mm:ss");
+                        waktu_progress = moment(waktu_sekarang,"DD/MM/YYYY HH:mm:ss").diff(moment(waktu_start,"DD/MM/YYYY HH:mm:ss"), 'minutes')+ " minutes";
+                  
+                    }
+
                     if (data == '4') {
-                      return '<label class="label label-primary">On Time</label>';
+                      return '<label class="label label-primary">On Time</label></br>'+waktu_progress;
                     } else if(data == '3') {
-                      return '<label class="label label-info">Advanced</label>';
+                      return '<label class="label label-info">Advanced</label></br>'+waktu_progress;
                     }else if(data == '8') {
-                      return '<label class="label label-info">Advanced Return</label>';
+                      return '<label class="label label-info">Advanced Return</label></br>'+waktu_progress;
                     }else if(data == '9') {
-                      return '<label class="label label-primary">On Time Return</label>';
+                      return '<label class="label label-primary">On Time Return</label></br>'+waktu_progress;
                     }else if(data == '10') {
-                      return '<label class="label label-danger">Delay Return</label>';
+                      return '<label class="label label-danger">Delay Return</label></br> '+waktu_progress;
                     }  else if(data === null) {
                       return '';
                     }else{
