@@ -22,14 +22,19 @@
               <div class="small m-t-xs">
                 Quality Portal
               </div>
+<<<<<<< HEAD
               <div class="m-t text-righ">
 <<<<<<< HEAD
+=======
+              <div class="m-t text-right">
+>>>>>>> 938aa837b758ca12fdbc5bd4a2525c7933c96a87
                 @role('quality')
                 <a href="{{ route('login.show')}}" class="btn btn-xs btn-outline btn-primary">Go <i class="fa fa-long-arrow-right"></i> </a>
                 @else
                 <!-- <a href="{{ route('login.show')}}" class="btn btn-xs btn-outline btn-danger" style="cursor: not-allowed;pointer-events: none;">Not Allowed</a> -->
                 <a href="{{ route('login.show')}}" class="btn btn-xs btn-outline btn-danger" style="">Not Allowed</a>
                 @endrole
+<<<<<<< HEAD
 =======
                 {{-- <a href="{{route('login.show')}}" class="btn btn-xs btn-outline btn-primary">Login <i class="fa fa-long-arrow-right"></i> </a> --}}
                 {{-- @role('quality')
@@ -38,6 +43,8 @@
                 <a href="#" class="btn btn-xs btn-outline btn-danger" style="cursor: not-allowed;pointer-events: none;">Not Allowed</a>
                 @endrole --}}
 >>>>>>> delivery
+=======
+>>>>>>> 938aa837b758ca12fdbc5bd4a2525c7933c96a87
               </div>
             </div>
 
