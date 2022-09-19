@@ -64,7 +64,7 @@ class UsersController extends Controller
         // you should create a generated random password and email it to the user
         // dr4: pass default admin123
 
-        User::create(array_merge($request->only('name', 'email', 'username', 'password', 'dept_id')));
+        User::create(array_merge($request->only('name', 'email', 'username', 'password', 'dept_id','npk')));
 
         // $user->create(array_merge($request->validated(), [
         //     'password' => 'test' 

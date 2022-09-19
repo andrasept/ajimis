@@ -26,7 +26,7 @@
                 <img src="{{asset('image/ajilogo.png')}}" alt="logo" width="100">
             </div>
             <h3>AJI MIS</h3>
-        <form class="m-t" role="form" method="post" action="/login">
+        <form class="m-t" role="form" method="post" action="{{route('login.perform')}}">
             @csrf
                 <div class="form-group">
                     <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" placeholder="Username" required>
@@ -51,8 +51,8 @@
                 @enderror
                 <button type="submit" class="btn btn-info block full-width m-b" style="background-color:#225879">Login</button>
                 <a href="{{ route('forget.password.get') }}"><small>Forgot password?</small></a>
-                <p class="text-muted text-center"><small>Do not have an account?</small></p>
-                <a class="btn btn-sm btn-white btn-block" href="{{route('register.show')}}">Create an account</a>
+                {{-- <p class="text-muted text-center"><small>Do not have an account?</small></p> --}}
+                {{-- <a class="btn btn-sm btn-white btn-block" href="{{route('register.show')}}">Create an account</a> --}}
             </form>
             <p class="m-t"> <small>AJI MIS &copy;copyright 2022</small> </p>
         </div>
