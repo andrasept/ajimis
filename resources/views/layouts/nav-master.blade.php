@@ -147,14 +147,14 @@
         @endrole
 
         @role('User Quality')
-          <li class="">
+          <!-- <li class="">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality Checksheets</span> <span class="fa arrow"></span></a>
 
             <ul class="nav nav-second-level">
               <li><a href="{{ route('quality.monitor.index') }}">Monitoring</a></li>
             </ul>
 
-          </li>  
+          </li> -->  
           <li class="">
             <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Quality IPQC</span> <span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
