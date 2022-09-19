@@ -16,12 +16,16 @@ use App\Models\QualityNgCategory;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\UploadedFile;
+use App\Http\Requests\StoreFileRequest;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Auth;
+use Storage;
+use File;
 
 class QualityCsIpqcController extends Controller
 {
@@ -473,7 +477,17 @@ class QualityCsIpqcController extends Controller
 
         $csipqc['destructive_test'] = $request->destructive_test;
         $csipqc['destructive_test_ng_cat'] = $request->destructive_test_ng_cat;
-        $csipqc['destructive_test_photo'] = $request->destructive_test_photo;
+        // $csipqc['destructive_test_photo'] = $request->destructive_test_photo;
+        if($request->file('destructive_test_photo')){
+            $file= $request->file('destructive_test_photo');
+            $filename = 'destructive_test'.date('YmdHis').$file->getClientOriginalName();
+            $file->move(public_path('quality/csipqc'), $filename);
+            $csipqc['destructive_test_photo'] = $filename;
+            // delete file
+            if(File::exists(public_path('quality/wi/'.$request->destructive_test_photo_existing))){
+                File::delete(public_path('quality/wi/'.$request->destructive_test_photo_existing));
+            }
+        }        
         $csipqc['destructive_test_causes'] = $request->destructive_test_causes;
         $csipqc['destructive_test_repair'] = $request->destructive_test_repair;
         $csipqc['destructive_test_repair_res'] = $request->destructive_test_repair_res;
@@ -487,7 +501,17 @@ class QualityCsIpqcController extends Controller
 
         $csipqc['appearance_produk'] = $request->appearance_produk;
         $csipqc['appearance_produk_ng_cat'] = $request->appearance_produk_ng_cat;
-        $csipqc['appearance_produk_photo'] = $request->appearance_produk_photo;
+        // $csipqc['appearance_produk_photo'] = $request->appearance_produk_photo;
+        if($request->file('appearance_produk_photo')){
+            $file= $request->file('appearance_produk_photo');
+            $filename = 'appearance_produk'.date('YmdHis').$file->getClientOriginalName();
+            $file->move(public_path('quality/csipqc'), $filename);
+            $csipqc['appearance_produk_photo'] = $filename;
+             // delete file
+            if(File::exists(public_path('quality/wi/'.$request->appearance_produk_photo_existing))){
+                File::delete(public_path('quality/wi/'.$request->appearance_produk_photo_existing));
+            }
+        }
         $csipqc['appearance_produk_causes'] = $request->appearance_produk_causes;
         $csipqc['appearance_produk_repair'] = $request->appearance_produk_repair;
         $csipqc['appearance_produk_repair_res'] = $request->appearance_produk_repair_res;
@@ -501,7 +525,17 @@ class QualityCsIpqcController extends Controller
 
         $csipqc['parting_line'] = $request->parting_line;
         $csipqc['parting_line_ng_cat'] = $request->parting_line_ng_cat;
-        $csipqc['parting_line_photo'] = $request->parting_line_photo;
+        // $csipqc['parting_line_photo'] = $request->parting_line_photo;
+        if($request->file('parting_line_photo')){
+            $file= $request->file('parting_line_photo');
+            $filename = 'parting_line'.date('YmdHis').$file->getClientOriginalName();
+            $file->move(public_path('quality/csipqc'), $filename);
+            $csipqc['parting_line_photo'] = $filename;
+             // delete file
+            if(File::exists(public_path('quality/wi/'.$request->parting_line_photo_existing))){
+                File::delete(public_path('quality/wi/'.$request->parting_line_photo_existing));
+            }
+        }
         $csipqc['parting_line_causes'] = $request->parting_line_causes;
         $csipqc['parting_line_repair'] = $request->parting_line_repair;
         $csipqc['parting_line_repair_res'] = $request->parting_line_repair_res;
