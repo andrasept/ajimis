@@ -44,6 +44,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
      /**
      * delivery 
      */
+    Route::group(['middleware' => ['auth', 'permission']], function() { 
       Route::group(['prefix' => 'delivery'], function() {
         // delivery super admin
         Route::group(['middleware' => ['role:delivery.superadmin']], function () {
@@ -196,6 +197,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/delivery', 'DeliveryController@index')->name('delivery.delivery')->middleware('auth');
 
         // preaparation member
+        
         Route::post('/preparation/get_data_pic', 'DeliveryPreparationController@getDataPic')->name('delivery.preparation.get_data_pic')->middleware('auth');
         Route::get('/preparation', 'DeliveryPreparationController@index')->name('delivery.preparation')->middleware('auth');
         Route::get('/preparation/member', 'DeliveryPreparationController@member')->name('delivery.preparation.member')->middleware('auth');
@@ -213,6 +215,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         
         
       });
+    });
   /*
   |--------------------------------------------------------------------------
   | Akhir Routes Agil
