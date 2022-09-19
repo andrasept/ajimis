@@ -13,6 +13,8 @@
     <!-- CSS -->
     <link href="{{asset('css/animate.css')}}" rel="stylesheet">
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="{{asset('css/plugins/select2/select2.min.css')}}" rel="stylesheet">
     @stack('stylesheets')
   </head>
   <body>
@@ -52,6 +54,9 @@
 
     <!-- jQuery UI -->
     <script src="{{asset('js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
+    <!-- Select2 -->
+    <script src="{{asset('js/plugins/select2/select2.full.min.js')}}"></script>
     
     @stack('scripts')
 
