@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Log;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use App\Services\Login\RememberMeExpiration;
-use Carbon\Carbon;
-use App\Models\Log;
 // use App\Http\Controllers\Log;
 
 class LoginController extends Controller
@@ -15,7 +16,7 @@ class LoginController extends Controller
     use RememberMeExpiration;
     public function __construct()
     {
-        $this->middleware('throttle:3,1')->only('authenticate');
+        $this->middleware('throttle:3,2')->only('authenticate');
     }
     /**
      * Display login page.
@@ -71,12 +72,11 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             
             $request->session()->regenerate();
- 
+           
             if(Auth::user() )
             {
                 $user = Auth::getProvider()->retrieveByCredentials($credentials);
                 $this->authenticated($request, $user);
-                return redirect()->route('home.dashboard');
             }
         }
  

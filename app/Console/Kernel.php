@@ -24,7 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // $schedule->command('demo:cron')->everyMinute();
+        $schedule->call('App\Http\Controllers\DeliveryPreparationController@check_delay')->everyMinute();
+        echo('New currency is successfully generated!');
+        
     }
 
     /**

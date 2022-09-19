@@ -165,7 +165,9 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -228,6 +230,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
 
     ],
 
