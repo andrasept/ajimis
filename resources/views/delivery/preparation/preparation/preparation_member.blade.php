@@ -14,7 +14,19 @@
 <link href="{{asset('css/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet">
 @if ($data_delay->isEmpty() )
 <div id="cek_delay" class="d-none">ada</div>    
-
+<div class="row ibox">
+  <div class="col-lg-3 form-group">
+    <label for=""> Prepare :</label>
+    <select name="select_status" class="form-control" id="select_status">
+        <option value="all">All</option>
+        <option value="0">NOT STARTED</option>
+        <option value="1">ON PROGRESS</option>
+        <option value="3">ADVANCED</option>
+        <option value="4">ONTIME</option>
+        <option value="5">DELAYED</option>
+    </select>
+  </div>
+</div>
 <div class="ibox" >
   <div class="ibox-title">
       <h4>Data Preparation</h4>
@@ -192,6 +204,7 @@
                           "url": "{{route('delivery.preparation')}}",
                           "data":function (d) {
                           d.member = '1';
+                          d.status = $('#select_status').val();
                       },
               },
               "columns": [
@@ -408,6 +421,9 @@
           // Refilter the table
           $('#min, #max').on('change', function () {
               table.draw();
+          });
+          $("#select_status").change(function(){
+                table.ajax.reload(null,true)
           });
 
           $("#select_customer").change(function(){

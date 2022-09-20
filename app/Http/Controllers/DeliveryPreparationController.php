@@ -36,6 +36,18 @@ class DeliveryPreparationController extends Controller
             $name =  auth()->user()->name;
 
             if ($request->member == '1') {
+                if(isset($request->status) && $request->status != 'all' ){
+                    if ($request->status == "0") {
+                        
+                        $query->where('status', NULL);
+                        
+                    } else {
+
+                        $query->where('status',$request->status );
+                   
+                    }
+                    
+                }
                 $query->where('pic','=', $npk." ".$name);
             }else {
                 if (isset($request->min) && isset($request->max)) {
